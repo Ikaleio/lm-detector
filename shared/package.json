@@ -1,0 +1,13 @@
+{
+  "name": "@fingerpoint/shared",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    "./*.js": "./*.js",
+    "./*": "./*.ts"
+  },
+  "dependencies": {
+    "ml-matrix": "^6.15.0"
+  }
+}

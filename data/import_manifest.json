@@ -1,0 +1,197 @@
+{
+  "policy": "Only original ModelTrace data and user-designated OpenRouter channel outputs are trusted. Gateway attribution is user-designated, not independently verified upstream identity.",
+  "rows": 1336,
+  "sources": {
+    "original": 432,
+    "openrouter": 904
+  },
+  "models": {
+    "claude-fable-5": 38,
+    "claude-fable-5.1": 49,
+    "claude-haiku-4-5-20251001": 36,
+    "claude-opus-4-6": 36,
+    "claude-opus-4-7": 36,
+    "claude-opus-4-8": 36,
+    "claude-opus-5": 61,
+    "claude-sonnet-4-6": 36,
+    "claude-sonnet-5": 36,
+    "deepseek-v3.2": 36,
+    "deepseek-v4-flash": 36,
+    "deepseek-v4-flash-0731": 36,
+    "deepseek-v4-pro": 36,
+    "deepseek-v4-pro-0813": 36,
+    "deepseek-v4.1-flash": 36,
+    "gemini-2.5-pro": 36,
+    "gemini-3.1-pro-preview": 36,
+    "gemini-3.5-flash": 36,
+    "gemini-3.6-flash": 36,
+    "gemini-3.7-flash": 36,
+    "gemini-3.8-flash": 36,
+    "glm-5.2": 36,
+    "glm-5.3": 36,
+    "gpt-4o": 36,
+    "gpt-5.4": 36,
+    "gpt-5.5": 36,
+    "gpt-5.6-luna": 36,
+    "gpt-5.6-sol": 36,
+    "gpt-5.6-terra": 36,
+    "gpt-6-astra": 36,
+    "grok-4.5": 36,
+    "grok-4.6": 36,
+    "hy4-preview": 36,
+    "kimi-k3": 36,
+    "qwen3.8-27b": 36,
+    "qwen3.8-max-0902": 36
+  },
+  "batches": [
+    {
+      "id": "original-gpt",
+      "kind": "original",
+      "accepted": 216,
+      "input_sha256": "68ad7a9b542fe5216b9adcf8efc4da7ac9468dcf59a1a2b6c381a17568859bcd"
+    },
+    {
+      "id": "original-claude",
+      "kind": "original",
+      "accepted": 216,
+      "input_sha256": "1193fd5f7aea96760e282f209a08ef1c92485c3143734cb60cd29b56ea3137c3",
+      "retired_reference_rows": 36,
+      "retired_archive": "data/archive/haiku-20260910/retired-reference.jsonl"
+    },
+    {
+      "id": "openrouter-collection",
+      "kind": "openrouter",
+      "accepted": 89,
+      "input_sha256": "a4ecefe026809a1feacef62067e25d34203c9fd5f4d8f7f057bfba4f46bc0585"
+    },
+    {
+      "id": "openrouter-claude-validation",
+      "kind": "openrouter",
+      "accepted": 15,
+      "excluded": {
+        "invalid": 1,
+        "blocked": 8
+      }
+    },
+    {
+      "id": "openrouter-opus-original-fresh-20260910-130028",
+      "kind": "openrouter",
+      "accepted": 4,
+      "excluded": {
+        "blocked": 8
+      }
+    },
+    {
+      "id": "openrouter-diagnostics",
+      "kind": "openrouter",
+      "accepted": 4,
+      "input_sha256": "d19339b71f374ad5afbf062a0375a06b65ca5d3f21a59d63036fb6b50edeabdc",
+      "excluded": {
+        "error": 1,
+        "content_filter": 1
+      }
+    },
+    {
+      "id": "openrouter-grok-20260910",
+      "kind": "openrouter",
+      "accepted": 288,
+      "endpoint": "https://private.invalid/v1"
+    },
+    {
+      "id": "openrouter-gpt4o-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-deepseek-v4.1-flash-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-deepseek-v4-pro-0813-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-deepseek-v4-flash-0731-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-deepseek-v4-pro-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-deepseek-v4-flash-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-deepseek-v3.2-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-glm-5.2-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-glm-5.3-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-qwen3.8-max-0902-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-qwen3.8-27b-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-kimi-k3-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-hy4-preview-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1"
+    },
+    {
+      "id": "openrouter-claude-haiku-4-5-20251001-20260910",
+      "kind": "openrouter",
+      "accepted": 36,
+      "endpoint": "https://openrouter.ai/api/v1",
+      "model_id": "claude-haiku-4-5-20251001",
+      "replacement_for": "original-claude Haiku rows",
+      "attempts_file": "evaluation/enrollment/claude-haiku-4-5-20251001/attempts.jsonl",
+      "input_sha256": "57e72eeec49f340f8dcbabfd92999e6d9455e8b4c308599ba21a52535ed90e1d"
+    }
+  ],
+  "excluded_sources": [
+    "private.invalid",
+    "Ard-CPA",
+    "local backend-api",
+    "sqface",
+    "manual pasted outputs"
+  ],
+  "reference_sha256": "b09d056d0d96a1ac73393d7615eb43f5f5a8df8645c8004134d709d93275b240"
+}

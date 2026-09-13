@@ -1,0 +1,12 @@
+node_modules/
+dist/
+web/public/data/
+*.tsbuildinfo
+*.log
+.vercel/
+.env
+.env.*
+*.lock/
+data/.pending-enrollment/
+data/.enrollments/
+runs/

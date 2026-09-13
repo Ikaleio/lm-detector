@@ -1,0 +1,18 @@
+{
+  "name": "@fingerpoint/cli",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "detect": "bun detect.ts",
+    "sample": "bun sample.ts",
+    "enroll": "bun enroll.ts"
+  },
+  "dependencies": {
+    "@fingerpoint/shared": "workspace:*",
+    "proper-lockfile": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/proper-lockfile": "^4.1.4"
+  }
+}

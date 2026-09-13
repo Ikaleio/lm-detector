@@ -1,0 +1,12 @@
+.git/
+node_modules/
+**/node_modules/
+web/dist/
+web/public/data/
+.env
+.env.*
+AGENTS.md
+data/.pending-enrollment/
+data/.enrollments/
+*.lock/
+runs/

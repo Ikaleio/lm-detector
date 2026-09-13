@@ -1,0 +1,27 @@
+{
+  "name": "lm-fingerpoint-detector",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "bun@1.4.2",
+  "workspaces": [
+    "web",
+    "cli",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "bun run sync-data && bun run --cwd web dev",
+    "build": "bun run sync-data && bun run typecheck && bun run --cwd web build",
+    "typecheck": "tsc -b",
+    "preview": "bun run --cwd web preview",
+    "sync-data": "bun web/scripts/sync-data.ts",
+    "detect": "bun cli/detect.ts",
+    "sample": "bun cli/sample.ts",
+    "vercel-build": "bun run build",
+    "enroll": "bun cli/enroll.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "typescript": "^7.0.2"
+  }
+}
