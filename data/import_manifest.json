@@ -1,47 +1,50 @@
 {
   "policy": "Only original ModelTrace data and user-designated OpenRouter channel outputs are trusted. Gateway attribution is user-designated, not independently verified upstream identity.",
-  "rows": 1336,
+  "rows": 1444,
   "sources": {
     "original": 432,
-    "openrouter": 904
+    "openrouter": 1012
   },
   "models": {
-    "claude-fable-5": 38,
-    "claude-fable-5.1": 49,
+    "gpt-5.4": 36,
+    "gpt-5.5": 36,
+    "gpt-5.6-sol": 36,
+    "gpt-5.6-terra": 36,
+    "gpt-5.6-luna": 36,
+    "gpt-6-astra": 36,
     "claude-haiku-4-5-20251001": 36,
+    "claude-sonnet-4-6": 36,
+    "claude-sonnet-5": 36,
     "claude-opus-4-6": 36,
     "claude-opus-4-7": 36,
     "claude-opus-4-8": 36,
     "claude-opus-5": 61,
-    "claude-sonnet-4-6": 36,
-    "claude-sonnet-5": 36,
-    "deepseek-v3.2": 36,
-    "deepseek-v4-flash": 36,
-    "deepseek-v4-flash-0731": 36,
-    "deepseek-v4-pro": 36,
-    "deepseek-v4-pro-0813": 36,
-    "deepseek-v4.1-flash": 36,
+    "claude-fable-5.1": 49,
+    "claude-fable-5": 38,
     "gemini-2.5-pro": 36,
     "gemini-3.1-pro-preview": 36,
     "gemini-3.5-flash": 36,
     "gemini-3.6-flash": 36,
     "gemini-3.7-flash": 36,
     "gemini-3.8-flash": 36,
-    "glm-5.2": 36,
-    "glm-5.3": 36,
-    "gpt-4o": 36,
-    "gpt-5.4": 36,
-    "gpt-5.5": 36,
-    "gpt-5.6-luna": 36,
-    "gpt-5.6-sol": 36,
-    "gpt-5.6-terra": 36,
-    "gpt-6-astra": 36,
     "grok-4.5": 36,
     "grok-4.6": 36,
-    "hy4-preview": 36,
-    "kimi-k3": 36,
+    "gpt-4o": 36,
+    "deepseek-v4.1-flash": 36,
+    "deepseek-v4-pro-0813": 36,
+    "deepseek-v4-flash-0731": 36,
+    "deepseek-v4-pro": 36,
+    "deepseek-v4-flash": 36,
+    "deepseek-v3.2": 36,
+    "glm-5.2": 36,
+    "glm-5.3": 36,
+    "qwen3.8-max-0902": 36,
     "qwen3.8-27b": 36,
-    "qwen3.8-max-0902": 36
+    "kimi-k3": 36,
+    "hy4-preview": 36,
+    "muse-spark-1.2": 36,
+    "muse-spark-1.3-contributor": 36,
+    "muse-spark-1.3": 36
   },
   "batches": [
     {
@@ -95,7 +98,7 @@
       "id": "openrouter-grok-20260910",
       "kind": "openrouter",
       "accepted": 288,
-      "endpoint": "https://private.invalid/v1"
+      "endpoint": "https://mono.luogu.me/v1"
     },
     {
       "id": "openrouter-gpt4o-20260910",
@@ -167,7 +170,10 @@
       "id": "openrouter-kimi-k3-20260910",
       "kind": "openrouter",
       "accepted": 36,
-      "endpoint": "https://openrouter.ai/api/v1"
+      "endpoint": "https://openrouter.ai/api/v1",
+      "retired_reference_rows": 36,
+      "active_reference_rows": 0,
+      "retired_archive": "data/archive/kimi-k3-unpinned-20260914"
     },
     {
       "id": "openrouter-hy4-preview-20260910",
@@ -184,14 +190,34 @@
       "replacement_for": "original-claude Haiku rows",
       "attempts_file": "evaluation/enrollment/claude-haiku-4-5-20251001/attempts.jsonl",
       "input_sha256": "57e72eeec49f340f8dcbabfd92999e6d9455e8b4c308599ba21a52535ed90e1d"
+    },
+    {
+      "id": "openrouter-kimi-k3-moonshotai-20260914",
+      "kind": "openrouter",
+      "accepted": 36,
+      "model_id": "kimi-k3",
+      "endpoint": "https://openrouter.ai/api/v1",
+      "provider_request": {
+        "only": [
+          "moonshotai"
+        ],
+        "order": [
+          "moonshotai"
+        ],
+        "allow_fallbacks": false
+      },
+      "verified_provider": "Moonshot AI",
+      "attempts_file": "data/collections/kimi-k3-moonshotai-20260914/attempts.jsonl",
+      "generation_metadata_file": "data/collections/kimi-k3-moonshotai-20260914/generation-metadata.json",
+      "replacement_for": "openrouter-kimi-k3-20260910"
     }
   ],
   "excluded_sources": [
-    "private.invalid",
+    "mono.ikale.io",
     "Ard-CPA",
     "local backend-api",
     "sqface",
     "manual pasted outputs"
   ],
-  "reference_sha256": "b09d056d0d96a1ac73393d7615eb43f5f5a8df8645c8004134d709d93275b240"
+  "reference_sha256": "d600eaa4e1dad56bf72810241d598121da13f42403a7f2242c7920c79484477b"
 }

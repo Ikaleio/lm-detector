@@ -1,0 +1,22 @@
+{
+  "model": "moonshotai/kimi-k3",
+  "label": "kimi-k3",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "batch": "openrouter-kimi-k3-moonshotai-20260914",
+  "provider_request": {
+    "only": [
+      "moonshotai"
+    ],
+    "order": [
+      "moonshotai"
+    ],
+    "allow_fallbacks": false
+  },
+  "suite_sha256": "18ccae737392254cbe3bc274a01d5adc8f896a64e79d2bacac0d3ac1444f40c9",
+  "max_tokens": 8192,
+  "format": "openai",
+  "canonical_slug": "moonshotai/kimi-k3-20260715",
+  "reasoning": {
+    "enabled": false
+  }
+}

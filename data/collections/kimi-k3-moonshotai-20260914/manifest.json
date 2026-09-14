@@ -1,0 +1,249 @@
+{
+  "model": "moonshotai/kimi-k3",
+  "label": "kimi-k3",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "batch": "openrouter-kimi-k3-moonshotai-20260914",
+  "provider_request": {
+    "only": [
+      "moonshotai"
+    ],
+    "order": [
+      "moonshotai"
+    ],
+    "allow_fallbacks": false
+  },
+  "suite_sha256": "18ccae737392254cbe3bc274a01d5adc8f896a64e79d2bacac0d3ac1444f40c9",
+  "max_tokens": 8192,
+  "format": "openai",
+  "canonical_slug": "moonshotai/kimi-k3-20260715",
+  "reasoning": {
+    "enabled": false
+  },
+  "profile_history": [
+    {
+      "changed_at": "2026-09-14T02:52:01.328Z",
+      "reason": "User requested thinking off and strict count prefix",
+      "previous_reasoning": {
+        "enabled": false
+      },
+      "new_reasoning": {
+        "enabled": false
+      },
+      "new_prompt_revision": "strict-count-v1",
+      "retained_successful_challenges": [
+        "query-04",
+        "query-02",
+        "query-01",
+        "query-07",
+        "query-05",
+        "query-10",
+        "query-06",
+        "query-16",
+        "query-15",
+        "query-23",
+        "query-27"
+      ],
+      "interrupted_challenges": [
+        "query-28",
+        "query-29",
+        "query-30",
+        "query-31"
+      ],
+      "interruption_evidence": "Inferred from FIFO scheduling. Partial streamed output was lost when the old collector stopped.",
+      "phase1_archive": "history/original-prefix",
+      "concurrency": 8
+    }
+  ],
+  "verified_provider": "Moonshot AI",
+  "completed_at": "2026-09-14T03:17:54.746Z",
+  "planned_challenges": 36,
+  "attempts": 83,
+  "prompt_revisions_file": "prompt-revisions.json",
+  "request_checkpoints_file": "requests.jsonl",
+  "accepted": 36,
+  "failed": 43,
+  "selected_attempts": [
+    {
+      "challenge_id": "query-01",
+      "attempt": 1,
+      "prompt_revision": "original"
+    },
+    {
+      "challenge_id": "query-02",
+      "attempt": 1,
+      "prompt_revision": "original"
+    },
+    {
+      "challenge_id": "query-03",
+      "attempt": 2,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-04",
+      "attempt": 1,
+      "prompt_revision": "original"
+    },
+    {
+      "challenge_id": "query-05",
+      "attempt": 1,
+      "prompt_revision": "original"
+    },
+    {
+      "challenge_id": "query-06",
+      "attempt": 1,
+      "prompt_revision": "original"
+    },
+    {
+      "challenge_id": "query-07",
+      "attempt": 1,
+      "prompt_revision": "original"
+    },
+    {
+      "challenge_id": "query-08",
+      "attempt": 2,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-09",
+      "attempt": 3,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-10",
+      "attempt": 1,
+      "prompt_revision": "original"
+    },
+    {
+      "challenge_id": "query-11",
+      "attempt": 8,
+      "prompt_revision": "bounded-plain-zh-v3"
+    },
+    {
+      "challenge_id": "query-12",
+      "attempt": 3,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-13",
+      "attempt": 2,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-14",
+      "attempt": 3,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-15",
+      "attempt": 1,
+      "prompt_revision": "original"
+    },
+    {
+      "challenge_id": "query-16",
+      "attempt": 1,
+      "prompt_revision": "original"
+    },
+    {
+      "challenge_id": "query-17",
+      "attempt": 4,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-18",
+      "attempt": 2,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-19",
+      "attempt": 2,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-20",
+      "attempt": 2,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-21",
+      "attempt": 2,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-22",
+      "attempt": 3,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-23",
+      "attempt": 1,
+      "prompt_revision": "original"
+    },
+    {
+      "challenge_id": "query-24",
+      "attempt": 4,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-25",
+      "attempt": 3,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-26",
+      "attempt": 2,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-27",
+      "attempt": 1,
+      "prompt_revision": "original"
+    },
+    {
+      "challenge_id": "query-28",
+      "attempt": 3,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-29",
+      "attempt": 7,
+      "prompt_revision": "compact-array-v2"
+    },
+    {
+      "challenge_id": "query-30",
+      "attempt": 6,
+      "prompt_revision": "compact-array-v2"
+    },
+    {
+      "challenge_id": "query-31",
+      "attempt": 2,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-32",
+      "attempt": 1,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-33",
+      "attempt": 2,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-34",
+      "attempt": 1,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-35",
+      "attempt": 1,
+      "prompt_revision": "strict-count-v1"
+    },
+    {
+      "challenge_id": "query-36",
+      "attempt": 2,
+      "prompt_revision": "strict-count-v1"
+    }
+  ],
+  "selection": "First complete answer meeting the original numeric-count threshold; no identity-score filtering.",
+  "interrupted": 4
+}

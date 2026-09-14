@@ -1,0 +1,18 @@
+{
+  "archived_at": "2026-09-14T03:17:54.782Z",
+  "status": "retired_from_active_reference",
+  "rows": 36,
+  "reason": "User reported a fingerprint mismatch between DigitalOcean K3 and official Kimi; replaced the unpinned batch with pinned MoonshotAI samples.",
+  "provider_counts": {
+    "DigitalOcean": 25,
+    "Sail Research": 7,
+    "Parasail": 1,
+    "DeepInfra": 1,
+    "Wafer": 1,
+    "Makora": 1
+  },
+  "original_enrollment": "research/evaluation/enrollment/kimi-k3",
+  "reference_sha256": "5a6a416315619c65d9f165be647ba660d22fe5298fe7b0d6cc88a6bdcd74f61e",
+  "replacement": "research/evaluation/enrollment/kimi-k3-moonshotai-20260914",
+  "retained_attempts": true
+}
