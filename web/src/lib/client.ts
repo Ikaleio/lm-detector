@@ -61,10 +61,18 @@ function download(name:string,content:string,type='application/json'){
 }
 export async function exportReferences(){download('unified_reference.jsonl',(await loadRows()).map(r=>JSON.stringify(sanitize(r))).join('\n')+'\n','application/x-ndjson')}
 export function exportBank(bank:Bank){download('unified_bank.json',JSON.stringify(sanitize(bank),null,2)+'\n')}
-export function exportAnalysis(result:Analysis){download('fingerpoint-result.json',JSON.stringify(sanitize(result),null,2)+'\n')}
-const proxyTransport:CompletionTransport = (url,config,body,signal) => fetch('/api/complete',{
-  method:'POST',headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({url,apiKey:config.apiKey,format:config.format,body}),signal,
-})
+export function exportAnalysis(result:Analysis){
+  const candidates=result.results.map(r=>({model:r.model,name:r.display_name,confidence:r.verification_confidence??r.probability??null}))
+  download('fingerpoint-result.json',JSON.stringify(candidates,null,2)+'\n')
+}
+const browserTransport:CompletionTransport = (url,config,body,signal) => {
+  const headers:Record<string,string>={'Content-Type':'application/json',Accept:body.stream?'text/event-stream':'application/json'}
+  if(config.format==='anthropic'){
+    headers['x-api-key']=config.apiKey
+    headers['anthropic-version']='2023-06-01'
+    headers['anthropic-dangerous-direct-browser-access']='true'
+  }else headers.Authorization=`Bearer ${config.apiKey}`
+  return fetch(url,{method:'POST',headers,body:JSON.stringify(body),signal,redirect:'error',credentials:'omit'})
+}
 export const testApi = (config:ApiConfig,challenges:Challenge[],onProgress:(p:CollectionProgress)=>void,signal?:AbortSignal) =>
-  testApiShared(config,challenges,onProgress,signal,proxyTransport)
+  testApiShared(config,challenges,onProgress,signal,browserTransport)

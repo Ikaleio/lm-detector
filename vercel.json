@@ -2,28 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "web/dist"
-      }
-    },
-    {
-      "src": "web/api/complete.ts",
-      "use": "@vercel/node",
-      "config": {
-        "maxDuration": 300
-      }
-    }
+    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "web/dist" } }
   ],
-  "routes": [
-    {
-      "src": "/api/complete",
-      "dest": "/web/api/complete.ts"
-    },
-    {
-      "handle": "filesystem"
-    }
-  ]
+  "routes": [{ "handle": "filesystem" }]
 }

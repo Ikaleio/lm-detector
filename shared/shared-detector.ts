@@ -16,7 +16,7 @@ export interface SharedDetector {
   model_ids:string[]
   response_counts:number[]
   calibration_sha256?:string|null
-  calibration?:null|{schema:'shared-confidence-v1';method:'reference-held-identity-joint';a:number;b:number;unknown_prior:number;
+  calibration?:null|{schema:'shared-confidence-v2';method:'ranking-temperature';tau:number;
     binding:{base_sha256:string;verifier_sha256:string;reference_sha256:string;model_ids:string[]};calibration_run:string}
   ranker:{head_params:Preprocessing;full_params:Preprocessing;lda_weights:Matrix;lda_bias:Vector;
     references:Matrix[];bank:{hellinger:FeatureBank;ordered_blocks:FeatureBank & {environment_centroids:Matrix[]}}}
@@ -69,17 +69,19 @@ export function supportsSharedDetector(bank:Bank,artifact:SharedDetector):boolea
       m.id===artifact.model_ids[i] && m.response_count===artifact.response_counts[i])
 }
 
-export function calibrateSharedScores(scores:Vector,artifact:SharedDetector) {
+/** Calibrate closed-set rankings; otherwise return the uncalibrated verifier sigmoid. */
+export function calibrateSharedScores(ranking:Vector,scores:Vector,artifact:SharedDetector) {
   const head=artifact.calibration,binding=head?.binding
-  const calibrated=!!(head && binding && head.schema==='shared-confidence-v1' && head.method==='reference-held-identity-joint' &&
-    Number.isFinite(head.a) && head.a>0 && Number.isFinite(head.b) && head.unknown_prior>0 && head.unknown_prior<1 &&
+  const calibrated=!!(head && binding && head.schema==='shared-confidence-v2' && head.method==='ranking-temperature' &&
+    Number.isFinite(head.tau) && head.tau>=.001 && head.tau<=1000 &&
     binding.base_sha256===artifact.base_sha256 && binding.verifier_sha256===artifact.verifier_sha256 &&
-    binding.reference_sha256===artifact.source_reference_sha256 && binding.model_ids.length===scores.length &&
+    binding.reference_sha256===artifact.source_reference_sha256 && binding.model_ids.length===ranking.length &&
+    ranking.length===artifact.model_ids.length && scores.length===ranking.length && ranking.every(Number.isFinite) &&
     binding.model_ids.every((id,i)=>id===artifact.model_ids[i]))
-  if(!calibrated || !head)return {values:scores.map(sigmoid),unknown:null,calibrated:false}
-  const logits=[...scores.map(score=>head.a*score+Math.log((1-head.unknown_prior)/scores.length)),head.b+Math.log(head.unknown_prior)]
+  if(!calibrated || !head)return {values:scores.map(sigmoid),calibrated:false}
+  const logits=ranking.map(score=>head.tau*score)
   const maximum=Math.max(...logits),weights=logits.map(value=>Math.exp(value-maximum)),sum=weights.reduce((a,b)=>a+b,0)
-  return {values:weights.slice(0,-1).map(value=>value/sum),unknown:weights[weights.length-1]/sum,calibrated:true}
+  return {values:weights.map(value=>value/sum),calibrated:true}
 }
 
 export function scoreSharedNumbers(numbers:Matrix,artifact:SharedDetector) {
@@ -117,7 +119,7 @@ export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedD
       results:old.results.map(r=>({model:r.model,display_name:r.display_name,family_name:r.family_name,score:r.score,
         probability:null,absolute_match:null,verification_score:null,verification_confidence:null,identity_probability:null})),
       family_probabilities:[],calibration:null,
-      probability_status:'unavailable',verification_confidence:null,unknown_probability:null,risk_certificate:null,
+      probability_status:'unavailable',verification_confidence:null,risk_certificate:null,
       decision:'not_confirmed',method:'custom-bank-legacy-ranking',
       evidence:{insufficient:true,label:'自定义库排名',reason:'当前参考库已变更，使用该库的传统排名。共享核验器尚未适配，身份概率不可用。',threshold:null,method:'custom-bank-legacy-ranking'}}
   }
@@ -130,7 +132,7 @@ export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedD
   })
   const used=diagnostics.filter(d=>d.accepted).length
   const common={probability:null,absolute_match:null,family_probability:null,
-    probability_status:'unavailable',verification_confidence:null,unknown_probability:null,risk_certificate:null,
+    probability_status:'unavailable',verification_confidence:null,risk_certificate:null,
     used_outputs:used,diagnostics,method:'shared-detector-v1',
     model_version:{base_sha256:artifact.base_sha256,verifier_sha256:artifact.verifier_sha256}}
   if(outputs.length!==3 || used!==3)return {...common,prediction:'',prediction_name:'暂不可评分',
@@ -138,7 +140,7 @@ export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedD
       label:'需要三条完整回答',reason:`当前有 ${used}/${outputs.length} 条有效回答。请补齐原来的三条回答后重新检测。`,
       threshold:null,method:'complete-three-answers'}}
   const {ranking,scores,features}=scoreSharedNumbers(parsed,artifact)
-  const confidence=calibrateSharedScores(scores,artifact)
+  const confidence=calibrateSharedScores(ranking,scores,artifact)
   const order=artifact.model_ids.map((_,i)=>i).sort((i,j)=>ranking[j]-ranking[i])
   const results=order.map(i=>({model:artifact.model_ids[i],display_name:bank.models[i].display_name,
     family_name:bank.models[i].family_name,score:ranking[i],verification_score:scores[i],
@@ -151,15 +153,14 @@ export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedD
     results,ranking_score:ranking[first],verification_score:scores[first],verification_top:artifact.model_ids[top],
     probability:confidence.calibrated?confidence.values[first]:null,
     probability_status:confidence.calibrated?'reference_calibrated':'unavailable',
-    probability_scope:confidence.calibrated?'reference-balanced-known-unknown':null,
-    unknown_probability:confidence.unknown,
-    probability_top:confidence.calibrated && confidence.unknown!==null && confidence.unknown>confidence.values[top]?'unknown':artifact.model_ids[top],
+    probability_scope:confidence.calibrated?'reference-closed-set':null,
+    probability_top:artifact.model_ids[confidence.values.indexOf(Math.max(...confidence.values))],
     calibration:confidence.calibrated?{method:artifact.calibration!.method,run:artifact.calibration!.calibration_run,
-      unknown_prior:artifact.calibration!.unknown_prior,sha256:artifact.calibration_sha256??null}:null,
+      tau:artifact.calibration!.tau,sha256:artifact.calibration_sha256??null}:null,
     verification_confidence:results[0].verification_confidence,
-    verification_confidence_method:confidence.calibrated?'reference-held-identity-joint':'sigmoid-shared-logit',
+    verification_confidence_method:confidence.calibrated?'ranking-temperature':'sigmoid-shared-logit',
     decision:'not_confirmed',evidence:{insufficient:true,label:agree?'排名与核验一致':'排名与核验存在分歧',
       reason:agree?'两个算法的第一候选一致。':
-        `排名第一为 ${results[0].display_name}，置信度最高为 ${bank.models[top].display_name}。候选顺序仍由排名分数决定。`,
-      threshold:null,method:confidence.calibrated?'reference-calibrated-shared-verification':'uncalibrated-shared-verification'}}
+        `排名第一为 ${results[0].display_name}，核验分数最高为 ${bank.models[top].display_name}。候选顺序仍由排名分数决定。`,
+      threshold:null,method:confidence.calibrated?'reference-calibrated-ranking':'uncalibrated-shared-verification'}}
 }

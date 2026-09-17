@@ -9,8 +9,6 @@
   },
   "include": [
     "src",
-    "vite.config.ts",
-    "server",
-    "api"
+    "vite.config.ts"
   ]
 }
