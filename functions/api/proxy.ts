@@ -1,5 +1,5 @@
-import { proxyRequest, type ProxyEnvironment } from '../../server/proxy.ts'
+import { proxyRequest } from '../../server/proxy.ts'
 
-export function onRequest({ request, env }: { request: Request; env: ProxyEnvironment }) {
-  return proxyRequest(request, env)
+export function onRequest({ request }: { request: Request }) {
+  return proxyRequest(request)
 }

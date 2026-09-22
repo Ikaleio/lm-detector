@@ -2,9 +2,9 @@ import { Readable } from 'node:stream'
 import { pipeline } from 'node:stream/promises'
 import type { ReadableStream as NodeReadableStream } from 'node:stream/web'
 import type { Connect, Plugin } from 'vite'
-import { proxyRequest, type ProxyEnvironment } from '../../server/proxy.ts'
+import { proxyRequest } from '../../server/proxy.ts'
 
-export function apiProxy(env: ProxyEnvironment): Plugin {
+export function apiProxy(): Plugin {
   const middleware: Connect.NextHandleFunction = async (incoming, outgoing, next) => {
     if (incoming.url?.split('?')[0] !== '/api/proxy') return next()
     const controller = new AbortController()
@@ -24,7 +24,7 @@ export function apiProxy(env: ProxyEnvironment): Plugin {
         init.body = Readable.toWeb(incoming) as ReadableStream<Uint8Array>
       }
       const request = new Request(`http://${incoming.headers.host}${incoming.url}`, init)
-      const response = await proxyRequest(request, env)
+      const response = await proxyRequest(request)
       outgoing.writeHead(response.status, Object.fromEntries(response.headers))
       outgoing.flushHeaders()
       if (response.body) await pipeline(Readable.fromWeb(response.body as NodeReadableStream<Uint8Array>), outgoing)

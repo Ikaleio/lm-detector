@@ -1,10 +1,5 @@
 import { COMPLETION_TIMEOUT_MS } from '../shared/completion-request.ts'
 
-export interface ProxyEnvironment {
-  PROXY_ALLOWED_HOSTS?: string
-}
-
-const DEFAULT_HOSTS = ['openrouter.ai', 'api.openai.com', 'api.anthropic.com']
 const MAX_BODY_BYTES = 128 * 1024
 const endpointSuffixes = {
   openai: '/chat/completions',
@@ -62,7 +57,7 @@ async function readPayload(request: Request): Promise<Record<string, unknown>> {
   return payload
 }
 
-function upstreamUrl(value: unknown, format: keyof typeof endpointSuffixes, env: ProxyEnvironment) {
+function upstreamUrl(value: unknown, format: keyof typeof endpointSuffixes) {
   let url: URL
   try {
     if (typeof value !== 'string') throw new Error()
@@ -72,15 +67,14 @@ function upstreamUrl(value: unknown, format: keyof typeof endpointSuffixes, env:
     || !url.pathname.endsWith(endpointSuffixes[format])) {
     throw new ProxyError(400, 'Use an HTTPS API endpoint on port 443 without credentials, query parameters or fragments.')
   }
-  const hosts = new Set([...DEFAULT_HOSTS, ...(env.PROXY_ALLOWED_HOSTS ?? '').split(',').map(host => host.trim().toLowerCase()).filter(Boolean)])
-  if (!hosts.has(url.hostname) || !/^[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}$/.test(url.hostname)
+  if (!/^[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}$/.test(url.hostname)
     || /(?:^|\.)(?:localhost|local|internal)$/.test(url.hostname)) {
-    throw new ProxyError(403, 'This API host is not enabled for proxying on this site.')
+    throw new ProxyError(400, 'Use a public API hostname.')
   }
   return url
 }
 
-export async function proxyRequest(request: Request, env: ProxyEnvironment = {}): Promise<Response> {
+export async function proxyRequest(request: Request): Promise<Response> {
   if (request.method !== 'POST') return failure(405, 'Use POST for API requests.')
   const origin = request.headers.get('origin')
   const site = request.headers.get('sec-fetch-site')
@@ -102,7 +96,7 @@ export async function proxyRequest(request: Request, env: ProxyEnvironment = {})
       || (body.stream !== undefined && typeof body.stream !== 'boolean')) {
       throw new ProxyError(400, 'The API request must contain a model and valid streaming option.')
     }
-    const url = upstreamUrl(payload.url, format, env)
+    const url = upstreamUrl(payload.url, format)
     const headers = new Headers({
       'Content-Type': 'application/json',
       Accept: body.stream ? 'text/event-stream' : 'application/json',

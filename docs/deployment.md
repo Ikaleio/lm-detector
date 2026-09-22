@@ -25,9 +25,7 @@ bun run deploy:pages
 
 ## 上游地址与本地开发
 
-代理默认允许 `openrouter.ai`、`api.openai.com` 和 `api.anthropic.com`。自定义服务需要在服务器设置 `PROXY_ALLOWED_HOSTS`，值为逗号分隔的完整域名，例如 `api.example.com,models.example.net`。这些域名会加入默认列表；不支持通配符。仅添加自己信任、解析到公网的服务域名。
-
-Vercel 在项目环境变量中设置。Cloudflare Pages 在 Functions 变量中设置，或在 `wrangler.jsonc` 的 `vars` 中声明。本地 Vite 从根目录 `.env.local` 读取，Wrangler 从 `.dev.vars` 读取。修改后重启本地服务或重新部署。
+代理不限制供应商域名。在网页中填写自定义 HTTPS API 地址即可使用，无需额外配置服务器环境变量。地址必须使用完整域名；不接受 IP 字面量、单标签主机名，以及 `localhost`、`.local`、`.internal` 域名。
 
 代理只接受 HTTPS 的默认 443 端口、三种协议端点和不超过 128 KiB 的 JSON 请求。不跟随重定向，不透传 Cookie 或任意请求头。客户端必须提供自己的上游密钥。`Origin` 校验限制浏览器跨站调用，但不替代站点鉴权或平台限流。
 
