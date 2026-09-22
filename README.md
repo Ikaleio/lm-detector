@@ -48,18 +48,20 @@ API 请求和密钥通过同源 `/api/proxy` 转发到用户填写的 HTTPS 地�
 
 ## 检测 CLI
 
-先在环境变量 `API_KEY` 中设置密钥：
+检测 CLI 使用英文 Ink TUI，显示采样进度、候选排名和多轮结果。设置 `API_KEY`、`MODEL`、`BASE_URL`，或用命令行参数覆盖：
 
 ```sh
-bun run detect --base-url https://api.example.com/v1 --model MODEL
-bun run detect --base-url https://api.example.com/v1 --model MODEL --format responses --output result.json
-bun run detect --input result.json --json
-bun run detect --help
+bun run fpd --model gpt-5.6-sol --apikey sk-xxx --baseurl https://openrouter.ai/api/v1 -p 3 -n 5
+bun run fpd --api chatcompletion --output result.json
+bun run fpd --input result.json --json
+bun run fpd --help
 ```
 
-默认发送三条随机挑战，串行请求、流式读取。`--parallel` 启用并行，`--effort` 指定推理强度，`--no-stream` 关闭流式。`--api-key-env NAME` 指定密钥环境变量。`--bank FILE` 使用其他数据库。
+默认使用 Responses 和 SSE，每轮三条挑战，最多三条并行。`-n` 指定轮数，每轮三条采样全部结束后才启动下一轮。宽松模式达到目标数字数量后自动截断，部分样本成功时只给排名；`-s` 关闭自动截断，要求三条全部成功。`-ns` 关闭 SSE。`--timeout` 以秒指定首字节超时，默认 120 秒，收到 SSE 后不再计时。
 
-使用 `--challenges FILE` 可以复用三条挑战。`--trace-dir DIR` 保存实际请求体和原始响应，不保存认证头。`--codex` 支持读取本机 Codex 登录并使用固定官方 Responses 端点。详见 [`cli/README.md`](cli/README.md)。
+也可通过 `bunx lmfpd@latest -b URL -k KEY -m MODEL` 直接运行 npm 包。`--help` 提供分组说明和使用示例。CLI、共享算法、参考库或依赖更新到 `main` 后，发布工作流会自动生成新版本并更新 npm 的 `latest` 标签。
+
+旧检测入口 `bun run detect:legacy` 保留 Codex 登录、trace 等原有功能。旧采样与入库命令保持不变。详见 [`cli/README.md`](cli/README.md)。
 
 ## 采样与入库 CLI
 

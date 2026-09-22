@@ -1,31 +1,119 @@
-# 检测与采样 CLI
+# FPD detection CLI
 
-从monorepo 根目录执行 `bun run detect --help`。需要 Bun，无需启动网站。
+FPD uses Ink to show live sample progress, candidate rankings, and repeated detection results. It runs with Bun and does not require the website. The title is `FPD / MODEL FINGERPOINT DETECTOR (lm.ikale.io)`. Compatible terminals display `lm.ikale.io` as a clickable link; other terminals display plain text.
 
-设置 `API_KEY` 后运行：
+## Run from npm
 
-```bash
-bun run detect --base-url https://api.example.com/v1 --model MODEL --output result.json
+```sh
+bunx lmfpd@latest --baseurl https://api.example.com/v1 --apikey sk-xxx --model gpt-6-astra
+bunx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra -p 3 -n 5
+bunx lmfpd@latest --help
 ```
 
-支持 `openai`、`responses` 和 `anthropic` 三种协议。用 `--api-key-env NAME` 从其他环境变量读取密钥；不会将密钥保存到结果中。API 地址与网页一样要求 HTTPS，接受 Base URL 或对应协议的完整端点。
+Bun downloads the package when needed. The package includes the detection algorithms, reference bank, and verifier. It requires no repository checkout. The installed executable is named `fpd`.
 
-`--input result.json` 可以离线复算；也接受含 `{ "text": "...", "expected_count": 300 }` 的 JSON 数组。`--bank FILE` 可使用自定义库。使用 `--json` 获取机器可读输出。
+## Run from source
 
-## 本机 Codex 登录
+From the `projects/` directory:
 
-```bash
-bun run detect --codex --model gpt-6-astra --effort low --trace-dir /tmp/codex-probe --output result.json
+```sh
+bun install --frozen-lockfile
+bun run fpd --model gpt-5.6-sol --apikey sk-xxx \
+  --baseurl https://openrouter.ai/api/v1 -p 3 -n 5
 ```
 
-`--codex` 读取本机 `~/.codex/auth.json`（或 `CODEX_HOME`），只向固定 Codex 官方端点发送认证信息，不保存凭据。需要有效的 ChatGPT 登录，使用 Responses 流式模式。检测请求使用空 instructions；采样请求保留固定挑战的系统提示词。两者均省略 Codex 不支持的 max_output_tokens。缺失 Content-Type 的成功响应按 SSE 解析。
+The workspace also exposes an `fpd` executable. The help page groups options and includes examples. It adapts to narrow terminals and plain-text output.
 
-`--challenges FILE` 可让多次检测使用同一组三条挑战。`--trace-dir DIR` 保存每条实际请求和原始响应；使用新的目录保留每轮记录。
+You can supply credentials and connection settings through environment variables:
 
-普通 API 模式也支持 `--trace-dir DIR`，保存请求正文和原始响应，便于核对返回型号与离线复算；认证头不写入记录。
+```sh
+export API_KEY=sk-xxx
+export MODEL=gpt-5.6-sol
+export BASE_URL=https://openrouter.ai/api/v1
+bun run fpd -p 3 -n 5
+```
 
-## 采样、续采与入库
+Explicit flags override environment variables. Credentials do not appear in the interface or saved results.
 
-使用 `bun run sample` 创建批次，`bun run sample --resume DIR` 续采，`bun run enroll --run DIR` 校验并入库。新批次必须显式声明模型标签、家族、提供方、渠道和允许的返回模型名。
+## Options
 
-完整命令、状态恢复与入库规则见 [WORKFLOW.md](WORKFLOW.md)。查看 `bun run sample --help` 和 `bun run enroll --help` 获取全部参数。
+| Option | Behavior |
+| --- | --- |
+| `-m`, `--model` | Requested model. Reads `MODEL` if omitted. |
+| `-k`, `--apikey` | API key. Reads `API_KEY` if omitted. |
+| `-b`, `--baseurl` | HTTP or HTTPS base URL, or the complete endpoint. Reads `BASE_URL` if omitted. |
+| `-a`, `--api` | `responses` (default), `chatcompletion`, or `message`. |
+| `-p`, `--parallel` | Concurrent samples within a round. Integer from 1 to 3. Default: 3. |
+| `-n`, `--repeat` | Number of detection rounds. Positive integer. Default: 1. |
+| `-s`, `--strict` | Disable automatic truncation. Require all three complete, valid responses. |
+| `-ns`, `--no-stream` | Request JSON instead of SSE. |
+| `--timeout` | Timeout in seconds. Default: 120. Fractional seconds are supported. |
+| `-e`, `--effort` | Optional provider reasoning effort. Accepts any string, including `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Omitted from API requests by default. |
+| `--challenges FILE` | Reuse a JSON array of three challenges in every round. |
+| `--bank FILE` | Use a custom reference bank. |
+| `--input FILE` | Analyze saved outputs without API requests. |
+| `--output FILE` | Save all rounds, request settings, challenges, received text, and results. |
+| `--json` | Write machine-readable JSON to stdout. Disable the TUI. |
+| `-h`, `--help` | Show help. |
+
+`--base-url` and `--api-key` are accepted as aliases. An origin such as `https://api.example.com` uses `/v1`. A base URL with a path preserves that path and appends the selected endpoint. Messages requests use `x-api-key` and `anthropic-version` headers.
+
+## Sampling behavior
+
+Each round generates three random challenges from the existing shared challenge generator. The challenge prompts remain unchanged to preserve the sampling method. The CLI interface, help, and local error messages use English.
+
+The default relaxed mode stops a streaming sample after it receives the requested number of complete integers. The interface marks it **Capped**. JSON responses with excess numbers are trimmed after receipt. The raw text received before cancellation remains in the saved sample record. Incomplete final integer tokens do not trigger truncation.
+
+A naturally completed sample must contain at least `max(80, ceil(expected_count * 0.55))` valid numbers, matching the existing scorer. A refusal, provider error, or unfinished response is rejected unless relaxed mode already stopped it at the requested count.
+
+Relaxed mode can rank one or two valid samples. Partial rankings have no confidence scores. Strict mode disables the client count limit, waits for complete responses, and skips scoring unless all three samples succeed. Provider token limits still apply. Failed samples remain visible and are preserved in saved results.
+
+All three requests must settle before the next round starts, including failed requests. Each round uses its own concurrency limit. The CLI does not retry requests automatically. A failed round does not prevent later rounds from running.
+
+The timeout starts when each request is dispatched. For SSE, the first nonempty response-body chunk clears the timer, including a heartbeat or metadata event. Response headers alone do not clear it. No client deadline or Bun idle timeout remains after SSE starts. For JSON, the entire response must arrive before the deadline.
+
+Use `q` or `Ctrl+C` to cancel active requests and prevent queued requests and later rounds from starting. With `--output`, received samples are saved on cancellation. Redirected output contains a static report; progress goes to stderr. `--json` keeps stdout free of interface output.
+
+## Results and offline use
+
+```sh
+bun run fpd --output result.json
+bun run fpd --input result.json
+bun run fpd --input result.json --strict --json
+```
+
+The input can be a saved report, a legacy report with `outputs`, or an array of one to three `{ "text": "...", "expected_count": 300 }` objects. Reports with several rounds are analyzed one round at a time. Strict replay rejects samples marked as truncated in saved reports. Offline analysis validates the saved text; it cannot verify the original network completion status of a plain output array.
+
+The TUI shows the latest ranking and recent round summaries. JSON retains every round. The most frequent candidate counts round winners; it is not a combined probability. Confidence is relative to models in the reference bank and does not establish the upstream model's identity. An incompatible custom bank uses the existing legacy ranker without confidence scores.
+
+Exit codes: `0` when all requested rounds produce a ranking, `1` for invalid input or any unscored round, `130` after cancellation, and `143` after SIGTERM. A partial ranking is a successful relaxed-mode result.
+
+## Legacy detection, sampling, and enrollment
+
+The previous detection command remains available as `bun run detect:legacy`. It retains its original options, including local Codex login and request traces:
+
+```sh
+bun run detect:legacy --codex --model gpt-6-astra --effort low \
+  --trace-dir /tmp/codex-probe --output result.json
+```
+
+The existing `bun run sample` and `bun run enroll` commands are unchanged. Sampling retains every attempt and supports resumption. Enrollment validates metadata and provenance before updating the bank. See [WORKFLOW.md](WORKFLOW.md) for the existing workflow.
+
+## Package builds and automatic publication
+
+`bun run build:cli` creates `dist/fpd/`. It bundles local CLI and algorithm code, copies the public reference bank and verifier, and pins the installed runtime dependency versions. Only the executable, derived data, README, license, and package manifest enter the npm archive. The enrollment CLI and raw collection records remain in the repository.
+
+The `Publish FPD CLI` workflow runs on `main` when CLI, shared algorithms, reference data, dependencies, or release configuration change. It also supports manual dispatch. Each build uses `0.0.<Unix time in milliseconds>` as its version and publishes the `latest` tag. No manual version bump or Git tag is required. Release jobs run sequentially, verify a clean installation outside the checkout, and check the npm tag after publishing.
+
+The workflow uses npm trusted publishing with GitHub OIDC. Initial setup requires an npm account with permission to publish `lmfpd`:
+
+```sh
+npm login
+bun run build:cli
+cd dist/fpd
+npm publish --access public --tag latest
+npm trust github lmfpd --repo Ikaleio/lm-detector \
+  --file publish-cli.yml --allow-publish --yes
+```
+
+The trusted publisher must allow direct `npm publish`. After setup, GitHub Actions needs no stored npm token. Dispatch the workflow once to verify this authorization before relying on automatic releases.

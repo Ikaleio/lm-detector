@@ -3,16 +3,24 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "bin": {
+    "fpd": "./detect.ts"
+  },
   "scripts": {
     "detect": "bun detect.ts",
+    "detect:legacy": "bun detect-legacy.ts",
     "sample": "bun sample.ts",
     "enroll": "bun enroll.ts"
   },
   "dependencies": {
     "@fingerpoint/shared": "workspace:*",
-    "proper-lockfile": "^4.1.2"
+    "ink": "^7.1.1",
+    "proper-lockfile": "^4.1.2",
+    "react": "^19.3.0",
+    "terminal-link": "^5.0.0"
   },
   "devDependencies": {
-    "@types/proper-lockfile": "^4.1.4"
+    "@types/proper-lockfile": "^4.1.4",
+    "@types/react": "^19.3.0"
   }
 }

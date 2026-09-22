@@ -1,0 +1,86 @@
+name: Publish FPD CLI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'cli/**'
+      - 'shared/**'
+      - 'data/unified_reference.jsonl'
+      - 'data/unified_bank.json'
+      - 'data/shared_detector.json'
+      - 'data/import_manifest.json'
+      - 'web/scripts/sync-data.ts'
+      - 'package.json'
+      - 'bun.lock'
+      - 'tsconfig.json'
+      - 'LICENSE'
+      - '.github/workflows/publish-cli.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: npm-fpd
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun run build:cli
+      - name: Pack the standalone CLI
+        working-directory: dist/fpd
+        run: npm pack --pack-destination ..
+      - name: Verify a clean install outside the repository
+        shell: bash
+        run: |
+          package_file=$(find "$GITHUB_WORKSPACE/dist" -maxdepth 1 -name '*.tgz' -print -quit)
+          smoke_dir=$(mktemp -d)
+          cd "$smoke_dir"
+          printf '{"private":true}\n' > package.json
+          bun add "$package_file"
+          bunx --no-install fpd --help
+          bun -e 'await Bun.write("input.json", JSON.stringify(Array.from({length:3}, () => ({text:Array.from({length:300},(_,i)=>String((i*73)%355+1)).join(", "),expected_count:300}))))'
+          bunx --no-install fpd --input input.json --json > result.json
+          bun -e 'const result=await Bun.file("result.json").json(); if(result.scored_rounds!==1 || !result.analysis.results.length) throw new Error("Installed CLI could not score samples")'
+          bunx --no-install fpd --input input.json > /dev/null
+      - name: Upload the npm package
+        uses: actions/upload-artifact@v4
+        with:
+          name: fpd-npm
+          path: dist/*.tgz
+      - name: Publish latest with npm trusted publishing
+        working-directory: dist/fpd
+        run: npm publish --access public --tag latest --provenance
+      - name: Verify the published version
+        working-directory: dist/fpd
+        shell: bash
+        run: |
+          package_name=$(node -p 'require("./package.json").name')
+          package_version=$(node -p 'require("./package.json").version')
+          for attempt in 1 2 3 4 5 6; do
+            published=$(npm view "$package_name@latest" version 2>/dev/null || true)
+            if [ "$published" = "$package_version" ]; then
+              printf 'Published %s@%s as latest\n' "$package_name" "$package_version"
+              exit 0
+            fi
+            sleep 10
+          done
+          printf 'The npm latest tag does not match the build.\n' >&2
+          exit 1
