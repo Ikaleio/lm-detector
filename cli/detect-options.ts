@@ -13,6 +13,7 @@ export interface DetectOptions {
   bank?: string
   challenges?: string
   json: boolean
+  updateCheck: boolean
 }
 
 function positiveInteger(value: string, name: string, maximum = Number.MAX_SAFE_INTEGER) {
@@ -32,6 +33,7 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
     input: { type: 'string' }, output: { type: 'string' }, bank: { type: 'string' },
     challenges: { type: 'string' }, json: { type: 'boolean' }, help: { type: 'boolean', short: 'h' },
     'base-url': { type: 'string' }, 'api-key': { type: 'string' },
+    'no-update-check': { type: 'boolean' },
   }, strict: true, allowPositionals: false })
   if (values.help) return undefined
   const api = values.api ?? 'responses'
@@ -64,6 +66,7 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
   return {
     config, api, parallel, repeat, timeoutMs: Math.round(timeout * 1000),
     strict: !!values.strict, json: !!values.json,
+    updateCheck: !values['no-update-check'] && !env.FPD_NO_UPDATE_CHECK && !env.NO_UPDATE_NOTIFIER,
     input: values.input, output: values.output, bank: values.bank, challenges: values.challenges,
   }
 }

@@ -54,9 +54,22 @@ Explicit flags override environment variables. Credentials do not appear in the 
 | `--input FILE` | Analyze saved outputs without API requests. |
 | `--output FILE` | Save all rounds, request settings, challenges, received text, and results. |
 | `--json` | Write machine-readable JSON to stdout. Disable the TUI. |
+| `--no-update-check` | Disable background update checks. Also accepts `FPD_NO_UPDATE_CHECK=1` or `NO_UPDATE_NOTIFIER=1`. |
 | `-h`, `--help` | Show help. |
 
 `--base-url` and `--api-key` are accepted as aliases. An origin such as `https://api.example.com` uses `/v1`. A base URL with a path preserves that path and appends the selected endpoint. Messages requests use `x-api-key` and `anthropic-version` headers.
+
+## Update notifications
+
+Published releases check for updates in the background during interactive detection. The CLI queries npm, [npmmirror](https://github.com/cnpm/cnpm), and Tencent Cloud concurrently with a shared three-second deadline. It selects the highest valid version returned before detection ends or the deadline expires. Slow, unavailable, or outdated mirrors do not prevent another source from supplying an update. Requests contain no model credentials, prompts, or results.
+
+The check never delays detection or waits at exit. If an update is already known when detection finishes, the TUI shows one notice below the results. Otherwise, it cancels the check silently. Network errors do not change the detection result or exit code. The CLI only suggests a command; it does not install updates automatically.
+
+The command follows the detected installer: Bun, npm, pnpm, or Yarn. Global and project installations receive the corresponding update command. Project commands target the installation directory. Temporary runners receive a `bunx`, `npx`, `pnpm dlx`, or `yarn dlx` command pinned to the new version, avoiding a cached `latest` alias. Installation paths and package metadata take precedence over the runtime. If the installer is unknown, the notice offers `bunx` to run the new version.
+
+Results are cached in the operating system's cache directory under `lmfpd/update.json`. If any source succeeds, the result lasts six hours. If all sources fail, the check retries after one hour. Installing another version resets the check. Source runs, prerelease builds, help, offline analysis, JSON output, redirected output, and CI skip update checks.
+
+Use `--no-update-check` or set `FPD_NO_UPDATE_CHECK=1` to disable the feature.
 
 ## Sampling behavior
 

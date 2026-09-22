@@ -5,6 +5,7 @@ import type { Analysis } from '@fingerpoint/shared/types'
 import type { DetectOptions } from './detect-options'
 import type { DetectionState } from './detect-run'
 import { acceptedSample, cleanText, type Sample } from './detect-request'
+import type { UpdateNotice } from './detect-update'
 
 const seconds = (milliseconds: number) => `${(Math.max(0, milliseconds) / 1000).toFixed(1)}s`
 const percentage = (value: number | null | undefined) => value == null ? '—' : `${(value * 100).toFixed(1)}%`
@@ -40,8 +41,8 @@ function Ranking({ analysis, compact, safe }: { analysis: Analysis; compact: boo
   </Box>
 }
 
-function Dashboard({ state, options, bankSize, cancel, saved, fatal }: {
-  state: DetectionState; options: DetectOptions; bankSize: number; cancel: () => void; saved?: string; fatal?: string
+function Dashboard({ state, options, bankSize, cancel, saved, fatal, updateNotice }: {
+  state: DetectionState; options: DetectOptions; bankSize: number; cancel: () => void; saved?: string; fatal?: string; updateNotice?: UpdateNotice
 }) {
   const [now, setNow] = useState(Date.now())
   const { columns, rows } = useWindowSize()
@@ -119,6 +120,10 @@ function Dashboard({ state, options, bankSize, cancel, saved, fatal }: {
       {saved && <Text color="green">Saved {safe(saved)}</Text>}
       <Text dimColor>{state.finishedAt ? `${scored}/${state.total} rounds scored · ${elapsed}` : 'q / Ctrl+C to cancel · each round waits for all three samples'}</Text>
     </Box>
+    {updateNotice && <Box marginTop={1} flexDirection="column">
+      <Text color="yellow">Update available: {updateNotice.current} → {updateNotice.latest}</Text>
+      <Text>{updateNotice.temporary ? 'Run the latest version' : 'Update'}: <Text color="cyan">{updateNotice.command}</Text></Text>
+    </Box>}
   </Box>
 }
 
@@ -143,9 +148,9 @@ export function createDisplay(options: DetectOptions, bankSize: number, cancel: 
       }
       view.rerender(<Dashboard state={state} options={options} bankSize={bankSize} cancel={cancel} />)
     },
-    async finish(saved?: string, fatal?: string) {
+    async finish(saved?: string, fatal?: string, updateNotice?: UpdateNotice) {
       state = { ...state, finishedAt: state.finishedAt ?? Date.now() }
-      view.rerender(<Dashboard state={state} options={options} bankSize={bankSize} cancel={cancel} saved={saved} fatal={fatal} />)
+      view.rerender(<Dashboard state={state} options={options} bankSize={bankSize} cancel={cancel} saved={saved} fatal={fatal} updateNotice={updateNotice} />)
       await view.waitUntilRenderFlush()
       view.unmount()
     },

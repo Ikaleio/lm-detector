@@ -6,9 +6,11 @@ import type { SharedDetector } from '@fingerpoint/shared/shared-detector'
 import { parseOptions, requestEndpoint } from './detect-options'
 import { errorMessage } from './detect-request'
 import { analyzeInput, loadChallenges, readJson, runDetection, serializeResult } from './detect-run'
+import { startUpdateCheck } from './detect-update'
 
 let key = ''
 let display: ReturnType<typeof import('./detect-ui').createDisplay> | undefined
+let stopUpdateCheck: ReturnType<typeof startUpdateCheck> | undefined
 const abort = new AbortController()
 const cancel = () => abort.abort()
 const terminate = () => { process.exitCode = 143; abort.abort() }
@@ -30,6 +32,9 @@ try {
   } else {
     key = options.config.apiKey
     if (!options.input) requestEndpoint(options.config)
+    if (options.updateCheck && !options.input && !options.json && process.stdout.isTTY && !process.env.CI && process.env.TERM !== 'dumb') {
+      stopUpdateCheck = startUpdateCheck()
+    }
     const [bankData, detectorData, challenges] = await Promise.all([
       readJson(options.bank ?? fileURLToPath(new URL('../data/unified_bank.json', import.meta.url))),
       readJson(fileURLToPath(new URL('../data/shared_detector.json', import.meta.url))),
@@ -50,17 +55,20 @@ try {
     const serialized = serializeResult(state, options, bank)
     if (options.output) await writeFile(options.output, serialized, { mode: 0o600 })
     if (options.json) process.stdout.write(serialized)
-    await display?.finish(options.output)
+    const updateNotice = stopUpdateCheck?.()
+    await display?.finish(options.output, undefined, state.cancelled ? undefined : updateNotice)
     display = undefined
     if (state.cancelled) process.exitCode = process.exitCode || 130
     else if (state.rounds.some(round => round.error)) process.exitCode = 1
   }
 } catch (error) {
+  stopUpdateCheck?.()
   const message = errorMessage(error, key)
   if (display) await display.finish(undefined, message)
   else process.stderr.write(`Error: ${message}\nUse --help for usage.\n`)
   process.exitCode = 1
 } finally {
+  stopUpdateCheck?.()
   process.removeListener('SIGINT', cancel)
   process.removeListener('SIGTERM', terminate)
 }

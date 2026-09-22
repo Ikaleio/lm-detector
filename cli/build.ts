@@ -28,6 +28,7 @@ execFileSync('bun', [
   'build', resolve(root, 'cli/detect.ts'), '--outdir', resolve(destination, 'bin'),
   '--entry-naming', 'fpd.js', '--target', 'bun',
   '--define', 'process.env.NODE_ENV="production"',
+  '--define', `FPD_BUILD_VERSION=${JSON.stringify(version)}`,
   ...Object.keys(dependencies).flatMap(name => ['--external', name]),
 ], { cwd: root, stdio: 'inherit' })
 await chmod(resolve(destination, 'bin/fpd.js'), 0o755)
