@@ -1,0 +1,32 @@
+{
+  "completed_at": "2026-09-22T13:10:30.795Z",
+  "model": "step-5-preview",
+  "added": 36,
+  "before_rows": 1660,
+  "after_rows": 1696,
+  "models": 46,
+  "complete_rows": 36,
+  "truncated_rows": 0,
+  "previous_reference_sha256": "aff44bcc676d2db995a054e7733a74cddd12e8e8ae1cf687b55e462fd4da2527",
+  "reference_sha256": "dc2a7726606a7a9e4fd2685a296a79f22f67fe2682ae46098cd81c7ffb517650",
+  "selection_file": "data/collections/step-5-preview-20260922/enrollment-selections.json",
+  "status": "complete",
+  "actual_attempt_status_counts": {
+    "accepted": 36,
+    "failed": 21
+  },
+  "selected_response_models": [
+    "step-5-preview"
+  ],
+  "selected_efforts": {
+    "default": 34,
+    "low": 2
+  },
+  "selected_number_count_range": [
+    218,
+    333
+  ],
+  "selection": "First complete valid answer for each fixed challenge, with two explicitly recorded low-effort recovery answers after empty final outputs. No scoring-based selection.",
+  "truncation_policy_used": false,
+  "evaluation_api_calls": 0
+}

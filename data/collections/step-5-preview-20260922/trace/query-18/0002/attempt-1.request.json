@@ -1,0 +1,15 @@
+{
+  "url": "https://api.stepfun.com/step_plan/v1/chat/completions",
+  "body": {
+    "model": "step-5-preview",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Fill exactly 327 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+      }
+    ],
+    "max_tokens": 8192,
+    "stream": true
+  },
+  "started_at": "2026-09-22T12:57:33.479Z"
+}

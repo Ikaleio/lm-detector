@@ -1,0 +1,13 @@
+{
+  "schema": "fingerpoint-enrollment-policy-v1",
+  "recorded_at": "2026-09-22T12:50:14.512Z",
+  "authorization": "如果连续进入 loop 三次，直接截断前 x 个数字",
+  "scope": "step-5-preview-20260922",
+  "attempt_limit": 3,
+  "selection": "Use the first complete valid answer. After three consecutive looping failures for the same challenge, use the earliest eligible answer prefix without ranking-based selection.",
+  "prefix_count": "challenge.expected_count",
+  "source_field": "choices[0].delta.content",
+  "preserve_original_attempts": true,
+  "preserve_original_traces": true,
+  "mark_truncated_rows": true
+}

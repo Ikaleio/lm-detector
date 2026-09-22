@@ -1,10 +1,10 @@
 {
-  "policy": "Only original ModelTrace data and user-designated OpenRouter channel outputs are trusted. Gateway attribution is user-designated, not independently verified upstream identity.",
-  "rows": 1660,
+  "policy": "Only original ModelTrace data and user-designated API channels are trusted. Provider attribution is user-designated, not independently verified upstream identity.",
+  "rows": 1696,
   "sources": {
     "original": 432,
     "openrouter": 1192,
-    "api": 36
+    "api": 72
   },
   "models": {
     "gpt-5.4": 36,
@@ -51,7 +51,8 @@
     "mimo-v2.5": 36,
     "mimo-v2.5-pro": 36,
     "mimo-v2.6-flash": 36,
-    "mimo-v2.6-pro": 36
+    "mimo-v2.6-pro": 36,
+    "step-5-preview": 36
   },
   "batches": [
     {
@@ -619,6 +620,28 @@
       "manifest_sha256": "a510b3877b4ae5bee20f0b428dd67ecf10f5e143155312abb8f4556c9c37049c",
       "verified_provider": "Xiaomi",
       "selection_file": "data/collections/openrouter-20260922/enrollment-selections.json"
+    },
+    {
+      "id": "5711a935-3ead-4bcd-9662-afd23f90c36a",
+      "kind": "api",
+      "model_id": "step-5-preview",
+      "accepted": 34,
+      "provider": "StepFun",
+      "endpoint": "https://api.stepfun.com/step_plan/v1/chat/completions",
+      "manifest_sha256": "c86ade077423a983770b196b2fbf646a28a5fd10a64003dd3b36416c28a191cb",
+      "reasoning_effort": "default",
+      "selection_file": "data/collections/step-5-preview-20260922/enrollment-selections.json"
+    },
+    {
+      "id": "d1928581-ff6c-4db8-b769-335d3fec12de",
+      "kind": "api",
+      "model_id": "step-5-preview",
+      "accepted": 2,
+      "provider": "StepFun",
+      "endpoint": "https://api.stepfun.com/step_plan/v1/chat/completions",
+      "manifest_sha256": "4ed1a73c6ea527b9887bb7f0e1d94486d1ef6d1a2e76c94dad3d3fa65af23145",
+      "reasoning_effort": "low",
+      "selection_file": "data/collections/step-5-preview-20260922/enrollment-selections.json"
     }
   ],
   "excluded_sources": [
@@ -628,5 +651,5 @@
     "sqface",
     "manual pasted outputs"
   ],
-  "reference_sha256": "aff44bcc676d2db995a054e7733a74cddd12e8e8ae1cf687b55e462fd4da2527"
+  "reference_sha256": "dc2a7726606a7a9e4fd2685a296a79f22f67fe2682ae46098cd81c7ffb517650"
 }

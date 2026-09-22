@@ -1,0 +1,15 @@
+{
+  "manifest_sha256": "c86ade077423a983770b196b2fbf646a28a5fd10a64003dd3b36416c28a191cb",
+  "challenge_id": "query-13",
+  "attempt": 1,
+  "status": "failed",
+  "started_at": "2026-09-22T12:51:33.725Z",
+  "trace": "trace/query-13/0001",
+  "text": "",
+  "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "parsed_count": 0,
+  "http_status": 200,
+  "error": "输出未完整结束，本条不计入检测或入库",
+  "retryable": true,
+  "finished_at": "2026-09-22T12:53:09.898Z"
+}

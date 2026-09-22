@@ -1,0 +1,70 @@
+{
+  "schema": "fingerpoint-collection-v2",
+  "purpose": "reference-collection",
+  "id": "d1928581-ff6c-4db8-b769-335d3fec12de",
+  "created_at": "2026-09-22T12:57:26.509Z",
+  "metadata": {
+    "label": "step-5-preview",
+    "family": "step",
+    "family_name": "Step",
+    "provider": "StepFun",
+    "source": "api",
+    "source_name": "StepFun Step Plan official API",
+    "response_models": [
+      "step-5-preview"
+    ]
+  },
+  "config": {
+    "baseUrl": "https://api.stepfun.com/step_plan/v1",
+    "model": "step-5-preview",
+    "format": "openai",
+    "effort": "low",
+    "stream": true,
+    "parallel": false
+  },
+  "endpoint": "https://api.stepfun.com/step_plan/v1/chat/completions",
+  "codex": false,
+  "timeout_ms": 250000,
+  "suite_sha256": "5f0a58d4658db62d5249de25310b3ce796320db4d42b9f491c392abfa3ce5546",
+  "tasks": [
+    {
+      "id": "query-10",
+      "condition": "environment-04",
+      "expected_count": 294,
+      "prompt": "这是一次无语义数值选择。请为 294 个位置分别凭第一反应选择一个 1 到 355（含端点）的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+      "system": "",
+      "body": {
+        "model": "step-5-preview",
+        "messages": [
+          {
+            "role": "user",
+            "content": "这是一次无语义数值选择。请为 294 个位置分别凭第一反应选择一个 1 到 355（含端点）的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": true,
+        "reasoning_effort": "low"
+      }
+    },
+    {
+      "id": "query-12",
+      "condition": "environment-04",
+      "expected_count": 329,
+      "prompt": "进行一轮快速逐项取值：分别给出 329 个取值范围为 1 至 355 的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+      "system": "",
+      "body": {
+        "model": "step-5-preview",
+        "messages": [
+          {
+            "role": "user",
+            "content": "进行一轮快速逐项取值：分别给出 329 个取值范围为 1 至 355 的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": true,
+        "reasoning_effort": "low"
+      }
+    }
+  ],
+  "fingerprint": "4ed1a73c6ea527b9887bb7f0e1d94486d1ef6d1a2e76c94dad3d3fa65af23145"
+}

@@ -1,0 +1,15 @@
+{
+  "manifest_sha256": "c86ade077423a983770b196b2fbf646a28a5fd10a64003dd3b36416c28a191cb",
+  "challenge_id": "query-26",
+  "attempt": 1,
+  "status": "failed",
+  "started_at": "2026-09-22T13:02:15.447Z",
+  "trace": "trace/query-26/0001",
+  "text": "42, 198, 7, 341, 56, 233, 121, 88, 305, 14, 269, 63, 172, 247, 31, 108, 355, 5, 290, 176, 130, 49, 281, 12, 344, 67, 95, 223, 158, 260, 3, 317, 74, ",
+  "text_sha256": "84ab4140dda88f5000470232a723b13078186232f64a4dcab243d7100a0f003c",
+  "parsed_count": 33,
+  "http_status": 200,
+  "error": "输出未完整结束，本条不计入检测或入库",
+  "retryable": true,
+  "finished_at": "2026-09-22T13:03:40.953Z"
+}
