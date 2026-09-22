@@ -1,0 +1,819 @@
+{
+  "verified_at": "2026-09-22T18:27:36.125Z",
+  "models": [
+    {
+      "label": "gpt-6-sol",
+      "accepted": 36,
+      "attempts": 42,
+      "failed_attempts": [
+        {
+          "challenge_id": "query-01",
+          "attempt": 1,
+          "status": "failed",
+          "error": "HTTP 403：This model is not available in your region."
+        },
+        {
+          "challenge_id": "query-02",
+          "attempt": 1,
+          "status": "failed",
+          "error": "HTTP 403：This model is not available in your region."
+        },
+        {
+          "challenge_id": "query-03",
+          "attempt": 1,
+          "status": "failed",
+          "error": "HTTP 403：This model is not available in your region."
+        },
+        {
+          "challenge_id": "query-06",
+          "attempt": 1,
+          "status": "failed",
+          "error": "输出未完整结束，本条不计入检测或入库"
+        },
+        {
+          "challenge_id": "query-06",
+          "attempt": 2,
+          "status": "failed",
+          "error": "输出未完整结束，本条不计入检测或入库"
+        },
+        {
+          "challenge_id": "query-06",
+          "attempt": 3,
+          "status": "failed",
+          "error": "输出未完整结束，本条不计入检测或入库"
+        },
+        {
+          "challenge_id": "query-06",
+          "attempt": 4,
+          "status": "running"
+        }
+      ],
+      "reasoning_effort": "low",
+      "provider": "OpenAI",
+      "api_reported_cost_usd": 0.6365444999999998,
+      "samples": [
+        {
+          "challenge_id": "query-01",
+          "selected_attempt": 2,
+          "response_id": "gen-1790101252-p0B0VDKqiAQfXa7pZwDL",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 221,
+          "body_sha256": "a58e9d8fe64bf2e102ac6df8c6caadee6847b29359da0c251a52e04d81ed96f2",
+          "trace": "trace/query-01/0002"
+        },
+        {
+          "challenge_id": "query-02",
+          "selected_attempt": 2,
+          "response_id": "gen-1790101252-pexYEPmgvFGXwirWbitO",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 234,
+          "body_sha256": "e7f8c4715b74c17203ec9d623b7d628ff008e32c0cc6b2bdd6e95a92006d531e",
+          "trace": "trace/query-02/0002"
+        },
+        {
+          "challenge_id": "query-03",
+          "selected_attempt": 2,
+          "response_id": "gen-1790101252-gcHylWEYdTHsG2MA6GMR",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 247,
+          "body_sha256": "85ba728e1f9c84b81bdee22fdcc33a869b2c06dd6e18c76fe341b9536b1e2437",
+          "trace": "trace/query-03/0002"
+        },
+        {
+          "challenge_id": "query-04",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101259-V55z6YlSkIWC9QdFGUkE",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 228,
+          "body_sha256": "8cba37534b20e44c72523ee80efd86c5f22059ff479f59199268fbc1e806d5aa",
+          "trace": "trace/query-04/0001"
+        },
+        {
+          "challenge_id": "query-05",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101259-Lf0FKfs9CQbY0fBdUdi1",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 239,
+          "body_sha256": "9e5ac73ec456468414b3bc40d871962e60e551e6b242512c4d02f024ea745867",
+          "trace": "trace/query-05/0001"
+        },
+        {
+          "challenge_id": "query-06",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101265-8Z540rDW9TKs58mJSUR7",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 251,
+          "body_sha256": "344e75e86020bf5e7e8c1de4ccd4c342fd593a596b021b69ab6de724a6822099",
+          "trace": "trace/query-06/0001",
+          "text_processing": "gpt-6-sol/truncation.json"
+        },
+        {
+          "challenge_id": "query-07",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101266-5lVPInmb46ySlvtTauhQ",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 231,
+          "body_sha256": "0d05991f43ffeba932f559cd9c0f44f2be6c9c2f830d124e1fc2589cc3ed02d1",
+          "trace": "trace/query-07/0001"
+        },
+        {
+          "challenge_id": "query-08",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101269-2679ilXwcuv1D6cRiJbE",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 251,
+          "body_sha256": "2c61e4cdaffc3bec96b1a2dc1acabd801fb10210b6466b793a0affa095e86286",
+          "trace": "trace/query-08/0001"
+        },
+        {
+          "challenge_id": "query-09",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101273-fV9WBzoSXWK2fD2OLsrJ",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 257,
+          "body_sha256": "fa00d30446bebac3eff71159bfce19391703bea2599a7226bc3e84acdaf7e286",
+          "trace": "trace/query-09/0001"
+        },
+        {
+          "challenge_id": "query-10",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101276-UKOEQyOy4SZt7hugRMM4",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 294,
+          "body_sha256": "653fb91d4e0050d38f3998246b485f7ec8de193acf078846043fd2e599285b9c",
+          "trace": "trace/query-10/0001"
+        },
+        {
+          "challenge_id": "query-11",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101284-PZZqecRk9nAuH1jbmo7N",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 311,
+          "body_sha256": "118eda4cbe0cab3eb87c7711173837468a12535284f03e45e99cff4e78f44be5",
+          "trace": "trace/query-11/0001"
+        },
+        {
+          "challenge_id": "query-12",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101285-DOVEA7j6Qb8l24X1ZE4Y",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 328,
+          "body_sha256": "768b5715de6fb7332caae312f7bc32d4c3d0e06df8a91b9464cddcc94032d55c",
+          "trace": "trace/query-12/0001"
+        },
+        {
+          "challenge_id": "query-13",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101294-7idDxwpyUbgKxAzy3PYW",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 297,
+          "body_sha256": "7b1109ea104a763b7b021115d98ebca3e93f31d4162865fd31b3d8a643269b89",
+          "trace": "trace/query-13/0001"
+        },
+        {
+          "challenge_id": "query-14",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101295-iaXgxpvqEfaxijwLW9tB",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 315,
+          "body_sha256": "a1cc1461b10e78c9cedc585950c5817b54dc4286da06ca5e3fcbecb148f7f3d4",
+          "trace": "trace/query-14/0001"
+        },
+        {
+          "challenge_id": "query-15",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101302-SIhYQkccMPSL993DNKvj",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 330,
+          "body_sha256": "4c5bcc4be74a38740113e196e6c14b2b30ad9c0377600c0eb968df6e617abc94",
+          "trace": "trace/query-15/0001"
+        },
+        {
+          "challenge_id": "query-16",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101303-vO8WClXWPWoUBLxSIolI",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 301,
+          "body_sha256": "8b48745ac28be7b0d283305c60ea00bd48f915f2b0154fe4d112420d1ced145c",
+          "trace": "trace/query-16/0001"
+        },
+        {
+          "challenge_id": "query-17",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101311-Cxn3uMmFkCqJYgJgcJ7Z",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 355,
+          "body_sha256": "b95a9fdec7700a57d29334d0741170602b2387821af75127165ae69ad3e5b992",
+          "trace": "trace/query-17/0001"
+        },
+        {
+          "challenge_id": "query-18",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101318-ayNro9ISdGCre6noa3NC",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 327,
+          "body_sha256": "6053394c5cdc6383a88143f74f966bd5c8068b299c56a41ec3d377c7e0724f22",
+          "trace": "trace/query-18/0001"
+        },
+        {
+          "challenge_id": "query-19",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101323-B11aSsOXEFuSCOIWBgQ6",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 302,
+          "body_sha256": "f7888b342653cd9ae028b8a7d65080cf96ba1c33e087ec004d26ea4c11669ef3",
+          "trace": "trace/query-19/0001"
+        },
+        {
+          "challenge_id": "query-20",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101332-RwJPTb0wjy8jTaj5l5hf",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 310,
+          "body_sha256": "dcb9dee4351a034d558043d6a10ef26d9878b0c1e072ffe87d6b072e9a3622c8",
+          "trace": "trace/query-20/0001"
+        },
+        {
+          "challenge_id": "query-21",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101333-QghC3gnyfQjryv2d7QdJ",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 326,
+          "body_sha256": "55c49d430bc6d4a514f144895966cb1c655036eb4f0c0ef6b0260f28c07524ae",
+          "trace": "trace/query-21/0001"
+        },
+        {
+          "challenge_id": "query-22",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101341-SE1wWOcxl6LJw4IHyqbW",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 296,
+          "body_sha256": "838c1428931110fabb9398dd07357d3c4935b4a178a8120e0807c90b2c66012f",
+          "trace": "trace/query-22/0001"
+        },
+        {
+          "challenge_id": "query-23",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101342-hOeirxHrbOucKECiVL21",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 314,
+          "body_sha256": "ca39f6c0231fbca990a8d99e4f2c6d9086a5613b471dfba2950e09f85c13bb2e",
+          "trace": "trace/query-23/0001"
+        },
+        {
+          "challenge_id": "query-24",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101350-DV8GajbtHuVOeh6NcPL7",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 330,
+          "body_sha256": "3c24ad8332fd0016bf5afb9295b16ab0bee93c7a79c48592fbe7a2a276b4ff1b",
+          "trace": "trace/query-24/0001"
+        },
+        {
+          "challenge_id": "query-25",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101353-vb3e89lRD1qpxi5y5xOq",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 299,
+          "body_sha256": "64806a747e674860eb495ae534e408a0c6ea49ddc2cb562a13477392867dad7e",
+          "trace": "trace/query-25/0001"
+        },
+        {
+          "challenge_id": "query-26",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101361-ngQ7skfK7kqxbmoLjZc6",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 317,
+          "body_sha256": "575b661414e976ed4561738d917eb6e01ff45cd8e89493769c3712183b6fb993",
+          "trace": "trace/query-26/0001"
+        },
+        {
+          "challenge_id": "query-27",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101362-GPEI57IRZ8oDJ9E0g7Ko",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 342,
+          "body_sha256": "e9365fd3c25d70507758500d5c2c65071196a3b2c9e4ced280e3fafbb1314019",
+          "trace": "trace/query-27/0001"
+        },
+        {
+          "challenge_id": "query-28",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101370-BMnkI1sm81V5knYWu1RA",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 292,
+          "body_sha256": "e2eeb2984c95000cf2f6f2b67c0ba05a28630793354db3b799df9e3f467198a6",
+          "trace": "trace/query-28/0001"
+        },
+        {
+          "challenge_id": "query-29",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101373-CBuma3LbfoDhiBObovqI",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 308,
+          "body_sha256": "34381f8e217558a49a00bf89dd27e7e56f26e23508f47c6e7ae0805c817d15e5",
+          "trace": "trace/query-29/0001"
+        },
+        {
+          "challenge_id": "query-30",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101378-AqoxOx1fzJVqZbe4ykSA",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 324,
+          "body_sha256": "e4fbaa61a84ab726b1093acd4214f5f86712261f6b98b116bbafc30e6c78b096",
+          "trace": "trace/query-30/0001"
+        },
+        {
+          "challenge_id": "query-31",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101382-rWGFEII9GtuVjFnRWnae",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 294,
+          "body_sha256": "031c1d7f483d143e9bdeb925130b908700e0ae0b16fc90e1e274051f8234805d",
+          "trace": "trace/query-31/0001"
+        },
+        {
+          "challenge_id": "query-32",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101387-ACqv56naethbmMpz6YkF",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 322,
+          "body_sha256": "586b29f3b6980f582ac1009595fde4e29d50942875a056f0ded1dbfa0d0f9304",
+          "trace": "trace/query-32/0001"
+        },
+        {
+          "challenge_id": "query-33",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101390-BZVuNR8bW9kJ7kE1TJeb",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 328,
+          "body_sha256": "9e6b370be03410ca80a41a696a643857d75c26e1e685ac888ce600e946edd01d",
+          "trace": "trace/query-33/0001"
+        },
+        {
+          "challenge_id": "query-34",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101396-3Kp8Be76JqjNYQOG1P5a",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 298,
+          "body_sha256": "924128ef04b45250ada5ac5cb444a7a9772dc348dff52c161287a8c828e91953",
+          "trace": "trace/query-34/0001"
+        },
+        {
+          "challenge_id": "query-35",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101400-QLc9QlGqjblqtMOYIEXS",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 316,
+          "body_sha256": "695e63cf2e473c0ba472a64b865ac23f1744b7bf333130632e5c696179e94ff3",
+          "trace": "trace/query-35/0001"
+        },
+        {
+          "challenge_id": "query-36",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101406-iFzRHZ4TfP7LjESRaP0p",
+          "response_model": "openai/gpt-6-sol",
+          "provider": "OpenAI",
+          "parsed_count": 333,
+          "body_sha256": "1b58edfba8bc2d4f0a1620139ba8a12d62ac3ae58764f40219bfbe990f0b4dee",
+          "trace": "trace/query-36/0001"
+        }
+      ],
+      "raw_accepted": 35,
+      "processed_samples": 1
+    },
+    {
+      "label": "gpt-6-luna",
+      "accepted": 36,
+      "attempts": 40,
+      "failed_attempts": [
+        {
+          "challenge_id": "query-01",
+          "attempt": 1,
+          "status": "failed",
+          "error": "HTTP 403：This model is not available in your region."
+        },
+        {
+          "challenge_id": "query-02",
+          "attempt": 1,
+          "status": "failed",
+          "error": "HTTP 403：This model is not available in your region."
+        },
+        {
+          "challenge_id": "query-03",
+          "attempt": 1,
+          "status": "failed",
+          "error": "HTTP 403：This model is not available in your region."
+        },
+        {
+          "challenge_id": "query-17",
+          "attempt": 1,
+          "status": "failed",
+          "error": "有效数字不足或记录不一致：query-17"
+        }
+      ],
+      "reasoning_effort": "low",
+      "provider": "OpenAI",
+      "api_reported_cost_usd": 0.026660824999999996,
+      "samples": [
+        {
+          "challenge_id": "query-01",
+          "selected_attempt": 2,
+          "response_id": "gen-1790101252-5rKUhI5KGYNaD4jW0SM6",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 230,
+          "body_sha256": "42775725a3b5ef8b39989e900be041b884790433f7a8df5e0e4a6e880cac2ccc",
+          "trace": "trace/query-01/0002"
+        },
+        {
+          "challenge_id": "query-02",
+          "selected_attempt": 2,
+          "response_id": "gen-1790101252-cR5VijgPaUMoi55Iexr8",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 233,
+          "body_sha256": "f71614426194c293c657d3a22df9feb5a0e2ec21b1564c8371fa020f14d8c839",
+          "trace": "trace/query-02/0002"
+        },
+        {
+          "challenge_id": "query-03",
+          "selected_attempt": 2,
+          "response_id": "gen-1790101252-KKYwzUMMvlV8IdKArvlc",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 246,
+          "body_sha256": "6810927756cc264101c6d55b338ab64829c3e6f9792f9a9c8630cbceea55e80b",
+          "trace": "trace/query-03/0002"
+        },
+        {
+          "challenge_id": "query-04",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101257-LYEbYfK6Kla90qlyFg1X",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 223,
+          "body_sha256": "ff4f887daa9da253b2043fb484bb5d01e441ef946eea4d7da4852f9e09762163",
+          "trace": "trace/query-04/0001"
+        },
+        {
+          "challenge_id": "query-05",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101258-meEaaIhToQRys5LFbzNA",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 239,
+          "body_sha256": "6c96fe31f3caf97ff83eb7453e6b95484d52a1f6b0c49bf62eb3b1860f0820c5",
+          "trace": "trace/query-05/0001"
+        },
+        {
+          "challenge_id": "query-06",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101260-rVl5nH1ZaA4OisFLxVls",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 251,
+          "body_sha256": "1a213954b51d1846ed152e173743f3c46598c53b1b76dda638eeccab3fe2524f",
+          "trace": "trace/query-06/0001"
+        },
+        {
+          "challenge_id": "query-07",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101265-IHrKrgpQM4NFDYK5oLlo",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 227,
+          "body_sha256": "5c5abd8c9450ecea1217ebb6c1358cc1c9375f6982cad824b1dbee000906d057",
+          "trace": "trace/query-07/0001"
+        },
+        {
+          "challenge_id": "query-08",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101266-XP7dk81rA4rt8wexRj1u",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 241,
+          "body_sha256": "ee7ca443ddb8378ebd043dbb2beeaeb24218927e274d5d79bc55455ef8833794",
+          "trace": "trace/query-08/0001"
+        },
+        {
+          "challenge_id": "query-09",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101272-nfJsQQvqTMoBNmrcoQSH",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 257,
+          "body_sha256": "3fbfbfda6579d391b58d1dd33d213a725993d16e5c057db25b267dd379bf46ca",
+          "trace": "trace/query-09/0001"
+        },
+        {
+          "challenge_id": "query-10",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101275-m3HWs6xkhTB0mvnoHRMF",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 293,
+          "body_sha256": "233d9f76f11720e568ab241a153682c62fc697191b03b0ea9eb78d3a8b81e1ed",
+          "trace": "trace/query-10/0001"
+        },
+        {
+          "challenge_id": "query-11",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101275-SkvpWz0JbX8cGLIzPnR5",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 311,
+          "body_sha256": "d523e9eaa0261aa7e8925610ed253a436c281776256998324e05b77a63d4596e",
+          "trace": "trace/query-11/0001"
+        },
+        {
+          "challenge_id": "query-12",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101279-bjUFyBG7LHKaD521g9oE",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 329,
+          "body_sha256": "466c6510a02cb59b26b5bd8c0d4e199ea50c0ec16b0738eebdc3f184f8b3a186",
+          "trace": "trace/query-12/0001"
+        },
+        {
+          "challenge_id": "query-13",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101283-DOOwf0Jg3Ui4ITVwT21g",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 297,
+          "body_sha256": "0ccdc61d4f8e88d763d7fccbed8661b449ab4d1886fed9d1264ff9598ec939f5",
+          "trace": "trace/query-13/0001"
+        },
+        {
+          "challenge_id": "query-14",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101283-amXqm6g2XHsZHtEucDUw",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 315,
+          "body_sha256": "466a08f427c4f0aa1d4f7b1710786da7954f6fdc96c812764fb2cdbf00755f63",
+          "trace": "trace/query-14/0001"
+        },
+        {
+          "challenge_id": "query-15",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101289-HEThSnOgjYkkt0V0b2FP",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 330,
+          "body_sha256": "a593c003bfa05071aabfcc29fdcf6846357e5e76e4ba18df6e057414cb022a59",
+          "trace": "trace/query-15/0001"
+        },
+        {
+          "challenge_id": "query-16",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101290-ioyRWFdbjF5ogZQwH6yF",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 301,
+          "body_sha256": "3e8bdf1d852ef61b2b2890ace5c554664005855fc8d90a8d04b773e556847376",
+          "trace": "trace/query-16/0001"
+        },
+        {
+          "challenge_id": "query-17",
+          "selected_attempt": 2,
+          "response_id": "gen-1790101301-aDzwoJSZo4xf0ISeHoHX",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 317,
+          "body_sha256": "8086964dc26749f1dab233f320323be6ebdad2720fadcdede4322e621d9efdce",
+          "trace": "trace/query-17/0002"
+        },
+        {
+          "challenge_id": "query-18",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101296-NsDDxTtAD36lqYm0bmJY",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 326,
+          "body_sha256": "411e00ed31d0f36c2e9138b8a4dabf09b5ecdea85b38d0ae7dffb8da3ddbe6a7",
+          "trace": "trace/query-18/0001"
+        },
+        {
+          "challenge_id": "query-19",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101297-tKZsvEjRSNnoINDMwWjy",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 293,
+          "body_sha256": "0839b13e5dd516081d948902824b401ac73379c225c96bd13aa63ba0eb911717",
+          "trace": "trace/query-19/0001"
+        },
+        {
+          "challenge_id": "query-20",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101303-KwwM4HsYcGAFzWUGPxwk",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 310,
+          "body_sha256": "0ebdb9df4a70784810a290c5b6866776fb868a84a57219086d3ed0367aa5887a",
+          "trace": "trace/query-20/0001"
+        },
+        {
+          "challenge_id": "query-21",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101308-HQkwHaBAvMftwzOP8tUu",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 300,
+          "body_sha256": "96aec58e8e5084c07025f2256db4c5d28c70a2c3ba7f5b1a445083cbb58e036e",
+          "trace": "trace/query-21/0001"
+        },
+        {
+          "challenge_id": "query-22",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101312-l1X83qjS8AI5TiDu0tRb",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 293,
+          "body_sha256": "1808ffd91497c30c7676b6eab7c633c2c54455f886afa1eb40168edca53bf8cd",
+          "trace": "trace/query-22/0001"
+        },
+        {
+          "challenge_id": "query-23",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101316-jqelMHVfm1Wm2LGozKCz",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 314,
+          "body_sha256": "ebcd22b3ef19f678389fa5fd03f5b01843c7c5c9a4714c631fbe4a521e099d1e",
+          "trace": "trace/query-23/0001"
+        },
+        {
+          "challenge_id": "query-24",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101319-3C31ILxfjVUnPIXTDxeC",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 330,
+          "body_sha256": "dd4b511183ab80bdb539bf58c8533134b82be849e43ed3e040c284874a7dce97",
+          "trace": "trace/query-24/0001"
+        },
+        {
+          "challenge_id": "query-25",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101319-Yvq2Z24O5qmtwCdKQkdx",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 296,
+          "body_sha256": "f6aec9fa8722efbe81c292e157b68a4aeb904f7e9a5b4a8a8dc1f19a877d0a6f",
+          "trace": "trace/query-25/0001"
+        },
+        {
+          "challenge_id": "query-26",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101325-wjTJzf5IlPfBj5Os7Q0a",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 315,
+          "body_sha256": "5000fe3ac6bcc1d589b7f4550140e6baae357762cec84d875fc55a708bb32102",
+          "trace": "trace/query-26/0001"
+        },
+        {
+          "challenge_id": "query-27",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101328-lR2Lc9sMnAdd0kmIZvEg",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 331,
+          "body_sha256": "2c7d342261650125e6a60a39a69628bfe31bce24803cd2599480a3cf4ab0d9e6",
+          "trace": "trace/query-27/0001"
+        },
+        {
+          "challenge_id": "query-28",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101329-uo1VBlzDOrR8ZOcxh4Mu",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 292,
+          "body_sha256": "df087dea058c1d8c34cd73f85bee4acc760879db97e3679f5d4286e2860bc070",
+          "trace": "trace/query-28/0001"
+        },
+        {
+          "challenge_id": "query-29",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101334-sVVVzREHRvWA0SPHwURd",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 308,
+          "body_sha256": "55a0cde67c4afe3641fd2253cb2cd9ea446b518c92037c6e9f54901127a64858",
+          "trace": "trace/query-29/0001"
+        },
+        {
+          "challenge_id": "query-30",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101338-bMhZoBZ9ltQfu4NxPO13",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 323,
+          "body_sha256": "8f59cec367e12e3b1bc34029f98e9079ec73deb2585be85f60500e85ad45d6f5",
+          "trace": "trace/query-30/0001"
+        },
+        {
+          "challenge_id": "query-31",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101341-BQqAVs1DnkYMYMKy1cd0",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 300,
+          "body_sha256": "d79d310d15518e17512a1a6920d84781f78b76311d687242c6b4b56dbfbffd13",
+          "trace": "trace/query-31/0001"
+        },
+        {
+          "challenge_id": "query-32",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101345-kTjuBN0LQht2ELO6P7Dm",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 313,
+          "body_sha256": "c4799539b87561a0573261189af507db4db120caa4b289d00dfe08e91e454a5a",
+          "trace": "trace/query-32/0001"
+        },
+        {
+          "challenge_id": "query-33",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101347-XWzJ3f5uuTcLTs5yAhkY",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 385,
+          "body_sha256": "b8a6014f7f126b66d55a26276cb7ef64937e4b4a78d0bd192f5ed715a46b7632",
+          "trace": "trace/query-33/0001"
+        },
+        {
+          "challenge_id": "query-34",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101355-cmqIa1KN2moX1dYIul95",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 297,
+          "body_sha256": "a9ce967d9b31bed4ef648a2203b9b65bbacb566094b47084afa82b31ed064373",
+          "trace": "trace/query-34/0001"
+        },
+        {
+          "challenge_id": "query-35",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101355-r7ehOMt6DfHsOksbhEmX",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 314,
+          "body_sha256": "89c76cb5b3d3c48f845c14f734ea130fbe4a042785cd19e3b563a18a1ec95a4b",
+          "trace": "trace/query-35/0001"
+        },
+        {
+          "challenge_id": "query-36",
+          "selected_attempt": 1,
+          "response_id": "gen-1790101355-r5a2kwMu4G3ZvxjbdaZt",
+          "response_model": "openai/gpt-6-luna",
+          "provider": "OpenAI",
+          "parsed_count": 332,
+          "body_sha256": "7189daf3bfa9d28ba77e0ff2f460520de33e15985fb02935e1d196d86f1dfb9c",
+          "trace": "trace/query-36/0001"
+        }
+      ],
+      "raw_accepted": 36,
+      "processed_samples": 0
+    }
+  ]
+}

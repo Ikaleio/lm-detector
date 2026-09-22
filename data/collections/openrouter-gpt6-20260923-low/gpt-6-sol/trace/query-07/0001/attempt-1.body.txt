@@ -1,0 +1,944 @@
+: OPENROUTER PROCESSING
+
+: OPENROUTER PROCESSING
+
+: OPENROUTER PROCESSING
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":null,"reasoning_details":[{"type":"reasoning.encrypted","data":"gAAAAABqsscUq0QC-4AhyLTJi_ZvBr1BCXpVFd7XUYrTgeUplkvP3nGFHt5GXvQF5WktJESbV3U5_eK3CMjHCR30kIGaUHmnxK--1habXPZ667FR1sBLL17L2n5SJjGELjsJaBzbCle7JqG7EDZ9OfzEq-nsCIv4fe9nPWrMcwC98Yn_Zy2uJNcBdHIZJeZxRRaqcxoA91JwOh12HjOAePAc-hEyX1-FtzJCtboDlrAn3GwmpUF4x0p0UMXyXVOtJcScapfZmRRCzGmPxMj9JB8qpQkR-1OHaIm4NO7XVbviAV-cIghJP8H7cHdMubWGJwnvhjZ5XJdub7P_6e8b_3WrvFvScEQA7FOA-VuNJZNsIrsX_T0Z4jkEdTxdiAymfBvvo0WuoR5SQGEc6otrcSyWng4wkHylAZjD3rMHfmlT1uFaeRTUFtlFX4JtBN5YnK1FnS18JBCcnvwrSzI5dRqs8JyuiPqnis-QKUuBUJFK2Gl7pASDjN5RWcN8inm7c_5JkDOHYVf1mkgcDI47MawwXDR0z2jJq2YYSyMc613gxsbbZue3AhwyRqpTCa-LZ1yZjoAygZJnT-mSy8AJUdipokHW7kVC6PxRV3xzP4JkEzZOCW2eY9mDwn1sJaeAp0p0LXUVd0TyLdYXeGvBx2pw0NCiRLedSFgpoFaZPdgE7kkLwOvqL5o-Ugt43HcH7WlEAQixD5SkHgBkP_4IOpBwQdIdwUPzaIsgElJKH5aoizCZbp46XTDOZjqyDKfET0FjvZ24OBGwhnQ5kGZ51_I4dMTbBbzK3iEet2yrCPFn_TFRkTgyUWYtLbEwkP1_u9tr6PEZYJQhqxzlcIvMFkJG7_SY_nHec_eqfwwT5R9AXf41-0RRU9zAzCOpTtAiTRxIphr1QZVJ3AAesj5bZS4AhqnspeV8vmUv50wbuhvdSt27BmzVhLsH0PxYf6wtqa3MNkKZQIND-lcNoQq50x4xrYf6pJq7nP1bSRC9UF4dd0PavgQYMmWzc6pggvTVbtm4PXHdW3rtbupz68USkYjEC4av6SR7IO_DMZ0mHYvLtz1GWHDQYc1T7QuuAclhbSCtucwEORM-uPJ4aySZbExMu8A2hSNg_Ta-Tw2jeEO546eOIAQWOzXE1rNhmsnrj2jcWVAFdjVxnx6-BlEIJ-YtU29q9PNpMCVMjt0IPsawc1ZZR6J7C2K5gElw8huVoZDclc3_na4CkCu-Z1vhzrIvsHciGB-K3-AUVqwQyKjRrsAlGYbKf3R-qvZqo-jFvNn0K8myUeiL_HhUYjLAeFWJLTRjdcE86utVFGzoky1rsuRsB01_2hr57jF-oiInp0ufeYZ0TlasExwXlK49Q24_du3RcerJ0j24xhYO1wJkqDZuzCWQgdiRXZivt2BTML3LV7BFSkXgXVxyC8fWzJoOgRyzsrdn-dISx5IbB9WPUFfiz-womTMp9cYlruLBqkuHLaXIo3ZExRUBrbBYHpn9b0SLP1I7Len7qzok0WaKLHvktUhdFu4=.eyJlbmRwb2ludF9zbHVnIjoib3BlbmFpL2dwdC02LXNvbC0yMDI2MDkyMnxvcGVuYWkifQ","format":"openai-responses-v1","id":"rs_035fc038676fa752016ab2c713be1487d185556aa858f3caea","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"[","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"284","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"37","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"191","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"8","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"326","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"114","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"259","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"72","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"343","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"156","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"21","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"308","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"97","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"241","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"63","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"175","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"352","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"129","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"44","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"267","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"183","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"11","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"319","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"86","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"234","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"151","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"3","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"295","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"68","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"212","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"339","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"124","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"55","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"278","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"166","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"31","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"302","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"105","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"249","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"194","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"77","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"331","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"18","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"263","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"142","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"358","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"91","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"225","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"46","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"312","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"169","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"6","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"287","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"118","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"254","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"39","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"203","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"347","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"81","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"176","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"29","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"321","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"134","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"57","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"271","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"184","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"13","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"306","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"99","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"238","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"153","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"336","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"64","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"216","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"42","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"292","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"111","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"265","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"187","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"24","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"317","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"73","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"148","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"281","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"52","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"229","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"164","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"9","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"345","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"122","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"196","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"35","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"258","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"87","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"303","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"171","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"48","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"236","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"109","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"324","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"61","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"279","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"143","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"16","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"213","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"354","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"94","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"187","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"32","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"269","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"117","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"341","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"78","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"202","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"145","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"5","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"298","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"53","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"231","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"174","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"27","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"314","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"89","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"251","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"136","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"40","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"286","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"104","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"219","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"66","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"333","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"158","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"12","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"274","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"193","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"45","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"307","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"82","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"246","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"127","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"350","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"56","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"181","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"23","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"294","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"115","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"263","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"71","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"335","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"147","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"4","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"222","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"98","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"310","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"167","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"34","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"280","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"121","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"244","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"59","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"327","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"188","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"15","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"273","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"103","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"232","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"49","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"301","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"155","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"84","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"346","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"207","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"26","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"291","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"132","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"62","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"257","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"178","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"7","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"320","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"112","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"235","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"51","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"305","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"162","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"93","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"272","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"38","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"214","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"349","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"125","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"68","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"284","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"19","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"239","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"154","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"330","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"76","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"201","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"43","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"296","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"137","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"58","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"253","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"172","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"11","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"316","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"108","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"226","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"65","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"342","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"149","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"30","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"268","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"119","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"204","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"47","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"289","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"163","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"85","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"325","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"141","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"22","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"247","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"96","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"353","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"180","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"54","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"311","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"131","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"74","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":",","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"260","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"]","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":null},"finish_reason":"stop","native_finish_reason":"completed"}]}
+
+data: {"id":"gen-1790101266-5lVPInmb46ySlvtTauhQ","object":"chat.completion.chunk","created":1790101266,"model":"openai/gpt-6-sol","provider":"OpenAI","service_tier":"default","choices":[{"index":0,"delta":{"content":"","role":"assistant"},"finish_reason":"stop","native_finish_reason":"completed"}],"usage":{"prompt_tokens":213,"completion_tokens":507,"total_tokens":720,"cost":0.005496,"is_byok":false,"prompt_tokens_details":{"cached_tokens":0,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.005496,"upstream_inference_prompt_cost":0.000426,"upstream_inference_completions_cost":0.00507},"completion_tokens_details":{"reasoning_tokens":36,"image_tokens":0,"audio_tokens":0}}}
+
+data: [DONE]
+

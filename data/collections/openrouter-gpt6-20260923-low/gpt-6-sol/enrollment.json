@@ -1,0 +1,13 @@
+{
+  "schema": "fingerpoint-processed-enrollment-v1",
+  "added": 36,
+  "total": 1804,
+  "source_manifest_sha256": "619a298e217ffe77c8072f40a36a40aa3b1e83380591a27ca1aac2a029f2164e",
+  "transformation_record": "data/collections/openrouter-gpt6-20260923-low/gpt-6-sol/truncation.json",
+  "previous_reference_sha256": "5c548281afc04f33de0dbd6a960945e2e9a33b8c7544bf49381b9794791af309",
+  "reference_sha256": "95f42eaa6108b767f1ba2c9177c4e0d04845347ca7d05eaf0b68234557093a80",
+  "previous_bank_sha256": "e92676829e8d843c5164b14a992934deed2b9c78d4c6c1f3348998f0df6dcaf7",
+  "bank_sha256": "62969e2b88dbc166ac6c73fdf5c4d9793d23be1ee6467320e8f255696dde2954",
+  "created_at": "2026-09-22T18:27:50.311Z",
+  "backup_directory": "data/.enrollments/processed-5e651e53-79dd-4463-b1ac-2128248e5a87"
+}

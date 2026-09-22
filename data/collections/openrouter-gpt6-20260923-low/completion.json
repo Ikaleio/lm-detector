@@ -1,0 +1,112 @@
+{
+  "status": "complete",
+  "finished_at": "2026-09-22T18:30:08.963Z",
+  "models": 49,
+  "reference_rows": 1804,
+  "reference_sha256": "95f42eaa6108b767f1ba2c9177c4e0d04845347ca7d05eaf0b68234557093a80",
+  "training_run": "research/reports/shared-detector-training/20260922T182836327714Z",
+  "calibration_run": "research/reports/ranking-calibration/20260922T182924514643Z",
+  "holdout_before": {
+    "planned_groups": 94,
+    "complete_groups": 72,
+    "correct_complete_groups": 65,
+    "selected_confidence_binary_nll": 0.15820826730702237,
+    "selected_confidence_binary_brier": 0.052994525269262585,
+    "selected_confidence_ece": 0.05232035518282407,
+    "selected_confidence_thresholds": {
+      "0.5": {
+        "correct": 63,
+        "wrong": 5
+      },
+      "0.8": {
+        "correct": 62,
+        "wrong": 1
+      },
+      "0.9": {
+        "correct": 55,
+        "wrong": 1
+      },
+      "0.95": {
+        "correct": 52,
+        "wrong": 0
+      }
+    },
+    "verifier_scored_complete_groups": 72,
+    "verifier_correct_complete_groups": 66,
+    "verifier_top1_over_complete": 0.9166666666666666,
+    "ranking_verifier_disagreements": 2,
+    "insufficient_evidence_complete_groups": 72,
+    "evidence_supported_complete_groups": 0,
+    "supported_correct_complete_groups": 0,
+    "supported_wrong_complete_groups": 0,
+    "outside_complete_groups": 0,
+    "ambiguous_complete_groups": 0,
+    "planned_samples": 282,
+    "accepted_samples": 216,
+    "attempted_samples": 216,
+    "recorded_attempts": 321,
+    "first_pass_accepted_samples": 165,
+    "full_group_top1_over_planned": 0.6914893617021277,
+    "full_group_top1_over_complete": 0.9027777777777778,
+    "full_group_top3_over_complete": 0.9305555555555556,
+    "first_pass_ui_top1_over_planned": 0.43617021276595747,
+    "first_pass_complete_groups": 44,
+    "ui_top1_over_planned": 0.6914893617021277,
+    "family_accuracy_over_complete": 0.9166666666666666,
+    "mean_reciprocal_rank": 0.9243301464347192,
+    "mean_nll": 0.7807106594573766
+  },
+  "holdout_after": {
+    "planned_groups": 98,
+    "complete_groups": 72,
+    "correct_complete_groups": 65,
+    "selected_confidence_binary_nll": 0.16256154753304844,
+    "selected_confidence_binary_brier": 0.05466670520683428,
+    "selected_confidence_ece": 0.042802584510171604,
+    "selected_confidence_thresholds": {
+      "0.5": {
+        "correct": 64,
+        "wrong": 5
+      },
+      "0.8": {
+        "correct": 62,
+        "wrong": 2
+      },
+      "0.9": {
+        "correct": 55,
+        "wrong": 1
+      },
+      "0.95": {
+        "correct": 53,
+        "wrong": 0
+      }
+    },
+    "verifier_scored_complete_groups": 72,
+    "verifier_correct_complete_groups": 65,
+    "verifier_top1_over_complete": 0.9027777777777778,
+    "ranking_verifier_disagreements": 3,
+    "insufficient_evidence_complete_groups": 72,
+    "evidence_supported_complete_groups": 0,
+    "supported_correct_complete_groups": 0,
+    "supported_wrong_complete_groups": 0,
+    "outside_complete_groups": 0,
+    "ambiguous_complete_groups": 0,
+    "planned_samples": 294,
+    "accepted_samples": 216,
+    "attempted_samples": 216,
+    "recorded_attempts": 321,
+    "first_pass_accepted_samples": 165,
+    "full_group_top1_over_planned": 0.6632653061224489,
+    "full_group_top1_over_complete": 0.9027777777777778,
+    "full_group_top3_over_complete": 0.9305555555555556,
+    "first_pass_ui_top1_over_planned": 0.41836734693877553,
+    "first_pass_complete_groups": 44,
+    "ui_top1_over_planned": 0.6632653061224489,
+    "family_accuracy_over_complete": 0.9166666666666666,
+    "mean_reciprocal_rank": 0.9242663964602262,
+    "mean_nll": 0.8026054616707065
+  },
+  "holdout_changes": [],
+  "build_passed": true,
+  "cli_build_passed": true
+}

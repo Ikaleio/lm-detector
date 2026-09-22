@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-09-22T18:18:46.608Z",
+  "reference_sha256": "2a7dd8ca01c41ca7b45eccac66679d023446ec6a8bd3841463f003533f340261",
+  "reference_rows": 1732,
+  "request_policy": {
+    "reasoning": {
+      "effort": "low"
+    },
+    "provider": {
+      "only": [
+        "openai"
+      ],
+      "order": [
+        "openai"
+      ],
+      "allow_fallbacks": false
+    }
+  },
+  "concurrency_per_model": 3,
+  "max_attempts": 3
+}

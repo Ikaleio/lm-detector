@@ -1,0 +1,15 @@
+{
+  "manifest_sha256": "619a298e217ffe77c8072f40a36a40aa3b1e83380591a27ca1aac2a029f2164e",
+  "challenge_id": "query-01",
+  "attempt": 1,
+  "status": "failed",
+  "started_at": "2026-09-22T18:18:46.731Z",
+  "trace": "trace/query-01/0001",
+  "text": "",
+  "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "parsed_count": 0,
+  "http_status": 403,
+  "error": "HTTP 403：This model is not available in your region.",
+  "retryable": false,
+  "finished_at": "2026-09-22T18:18:47.079Z"
+}

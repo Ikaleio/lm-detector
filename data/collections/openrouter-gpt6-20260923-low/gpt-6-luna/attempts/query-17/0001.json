@@ -1,0 +1,40 @@
+{
+  "manifest_sha256": "bdb70d01b219338fb9d9eefea46119a328cbfb4a38b9ab31c92ef9b375170749",
+  "challenge_id": "query-17",
+  "attempt": 1,
+  "status": "failed",
+  "started_at": "2026-09-22T18:21:33.555Z",
+  "trace": "trace/query-17/0001",
+  "text": "[47,312,86,201,154,9,\n278,63,341,118,25,229,\n173,54,305,142,88,267,\n11,196,333,72,246,130,\n319,39,184,101,]\n\n",
+  "text_sha256": "b01301a55730a2acea8579bea5430d1cb19d0be962cf777376b2ce5ab3d1a0a0",
+  "parsed_count": 28,
+  "http_status": 200,
+  "response_model": "openai/gpt-6-luna",
+  "response_id": "gen-1790101293-4kcXgmd1SuciYIqJ0xrw",
+  "usage": {
+    "prompt_tokens": 141,
+    "completion_tokens": 621,
+    "total_tokens": 762,
+    "cost": 0.0003246,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0003246,
+      "upstream_inference_prompt_cost": 0.0000141,
+      "upstream_inference_completions_cost": 0.0003105
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 557,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "error": "有效数字不足或记录不一致：query-17",
+  "retryable": true,
+  "finished_at": "2026-09-22T18:21:40.406Z"
+}
