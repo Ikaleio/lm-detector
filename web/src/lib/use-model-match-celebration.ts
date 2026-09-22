@@ -4,7 +4,7 @@ import type { Analysis } from '@fingerpoint/shared/types'
 import { useMotionPreset } from '@/lib/motion'
 import { confidenceOf, NORMAL_CONFIDENCE_THRESHOLD } from '@/lib/result-confidence'
 
-const modelId = (model: string) => model.trim().replace(/^[^/]+\//, '')
+const modelId = (model: string) => model.trim().replace(/^[^/]+\//, '').replace(/(\d)\.(?=\d)/g, '$1-')
 
 export function useModelMatchCelebration(result: Analysis | null, selectedModel: string | null, enabled: boolean) {
   const { reduced } = useMotionPreset()
