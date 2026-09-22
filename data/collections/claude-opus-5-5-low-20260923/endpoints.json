@@ -1,0 +1,165 @@
+{
+  "fetched_at": "2026-09-22T16:40:37.335Z",
+  "status": 200,
+  "body": {
+    "data": {
+      "id": "anthropic/claude-opus-5.5",
+      "name": "Anthropic: Claude Opus 5.5",
+      "created": 1790094732,
+      "description": "Claude Opus 5.5 is Anthropic's flagship model for demanding reasoning, coding, and long-horizon agentic work, succeeding Claude Opus 5. It is particularly strong at multi-step changes in large codebases, code...",
+      "architecture": {
+        "tokenizer": "Claude",
+        "instruct_type": null,
+        "modality": "text+image+file->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "file"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "endpoints": [
+        {
+          "name": "Claude Platform on AWS | anthropic/claude-opus-5.5-20260921",
+          "model_id": "anthropic/claude-opus-5.5",
+          "model_name": "Anthropic: Claude Opus 5.5",
+          "context_length": 1000000,
+          "pricing": {
+            "prompt": "0.000004",
+            "completion": "0.00002",
+            "web_search": "0.01",
+            "input_cache_read": "0.0000002",
+            "input_cache_write": "0.000005",
+            "input_cache_write_1h": "0.000008",
+            "discount": 0
+          },
+          "provider_name": "Claude Platform on AWS",
+          "tag": "claude-on-aws",
+          "quantization": "unknown",
+          "max_completion_tokens": 128000,
+          "max_prompt_tokens": null,
+          "supported_parameters": [
+            "max_tokens",
+            "stop",
+            "reasoning",
+            "include_reasoning",
+            "tool_choice",
+            "tools",
+            "structured_outputs",
+            "response_format",
+            "verbosity",
+            "reasoning_effort"
+          ],
+          "supports_tool_choice": {
+            "none": true,
+            "auto": true,
+            "required": false,
+            "function": false
+          },
+          "status": 0,
+          "uptime_last_30m": null,
+          "uptime_last_5m": null,
+          "uptime_last_1d": null,
+          "supports_implicit_caching": false,
+          "supports_voice_cloning": false,
+          "latency_last_30m": null,
+          "throughput_last_30m": null
+        },
+        {
+          "name": "Anthropic | anthropic/claude-opus-5.5-20260921",
+          "model_id": "anthropic/claude-opus-5.5",
+          "model_name": "Anthropic: Claude Opus 5.5",
+          "context_length": 1000000,
+          "pricing": {
+            "prompt": "0.000004",
+            "completion": "0.00002",
+            "web_search": "0.01",
+            "input_cache_read": "0.0000002",
+            "input_cache_write": "0.000005",
+            "input_cache_write_1h": "0.000008",
+            "discount": 0
+          },
+          "provider_name": "Anthropic",
+          "tag": "anthropic",
+          "quantization": "unknown",
+          "max_completion_tokens": 128000,
+          "max_prompt_tokens": null,
+          "supported_parameters": [
+            "max_tokens",
+            "stop",
+            "reasoning",
+            "include_reasoning",
+            "tool_choice",
+            "tools",
+            "structured_outputs",
+            "response_format",
+            "verbosity",
+            "reasoning_effort"
+          ],
+          "supports_tool_choice": {
+            "none": true,
+            "auto": true,
+            "required": false,
+            "function": false
+          },
+          "status": 0,
+          "uptime_last_30m": null,
+          "uptime_last_5m": null,
+          "uptime_last_1d": null,
+          "supports_implicit_caching": false,
+          "supports_voice_cloning": false,
+          "latency_last_30m": null,
+          "throughput_last_30m": null
+        },
+        {
+          "name": "Anthropic | anthropic/claude-opus-5.5-20260921",
+          "model_id": "anthropic/claude-opus-5.5",
+          "model_name": "Anthropic: Claude Opus 5.5",
+          "context_length": 1000000,
+          "pricing": {
+            "prompt": "0.000008",
+            "completion": "0.00004",
+            "web_search": "0.01",
+            "input_cache_read": "0.0000004",
+            "input_cache_write": "0.00001",
+            "input_cache_write_1h": "0.000016",
+            "discount": 0
+          },
+          "provider_name": "Anthropic",
+          "tag": "anthropic/fast",
+          "quantization": "unknown",
+          "max_completion_tokens": 128000,
+          "max_prompt_tokens": null,
+          "supported_parameters": [
+            "max_tokens",
+            "stop",
+            "reasoning",
+            "include_reasoning",
+            "tool_choice",
+            "tools",
+            "structured_outputs",
+            "response_format",
+            "verbosity",
+            "reasoning_effort"
+          ],
+          "supports_tool_choice": {
+            "none": true,
+            "auto": true,
+            "required": false,
+            "function": false
+          },
+          "status": 0,
+          "uptime_last_30m": null,
+          "uptime_last_5m": null,
+          "uptime_last_1d": null,
+          "supports_implicit_caching": false,
+          "supports_voice_cloning": false,
+          "latency_last_30m": null,
+          "throughput_last_30m": null
+        }
+      ]
+    }
+  }
+}

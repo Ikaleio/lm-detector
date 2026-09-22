@@ -1,9 +1,9 @@
 {
   "policy": "Only original ModelTrace data and user-designated API channels are trusted. Provider attribution is user-designated, not independently verified upstream identity.",
-  "rows": 1696,
+  "rows": 1732,
   "sources": {
     "original": 432,
-    "openrouter": 1192,
+    "openrouter": 1228,
     "api": 72
   },
   "models": {
@@ -52,7 +52,8 @@
     "mimo-v2.5-pro": 36,
     "mimo-v2.6-flash": 36,
     "mimo-v2.6-pro": 36,
-    "step-5-preview": 36
+    "step-5-preview": 36,
+    "claude-opus-5-5": 36
   },
   "batches": [
     {
@@ -642,6 +643,31 @@
       "manifest_sha256": "4ed1a73c6ea527b9887bb7f0e1d94486d1ef6d1a2e76c94dad3d3fa65af23145",
       "reasoning_effort": "low",
       "selection_file": "data/collections/step-5-preview-20260922/enrollment-selections.json"
+    },
+    {
+      "id": "4ca0f492-bd38-470a-b6da-f7f10680797f",
+      "kind": "openrouter",
+      "accepted": 36,
+      "model_id": "claude-opus-5-5",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "anthropic"
+        ],
+        "order": [
+          "anthropic"
+        ],
+        "allow_fallbacks": false,
+        "require_parameters": true
+      },
+      "reasoning": {
+        "effort": "low"
+      },
+      "verified_provider": "Anthropic",
+      "verified_model": "anthropic/claude-opus-5.5-20260921",
+      "manifest_sha256": "5df71e18b97c4cd88fbdc910fa511127be2b9de399472e30070d96b6339b131f",
+      "attempts_file": "data/collections/claude-opus-5-5-low-20260923/attempts.jsonl",
+      "generation_metadata_file": "data/collections/claude-opus-5-5-low-20260923/source-verification.json"
     }
   ],
   "excluded_sources": [
@@ -651,5 +677,5 @@
     "sqface",
     "manual pasted outputs"
   ],
-  "reference_sha256": "dc2a7726606a7a9e4fd2685a296a79f22f67fe2682ae46098cd81c7ffb517650"
+  "reference_sha256": "2a7dd8ca01c41ca7b45eccac66679d023446ec6a8bd3841463f003533f340261"
 }
