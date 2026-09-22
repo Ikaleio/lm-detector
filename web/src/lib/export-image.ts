@@ -1,8 +1,6 @@
 import type { Analysis } from '@fingerpoint/shared/types'
 import type { I18n } from '@/i18n'
-
-export const confidenceOf = (r: { verification_confidence?: number | null; probability?: number | null }) =>
-  r.verification_confidence ?? r.probability ?? null
+import { confidenceOf } from '@/lib/result-confidence'
 
 export const isUncertain = (result: Analysis) =>
   confidenceOf(result.results[0] ?? {}) === null

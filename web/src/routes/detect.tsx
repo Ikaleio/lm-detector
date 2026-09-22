@@ -17,6 +17,7 @@ import { configComplete, useApiConfig, type WebApiConfig } from '@/lib/config'
 import { describeError } from '@/lib/errors'
 import { exportResultImage } from '@/lib/export-image'
 import { useMotionPreset } from '@/lib/motion'
+import { useModelMatchCelebration } from '@/lib/use-model-match-celebration'
 import { cn } from '@/lib/utils'
 import type { Analysis, Challenge, CodedError, CollectionProgress } from '@fingerpoint/shared/types'
 import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
@@ -52,6 +53,7 @@ export default function DetectRoute() {
   const [samples, setSamples] = useState<SampleUI[]>(() => [idle(), idle(), idle()])
   const [phase, setPhase] = useState<Phase>('edit')
   const [result, setResult] = useState<Analysis | null>(null)
+  const [resultModel, setResultModel] = useState<string | null>(null)
   const [expanded, setExpanded] = useState<number | null>(null)
   const [errorDetail, setErrorDetail] = useState<string | null>(null)
   const [config, update] = useApiConfig(() => toast.error(t('errors.unknown')))
@@ -75,6 +77,7 @@ export default function DetectRoute() {
   const filled = samples.filter(s => s.text.trim()).length
   const locked = phase === 'sampling' || phase === 'computing'
   const canSample = configComplete(config) && !locked
+  useModelMatchCelebration(result, resultModel, active && mode === 'api' && phase === 'result')
 
   function replaceSamples(next: SampleUI[]) {
     samplesRef.current = next
@@ -185,6 +188,7 @@ export default function DetectRoute() {
       const analysis = await client.analyze(outputs, bank)
       if (!mounted.current || activeRun.current !== run) return
       resultRef.current = analysis
+      setResultModel(mode === 'api' ? config.model : null)
       setResult(analysis)
       setPhase('result')
     } catch (error) {

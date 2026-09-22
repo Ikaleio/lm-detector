@@ -5,7 +5,7 @@ import { Alert, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/i18n'
 import { listItem, listStagger, spring as motionSpring, useMotionPreset } from '@/lib/motion'
-import { confidenceOf } from '@/lib/export-image'
+import { confidenceOf, NORMAL_CONFIDENCE_THRESHOLD } from '@/lib/result-confidence'
 import type { Analysis } from '@fingerpoint/shared/types'
 
 const VISIBLE = 8
@@ -38,7 +38,7 @@ export function ResultPanel({ result }: { result: Analysis }) {
   const unscorable = result.decision === 'unscorable' || result.results.length === 0
   const top = result.results[0]
   const topConfidence = top ? confidenceOf(top) : null
-  const lowConfidence = !unscorable && topConfidence !== null && topConfidence < 0.75
+  const lowConfidence = !unscorable && topConfidence !== null && topConfidence < NORMAL_CONFIDENCE_THRESHOLD
   const hasScores = result.results.some(r => confidenceOf(r) !== null)
   const rows = all ? result.results : result.results.slice(0, VISIBLE)
 
