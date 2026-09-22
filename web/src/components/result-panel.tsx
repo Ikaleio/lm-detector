@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { motion, useMotionValueEvent, useSpring } from 'framer-motion'
+import { TriangleAlert } from 'lucide-react'
+import { Alert, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/i18n'
 import { listItem, listStagger, spring as motionSpring, useMotionPreset } from '@/lib/motion'
-import { confidenceOf, isUncertain } from '@/lib/export-image'
-import { cn } from '@/lib/utils'
+import { confidenceOf } from '@/lib/export-image'
 import type { Analysis } from '@fingerpoint/shared/types'
 
 const VISIBLE = 8
@@ -35,9 +36,10 @@ export function ResultPanel({ result }: { result: Analysis }) {
   const [all, setAll] = useState(false)
   const { reduced } = useMotionPreset()
   const unscorable = result.decision === 'unscorable' || result.results.length === 0
-  const uncertain = !unscorable && isUncertain(result)
   const top = result.results[0]
   const topConfidence = top ? confidenceOf(top) : null
+  const lowConfidence = !unscorable && topConfidence !== null && topConfidence < 0.75
+  const hasScores = result.results.some(r => confidenceOf(r) !== null)
   const rows = all ? result.results : result.results.slice(0, VISIBLE)
 
   return (
@@ -52,32 +54,40 @@ export function ResultPanel({ result }: { result: Analysis }) {
           </>
         ) : (
           <>
-            <span className="text-meta text-muted-foreground">{t(uncertain ? 'detect.topUncertain' : 'detect.topLabel')}</span>
+            <span className="text-meta text-muted-foreground">{t('detect.topLabel')}</span>
             <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-              <span className={cn('text-display min-w-0 [overflow-wrap:anywhere]', uncertain && 'text-muted-foreground')}>{top.display_name}</span>
-              {topConfidence !== null && (
-                <div className="ml-auto flex shrink-0 flex-col items-end gap-1 text-right">
-                  <AnimatedPercent value={topConfidence} className={cn('text-display-number', uncertain && 'text-muted-foreground')} />
-                  <span className="text-meta text-muted-foreground">{t('detect.scoreLabel')}</span>
-                </div>
-              )}
+              <span className="text-display min-w-0 [overflow-wrap:anywhere]">{top.display_name}</span>
+              <div className="ml-auto flex shrink-0 flex-col items-end gap-1 text-right">
+                {topConfidence === null
+                  ? <span className="text-body text-muted-foreground">{t('detect.scoreUnavailable')}</span>
+                  : <AnimatedPercent value={topConfidence} className="text-display-number" />}
+                <span className="text-meta text-muted-foreground">{t('detect.scoreLabel')}</span>
+              </div>
             </div>
             {top.family_name && <span className="text-body text-muted-foreground">{top.family_name}</span>}
           </>
         )}
       </div>
+      {lowConfidence && (
+        <Alert variant="warning" className="p-4">
+          <TriangleAlert aria-hidden="true" />
+          <AlertTitle>{t('detect.lowConfidence')}</AlertTitle>
+        </Alert>
+      )}
       {!unscorable && <p className="text-body text-muted-foreground">{result.used_outputs < 3 ? t('detect.partialNote', { n: result.used_outputs }) : t('detect.rankingNote')}</p>}
       {!unscorable && (
         <motion.ol className="fp-card px-4" variants={reduced ? undefined : listStagger} initial={reduced ? false : 'hidden'} animate="show" aria-label={t('detect.result')}>
           {rows.map((r, i) => {
             const v = confidenceOf(r)
             return (
-              <motion.li key={r.model} className="fp-result-row text-body" variants={!reduced && i < VISIBLE ? listItem : undefined}>
+              <motion.li key={r.model} className="fp-result-row text-body" data-unscored={!hasScores || undefined} variants={!reduced && i < VISIBLE ? listItem : undefined}>
                 <span className="text-muted-foreground">{i + 1}</span>
                 <span className="fp-result-name min-w-0 break-words font-medium">{r.display_name}</span>
                 <span className="fp-result-family truncate text-muted-foreground">{r.family_name}</span>
-                <ConfidenceBar value={v} />
-                <span className="fp-result-percent text-right" aria-label={t('detect.confidence')}>{v === null ? '—' : percent(v)}</span>
+                {hasScores && <>
+                  <ConfidenceBar value={v} />
+                  <span className="fp-result-percent text-right" aria-label={t('detect.confidence')}>{v === null ? '—' : percent(v)}</span>
+                </>}
               </motion.li>
             )
           })}
