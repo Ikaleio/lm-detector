@@ -1,7 +1,7 @@
 ---
 name: fingerpoint-design
 description: 用于 Fingerpoint 的三样本检测、API 配置、候选结果、图片导出和只读样本库。服务需要比较 LLM 指纹的用户，支持简体中文和英文、浅色和深色主题。
-version: 2026-09-22.3
+version: 2026-09-22.4
 ---
 
 # Fingerpoint design.md
@@ -32,7 +32,7 @@ version: 2026-09-22.3
 ### 应用外壳
 
 - 桌面顶栏高 56px；左侧站名，中间“检测 / 样本库”，右侧语言和主题切换。640px 以下使用 88px 双行顶栏，将主导航排在第二行。
-- 左上标识使用两行：`Figerpoint Detector` 使用 `--font-brand-title`、20px 思源宋体标题；`by Ikaleio` 使用 `--font-brand-byline`、14px 思源黑体正文。（来源：2026-09-22 用户要求。）
+- 左上标识使用两行：`Figerpoint Detector` 使用 `--font-brand-title`、14px、500 字重、1.25 行高；`by Ikaleio` 使用 `--font-brand-byline`、12px、400 字重、16px 行高，颜色为前景色的 70% 不透明度。（来源：2026-09-22 用户指定 FisProxy 截图，参数取自其品牌标识实现。）
 - 主题菜单提供“浅色 / 深色 / 跟随系统”，用单选标记显示当前选择；默认跟随系统。
 - 保存手动选择；选择“跟随系统”后实时响应系统外观变化。切换主题不清除检测内容。
 - 当前导航用顶栏内独立的下划线表示，只在导航容器内横向移动，不参与页面滚动坐标或共享 layoutId。
@@ -140,7 +140,7 @@ version: 2026-09-22.3
 ### 字体与颜色
 
 - 使用 `src/index.css` 的 Geist Variable 和 CJK 系统回退。接口、Key 和 ID 输入可用 `--font-mono`。
-- 标识标题使用 `--font-brand-title`（思源宋体 Regular）；署名使用 `--font-brand-byline`（思源黑体 Regular）。两个英文标识使用 `src/assets/fonts/` 中的本地 WOFF2 拉丁字符子集，随站点构建加载。来源、版本和许可见该目录的 `README.md`。
+- 标识标题使用 `--font-brand-title`（Noto Serif SC）；署名使用 `--font-brand-byline`（Noto Sans SC），与参考的 FisProxy 标识一致。`src/index.css` 从 `@fontsource-variable/noto-serif-sc` 和 `@fontsource-variable/noto-sans-sc` 包引用英文标识所需的 Latin WOFF2 文件，随站点构建加载。
 - 正文与控件使用 `text-body` 或组件的 `text-sm`。移动输入框使用 1rem，避免浏览器自动缩放。
 - `text-meta` 只承载数量、日期等次要内容，不承载主要操作和限制说明。
 - 数值统一使用 tabular-nums；百分比保留一位小数。
