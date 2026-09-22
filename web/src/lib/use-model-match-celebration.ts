@@ -20,15 +20,16 @@ export function useModelMatchCelebration(result: Analysis | null, selectedModel:
     if (!top || confidence === null || !Number.isFinite(confidence) || confidence < NORMAL_CONFIDENCE_THRESHOLD) return
     if (!modelId(selectedModel) || modelId(top.model) !== modelId(selectedModel)) return
 
-    const width = document.documentElement.clientWidth
+    const reach = document.documentElement.clientWidth * 0.75
     const rise = document.documentElement.clientHeight * 0.6
-    const angle = Math.atan2(rise, width) * 180 / Math.PI
+    const decay = 0.94
+    const angle = Math.atan2(rise, reach) * 180 / Math.PI
     const fire = confetti.create(undefined, { resize: true, disableForReducedMotion: true })
     const options = {
       particleCount: 220,
       spread: 32,
-      startVelocity: Math.hypot(width, rise) * 0.1,
-      decay: 0.94,
+      startVelocity: Math.hypot(reach, rise) * (1 - decay),
+      decay,
       gravity: 0.9,
       ticks: 240,
     }
