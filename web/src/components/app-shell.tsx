@@ -100,7 +100,7 @@ export function AppShell({ detect }: { detect: ReactNode }) {
     return () => observer.disconnect()
   }, [pathname, t])
   useEffect(() => {
-    document.title = `${t(pathname.startsWith('/library') ? 'library.title' : 'detect.title')} · Fingerpoint`
+    document.title = `${t(pathname.startsWith('/library') ? 'library.title' : 'detect.title')} · ${t('app.name')}`
   }, [pathname, t])
   const links = [
     { to: '/', label: t('app.detect'), end: true },
@@ -133,7 +133,10 @@ export function AppShell({ detect }: { detect: ReactNode }) {
     <div className="fp-shell" data-detect-active={pathname === '/'}>
       <header className="fp-topbar">
         <div className="fp-topbar-inner">
-          <NavLink to="/" onClick={event => navigatePage(event, '/')} className="text-card-title justify-self-start">{t('app.name')}</NavLink>
+          <NavLink to="/" onClick={event => navigatePage(event, '/')} className="fp-brand">
+            <span className="fp-brand-title">{t('app.name')}</span>
+            <span className="fp-brand-byline">by Ikaleio</span>
+          </NavLink>
           <nav ref={navRef} className="fp-nav" aria-label={t('app.navigation')}>
             {links.map(link => (
               <NavLink key={link.to} to={link.to} end={link.end} onClick={event => navigatePage(event, link.to)}>
@@ -142,7 +145,7 @@ export function AppShell({ detect }: { detect: ReactNode }) {
             ))}
             {indicator && <motion.span aria-hidden="true" className="fp-nav-indicator" initial={false} animate={indicator} transition={reduced ? { duration: 0 } : smooth} />}
           </nav>
-          <div className="flex items-center gap-1 justify-self-end">
+          <div className="fp-topbar-actions flex items-center gap-1 justify-self-end">
             <LanguageToggle />
             <ThemeToggle />
           </div>

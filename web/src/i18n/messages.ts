@@ -1,6 +1,6 @@
 export const zh = {
   app: {
-    name: 'Fingerpoint',
+    name: 'Figerpoint Detector',
     detect: '检测',
     library: '样本库',
     toggleTheme: '切换主题，当前：{theme}',
@@ -68,6 +68,8 @@ export const zh = {
     restart: '重新检测',
     result: '结果',
     scoreLabel: '检验分数',
+    resultSourceBefore: '检测结果由 ',
+    resultSourceAfter: ' 提供',
     scoreUnavailable: '暂不可用',
     lowConfidence: '置信度不足：似乎无法辨认生成该样本的模型',
     topLabel: '排名第一的库内候选',
@@ -200,7 +202,7 @@ export type Messages = typeof zh
 
 export const en: Messages = {
   app: {
-    name: 'Fingerpoint',
+    name: 'Figerpoint Detector',
     detect: 'Detect',
     library: 'Library',
     toggleTheme: 'Change theme, current: {theme}',
@@ -268,6 +270,8 @@ export const en: Messages = {
     restart: 'Start over',
     result: 'Result',
     scoreLabel: 'Verification score',
+    resultSourceBefore: 'Results provided by ',
+    resultSourceAfter: '',
     scoreUnavailable: 'Unavailable',
     lowConfidence: 'Low confidence: the model that generated this sample could not be reliably identified.',
     topLabel: 'Top-ranked library candidate',

@@ -53,19 +53,22 @@ export function ResultPanel({ result }: { result: Analysis }) {
             <span className="text-body text-muted-foreground">{t('detect.unscorableBody', { used: result.used_outputs })}</span>
           </>
         ) : (
-          <>
-            <span className="text-meta text-muted-foreground">{t('detect.topLabel')}</span>
-            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-              <span className="text-display min-w-0 [overflow-wrap:anywhere]">{top.display_name}</span>
-              <div className="ml-auto flex shrink-0 flex-col items-end gap-1 text-right">
-                {topConfidence === null
-                  ? <span className="text-body text-muted-foreground">{t('detect.scoreUnavailable')}</span>
-                  : <AnimatedPercent value={topConfidence} className="text-display-number" />}
-                <span className="text-meta text-muted-foreground">{t('detect.scoreLabel')}</span>
-              </div>
+          <div className="fp-result-summary">
+            <div className="flex min-w-0 flex-col gap-1">
+              <span className="text-meta text-muted-foreground">{t('detect.topLabel')}</span>
+              <span className="text-display [overflow-wrap:anywhere]">{top.display_name}</span>
+              {top.family_name && <span className="text-body text-muted-foreground">{top.family_name}</span>}
             </div>
-            {top.family_name && <span className="text-body text-muted-foreground">{top.family_name}</span>}
-          </>
+            <div className="fp-result-score flex flex-col items-end gap-1 text-right">
+              {topConfidence === null
+                ? <span className="text-body text-muted-foreground">{t('detect.scoreUnavailable')}</span>
+                : <AnimatedPercent value={topConfidence} className="text-display-number" />}
+              <span className="text-meta text-muted-foreground">{t('detect.scoreLabel')}</span>
+              <span className="text-meta text-muted-foreground">
+                {t('detect.resultSourceBefore')}<span className="fp-mono">lm.ikale.io</span>{t('detect.resultSourceAfter')}
+              </span>
+            </div>
+          </div>
         )}
       </div>
       {lowConfidence && (
