@@ -1,0 +1,109 @@
+{
+  "authorization": {
+    "instruction": "直接把截断后的塞进去吧",
+    "received_on": "2026-09-22",
+    "scope": "Only the four still-missing MiMo v2.6 Pro challenges; retain successful selections and all original failed attempts."
+  },
+  "selected": [
+    {
+      "challenge_id": "query-12",
+      "directory": "mimo-v2.6-pro-length-v1",
+      "attempt": 1,
+      "cumulative_attempt": 2,
+      "manifest_sha256": "1c2e8aa69105a289573eb8df9ff92c9b770eb3a401dc2dead4db027743413805",
+      "prompt_revision": "length-v1",
+      "generation_id": "gen-1790071412-3gR82sGFeBuu73mdIyds",
+      "response_model": "xiaomi/mimo-v2.6-pro",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-pro-20260921",
+      "finish_reason": "length",
+      "parsed_count": 2208,
+      "expected_count": 329,
+      "source_attempt_status": "failed",
+      "raw_response_sha256": "f45a0c585f4d0bc4ee67396b246f23938918cd828135e577db813c1ab1d3a60d",
+      "text_sha256": "2504557eeee66b47a31350e74656f8e75efb8d3c26437a6a6ac033d3f4aac2f6",
+      "total_cost": 0.007218825,
+      "generation_metadata_file": "/Users/ikaleio/Projects/lm-fingerpoint-detector/projects/data/collections/openrouter-20260922/mimo-v2.6-pro-length-v1/generations/query-12-1-truncated.json",
+      "authorization": {
+        "instruction": "直接把截断后的塞进去吧",
+        "received_on": "2026-09-22",
+        "scope": "Only the four still-missing MiMo v2.6 Pro challenges; retain successful selections and all original failed attempts."
+      }
+    },
+    {
+      "challenge_id": "query-13",
+      "directory": "mimo-v2.6-pro-length-v1",
+      "attempt": 1,
+      "cumulative_attempt": 2,
+      "manifest_sha256": "1c2e8aa69105a289573eb8df9ff92c9b770eb3a401dc2dead4db027743413805",
+      "prompt_revision": "length-v1",
+      "generation_id": "gen-1790071412-bVbngrD7cNOrAP2sbM1y",
+      "response_model": "xiaomi/mimo-v2.6-pro",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-pro-20260921",
+      "finish_reason": "length",
+      "parsed_count": 2264,
+      "expected_count": 297,
+      "source_attempt_status": "failed",
+      "raw_response_sha256": "0fe9ef621c720718ae2473ec4dd469fb9ca47e5505c82402cd9520b504e684b8",
+      "text_sha256": "519ee02f7ea7394b0756ed60c4e2c1f9441767f942fca79cf9d892195f90df20",
+      "total_cost": 0.00721317,
+      "generation_metadata_file": "/Users/ikaleio/Projects/lm-fingerpoint-detector/projects/data/collections/openrouter-20260922/mimo-v2.6-pro-length-v1/generations/query-13-1-truncated.json",
+      "authorization": {
+        "instruction": "直接把截断后的塞进去吧",
+        "received_on": "2026-09-22",
+        "scope": "Only the four still-missing MiMo v2.6 Pro challenges; retain successful selections and all original failed attempts."
+      }
+    },
+    {
+      "challenge_id": "query-15",
+      "directory": "mimo-v2.6-pro",
+      "attempt": 1,
+      "cumulative_attempt": 1,
+      "manifest_sha256": "43774ca8aa38050276eaaa134a11823d2708d342c006ca2b9c06758d4fe26704",
+      "prompt_revision": "original",
+      "generation_id": "gen-1790070980-9UPqnEsmLbhGxdAi96UE",
+      "response_model": "xiaomi/mimo-v2.6-pro",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-pro-20260921",
+      "finish_reason": "length",
+      "parsed_count": 1755,
+      "expected_count": 331,
+      "source_attempt_status": "failed",
+      "raw_response_sha256": "4fc0494c15c694a762f437b961138fc3c75dbac2b3f5178ccc70d64af6f8fd00",
+      "text_sha256": "7309d4343cef534aa76928a21da5b91e08ac256dcfddc11868d20ffa3c587b12",
+      "total_cost": 0.007194465,
+      "generation_metadata_file": "/Users/ikaleio/Projects/lm-fingerpoint-detector/projects/data/collections/openrouter-20260922/mimo-v2.6-pro/generations/query-15-1-truncated.json",
+      "authorization": {
+        "instruction": "直接把截断后的塞进去吧",
+        "received_on": "2026-09-22",
+        "scope": "Only the four still-missing MiMo v2.6 Pro challenges; retain successful selections and all original failed attempts."
+      }
+    },
+    {
+      "challenge_id": "query-20",
+      "directory": "mimo-v2.6-pro",
+      "attempt": 1,
+      "cumulative_attempt": 1,
+      "manifest_sha256": "43774ca8aa38050276eaaa134a11823d2708d342c006ca2b9c06758d4fe26704",
+      "prompt_revision": "original",
+      "generation_id": "gen-1790070980-EIIzXXi9hPUMny6Ya0TE",
+      "response_model": "xiaomi/mimo-v2.6-pro",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-pro-20260921",
+      "finish_reason": "length",
+      "parsed_count": 2221,
+      "expected_count": 310,
+      "source_attempt_status": "failed",
+      "raw_response_sha256": "37979e9648e253c73ff63f58b3c10f951e4cfc68b640a3d8cb7db33be6ef8afb",
+      "text_sha256": "0eb91f9a66e0f9b4e3dffce2e5dda735dc7c0403a4e89ddafa395f40cb2273d7",
+      "total_cost": 0.007259715,
+      "generation_metadata_file": "/Users/ikaleio/Projects/lm-fingerpoint-detector/projects/data/collections/openrouter-20260922/mimo-v2.6-pro/generations/query-20-1-truncated.json",
+      "authorization": {
+        "instruction": "直接把截断后的塞进去吧",
+        "received_on": "2026-09-22",
+        "scope": "Only the four still-missing MiMo v2.6 Pro challenges; retain successful selections and all original failed attempts."
+      }
+    }
+  ]
+}

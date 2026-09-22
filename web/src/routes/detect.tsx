@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router'
+import { useLocation, useSearchParams } from 'react-router'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Loader2, MoreVertical, Settings2 } from 'lucide-react'
+import { Loader2, MoreVertical } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { ApiConfigSheet, Segmented } from '@/components/api-config-sheet'
-import { useLoadedBank } from '@/components/app-shell'
+import { ApiConfigPanel } from '@/components/api-config-panel'
+import { Segmented } from '@/components/segmented'
+import { useLoadedBank } from '@/lib/bank-context'
 import { ResultPanel } from '@/components/result-panel'
 import { SampleCard, SampleStrip, isBusyState, type Mode, type SampleUI } from '@/components/sample-card'
 import { useI18n } from '@/i18n'
@@ -37,20 +38,25 @@ export default function DetectRoute() {
   const bank = useLoadedBank()
   const i18n = useI18n()
   const { t } = i18n
-  const { smooth } = useMotionPreset()
+  const { snappy, reduced } = useMotionPreset()
+  const active = useLocation().pathname === '/'
   const [params, setParams] = useSearchParams()
-  const mode: Mode = params.get('mode') === 'api' ? 'api' : 'manual'
-  const setMode = (m: Mode) => setParams(m === 'api' ? { mode: 'api' } : {}, { replace: true })
+  const [mode, setMode] = useState<Mode>(() => params.get('mode') === 'api' ? 'api' : 'manual')
+  useEffect(() => {
+    if (active && (params.get('mode') === 'api') !== (mode === 'api')) {
+      setParams(mode === 'api' ? { mode: 'api' } : {}, { replace: true })
+    }
+  }, [active, mode, params, setParams])
 
   const [challenges, setChallenges] = useState<Challenge[]>(() => client.generateChallenges(3))
   const [samples, setSamples] = useState<SampleUI[]>(() => [idle(), idle(), idle()])
   const [phase, setPhase] = useState<Phase>('edit')
   const [result, setResult] = useState<Analysis | null>(null)
   const [expanded, setExpanded] = useState<number | null>(null)
-  const [sheetOpen, setSheetOpen] = useState(false)
-  const [restartOpen, setRestartOpen] = useState(false)
   const [errorDetail, setErrorDetail] = useState<string | null>(null)
   const [config, update] = useApiConfig(() => toast.error(t('errors.unknown')))
+  const [apiConfigOpen, setApiConfigOpen] = useState(() => !configComplete(config))
+  const apiConfigRef = useRef<HTMLDivElement>(null)
   const activeRun = useRef<Run | null>(null)
   const mounted = useRef(true)
   const samplesRef = useRef(samples)
@@ -95,9 +101,24 @@ export default function DetectRoute() {
     setPhase(resultRef.current ? 'result' : 'edit')
   }
 
+  useEffect(() => {
+    if (!active) {
+      stop()
+      setErrorDetail(null)
+    }
+  }, [active])
+
   async function sampleIndexes(indexes: number[], requestConfig: WebApiConfig = config) {
     if (!indexes.length || activeRun.current || !mounted.current) return
-    if (!configComplete(requestConfig)) { setSheetOpen(true); return }
+    if (!configComplete(requestConfig)) {
+      setApiConfigOpen(true)
+      requestAnimationFrame(() => {
+        const inputs = apiConfigRef.current?.querySelectorAll<HTMLInputElement>('[data-api-required]')
+        Array.from(inputs ?? []).find(input => !input.value.trim())?.focus()
+      })
+      toast.error(t('api.incomplete'))
+      return
+    }
     const frozenConfig = { ...requestConfig, parallel: indexes.length > 1 && (requestConfig.parallel ?? false) }
     const run: Run = { controller: new AbortController(), indexes: [...indexes] }
     activeRun.current = run
@@ -154,7 +175,7 @@ export default function DetectRoute() {
   }
 
   async function verify() {
-    if (activeRun.current || !mounted.current || samplesRef.current.some(sample => !sample.text.trim())) return
+    if (activeRun.current || !mounted.current || !samplesRef.current.some(sample => sample.text.trim())) return
     const run: Run = { controller: new AbortController(), indexes: [] }
     activeRun.current = run
     const outputs = samplesRef.current.map((sample, i) => ({ text: sample.text, expected_count: challenges[i].expected_count }))
@@ -183,7 +204,6 @@ export default function DetectRoute() {
     clearResult()
     setExpanded(null)
     setPhase('edit')
-    setRestartOpen(false)
   }
 
   function edit(i: number, text: string) {
@@ -202,49 +222,71 @@ export default function DetectRoute() {
   const emptyIndexes = samples.map((s, i) => (s.text.trim() ? -1 : i)).filter(i => i >= 0)
   const showStrip = phase === 'computing' || phase === 'result'
 
+  function collapseSample(index: number) {
+    setExpanded(null)
+    document.getElementById(`sample-trigger-${index}`)?.focus({ preventScroll: true })
+  }
+
+  function renderSample(index: number, collapsible = false) {
+    return <SampleCard
+      key={challenges[index].id}
+      index={index}
+      challenge={challenges[index]}
+      sample={samples[index]}
+      mode={mode}
+      canSample={canSample}
+      locked={locked}
+      onChange={text => edit(index, text)}
+      onResample={() => sampleIndexes([index], sampledConfigs.current[index] ?? config)}
+      onStop={stop}
+      onShowError={() => setErrorDetail(samples[index].errorText ?? null)}
+      onCollapse={collapsible ? () => collapseSample(index) : undefined}
+    />
+  }
+
   return (
     <div className={cn('fp-page', 'has-actionbar')}>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-h1">{t('detect.title')}</h1>
-        <div className="flex items-center gap-2">
-          <Segmented label={t('detect.modeLabel')} value={mode} onChange={m => { if (!activeRun.current) setMode(m) }} disabled={locked} options={[{ value: 'manual', label: t('detect.modeManual') }, { value: 'api', label: t('detect.modeApi') }]} />
-          <Button variant="outline" className="h-9" onClick={() => setSheetOpen(true)}>
-            <Settings2 data-icon="inline-start" />
-            {t('detect.apiSettings')}
-          </Button>
-        </div>
+        <Segmented label={t('detect.modeLabel')} value={mode} onChange={m => { if (!activeRun.current) setMode(m) }} disabled={locked} options={[{ value: 'manual', label: t('detect.modeManual') }, { value: 'api', label: t('detect.modeApi') }]} />
       </div>
+
+      <AnimatePresence initial={false}>
+        {mode === 'api' && <motion.div
+          key="api-configuration"
+          initial={{ height: 0, opacity: 0, marginBottom: -24 }}
+          animate={{ height: 'auto', opacity: 1, marginBottom: 0 }}
+          exit={{ height: 0, opacity: 0, marginBottom: -24 }}
+          transition={snappy}
+          className="shrink-0 overflow-hidden"
+        >
+          <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} disabled={locked} />
+        </motion.div>}
+      </AnimatePresence>
 
       <section className="flex flex-col gap-4" aria-label={t('detect.samples')}>
         {showStrip && <SampleStrip samples={samples} challenges={challenges} expanded={expanded} onToggle={i => setExpanded(e => (e === i ? null : i))} />}
-        <div className={cn('fp-grid-samples', showStrip && 'is-result')}>
-          <AnimatePresence initial={false} mode="popLayout">
-            {challenges.map((challenge, i) =>
-              !showStrip || expanded === i ? (
-                <SampleCard
-                  key={challenge.id}
-                  index={i}
-                  challenge={challenge}
-                  sample={samples[i]}
-                  mode={mode}
-                  canSample={canSample}
-                  locked={locked}
-                  onChange={text => edit(i, text)}
-                  onResample={() => sampleIndexes([i], sampledConfigs.current[i] ?? config)}
-                  onStop={stop}
-                  onShowError={() => setErrorDetail(samples[i].errorText ?? null)}
-                />
-              ) : null,
-            )}
+        {showStrip ? (
+          <AnimatePresence initial={false}>
+            {expanded !== null && <motion.div
+              key="sample-details"
+              initial={{ height: 0, opacity: 0, marginTop: -16 }}
+              animate={{ height: 'auto', opacity: 1, marginTop: 0 }}
+              exit={{ height: 0, opacity: 0, marginTop: -16 }}
+              transition={reduced ? { duration: 0 } : snappy}
+              className="overflow-hidden"
+            >
+              {renderSample(expanded, true)}
+            </motion.div>}
           </AnimatePresence>
-        </div>
+        ) : <div className="fp-grid-samples">{challenges.map((_, index) => renderSample(index))}</div>}
       </section>
 
       {phase === 'computing' && (
-        <motion.div layout transition={smooth} className="flex h-12 items-center gap-2 text-body text-muted-foreground" role="status">
+        <div className="flex h-12 items-center gap-2 text-body text-muted-foreground" role="status">
           <Loader2 className="size-4 animate-spin" />
           {t('detect.computing')}
-        </motion.div>
+        </div>
       )}
       {phase === 'result' && result && <ResultPanel result={result} />}
 
@@ -255,8 +297,8 @@ export default function DetectRoute() {
               <DropdownMenuTrigger render={<Button variant="ghost" size="icon-lg" aria-label={t('detect.more')} />}><MoreVertical /></DropdownMenuTrigger>
               <DropdownMenuContent align="end"><DropdownMenuGroup><DropdownMenuItem onClick={() => client.exportAnalysis(result)}>{t('detect.exportJson')}</DropdownMenuItem></DropdownMenuGroup></DropdownMenuContent>
             </DropdownMenu>}
-            <Button variant="outline" className="h-9" onClick={() => setRestartOpen(true)}>{t('detect.restart')}</Button>
-            <Button className="h-9" onClick={saveImage}>{t('detect.saveImage')}</Button>
+            <Button variant="outline" className="h-9" onClick={saveImage}>{t('detect.saveImage')}</Button>
+            <Button className="h-9" onClick={restart}>{t('detect.restart')}</Button>
           </>
         ) : phase === 'sampling' ? (
           <>
@@ -267,32 +309,20 @@ export default function DetectRoute() {
           <Button className="h-9" disabled><Loader2 data-icon="inline-start" className="animate-spin" />{t('detect.computing')}</Button>
         ) : (
           <>
-            {samples.some(s => s.text.trim() || s.draftText?.trim()) && <Button variant="ghost" className="h-9" onClick={() => setRestartOpen(true)}>{t('detect.restart')}</Button>}
+            {samples.some(s => s.text.trim() || s.draftText?.trim()) && <Button variant="ghost" className="h-9" onClick={restart}>{t('detect.restart')}</Button>}
             {mode === 'api' && emptyIndexes.length > 0 ? (
-              <Button className="h-9" onClick={() => sampleIndexes(emptyIndexes)}>{t('detect.startSampling')}</Button>
+              <>
+                {filled > 0 && <Button variant="outline" className="h-9" onClick={() => verify()}>{t('detect.verifyPartial', { n: filled })}</Button>}
+                <Button className="h-9" onClick={() => sampleIndexes(emptyIndexes)}>{t('detect.startSampling')}</Button>
+              </>
             ) : (
-              <Button className="h-9" disabled={filled < 3} onClick={() => verify()}>{t(filled < 3 ? 'detect.verifyLocked' : 'detect.verify')}</Button>
+              <Button className="h-9" disabled={filled === 0} onClick={() => verify()}>{filled === 0 ? t('detect.verifyLocked') : filled < 3 ? t('detect.verifyPartial', { n: filled }) : t('detect.verify')}</Button>
             )}
           </>
         )}
       </div>
 
-      <ApiConfigSheet open={sheetOpen} onOpenChange={setSheetOpen} config={config} update={update} canStart={phase === 'edit' && emptyIndexes.length > 0} onStart={saved => { setMode('api'); void sampleIndexes(emptyIndexes, saved) }} />
-
-      <Dialog open={restartOpen} onOpenChange={setRestartOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t('detect.restartTitle')}</DialogTitle>
-            <DialogDescription>{t('detect.restartBody')}</DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setRestartOpen(false)}>{t('detect.cancel')}</Button>
-            <Button onClick={restart}>{t('detect.confirm')}</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={errorDetail !== null} onOpenChange={open => !open && setErrorDetail(null)}>
+      <Dialog open={active && errorDetail !== null} onOpenChange={open => !open && setErrorDetail(null)}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t('detect.errorDetails')}</DialogTitle>

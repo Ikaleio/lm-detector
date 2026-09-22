@@ -27,7 +27,8 @@ export function describeError(i18n: I18n, error: unknown, fallbackKey: Parameter
 export function describe(i18n: I18n, code: ErrorCode | undefined, status: number | undefined, fallbackKey: Parameters<I18n['t']>[0] = 'errors.unknown'): string {
   if (status !== undefined && (code === 'http' || code === 'proxy_unavailable')) {
     if (code === 'proxy_unavailable') return i18n.t('errors.proxy_unavailable')
-    if (status === 401 || status === 403) return i18n.t('errors.http401')
+    if (status === 401) return i18n.t('errors.http401')
+    if (status === 403) return i18n.t('errors.http403')
     if (status === 404) return i18n.t('errors.http404')
     if (status === 429) return i18n.t('errors.http429')
     if (status >= 500) return i18n.t('errors.http5xx')

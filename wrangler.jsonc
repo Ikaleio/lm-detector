@@ -1,0 +1,7 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "lm-fingerpoint-detector",
+  "pages_build_output_dir": "./web/dist",
+  "compatibility_date": "2026-09-22",
+  "compatibility_flags": ["enable_request_signal"]
+}

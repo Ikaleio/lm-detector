@@ -24,10 +24,10 @@ export default function App() {
       <I18nProvider>
         <MotionConfig reducedMotion="user">
           <TooltipProvider>
-            <HashRouter>
+            <HashRouter useTransitions={false}>
               <Routes>
-                <Route element={<AppShell />}>
-                  <Route path="/" element={<DetectRoute />} />
+                <Route element={<AppShell detect={<DetectRoute />} />}>
+                  <Route index element={null} />
                   <Route path="/library" element={<LibraryRoute />} />
                   <Route path="/library/:modelId" element={<LibraryModelRoute />} />
                   <Route path="*" element={<NotFound />} />

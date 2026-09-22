@@ -6,13 +6,20 @@
 
 ```text
 .
-├── web/       # 纯前端 React 检测网站
+├── web/       # React 检测网站
+├── server/    # 共用 API 代理
+├── api/       # Vercel Functions 入口
+├── functions/ # Cloudflare Pages Functions 入口
+├── docs/      # 部署与运行说明
 ├── cli/       # Bun + TypeScript 检测、采样工具
 ├── shared/    # 挑战、响应解析、评分和建库算法
-└── data/      # 正式参考数据、模型参数和固定采样挑战
+├── data/      # 正式参考数据、模型参数和固定采样挑战
+└── runs/      # 本地采样与检测记录，不提交 Git
 ```
 
 本目录是独立的 Bun workspace。依赖、锁文件、TypeScript 配置、部署配置和 CI 均在本目录。构建不需要外层研究目录。以下命令均从本目录执行。
+
+`api/` 和 `functions/` 分别保留部署平台要求的路由入口，共用 `server/proxy.ts`。`web/scripts/` 保存数据同步和 Vite 代理适配脚本。生成目录 `web/public/data/`、`web/dist/`、`.vercel/`、`.wrangler/` 不提交 Git；`data/archive/` 与 `data/collections/` 是需要保留的采样证据。
 
 ## 安装与运行
 
@@ -35,9 +42,9 @@ bun run preview
 
 Web 只读取随构建发布的数据库。没有采样入库、JSONL 导入、浏览器建库或 IndexedDB 数据库覆盖功能。
 
-网站支持简体中文和英文，语言与主题偏好保存在 localStorage。API Key 默认只在内存中保存；勾选“在本标签页记住”后写入 sessionStorage，关闭标签页后清除。旧版 localStorage 中的密钥会迁移到内存并移除。其他接口配置保存在 localStorage。
+网站支持简体中文和英文，语言与主题偏好保存在 localStorage。API 设置（包括 API Key）自动保存在 localStorage，刷新或重新打开浏览器后仍可恢复。旧版 sessionStorage 中的密钥会迁移到 localStorage。
 
-API 请求由浏览器直接发送到用户填写的 HTTPS 地址，不经过本站代理。目标服务必须允许浏览器跨域访问（CORS）。Chat Completions、Responses 和 Messages 均支持 JSON 与 SSE；并行开关决定三个请求同时或依次执行。单条重试沿用该条成功取样时的配置，失败或取消时保留旧回复。结果只呈现算法返回的候选顺序及置信度，不生成特征解释，不提供 URL 分享。可保存当前主题的 PNG 图片或导出候选列表 JSON。
+API 请求和密钥通过同源 `/api/proxy` 转发到用户填写的 HTTPS 地址。代理不保存或记录密钥，上游不需要支持浏览器 CORS。Chat Completions、Responses 和 Messages 均支持 JSON 与 SSE；并行开关决定三个请求同时或依次执行。回复框固定高度，流式输出在框内自动滚动。单条重试沿用该条成功取样时的配置，失败或取消时保留旧回复。结果只呈现算法返回的候选顺序及置信度，不生成特征解释，不提供 URL 分享。可保存当前主题的 PNG 图片或导出候选列表 JSON。
 
 ## 检测 CLI
 
@@ -78,6 +85,4 @@ bun run detect --help
 
 ## 部署
 
-Vercel 项目根目录设为本目录。`vercel.json` 只构建 `web/dist/`，不部署 API Function。使用 HashRouter，无需服务端路由重写。
-
-`.github/workflows/pages.yml` 在推送时构建并保存静态产物，手动触发时发布到 GitHub Pages。手动发布前需在仓库设置中启用 GitHub Actions 作为 Pages 来源。API 模式也可在静态站点使用，但目标上游必须允许该站点来源的跨域请求。
+Vercel、Cloudflare Pages、GitHub Pages 及本地代理的配置见 [部署说明](docs/deployment.md)。

@@ -1,0 +1,692 @@
+{
+  "schema": "openrouter-collection-summary-v1",
+  "finalized_at": "2026-09-22T11:20:38.414Z",
+  "catalogue_checked_at": "2026-09-22T09:40:19.620Z",
+  "status": "complete-with-user-authorized-truncations",
+  "planned": 180,
+  "verified": 180,
+  "enrolled": 180,
+  "complete_verified": 176,
+  "truncated_verified": 4,
+  "request": {
+    "allow_fallbacks": false,
+    "stream": true,
+    "max_tokens": 8192,
+    "grok_reasoning": {
+      "effort": "low"
+    },
+    "mimo_reasoning": {
+      "enabled": false
+    }
+  },
+  "selection": "Keep the first valid complete answer for each completed challenge. For the four still-missing challenges, the user authorized the chronologically first verified upstream-truncated answer. No scoring-based selection.",
+  "validity": "Existing numeric threshold: max(80, ceil(expected_count * 0.55)) parsed integers and allowed response model. Complete responses end with stop; four explicit user-authorized exceptions end with length. Original failed attempt records remain unchanged.",
+  "prompt_profiles": {
+    "original": "Fixed enrollment-suite prompt.",
+    "length-v1": "Authorized length constraint before the unchanged prompt.",
+    "length-v2-and-later": "The same authorized length constraint before and after the unchanged prompt; later directories are bounded retry checkpoints with identical requests for the same challenge."
+  },
+  "output_format": "Original format preserved; no JSON conversion.",
+  "evidence": {
+    "catalogue": "catalogue.json",
+    "verified_generations": "verification-summary.json",
+    "complete_samples": "selected-samples.json",
+    "selected_samples_and_attempts": "enrollment-selections.json",
+    "truncated_samples_and_authorization": "truncated-selections.json",
+    "enrollment": "enrollment.json"
+  },
+  "cost_note": "Reported SSE usage cost only. Attempts without a usage-cost record may still incur charges; this is not a billing reconciliation.",
+  "models": [
+    {
+      "model": "x-ai/grok-4.7",
+      "canonical_slug": "x-ai/grok-4.7-20260916",
+      "provider": "xAI",
+      "route": "xai",
+      "planned": 36,
+      "verified": 36,
+      "complete_verified": 36,
+      "truncated_verified": 0,
+      "enrolled": true,
+      "original_prompt_successes": 30,
+      "constrained_prompt_successes": 6,
+      "missing": [],
+      "attempts": 51,
+      "failed": 11,
+      "interrupted": 4,
+      "reported_cost_usd": 0.8732791999999999,
+      "attempts_with_reported_cost": 43
+    },
+    {
+      "model": "xiaomi/mimo-v2.5",
+      "canonical_slug": "xiaomi/mimo-v2.5-20260422",
+      "provider": "Xiaomi",
+      "route": "xiaomi/fp8",
+      "planned": 36,
+      "verified": 36,
+      "complete_verified": 36,
+      "truncated_verified": 0,
+      "enrolled": true,
+      "original_prompt_successes": 18,
+      "constrained_prompt_successes": 18,
+      "missing": [],
+      "attempts": 102,
+      "failed": 62,
+      "interrupted": 4,
+      "reported_cost_usd": 0.16893066959999997,
+      "attempts_with_reported_cost": 98
+    },
+    {
+      "model": "xiaomi/mimo-v2.5-pro",
+      "canonical_slug": "xiaomi/mimo-v2.5-pro-20260422",
+      "provider": "Xiaomi",
+      "route": "xiaomi/fp8",
+      "planned": 36,
+      "verified": 36,
+      "complete_verified": 36,
+      "truncated_verified": 0,
+      "enrolled": true,
+      "original_prompt_successes": 32,
+      "constrained_prompt_successes": 4,
+      "missing": [],
+      "attempts": 50,
+      "failed": 10,
+      "interrupted": 4,
+      "reported_cost_usd": 0.13249284899999997,
+      "attempts_with_reported_cost": 46
+    },
+    {
+      "model": "xiaomi/mimo-v2.6-flash",
+      "canonical_slug": "xiaomi/mimo-v2.6-flash-20260921",
+      "provider": "Xiaomi",
+      "route": "xiaomi/fp8",
+      "planned": 36,
+      "verified": 36,
+      "complete_verified": 36,
+      "truncated_verified": 0,
+      "enrolled": true,
+      "original_prompt_successes": 21,
+      "constrained_prompt_successes": 15,
+      "missing": [],
+      "attempts": 117,
+      "failed": 77,
+      "interrupted": 4,
+      "reported_cost_usd": 0.1969927232,
+      "attempts_with_reported_cost": 111
+    },
+    {
+      "model": "xiaomi/mimo-v2.6-pro",
+      "canonical_slug": "xiaomi/mimo-v2.6-pro-20260921",
+      "provider": "Xiaomi",
+      "route": "xiaomi/fp8",
+      "planned": 36,
+      "verified": 36,
+      "complete_verified": 32,
+      "truncated_verified": 4,
+      "enrolled": true,
+      "original_prompt_successes": 13,
+      "constrained_prompt_successes": 19,
+      "missing": [],
+      "attempts": 269,
+      "failed": 232,
+      "interrupted": 5,
+      "reported_cost_usd": 1.6927811412,
+      "attempts_with_reported_cost": 257
+    }
+  ],
+  "runs": [
+    {
+      "directory": "mimo-v2.6-flash",
+      "model": "xiaomi/mimo-v2.6-flash",
+      "manifest_sha256": "20011105d2f315d384b4c6c9acea69f2ad2e58c70a4ea5d0b82fd0f27bf2559a",
+      "planned": 36,
+      "execution": null,
+      "attempts": 55,
+      "accepted": 21,
+      "failed": 30,
+      "interrupted": 4,
+      "reported_cost_usd": 0.0811538336,
+      "attempts_with_reported_cost": 50,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 28,
+        "采样已取消": 4,
+        "上游请求超时": 1,
+        "有效数字不足或记录不一致：query-33": 1
+      },
+      "missing": [
+        "query-12",
+        "query-13",
+        "query-16",
+        "query-17",
+        "query-18",
+        "query-19",
+        "query-21",
+        "query-22",
+        "query-24",
+        "query-26",
+        "query-27",
+        "query-29",
+        "query-31",
+        "query-32",
+        "query-33"
+      ]
+    },
+    {
+      "directory": "mimo-v2.5",
+      "model": "xiaomi/mimo-v2.5",
+      "manifest_sha256": "7138f9ec39c5d4cf4b5d04d353cc49a424eda9971170a87973df55934959986c",
+      "planned": 36,
+      "execution": null,
+      "attempts": 63,
+      "accepted": 18,
+      "failed": 41,
+      "interrupted": 4,
+      "reported_cost_usd": 0.10743640319999999,
+      "attempts_with_reported_cost": 59,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 41,
+        "采样已取消": 4
+      },
+      "missing": [
+        "query-08",
+        "query-09",
+        "query-11",
+        "query-13",
+        "query-15",
+        "query-16",
+        "query-17",
+        "query-18",
+        "query-19",
+        "query-20",
+        "query-22",
+        "query-24",
+        "query-25",
+        "query-27",
+        "query-29",
+        "query-30",
+        "query-31",
+        "query-33"
+      ]
+    },
+    {
+      "directory": "mimo-v2.5-length-v1",
+      "model": "xiaomi/mimo-v2.5",
+      "manifest_sha256": "d4c1d4c7fca2753f4fb71c96fcd694e69022d188f031d56b5f52d116eb507dd8",
+      "planned": 18,
+      "execution": null,
+      "attempts": 32,
+      "accepted": 15,
+      "failed": 17,
+      "interrupted": 0,
+      "reported_cost_usd": 0.050413496,
+      "attempts_with_reported_cost": 32,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 17
+      },
+      "missing": [
+        "query-08",
+        "query-09",
+        "query-15"
+      ]
+    },
+    {
+      "directory": "mimo-v2.6-flash-length-v1",
+      "model": "xiaomi/mimo-v2.6-flash",
+      "manifest_sha256": "f0b7faf2f2f52255f04279877854dbd5f87c3a76ffff70a8bd9a64ff04083ea8",
+      "planned": 15,
+      "execution": null,
+      "attempts": 34,
+      "accepted": 7,
+      "failed": 27,
+      "interrupted": 0,
+      "reported_cost_usd": 0.06552147839999999,
+      "attempts_with_reported_cost": 33,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 26,
+        "上游请求超时": 1
+      },
+      "missing": [
+        "query-13",
+        "query-17",
+        "query-18",
+        "query-21",
+        "query-22",
+        "query-24",
+        "query-27",
+        "query-32"
+      ]
+    },
+    {
+      "directory": "mimo-v2.6-pro-length-v6",
+      "model": "xiaomi/mimo-v2.6-pro",
+      "manifest_sha256": "949abb0642df8d78bd1c50a69a867b96317187ad839d9065909a57ecffc84bbb",
+      "planned": 7,
+      "execution": {
+        "phase": "length-v6",
+        "max_attempts": 20,
+        "concurrency": 6,
+        "started_at": "2026-09-22T10:26:51.810Z"
+      },
+      "attempts": 36,
+      "accepted": 6,
+      "failed": 30,
+      "interrupted": 0,
+      "reported_cost_usd": 0.21859597020000002,
+      "attempts_with_reported_cost": 34,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 28,
+        "The socket connection was closed unexpectedly. For more information, pass `verbose: true` in the second argument to fetch()": 1,
+        "上游请求超时": 1
+      },
+      "missing": [
+        "query-15"
+      ]
+    },
+    {
+      "directory": "mimo-v2.6-pro-length-v1",
+      "model": "xiaomi/mimo-v2.6-pro",
+      "manifest_sha256": "1c2e8aa69105a289573eb8df9ff92c9b770eb3a401dc2dead4db027743413805",
+      "planned": 23,
+      "execution": null,
+      "attempts": 62,
+      "accepted": 5,
+      "failed": 57,
+      "interrupted": 0,
+      "reported_cost_usd": 0.42012417479999986,
+      "attempts_with_reported_cost": 62,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 56,
+        "有效数字不足或记录不一致：query-32": 1
+      },
+      "missing": [
+        "query-10",
+        "query-12",
+        "query-13",
+        "query-14",
+        "query-15",
+        "query-19",
+        "query-20",
+        "query-22",
+        "query-23",
+        "query-24",
+        "query-27",
+        "query-28",
+        "query-30",
+        "query-32",
+        "query-33",
+        "query-34",
+        "query-35",
+        "query-36"
+      ]
+    },
+    {
+      "directory": "mimo-v2.6-pro-length-v7",
+      "model": "xiaomi/mimo-v2.6-pro",
+      "manifest_sha256": "2974af507922e63fadc1558c05572dc6ac8d9b31414f46e9dbc2e5ae58bf5fde",
+      "planned": 1,
+      "execution": {
+        "phase": "length-v7",
+        "max_attempts": 20,
+        "concurrency": 6,
+        "started_at": "2026-09-22T10:31:34.583Z"
+      },
+      "attempts": 2,
+      "accepted": 1,
+      "failed": 1,
+      "interrupted": 0,
+      "reported_cost_usd": 0.010597576800000001,
+      "attempts_with_reported_cost": 2,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 1
+      },
+      "missing": []
+    },
+    {
+      "directory": "mimo-v2.5-pro-length-v1",
+      "model": "xiaomi/mimo-v2.5-pro",
+      "manifest_sha256": "e345b0a8bdf480c46a8d8c0ef930955fe96eccfcac13572f1dff7b3a9f8917c5",
+      "planned": 4,
+      "execution": null,
+      "attempts": 6,
+      "accepted": 4,
+      "failed": 2,
+      "interrupted": 0,
+      "reported_cost_usd": 0.021601384799999998,
+      "attempts_with_reported_cost": 6,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 2
+      },
+      "missing": []
+    },
+    {
+      "directory": "mimo-v2.5-length-v2",
+      "model": "xiaomi/mimo-v2.5",
+      "manifest_sha256": "2b85cd730d385721c6a50a1b22513f04b1bd2bb4c6b8c2cfa7adda5dd1795a5b",
+      "planned": 3,
+      "execution": null,
+      "attempts": 6,
+      "accepted": 2,
+      "failed": 4,
+      "interrupted": 0,
+      "reported_cost_usd": 0.0106833328,
+      "attempts_with_reported_cost": 6,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 4
+      },
+      "missing": [
+        "query-15"
+      ]
+    },
+    {
+      "directory": "mimo-v2.5-length-v3",
+      "model": "xiaomi/mimo-v2.5",
+      "manifest_sha256": "712968c54a8171faf3b25f26f1893b8568917aa950ffa440b937b96b65bc4a7e",
+      "planned": 1,
+      "execution": {
+        "phase": "length-v3",
+        "max_attempts": 20,
+        "concurrency": 6,
+        "started_at": "2026-09-22T10:16:52.162Z"
+      },
+      "attempts": 1,
+      "accepted": 1,
+      "failed": 0,
+      "interrupted": 0,
+      "reported_cost_usd": 0.0003974376,
+      "attempts_with_reported_cost": 1,
+      "errors": {},
+      "missing": []
+    },
+    {
+      "directory": "grok-4.7",
+      "model": "x-ai/grok-4.7",
+      "manifest_sha256": "08b9a2dcc13287cb7b624e9f82b70bc0c5b38f7b2f6ea815d19192085e398345",
+      "planned": 36,
+      "execution": null,
+      "attempts": 45,
+      "accepted": 30,
+      "failed": 11,
+      "interrupted": 4,
+      "reported_cost_usd": 0.7562568,
+      "attempts_with_reported_cost": 37,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 7,
+        "采样已取消": 4,
+        "上游请求超时": 1,
+        "HTTP 429：OpenRouter could not verify available credits for this request in time. Retry shortly.": 2,
+        "Service temporarily unavailable. The model's availability is currently degraded.": 1
+      },
+      "missing": [
+        "query-22",
+        "query-23",
+        "query-24",
+        "query-26",
+        "query-27",
+        "query-29"
+      ]
+    },
+    {
+      "directory": "mimo-v2.6-flash-length-v2",
+      "model": "xiaomi/mimo-v2.6-flash",
+      "manifest_sha256": "022b1db8970ad43b11fdc465fe6e442e7b6be137ec116911db53c3ac4e258122",
+      "planned": 6,
+      "execution": null,
+      "attempts": 16,
+      "accepted": 3,
+      "failed": 13,
+      "interrupted": 0,
+      "reported_cost_usd": 0.031194654399999997,
+      "attempts_with_reported_cost": 16,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 12,
+        "有效数字不足或记录不一致：query-22": 1
+      },
+      "missing": [
+        "query-21",
+        "query-22",
+        "query-24"
+      ]
+    },
+    {
+      "directory": "mimo-v2.6-flash-length-v5",
+      "model": "xiaomi/mimo-v2.6-flash",
+      "manifest_sha256": "9e7fc8e5b3c0fc6653ff9a669bc3991d68d0eba1d6d8c4dc79f5ce5f71ce9ec2",
+      "planned": 1,
+      "execution": {
+        "phase": "length-v5",
+        "max_attempts": 20,
+        "concurrency": 6,
+        "started_at": "2026-09-22T10:21:43.875Z"
+      },
+      "attempts": 1,
+      "accepted": 1,
+      "failed": 0,
+      "interrupted": 0,
+      "reported_cost_usd": 0.00067438,
+      "attempts_with_reported_cost": 1,
+      "errors": {},
+      "missing": []
+    },
+    {
+      "directory": "mimo-v2.5-pro",
+      "model": "xiaomi/mimo-v2.5-pro",
+      "manifest_sha256": "7744028102cf2068303c3750fbeec3d64cafde07e12f892e4aa5dec5ef0fb636",
+      "planned": 36,
+      "execution": null,
+      "attempts": 44,
+      "accepted": 32,
+      "failed": 8,
+      "interrupted": 4,
+      "reported_cost_usd": 0.11089146419999998,
+      "attempts_with_reported_cost": 40,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 8,
+        "采样已取消": 4
+      },
+      "missing": [
+        "query-15",
+        "query-21",
+        "query-24",
+        "query-36"
+      ]
+    },
+    {
+      "directory": "mimo-v2.6-flash-length-v4",
+      "model": "xiaomi/mimo-v2.6-flash",
+      "manifest_sha256": "4d4172b2033ecec45d1fb325487e5b36ca893cd5c232514508fc4215ac611c5f",
+      "planned": 2,
+      "execution": {
+        "phase": "length-v4",
+        "max_attempts": 20,
+        "concurrency": 6,
+        "started_at": "2026-09-22T10:19:18.709Z"
+      },
+      "attempts": 3,
+      "accepted": 2,
+      "failed": 1,
+      "interrupted": 0,
+      "reported_cost_usd": 0.0033183752,
+      "attempts_with_reported_cost": 3,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 1
+      },
+      "missing": []
+    },
+    {
+      "directory": "mimo-v2.6-flash-length-v3",
+      "model": "xiaomi/mimo-v2.6-flash",
+      "manifest_sha256": "331ed492a0584923d06fb83693f149f678cdcf2b8e7226bc9bbde0d6773d7abe",
+      "planned": 2,
+      "execution": {
+        "phase": "length-v3",
+        "max_attempts": 20,
+        "concurrency": 6,
+        "started_at": "2026-09-22T10:16:52.158Z"
+      },
+      "attempts": 8,
+      "accepted": 2,
+      "failed": 6,
+      "interrupted": 0,
+      "reported_cost_usd": 0.015130001600000002,
+      "attempts_with_reported_cost": 8,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 6
+      },
+      "missing": []
+    },
+    {
+      "directory": "mimo-v2.6-pro",
+      "model": "xiaomi/mimo-v2.6-pro",
+      "manifest_sha256": "43774ca8aa38050276eaaa134a11823d2708d342c006ca2b9c06758d4fe26704",
+      "planned": 36,
+      "execution": null,
+      "attempts": 48,
+      "accepted": 13,
+      "failed": 31,
+      "interrupted": 4,
+      "reported_cost_usd": 0.2457247722,
+      "attempts_with_reported_cost": 43,
+      "errors": {
+        "采样已取消": 4,
+        "上游请求超时": 1,
+        "输出未完整结束，本条不计入检测或入库": 30
+      },
+      "missing": [
+        "query-10",
+        "query-11",
+        "query-12",
+        "query-13",
+        "query-14",
+        "query-15",
+        "query-16",
+        "query-17",
+        "query-19",
+        "query-20",
+        "query-21",
+        "query-22",
+        "query-23",
+        "query-24",
+        "query-26",
+        "query-27",
+        "query-28",
+        "query-30",
+        "query-32",
+        "query-33",
+        "query-34",
+        "query-35",
+        "query-36"
+      ]
+    },
+    {
+      "directory": "mimo-v2.6-pro-length-v2",
+      "model": "xiaomi/mimo-v2.6-pro",
+      "manifest_sha256": "007d4beb0840be5826174bb26df18ac45a4cf31128d7259918bc1ee25a56e99d",
+      "planned": 5,
+      "execution": null,
+      "attempts": 13,
+      "accepted": 1,
+      "failed": 12,
+      "interrupted": 0,
+      "reported_cost_usd": 0.0890447064,
+      "attempts_with_reported_cost": 13,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 12
+      },
+      "missing": [
+        "query-12",
+        "query-13",
+        "query-14",
+        "query-15"
+      ]
+    },
+    {
+      "directory": "mimo-v2.6-pro-length-v5",
+      "model": "xiaomi/mimo-v2.6-pro",
+      "manifest_sha256": "43a9555b75f27eed0dd5db18261f7589d8674582c35b689fb32144d35c6202c3",
+      "planned": 2,
+      "execution": {
+        "phase": "length-v5",
+        "max_attempts": 20,
+        "concurrency": 6,
+        "started_at": "2026-09-22T10:21:43.871Z"
+      },
+      "attempts": 34,
+      "accepted": 2,
+      "failed": 32,
+      "interrupted": 0,
+      "reported_cost_usd": 0.2194014732,
+      "attempts_with_reported_cost": 33,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 30,
+        "上游请求超时": 1,
+        "有效数字不足或记录不一致：query-28": 1
+      },
+      "missing": []
+    },
+    {
+      "directory": "mimo-v2.6-pro-length-v4",
+      "model": "xiaomi/mimo-v2.6-pro",
+      "manifest_sha256": "0e42643a5528ac44e613a52ec8ca36f982bd8ade02edc2b99c7ad25674991206",
+      "planned": 4,
+      "execution": {
+        "phase": "length-v4",
+        "max_attempts": 20,
+        "concurrency": 6,
+        "started_at": "2026-09-22T10:19:18.708Z"
+      },
+      "attempts": 65,
+      "accepted": 1,
+      "failed": 63,
+      "interrupted": 1,
+      "reported_cost_usd": 0.4356230082000001,
+      "attempts_with_reported_cost": 61,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 60,
+        "The socket connection was closed unexpectedly. For more information, pass `verbose: true` in the second argument to fetch()": 1,
+        "上游请求超时": 2,
+        "采样已取消": 1
+      },
+      "missing": [
+        "query-12",
+        "query-13",
+        "query-20"
+      ]
+    },
+    {
+      "directory": "mimo-v2.6-pro-length-v3",
+      "model": "xiaomi/mimo-v2.6-pro",
+      "manifest_sha256": "a510b3877b4ae5bee20f0b428dd67ecf10f5e143155312abb8f4556c9c37049c",
+      "planned": 3,
+      "execution": {
+        "phase": "length-v3",
+        "max_attempts": 20,
+        "concurrency": 6,
+        "started_at": "2026-09-22T10:16:52.158Z"
+      },
+      "attempts": 9,
+      "accepted": 3,
+      "failed": 6,
+      "interrupted": 0,
+      "reported_cost_usd": 0.0536694594,
+      "attempts_with_reported_cost": 9,
+      "errors": {
+        "输出未完整结束，本条不计入检测或入库": 6
+      },
+      "missing": []
+    },
+    {
+      "directory": "grok-4.7-length-v1",
+      "model": "x-ai/grok-4.7",
+      "manifest_sha256": "063b08d11667e6573734c89b306d39c42f8098a9d7c622ceb69eb5043f7441ca",
+      "planned": 6,
+      "execution": null,
+      "attempts": 6,
+      "accepted": 6,
+      "failed": 0,
+      "interrupted": 0,
+      "reported_cost_usd": 0.11702240000000001,
+      "attempts_with_reported_cost": 6,
+      "errors": {},
+      "missing": []
+    }
+  ]
+}

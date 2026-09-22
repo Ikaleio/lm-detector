@@ -1,0 +1,42 @@
+{
+  "model": "xiaomi/mimo-v2.6-flash",
+  "directory": "mimo-v2.6-flash-length-v5",
+  "provider": "Xiaomi",
+  "route": "xiaomi/fp8",
+  "planned": 1,
+  "accepted": 1,
+  "attempts": 1,
+  "failed": 0,
+  "interrupted": 0,
+  "provider_verified": 1,
+  "pending_generation_metadata": [],
+  "accepted_cost_usd": 0.00067438,
+  "verified_at": "2026-09-22T11:17:49.603Z",
+  "records": [
+    {
+      "challenge_id": "query-24",
+      "attempt": 1,
+      "generation_id": "gen-1790072503-oX1epPsj8yyWN2m3eGiC",
+      "started_at": "2026-09-22T10:21:43.875Z",
+      "finished_at": "2026-09-22T10:22:01.774Z",
+      "response_provider": "Xiaomi",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-flash-20260921",
+      "finish_reason": "stop",
+      "parsed_count": 420,
+      "native_tokens_reasoning": 0,
+      "total_cost": 0.00067438,
+      "provider_responses": [
+        {
+          "endpoint_id": "6f7ea660-c5e2-492e-8a39-ec254953b3ae",
+          "id": "e59f990a-8186-43a7-a017-8c1b20ddaf3a_0d2bb09a7b75461cbf541c353e70a2ab",
+          "is_byok": false,
+          "latency": 588,
+          "model_permaslug": "xiaomi/mimo-v2.6-flash-20260921",
+          "provider_name": "Xiaomi",
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

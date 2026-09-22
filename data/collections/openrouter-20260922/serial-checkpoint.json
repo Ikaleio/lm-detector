@@ -1,0 +1,60 @@
+{
+  "completed_at": "2026-09-22T09:47:08.272Z",
+  "outcomes": [
+    {
+      "status": "fulfilled",
+      "value": {
+        "model": "x-ai/grok-4.7",
+        "route": "xai",
+        "directory": "/Users/ikaleio/Projects/lm-fingerpoint-detector/projects/data/collections/openrouter-20260922/grok-4.7",
+        "accepted": 5,
+        "planned": 36,
+        "attempts": 7
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "model": "xiaomi/mimo-v2.6-pro",
+        "route": "xiaomi/fp8",
+        "directory": "/Users/ikaleio/Projects/lm-fingerpoint-detector/projects/data/collections/openrouter-20260922/mimo-v2.6-pro",
+        "accepted": 8,
+        "planned": 36,
+        "attempts": 9
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "model": "xiaomi/mimo-v2.6-flash",
+        "route": "xiaomi/fp8",
+        "directory": "/Users/ikaleio/Projects/lm-fingerpoint-detector/projects/data/collections/openrouter-20260922/mimo-v2.6-flash",
+        "accepted": 9,
+        "planned": 36,
+        "attempts": 12
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "model": "xiaomi/mimo-v2.5-pro",
+        "route": "xiaomi/fp8",
+        "directory": "/Users/ikaleio/Projects/lm-fingerpoint-detector/projects/data/collections/openrouter-20260922/mimo-v2.5-pro",
+        "accepted": 7,
+        "planned": 36,
+        "attempts": 9
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "model": "xiaomi/mimo-v2.5",
+        "route": "xiaomi/fp8",
+        "directory": "/Users/ikaleio/Projects/lm-fingerpoint-detector/projects/data/collections/openrouter-20260922/mimo-v2.5",
+        "accepted": 3,
+        "planned": 36,
+        "attempts": 9
+      }
+    }
+  ]
+}

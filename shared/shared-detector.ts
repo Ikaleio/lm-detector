@@ -84,10 +84,9 @@ export function calibrateSharedScores(ranking:Vector,scores:Vector,artifact:Shar
   return {values:weights.map(value=>value/sum),calibrated:true}
 }
 
-export function scoreSharedNumbers(numbers:Matrix,artifact:SharedDetector) {
-  if(numbers.length!==3)throw new Error('共享核验器需要三条完整回答')
-  const a=artifact.ranker,v=artifact.verifier,full= numbers.map(blocks)
-  const ax=full.map(b=>transform(b,a.full_params)),vx=full.map(b=>transform(b,v.preprocessing))
+function rankSharedNumbers(numbers:Matrix,artifact:SharedDetector) {
+  const a=artifact.ranker,full=numbers.map(blocks)
+  const ax=full.map(b=>transform(b,a.full_params))
   const lda=numbers.map(n=>{
     const x=transform(blocks(n.slice(0,128)),a.head_params)
     return z(a.lda_weights.map((row,i)=>dot(row,x)+a.lda_bias[i]))
@@ -95,6 +94,14 @@ export function scoreSharedNumbers(numbers:Matrix,artifact:SharedDetector) {
   const l=z(columnMean(lda)),near=z(a.references.map(ref=>median(ax.map(x=>-nearest(x,ref)))))
   const base=z(columnMean(full.map(b=>baseline(b,a.bank))))
   const ranking=l.map((x,i)=>.5*x+.25*near[i]+.25*base[i])
+  if(!ranking.every(Number.isFinite))throw new Error('排名计算产生无效数值，请刷新后重试')
+  return {ranking,full}
+}
+
+export function scoreSharedNumbers(numbers:Matrix,artifact:SharedDetector) {
+  if(numbers.length!==3)throw new Error('共享核验器需要三条完整回答')
+  const {ranking,full}=rankSharedNumbers(numbers,artifact)
+  const v=artifact.verifier,vx=full.map(b=>transform(b,v.preprocessing))
   const projected=vx.map(x=>Array.from({length:v.mu.length},(_,j)=>
     x.reduce((sum,element,i)=>sum+(element-v.origin[i])*v.basis[i][j],0)/v.unit_scale))
   const flat=projected.flat(),newDensity=gaussian(flat,v.mu,v.new_joint)
@@ -112,7 +119,7 @@ export function scoreSharedNumbers(numbers:Matrix,artifact:SharedDetector) {
   return {ranking,scores,features}
 }
 
-export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedDetector):Analysis {
+export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedDetector,options:{allowPartial?:boolean}={}):Analysis {
   if(!supportsSharedDetector(bank,artifact)) {
     const old:Analysis=analyzeGlobalOutputs(outputs,bank)
     return {...old,probability:null,absolute_match:null,family_probability:null,
@@ -135,6 +142,21 @@ export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedD
     probability_status:'unavailable',verification_confidence:null,risk_certificate:null,
     used_outputs:used,diagnostics,method:'shared-detector-v1',
     model_version:{base_sha256:artifact.base_sha256,verifier_sha256:artifact.verifier_sha256}}
+  if(options.allowPartial && used>0 && used<3 && outputs.length<=3) {
+    const {ranking}=rankSharedNumbers(parsed.filter((_,i)=>diagnostics[i].accepted),artifact)
+    const order=artifact.model_ids.map((_,i)=>i).sort((i,j)=>ranking[j]-ranking[i])
+    const results=order.map(i=>({model:artifact.model_ids[i],display_name:bank.models[i].display_name,
+      family_name:bank.models[i].family_name,score:ranking[i],verification_score:null,
+      verification_confidence:null,probability:null,absolute_match:null,identity_probability:null}))
+    const first=order[0]
+    return {...common,method:'shared-ranker-partial-v1',decision:'partial',
+      prediction:results[0].model,prediction_name:results[0].display_name,
+      family_prediction:bank.models[first].family,family_prediction_name:bank.models[first].family_name,
+      results,ranking_score:ranking[first],calibration:null,
+      evidence:{insufficient:true,label:'部分样本排名',
+        reason:`使用 ${used}/3 条有效回答生成排名。补齐三条有效回答后才能计算检验分数。`,
+        threshold:null,method:'partial-sample-ranking'}}
+  }
   if(outputs.length!==3 || used!==3)return {...common,prediction:'',prediction_name:'暂不可评分',
     family_prediction_name:'',results:[],decision:'unscorable',evidence:{insufficient:true,
       label:'需要三条完整回答',reason:`当前有 ${used}/${outputs.length} 条有效回答。请补齐原来的三条回答后重新检测。`,

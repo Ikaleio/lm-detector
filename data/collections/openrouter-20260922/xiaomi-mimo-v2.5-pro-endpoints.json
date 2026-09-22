@@ -1,0 +1,332 @@
+{
+  "queried_at": "2026-09-22T09:39:33.983Z",
+  "url": "https://openrouter.ai/api/v1/models/xiaomi/mimo-v2.5-pro/endpoints",
+  "status": 200,
+  "data": {
+    "id": "xiaomi/mimo-v2.5-pro",
+    "name": "Xiaomi: MiMo-V2.5-Pro",
+    "created": 1776874273,
+    "description": "MiMo-V2.5-Pro is Xiaomi’s flagship model, delivering strong performance in general agentic capabilities, complex software engineering, and long-horizon tasks, with top rankings on benchmarks such as ClawEval, GDPVal, and SWE-bench Pro....",
+    "architecture": {
+      "tokenizer": "Other",
+      "instruct_type": null,
+      "modality": "text->text",
+      "input_modalities": [
+        "text"
+      ],
+      "output_modalities": [
+        "text"
+      ]
+    },
+    "endpoints": [
+      {
+        "name": "GMICloud | xiaomi/mimo-v2.5-pro-20260422",
+        "model_id": "xiaomi/mimo-v2.5-pro",
+        "model_name": "Xiaomi: MiMo-V2.5-Pro",
+        "context_length": 1050000,
+        "pricing": {
+          "prompt": "0.0000003045",
+          "completion": "0.000000609",
+          "input_cache_read": "0.0000000028",
+          "discount": 0.3
+        },
+        "provider_name": "GMICloud",
+        "tag": "gmicloud/bf16",
+        "quantization": "bf16",
+        "max_completion_tokens": 945000,
+        "max_prompt_tokens": null,
+        "supported_parameters": [
+          "reasoning",
+          "include_reasoning",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "seed",
+          "response_format"
+        ],
+        "supports_tool_choice": {
+          "none": false,
+          "auto": false,
+          "required": false,
+          "function": false
+        },
+        "status": 0,
+        "uptime_last_30m": null,
+        "uptime_last_5m": null,
+        "uptime_last_1d": 51.56519595760414,
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "latency_last_30m": null,
+        "throughput_last_30m": null
+      },
+      {
+        "name": "DeepInfra | xiaomi/mimo-v2.5-pro-20260422",
+        "model_id": "xiaomi/mimo-v2.5-pro",
+        "model_name": "Xiaomi: MiMo-V2.5-Pro",
+        "context_length": 1048576,
+        "pricing": {
+          "prompt": "0.00000039",
+          "completion": "0.00000117",
+          "input_cache_read": "0.000000078",
+          "discount": 0.61
+        },
+        "provider_name": "DeepInfra",
+        "tag": "deepinfra/fp8",
+        "quantization": "fp8",
+        "max_completion_tokens": 131072,
+        "max_prompt_tokens": null,
+        "supported_parameters": [
+          "reasoning",
+          "include_reasoning",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "repetition_penalty",
+          "top_k",
+          "seed",
+          "min_p",
+          "structured_outputs",
+          "tools",
+          "tool_choice",
+          "response_format",
+          "logit_bias"
+        ],
+        "supports_tool_choice": {
+          "none": true,
+          "auto": true,
+          "required": true,
+          "function": true
+        },
+        "status": -2,
+        "uptime_last_30m": 84.83870967741936,
+        "uptime_last_5m": null,
+        "uptime_last_1d": 90.90602517985612,
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "latency_last_30m": null,
+        "throughput_last_30m": null
+      },
+      {
+        "name": "AtlasCloud | xiaomi/mimo-v2.5-pro-20260422",
+        "model_id": "xiaomi/mimo-v2.5-pro",
+        "model_name": "Xiaomi: MiMo-V2.5-Pro",
+        "context_length": 1024000,
+        "pricing": {
+          "prompt": "0.000000435",
+          "completion": "0.00000087",
+          "input_cache_read": "0.0000000036",
+          "discount": 0
+        },
+        "provider_name": "AtlasCloud",
+        "tag": "atlas-cloud/fp8",
+        "quantization": "fp8",
+        "max_completion_tokens": 131072,
+        "max_prompt_tokens": null,
+        "supported_parameters": [
+          "reasoning",
+          "include_reasoning",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "response_format",
+          "tools",
+          "tool_choice"
+        ],
+        "supports_tool_choice": {
+          "none": false,
+          "auto": true,
+          "required": false,
+          "function": false
+        },
+        "status": 0,
+        "uptime_last_30m": 96.16724738675958,
+        "uptime_last_5m": null,
+        "uptime_last_1d": 97.03825985628278,
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "latency_last_30m": null,
+        "throughput_last_30m": null
+      },
+      {
+        "name": "Xiaomi | xiaomi/mimo-v2.5-pro-20260422",
+        "model_id": "xiaomi/mimo-v2.5-pro",
+        "model_name": "Xiaomi: MiMo-V2.5-Pro",
+        "context_length": 1048576,
+        "pricing": {
+          "prompt": "0.000000435",
+          "completion": "0.00000087",
+          "input_cache_read": "0.0000000036",
+          "discount": 0
+        },
+        "provider_name": "Xiaomi",
+        "tag": "xiaomi/fp8",
+        "quantization": "fp8",
+        "max_completion_tokens": 131072,
+        "max_prompt_tokens": null,
+        "supported_parameters": [
+          "reasoning",
+          "include_reasoning",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "response_format",
+          "tools",
+          "tool_choice"
+        ],
+        "supports_tool_choice": {
+          "none": false,
+          "auto": true,
+          "required": true,
+          "function": false
+        },
+        "status": 0,
+        "uptime_last_30m": 99.01793685577469,
+        "uptime_last_5m": 99.88023952095809,
+        "uptime_last_1d": 99.436700040675,
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "latency_last_30m": null,
+        "throughput_last_30m": null
+      },
+      {
+        "name": "DigitalOcean | xiaomi/mimo-v2.5-pro-20260422",
+        "model_id": "xiaomi/mimo-v2.5-pro",
+        "model_name": "Xiaomi: MiMo-V2.5-Pro",
+        "context_length": 262144,
+        "pricing": {
+          "prompt": "0.00000048",
+          "completion": "0.0000018",
+          "input_cache_read": "0.000000096",
+          "discount": 0
+        },
+        "provider_name": "DigitalOcean",
+        "tag": "digitalocean",
+        "quantization": "unknown",
+        "max_completion_tokens": 235929,
+        "max_prompt_tokens": null,
+        "supported_parameters": [
+          "reasoning",
+          "include_reasoning",
+          "temperature",
+          "top_p",
+          "max_tokens",
+          "response_format",
+          "structured_outputs",
+          "tools",
+          "tool_choice",
+          "logprobs",
+          "top_logprobs"
+        ],
+        "supports_tool_choice": {
+          "none": true,
+          "auto": true,
+          "required": false,
+          "function": false
+        },
+        "status": 0,
+        "uptime_last_30m": 100,
+        "uptime_last_5m": 100,
+        "uptime_last_1d": 98.68546845124283,
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "latency_last_30m": null,
+        "throughput_last_30m": null
+      },
+      {
+        "name": "Novita | xiaomi/mimo-v2.5-pro-20260422",
+        "model_id": "xiaomi/mimo-v2.5-pro",
+        "model_name": "Xiaomi: MiMo-V2.5-Pro",
+        "context_length": 1048576,
+        "pricing": {
+          "prompt": "0.00000048024",
+          "completion": "0.00000096048",
+          "input_cache_read": "0.000000003956",
+          "discount": 0.08
+        },
+        "provider_name": "Novita",
+        "tag": "novita",
+        "quantization": "unknown",
+        "max_completion_tokens": 131072,
+        "max_prompt_tokens": null,
+        "supported_parameters": [
+          "reasoning",
+          "include_reasoning",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "frequency_penalty",
+          "presence_penalty",
+          "seed",
+          "top_k",
+          "repetition_penalty",
+          "response_format",
+          "tools",
+          "tool_choice"
+        ],
+        "supports_tool_choice": {
+          "none": false,
+          "auto": true,
+          "required": false,
+          "function": false
+        },
+        "status": 0,
+        "uptime_last_30m": 97.81818181818181,
+        "uptime_last_5m": 98.88888888888889,
+        "uptime_last_1d": 96.32074388703937,
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "latency_last_30m": null,
+        "throughput_last_30m": null
+      },
+      {
+        "name": "StreamLake | xiaomi/mimo-v2.5-pro-20260422",
+        "model_id": "xiaomi/mimo-v2.5-pro",
+        "model_name": "Xiaomi: MiMo-V2.5-Pro",
+        "context_length": 1000000,
+        "pricing": {
+          "prompt": "0.000000522",
+          "completion": "0.000001044",
+          "input_cache_read": "0.00000000432",
+          "discount": -0.2
+        },
+        "provider_name": "StreamLake",
+        "tag": "streamlake",
+        "quantization": "unknown",
+        "max_completion_tokens": 128000,
+        "max_prompt_tokens": null,
+        "supported_parameters": [
+          "reasoning",
+          "include_reasoning",
+          "response_format",
+          "tools",
+          "tool_choice",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop"
+        ],
+        "supports_tool_choice": {
+          "none": false,
+          "auto": true,
+          "required": false,
+          "function": false
+        },
+        "status": -2,
+        "uptime_last_30m": 90.625,
+        "uptime_last_5m": null,
+        "uptime_last_1d": 93.80094886110456,
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "latency_last_30m": null,
+        "throughput_last_30m": null
+      }
+    ]
+  }
+}

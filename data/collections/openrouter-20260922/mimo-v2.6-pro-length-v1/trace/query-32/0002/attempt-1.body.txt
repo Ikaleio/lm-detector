@@ -1,0 +1,26 @@
+: OPENROUTER PROCESSING
+
+: OPENROUTER PROCESSING
+
+: OPENROUTER PROCESSING
+
+data: {"id":"gen-1790072387-PM02k7I3w9JRGr0fmGtP","object":"chat.completion.chunk","created":1790072387,"model":"xiaomi/mimo-v2.6-pro","provider":"Xiaomi","choices":[{"index":0,"delta":{"content":"I","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790072387-PM02k7I3w9JRGr0fmGtP","object":"chat.completion.chunk","created":1790072387,"model":"xiaomi/mimo-v2.6-pro","provider":"Xiaomi","choices":[{"index":0,"delta":{"content":"'m","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790072387-PM02k7I3w9JRGr0fmGtP","object":"chat.completion.chunk","created":1790072387,"model":"xiaomi/mimo-v2.6-pro","provider":"Xiaomi","choices":[{"index":0,"delta":{"content":" sorry","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790072387-PM02k7I3w9JRGr0fmGtP","object":"chat.completion.chunk","created":1790072387,"model":"xiaomi/mimo-v2.6-pro","provider":"Xiaomi","choices":[{"index":0,"delta":{"content":", but","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790072387-PM02k7I3w9JRGr0fmGtP","object":"chat.completion.chunk","created":1790072387,"model":"xiaomi/mimo-v2.6-pro","provider":"Xiaomi","choices":[{"index":0,"delta":{"content":" I can","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790072387-PM02k7I3w9JRGr0fmGtP","object":"chat.completion.chunk","created":1790072387,"model":"xiaomi/mimo-v2.6-pro","provider":"Xiaomi","choices":[{"index":0,"delta":{"content":"'t assist","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790072387-PM02k7I3w9JRGr0fmGtP","object":"chat.completion.chunk","created":1790072387,"model":"xiaomi/mimo-v2.6-pro","provider":"Xiaomi","choices":[{"index":0,"delta":{"content":" with that request.","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790072387-PM02k7I3w9JRGr0fmGtP","object":"chat.completion.chunk","created":1790072387,"model":"xiaomi/mimo-v2.6-pro","provider":"Xiaomi","choices":[{"index":0,"delta":{"content":"","role":"assistant"},"finish_reason":"stop","native_finish_reason":"stop"}]}
+
+data: {"id":"gen-1790072387-PM02k7I3w9JRGr0fmGtP","object":"chat.completion.chunk","created":1790072387,"model":"xiaomi/mimo-v2.6-pro","provider":"Xiaomi","service_tier":null,"choices":[{"index":0,"delta":{"content":"","role":"assistant"},"finish_reason":"stop","native_finish_reason":"stop"}],"usage":{"prompt_tokens":848,"completion_tokens":14,"total_tokens":862,"cost":0.00038106,"is_byok":false,"prompt_tokens_details":{"cached_tokens":0,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00038106,"upstream_inference_prompt_cost":0.00036888,"upstream_inference_completions_cost":0.00001218},"completion_tokens_details":{"reasoning_tokens":0,"image_tokens":0,"audio_tokens":0}}}
+
+data: [DONE]
+

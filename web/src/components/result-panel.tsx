@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion, useMotionValueEvent, useSpring } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/i18n'
-import { listItem, listStagger, useMotionPreset } from '@/lib/motion'
+import { listItem, listStagger, spring as motionSpring, useMotionPreset } from '@/lib/motion'
 import { confidenceOf, isUncertain } from '@/lib/export-image'
 import { cn } from '@/lib/utils'
 import type { Analysis } from '@fingerpoint/shared/types'
@@ -12,11 +12,11 @@ const VISIBLE = 8
 function AnimatedPercent({ value, className }: { value: number; className?: string }) {
   const { percent } = useI18n()
   const { reduced } = useMotionPreset()
-  const spring = useSpring(reduced ? value : 0, { stiffness: 120, damping: 20 })
+  const spring = useSpring(reduced ? value : 0, motionSpring.gentle)
   const [shown, setShown] = useState(reduced ? value : 0)
   useEffect(() => { if (reduced) spring.jump(value); else spring.set(value) }, [spring, value, reduced])
   useMotionValueEvent(spring, 'change', v => setShown(v))
-  return <span className={className}>{percent(shown)}</span>
+  return <span className={className} aria-label={percent(value)}>{percent(reduced ? value : Math.min(1, Math.max(0, shown)))}</span>
 }
 
 function ConfidenceBar({ value }: { value: number | null }) {
@@ -24,7 +24,7 @@ function ConfidenceBar({ value }: { value: number | null }) {
   return (
     <div className="fp-bar" aria-hidden="true">
       {value !== null && (
-        <motion.span initial={reduced ? false : { width: 0 }} animate={{ width: `${Math.min(100, Math.max(0, value * 100))}%` }} transition={gentle} />
+        <motion.span style={{ width: '100%', transformOrigin: 'left' }} initial={reduced ? false : { scaleX: 0 }} animate={{ scaleX: Math.min(1, Math.max(0, value)) }} transition={gentle} />
       )}
     </div>
   )
@@ -55,13 +55,18 @@ export function ResultPanel({ result }: { result: Analysis }) {
             <span className="text-meta text-muted-foreground">{t(uncertain ? 'detect.topUncertain' : 'detect.topLabel')}</span>
             <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
               <span className={cn('text-display min-w-0 [overflow-wrap:anywhere]', uncertain && 'text-muted-foreground')}>{top.display_name}</span>
-              {topConfidence !== null && <AnimatedPercent value={topConfidence} className={cn('text-display-number', uncertain && 'text-muted-foreground')} />}
+              {topConfidence !== null && (
+                <div className="ml-auto flex shrink-0 flex-col items-end gap-1 text-right">
+                  <AnimatedPercent value={topConfidence} className={cn('text-display-number', uncertain && 'text-muted-foreground')} />
+                  <span className="text-meta text-muted-foreground">{t('detect.scoreLabel')}</span>
+                </div>
+              )}
             </div>
             {top.family_name && <span className="text-body text-muted-foreground">{top.family_name}</span>}
           </>
         )}
       </div>
-      {!unscorable && <p className="text-body text-muted-foreground">{t('detect.rankingNote')}</p>}
+      {!unscorable && <p className="text-body text-muted-foreground">{result.used_outputs < 3 ? t('detect.partialNote', { n: result.used_outputs }) : t('detect.rankingNote')}</p>}
       {!unscorable && (
         <motion.ol className="fp-card px-4" variants={reduced ? undefined : listStagger} initial={reduced ? false : 'hidden'} animate="show" aria-label={t('detect.result')}>
           {rows.map((r, i) => {

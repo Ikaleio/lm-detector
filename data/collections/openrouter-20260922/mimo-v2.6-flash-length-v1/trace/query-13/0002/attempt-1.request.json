@@ -1,0 +1,27 @@
+{
+  "url": "https://openrouter.ai/api/v1/chat/completions",
+  "body": {
+    "model": "xiaomi/mimo-v2.6-flash",
+    "messages": [
+      {
+        "role": "user",
+        "content": "严格只输出题目要求的 297 个整数，第 297 个数之后立即结束；保持原题的输出格式，不追加其他数字或第二组序列。\n\nFor each of 297 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+      }
+    ],
+    "max_tokens": 8192,
+    "stream": true,
+    "reasoning": {
+      "enabled": false
+    },
+    "provider": {
+      "only": [
+        "xiaomi/fp8"
+      ],
+      "order": [
+        "xiaomi/fp8"
+      ],
+      "allow_fallbacks": false
+    }
+  },
+  "started_at": "2026-09-22T10:04:47.624Z"
+}

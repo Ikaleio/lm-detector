@@ -1,0 +1,16 @@
+{
+  "initial_concurrency_per_model": 1,
+  "resumed_concurrency_per_model": 3,
+  "max_attempts": 5,
+  "reasoning": {
+    "grok-4.7": {
+      "effort": "low"
+    },
+    "mimo": {
+      "enabled": false
+    }
+  },
+  "prompt_policy": "Unchanged fixed enrollment suite for every attempt; first valid completed response only.",
+  "checkpoint_transition": "The serial collector received SIGTERM. In-flight attempts were recorded as interrupted; successful attempts are reused.",
+  "resumed_at": "2026-09-22T09:47:40.351Z"
+}

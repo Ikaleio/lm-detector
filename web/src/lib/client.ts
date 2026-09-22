@@ -48,7 +48,8 @@ export async function loadRows():Promise<SampleRow[]>{await loadBank();if(!rowsC
 export async function loadSamples(model:string){return (await loadRows()).filter(r=>r.source===model)}
 export async function analyze(outputs:Output[],bank:Bank):Promise<Analysis>{
   const detector=await loadDetector()
-  return worker({action:'analyze',outputs,bank,detector},undefined,()=>analyzeSharedOutputs(outputs,bank,detector))
+  const options={allowPartial:true}
+  return worker({action:'analyze',outputs,bank,detector,options},undefined,()=>analyzeSharedOutputs(outputs,bank,detector,options))
 }
 function sanitize(value:unknown):unknown {
   if(typeof value==='string')return redactPrivateMetadata(value.replace(/\bsk-[\w-]+/g,'[REDACTED]'))
@@ -66,13 +67,8 @@ export function exportAnalysis(result:Analysis){
   download('fingerpoint-result.json',JSON.stringify(candidates,null,2)+'\n')
 }
 const browserTransport:CompletionTransport = (url,config,body,signal) => {
-  const headers:Record<string,string>={'Content-Type':'application/json',Accept:body.stream?'text/event-stream':'application/json'}
-  if(config.format==='anthropic'){
-    headers['x-api-key']=config.apiKey
-    headers['anthropic-version']='2023-06-01'
-    headers['anthropic-dangerous-direct-browser-access']='true'
-  }else headers.Authorization=`Bearer ${config.apiKey}`
-  return fetch(url,{method:'POST',headers,body:JSON.stringify(body),signal,redirect:'error',credentials:'omit'})
+  const headers={'Content-Type':'application/json',Authorization:`Bearer ${config.apiKey}`,Accept:body.stream?'text/event-stream':'application/json'}
+  return fetch('/api/proxy',{method:'POST',headers,body:JSON.stringify({url,format:config.format,body}),signal,redirect:'error',credentials:'omit'})
 }
 export const testApi = (config:ApiConfig,challenges:Challenge[],onProgress:(p:CollectionProgress)=>void,signal?:AbortSignal) =>
   testApiShared(config,challenges,onProgress,signal,browserTransport)

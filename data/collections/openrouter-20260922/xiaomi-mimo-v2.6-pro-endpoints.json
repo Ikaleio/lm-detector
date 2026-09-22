@@ -1,0 +1,72 @@
+{
+  "queried_at": "2026-09-22T09:39:33.816Z",
+  "url": "https://openrouter.ai/api/v1/models/xiaomi/mimo-v2.6-pro/endpoints",
+  "status": 200,
+  "data": {
+    "id": "xiaomi/mimo-v2.6-pro",
+    "name": "Xiaomi: MiMo-V2.6-Pro",
+    "created": 1790021259,
+    "description": "MiMo-V2.6-Pro is the flagship foundation model developed by Xiaomi. Built at a scale of over 1T parameters, it is designed to push the ceiling of capability for the most demanding...",
+    "architecture": {
+      "tokenizer": "Other",
+      "instruct_type": null,
+      "modality": "text+image+audio+video->text",
+      "input_modalities": [
+        "text",
+        "image",
+        "video",
+        "audio"
+      ],
+      "output_modalities": [
+        "text"
+      ]
+    },
+    "endpoints": [
+      {
+        "name": "Xiaomi | xiaomi/mimo-v2.6-pro-20260921",
+        "model_id": "xiaomi/mimo-v2.6-pro",
+        "model_name": "Xiaomi: MiMo-V2.6-Pro",
+        "context_length": 1048576,
+        "pricing": {
+          "prompt": "0.000000435",
+          "completion": "0.00000087",
+          "input_cache_read": "0.0000000036",
+          "discount": 0
+        },
+        "provider_name": "Xiaomi",
+        "tag": "xiaomi/fp8",
+        "quantization": "fp8",
+        "max_completion_tokens": 131072,
+        "max_prompt_tokens": null,
+        "supported_parameters": [
+          "reasoning",
+          "include_reasoning",
+          "max_tokens",
+          "temperature",
+          "top_p",
+          "stop",
+          "response_format",
+          "tools",
+          "tool_choice",
+          "frequency_penalty",
+          "presence_penalty",
+          "structured_outputs"
+        ],
+        "supports_tool_choice": {
+          "none": false,
+          "auto": true,
+          "required": true,
+          "function": false
+        },
+        "status": 0,
+        "uptime_last_30m": 99.94877856579984,
+        "uptime_last_5m": 99.82882574460801,
+        "uptime_last_1d": 99.98813565354753,
+        "supports_implicit_caching": false,
+        "supports_voice_cloning": false,
+        "latency_last_30m": null,
+        "throughput_last_30m": null
+      }
+    ]
+  }
+}

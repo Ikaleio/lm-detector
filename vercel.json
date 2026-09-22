@@ -1,8 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
-  "builds": [
-    { "src": "package.json", "use": "@vercel/static-build", "config": { "distDir": "web/dist" } }
-  ],
-  "routes": [{ "handle": "filesystem" }]
+  "framework": null,
+  "installCommand": "bun install --frozen-lockfile",
+  "buildCommand": "bun run build",
+  "outputDirectory": "web/dist",
+  "functions": {
+    "api/proxy.ts": { "maxDuration": 300, "supportsCancellation": true }
+  }
 }

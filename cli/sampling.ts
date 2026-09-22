@@ -149,7 +149,7 @@ export function referenceRows(manifest: Manifest, attempts: Attempt[]): SampleRo
       strict_valid: true, text: row.text, prompt: task.prompt, system_prompt: task.system,
       api_format: manifest.config.format, stream: manifest.config.stream,
       reasoning_effort: manifest.config.format === 'openai'
-        ? String(task.body.reasoning_effort ?? 'default') : manifest.config.effort,
+        ? String(task.body.reasoning_effort ?? manifest.config.effort) : manifest.config.effort,
       response_model: row.response_model, usage: row.usage, collected_at: row.finished_at,
       request: task.body, manifest_sha256: manifest.fingerprint, selected_attempt: row.attempt,
       provenance: { kind: metadata.source, name: metadata.source_name, provider: metadata.provider,
@@ -169,8 +169,9 @@ export async function saveSummary(directory: string, manifest: Manifest, attempt
 }
 
 /** The caller holds the run lock. Transport injection also permits offline replay. */
-export async function collect(directory: string, manifest: Manifest, apiKey: string, maxAttempts: number, signal: AbortSignal, transport?: CompletionTransport) {
+export async function collect(directory: string, manifest: Manifest, apiKey: string, maxAttempts: number, signal: AbortSignal, transport?: CompletionTransport, concurrency = 1) {
   if (!Number.isInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > 20) throw new Error('max-attempts 必须为 1–20')
+  if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 12) throw new Error('concurrency 必须为 1–12')
   const config: ApiConfig = { ...manifest.config, apiKey }
   const attempts = await loadAttempts(directory, manifest)
   // A running marker means the previous process ended before it committed the response.
@@ -188,10 +189,13 @@ export async function collect(directory: string, manifest: Manifest, apiKey: str
     record.text_sha256 = sha256(record.text); record.finished_at ??= new Date().toISOString()
     await saveJson(attemptPath(directory, task, record.attempt), record)
   }
-  try {
-    for (const task of manifest.tasks) {
+  let nextTask = 0
+  let halted = false
+  const worker = async () => {
+    while (nextTask < manifest.tasks.length && !signal.aborted && !halted) {
+      const task = manifest.tasks[nextTask++]
       let history = attempts.filter(row => row.challenge_id === task.id)
-      while (!history.some(row => row.status === 'accepted') && history.length < maxAttempts && !signal.aborted) {
+      while (!history.some(row => row.status === 'accepted') && history.length < maxAttempts && !signal.aborted && !halted) {
         if (!apiKey && !transport) throw new Error('密钥环境变量未设置；请设置 API_KEY 或使用 --api-key-env NAME')
         const number = Math.max(0, ...history.map(row => row.attempt)) + 1
         const relative = `trace/${task.id}/${String(number).padStart(4, '0')}`
@@ -223,13 +227,21 @@ export async function collect(directory: string, manifest: Manifest, apiKey: str
           await saveJson(attemptPath(directory, task, number), record)
           await saveSummary(directory, manifest, attempts, signal.aborted)
         }
-        console.error(`${task.id} 尝试 ${number}: ${record.status}${record.error ? ` (${record.error})` : ''}`)
-        if (record.status !== 'accepted' && !record.retryable) return attempts
+        console.error(`${manifest.metadata.label} ${task.id} 尝试 ${number}: ${record.status}${record.error ? ` (${record.error})` : ''}`)
+        if (record.status !== 'accepted' && !record.retryable) { halted = true; return }
         if (record.status !== 'accepted' && history.length < maxAttempts && !signal.aborted) {
           await new Promise<void>(resolve => { const done = () => { clearTimeout(timer); signal.removeEventListener('abort', done); resolve() }; const timer = setTimeout(done, 1000); signal.addEventListener('abort', done, { once: true }) })
         }
       }
     }
+  }
+  try {
+    const outcomes = await Promise.allSettled(Array.from({ length: concurrency }, () => worker().catch(error => {
+      halted = true
+      throw error
+    })))
+    const failed = outcomes.find(outcome => outcome.status === 'rejected')
+    if (failed?.status === 'rejected') throw failed.reason
   } finally { await saveSummary(directory, manifest, attempts, signal.aborted) }
   return attempts
 }

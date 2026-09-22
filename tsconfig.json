@@ -12,6 +12,7 @@
     "strict": true,
     "skipLibCheck": true,
     "noEmit": true,
+    "allowImportingTsExtensions": true,
     "allowJs": true,
     "checkJs": false,
     "resolveJsonModule": true,
@@ -24,7 +25,11 @@
   },
   "include": [
     "web/src",
+    "web/scripts",
     "web/vite.config.ts",
+    "server",
+    "api",
+    "functions",
     "shared",
     "cli"
   ]

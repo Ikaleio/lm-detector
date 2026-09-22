@@ -12,8 +12,11 @@
   "scripts": {
     "dev": "bun run sync-data && bun run --cwd web dev",
     "build": "bun run sync-data && bun run typecheck && bun run --cwd web build",
-    "typecheck": "tsc -b",
+    "typecheck": "tsc --noEmit",
     "preview": "bun run --cwd web preview",
+    "build:pages": "bun run build && wrangler pages functions build --outdir .wrangler/pages",
+    "preview:pages": "wrangler pages dev web/dist --ip 127.0.0.1 --port 8788",
+    "deploy:pages": "wrangler pages deploy web/dist",
     "sync-data": "bun web/scripts/sync-data.ts",
     "detect": "bun cli/detect.ts",
     "sample": "bun cli/sample.ts",
@@ -22,6 +25,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.20.2",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "wrangler": "^4.136.2"
   }
 }

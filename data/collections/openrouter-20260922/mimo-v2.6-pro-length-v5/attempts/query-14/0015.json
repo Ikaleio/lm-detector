@@ -1,0 +1,38 @@
+{
+  "manifest_sha256": "43a9555b75f27eed0dd5db18261f7589d8674582c35b689fb32144d35c6202c3",
+  "challenge_id": "query-14",
+  "attempt": 15,
+  "status": "accepted",
+  "started_at": "2026-09-22T10:50:31.117Z",
+  "trace": "trace/query-14/0015",
+  "text": "287\n43\n192\n331\n7\n145\n263\n98\n355\n51\n224\n116\n304\n18\n178\n289\n64\n246\n133\n322\n89\n201\n27\n156\n348\n72\n233\n110\n295\n34\n186\n257\n80\n317\n49\n212\n141\n336\n12\n169\n278\n93\n242\n58\n198\n284\n127\n329\n21\n217\n153\n301\n67\n251\n104\n343\n38\n227\n181\n291\n76\n137\n269\n5\n238\n122\n313\n55\n208\n148\n339\n30\n175\n274\n86\n248\n113\n298\n46\n221\n159\n307\n73\n254\n99\n346\n24\n231\n189\n281\n61\n214\n130\n326\n15\n240\n118\n310\n53\n205\n151\n341\n33\n172\n271\n83\n244\n107\n294\n42\n225\n163\n311\n69\n257\n102\n349\n27\n228\n185\n283\n64\n211\n135\n328\n18\n236\n121\n307\n56\n202\n147\n338\n36\n176\n276\n88\n241\n110\n297\n48\n218\n160\n314\n74\n252\n96\n345\n22\n234\n183\n286\n60\n216\n128\n323\n11\n243\n115\n316\n59\n206\n143\n333\n31\n171\n268\n84\n247\n105\n292\n45\n223\n166\n318\n70\n259\n100\n350\n25\n226\n188\n279\n66\n209\n139\n330\n14\n237\n112\n303\n52\n213\n150\n344\n29\n179\n273\n91\n245\n114\n296\n40\n220\n157\n305\n77\n255\n103\n352\n20\n232\n180\n288\n63\n215\n132\n325\n17\n239\n117\n309\n57\n203\n146\n335\n35\n174\n275\n85\n249\n108\n300\n44\n222\n162\n312\n71\n253\n97\n347\n26\n230\n186\n282\n58\n210\n136\n327\n13\n242\n113\n306\n54\n207\n142\n332\n32\n173\n269\n87\n246\n111\n295\n41\n219\n158\n315\n75\n256\n101\n351\n23\n228\n184\n285\n62\n212\n134\n324\n16\n238\n116\n308\n55\n204\n149\n337\n28\n177\n272\n90\n244\n106\n299\n47\n221\n165\n313\n68\n250\n104\n353\n21\n233\n182\n287\n65\n217\n131\n326\n12\n235\n119\n311\n58\n206\n145\n334\n34\n175\n277\n86\n248\n109\n302\n43\n216\n161\n317\n72\n254\n98\n348\n24\n226\n189\n280\n60\n211\n138\n329\n15\n240\n115\n305\n51\n209\n152\n340\n30\n170\n268\n89\n243\n112\n293\n46\n224\n157\n320\n67\n257\n102\n354\n19\n231\n181\n284\n63\n214\n133\n322\n18\n236\n118\n308\n56\n202\n147\n336\n27\n178\n275\n83\n246\n105\n300\n49\n218\n164\n314\n70\n252\n100\n345\n22\n229\n187\n281\n66\n207\n137\n331\n11\n242\n111\n312\n53\n205\n150\n343\n33\n172\n271\n87\n240\n108\n296\n42\n222\n159\n306\n73\n255\n95\n350\n25\n234\n184\n288\n61\n213\n135\n325\n14\n238\n116\n302\n58\n210\n144\n339\n36\n176\n278\n92\n245\n113\n299\n45\n219\n162\n318\n68\n251\n103\n347\n20\n227\n180\n283\n64\n216\n130\n328\n17\n235\n114\n309\n50\n208",
+  "text_sha256": "4cfd5eef467a84b65c97ff992c83979b7b1ea22b6300b66b018d3110719d83d5",
+  "parsed_count": 472,
+  "http_status": 200,
+  "response_model": "xiaomi/mimo-v2.6-pro",
+  "response_id": "gen-1790074231-jvo2DMJANSPhlXTlcUoL",
+  "usage": {
+    "prompt_tokens": 242,
+    "completion_tokens": 1756,
+    "total_tokens": 1998,
+    "cost": 0.0015777708,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 128,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0015777708,
+      "upstream_inference_prompt_cost": 0.0000500508,
+      "upstream_inference_completions_cost": 0.00152772
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "finished_at": "2026-09-22T10:51:17.199Z"
+}

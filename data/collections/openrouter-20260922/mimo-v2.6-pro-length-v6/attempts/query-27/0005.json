@@ -1,0 +1,14 @@
+{
+  "manifest_sha256": "949abb0642df8d78bd1c50a69a867b96317187ad839d9065909a57ecffc84bbb",
+  "challenge_id": "query-27",
+  "attempt": 5,
+  "status": "failed",
+  "started_at": "2026-09-22T10:36:40.907Z",
+  "trace": "trace/query-27/0005",
+  "text": "",
+  "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "parsed_count": 0,
+  "error": "上游请求超时",
+  "retryable": true,
+  "finished_at": "2026-09-22T10:40:50.909Z"
+}

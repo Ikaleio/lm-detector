@@ -1,0 +1,63 @@
+{
+  "schema": "fingerpoint-collection-v2",
+  "purpose": "reference-collection",
+  "id": "8f493c58-3bf6-4435-9a40-6520c13a22b4",
+  "created_at": "2026-09-22T10:16:52.159Z",
+  "metadata": {
+    "label": "mimo-v2.5",
+    "family": "mimo",
+    "family_name": "MiMo",
+    "provider": "Xiaomi",
+    "source": "openrouter",
+    "source_name": "OpenRouter / Xiaomi (xiaomi/fp8)",
+    "response_models": [
+      "xiaomi/mimo-v2.5",
+      "xiaomi/mimo-v2.5-20260422"
+    ]
+  },
+  "config": {
+    "baseUrl": "https://openrouter.ai/api/v1",
+    "model": "xiaomi/mimo-v2.5",
+    "format": "openai",
+    "effort": "none",
+    "stream": true,
+    "parallel": false
+  },
+  "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+  "codex": false,
+  "timeout_ms": 250000,
+  "suite_sha256": "5f0a58d4658db62d5249de25310b3ce796320db4d42b9f491c392abfa3ce5546",
+  "tasks": [
+    {
+      "id": "query-15",
+      "condition": "environment-05",
+      "expected_count": 331,
+      "prompt": "严格只输出题目要求的 331 个整数，第 331 个数之后立即结束；保持原题的输出格式，不追加其他数字或第二组序列。\n\nFill exactly 331 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.\n\n严格只输出题目要求的 331 个整数，第 331 个数之后立即结束；保持原题的输出格式，不追加其他数字或第二组序列。",
+      "system": "",
+      "body": {
+        "model": "xiaomi/mimo-v2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "严格只输出题目要求的 331 个整数，第 331 个数之后立即结束；保持原题的输出格式，不追加其他数字或第二组序列。\n\nFill exactly 331 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.\n\n严格只输出题目要求的 331 个整数，第 331 个数之后立即结束；保持原题的输出格式，不追加其他数字或第二组序列。"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": true,
+        "reasoning": {
+          "enabled": false
+        },
+        "provider": {
+          "only": [
+            "xiaomi/fp8"
+          ],
+          "order": [
+            "xiaomi/fp8"
+          ],
+          "allow_fallbacks": false
+        }
+      }
+    }
+  ],
+  "fingerprint": "712968c54a8171faf3b25f26f1893b8568917aa950ffa440b937b96b65bc4a7e"
+}

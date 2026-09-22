@@ -1,9 +1,10 @@
 {
   "policy": "Only original ModelTrace data and user-designated OpenRouter channel outputs are trusted. Gateway attribution is user-designated, not independently verified upstream identity.",
-  "rows": 1444,
+  "rows": 1660,
   "sources": {
     "original": 432,
-    "openrouter": 1012
+    "openrouter": 1192,
+    "api": 36
   },
   "models": {
     "gpt-5.4": 36,
@@ -44,7 +45,13 @@
     "hy4-preview": 36,
     "muse-spark-1.2": 36,
     "muse-spark-1.3-contributor": 36,
-    "muse-spark-1.3": 36
+    "muse-spark-1.3": 36,
+    "kimi-k2.8-preview": 36,
+    "grok-4.7": 36,
+    "mimo-v2.5": 36,
+    "mimo-v2.5-pro": 36,
+    "mimo-v2.6-flash": 36,
+    "mimo-v2.6-pro": 36
   },
   "batches": [
     {
@@ -210,6 +217,408 @@
       "attempts_file": "data/collections/kimi-k3-moonshotai-20260914/attempts.jsonl",
       "generation_metadata_file": "data/collections/kimi-k3-moonshotai-20260914/generation-metadata.json",
       "replacement_for": "openrouter-kimi-k3-20260910"
+    },
+    {
+      "id": "eb13e7d6-811a-43e7-b89c-ca3b36a52a9a",
+      "kind": "openrouter",
+      "accepted": 30,
+      "model_id": "grok-4.7",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xai"
+        ],
+        "order": [
+          "xai"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "effort": "low"
+      },
+      "verified_provider": "xAI",
+      "manifest_sha256": "08b9a2dcc13287cb7b624e9f82b70bc0c5b38f7b2f6ea815d19192085e398345",
+      "attempts_file": "data/collections/openrouter-20260922/grok-4.7/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/grok-4.7/provider-verification.json"
+    },
+    {
+      "id": "4e338557-454f-492f-98c2-13a9fc7efd1a",
+      "kind": "openrouter",
+      "accepted": 6,
+      "model_id": "grok-4.7",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xai"
+        ],
+        "order": [
+          "xai"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "effort": "low"
+      },
+      "verified_provider": "xAI",
+      "manifest_sha256": "063b08d11667e6573734c89b306d39c42f8098a9d7c622ceb69eb5043f7441ca",
+      "attempts_file": "data/collections/openrouter-20260922/grok-4.7-length-v1/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/grok-4.7-length-v1/provider-verification.json"
+    },
+    {
+      "id": "c64bd035-19dc-489b-8486-6c27f5500416",
+      "kind": "openrouter",
+      "accepted": 18,
+      "model_id": "mimo-v2.5",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xiaomi/fp8"
+        ],
+        "order": [
+          "xiaomi/fp8"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "enabled": false
+      },
+      "verified_provider": "Xiaomi",
+      "manifest_sha256": "7138f9ec39c5d4cf4b5d04d353cc49a424eda9971170a87973df55934959986c",
+      "attempts_file": "data/collections/openrouter-20260922/mimo-v2.5/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/mimo-v2.5/provider-verification.json"
+    },
+    {
+      "id": "6743ec31-b90d-491c-8778-86c13c65872d",
+      "kind": "openrouter",
+      "accepted": 2,
+      "model_id": "mimo-v2.5",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xiaomi/fp8"
+        ],
+        "order": [
+          "xiaomi/fp8"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "enabled": false
+      },
+      "verified_provider": "Xiaomi",
+      "manifest_sha256": "2b85cd730d385721c6a50a1b22513f04b1bd2bb4c6b8c2cfa7adda5dd1795a5b",
+      "attempts_file": "data/collections/openrouter-20260922/mimo-v2.5-length-v2/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/mimo-v2.5-length-v2/provider-verification.json"
+    },
+    {
+      "id": "6f2e9be6-4d7d-4e3e-b9c9-04363d3a67c8",
+      "kind": "openrouter",
+      "accepted": 15,
+      "model_id": "mimo-v2.5",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xiaomi/fp8"
+        ],
+        "order": [
+          "xiaomi/fp8"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "enabled": false
+      },
+      "verified_provider": "Xiaomi",
+      "manifest_sha256": "d4c1d4c7fca2753f4fb71c96fcd694e69022d188f031d56b5f52d116eb507dd8",
+      "attempts_file": "data/collections/openrouter-20260922/mimo-v2.5-length-v1/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/mimo-v2.5-length-v1/provider-verification.json"
+    },
+    {
+      "id": "8f493c58-3bf6-4435-9a40-6520c13a22b4",
+      "kind": "openrouter",
+      "accepted": 1,
+      "model_id": "mimo-v2.5",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xiaomi/fp8"
+        ],
+        "order": [
+          "xiaomi/fp8"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "enabled": false
+      },
+      "verified_provider": "Xiaomi",
+      "manifest_sha256": "712968c54a8171faf3b25f26f1893b8568917aa950ffa440b937b96b65bc4a7e",
+      "attempts_file": "data/collections/openrouter-20260922/mimo-v2.5-length-v3/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/mimo-v2.5-length-v3/provider-verification.json"
+    },
+    {
+      "id": "54818cec-2411-4094-8a66-65a0cf8ddde5",
+      "kind": "openrouter",
+      "accepted": 32,
+      "model_id": "mimo-v2.5-pro",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xiaomi/fp8"
+        ],
+        "order": [
+          "xiaomi/fp8"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "enabled": false
+      },
+      "verified_provider": "Xiaomi",
+      "manifest_sha256": "7744028102cf2068303c3750fbeec3d64cafde07e12f892e4aa5dec5ef0fb636",
+      "attempts_file": "data/collections/openrouter-20260922/mimo-v2.5-pro/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/mimo-v2.5-pro/provider-verification.json"
+    },
+    {
+      "id": "18b67ef3-cad3-4f15-b0b7-21814e960fd4",
+      "kind": "openrouter",
+      "accepted": 4,
+      "model_id": "mimo-v2.5-pro",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xiaomi/fp8"
+        ],
+        "order": [
+          "xiaomi/fp8"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "enabled": false
+      },
+      "verified_provider": "Xiaomi",
+      "manifest_sha256": "e345b0a8bdf480c46a8d8c0ef930955fe96eccfcac13572f1dff7b3a9f8917c5",
+      "attempts_file": "data/collections/openrouter-20260922/mimo-v2.5-pro-length-v1/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/mimo-v2.5-pro-length-v1/provider-verification.json"
+    },
+    {
+      "id": "d9e0dc43-9dd3-4b63-8c65-30b4fe99b96f",
+      "kind": "openrouter",
+      "accepted": 21,
+      "model_id": "mimo-v2.6-flash",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xiaomi/fp8"
+        ],
+        "order": [
+          "xiaomi/fp8"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "enabled": false
+      },
+      "verified_provider": "Xiaomi",
+      "manifest_sha256": "20011105d2f315d384b4c6c9acea69f2ad2e58c70a4ea5d0b82fd0f27bf2559a",
+      "attempts_file": "data/collections/openrouter-20260922/mimo-v2.6-flash/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/mimo-v2.6-flash/provider-verification.json"
+    },
+    {
+      "id": "a90e7f00-f653-4f29-8d04-e21b6c08ca20",
+      "kind": "openrouter",
+      "accepted": 7,
+      "model_id": "mimo-v2.6-flash",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xiaomi/fp8"
+        ],
+        "order": [
+          "xiaomi/fp8"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "enabled": false
+      },
+      "verified_provider": "Xiaomi",
+      "manifest_sha256": "f0b7faf2f2f52255f04279877854dbd5f87c3a76ffff70a8bd9a64ff04083ea8",
+      "attempts_file": "data/collections/openrouter-20260922/mimo-v2.6-flash-length-v1/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/mimo-v2.6-flash-length-v1/provider-verification.json"
+    },
+    {
+      "id": "43adbc34-c21b-446f-b5e5-615a360399cf",
+      "kind": "openrouter",
+      "accepted": 3,
+      "model_id": "mimo-v2.6-flash",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xiaomi/fp8"
+        ],
+        "order": [
+          "xiaomi/fp8"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "enabled": false
+      },
+      "verified_provider": "Xiaomi",
+      "manifest_sha256": "022b1db8970ad43b11fdc465fe6e442e7b6be137ec116911db53c3ac4e258122",
+      "attempts_file": "data/collections/openrouter-20260922/mimo-v2.6-flash-length-v2/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/mimo-v2.6-flash-length-v2/provider-verification.json"
+    },
+    {
+      "id": "445b946d-24ed-478b-9060-5e8aa63d3d8d",
+      "kind": "openrouter",
+      "accepted": 2,
+      "model_id": "mimo-v2.6-flash",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xiaomi/fp8"
+        ],
+        "order": [
+          "xiaomi/fp8"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "enabled": false
+      },
+      "verified_provider": "Xiaomi",
+      "manifest_sha256": "4d4172b2033ecec45d1fb325487e5b36ca893cd5c232514508fc4215ac611c5f",
+      "attempts_file": "data/collections/openrouter-20260922/mimo-v2.6-flash-length-v4/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/mimo-v2.6-flash-length-v4/provider-verification.json"
+    },
+    {
+      "id": "5a002018-d17d-4438-af46-091a9434797d",
+      "kind": "openrouter",
+      "accepted": 1,
+      "model_id": "mimo-v2.6-flash",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xiaomi/fp8"
+        ],
+        "order": [
+          "xiaomi/fp8"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "enabled": false
+      },
+      "verified_provider": "Xiaomi",
+      "manifest_sha256": "9e7fc8e5b3c0fc6653ff9a669bc3991d68d0eba1d6d8c4dc79f5ce5f71ce9ec2",
+      "attempts_file": "data/collections/openrouter-20260922/mimo-v2.6-flash-length-v5/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/mimo-v2.6-flash-length-v5/provider-verification.json"
+    },
+    {
+      "id": "f5ef9202-56eb-4e94-9c58-472461b062a6",
+      "kind": "openrouter",
+      "accepted": 2,
+      "model_id": "mimo-v2.6-flash",
+      "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+      "provider_request": {
+        "only": [
+          "xiaomi/fp8"
+        ],
+        "order": [
+          "xiaomi/fp8"
+        ],
+        "allow_fallbacks": false
+      },
+      "reasoning": {
+        "enabled": false
+      },
+      "verified_provider": "Xiaomi",
+      "manifest_sha256": "331ed492a0584923d06fb83693f149f678cdcf2b8e7226bc9bbde0d6773d7abe",
+      "attempts_file": "data/collections/openrouter-20260922/mimo-v2.6-flash-length-v3/attempts.jsonl",
+      "generation_metadata_file": "data/collections/openrouter-20260922/mimo-v2.6-flash-length-v3/provider-verification.json"
+    },
+    {
+      "id": "00362fc8-bc60-4c29-9c61-a1e6889c915a",
+      "kind": "openrouter",
+      "model_id": "mimo-v2.6-pro",
+      "accepted": 6,
+      "user_authorized_truncated": 0,
+      "manifest_sha256": "949abb0642df8d78bd1c50a69a867b96317187ad839d9065909a57ecffc84bbb",
+      "verified_provider": "Xiaomi",
+      "selection_file": "data/collections/openrouter-20260922/enrollment-selections.json"
+    },
+    {
+      "id": "3a1453c1-0a9c-497f-b6db-fbfd4d14e0ab",
+      "kind": "openrouter",
+      "model_id": "mimo-v2.6-pro",
+      "accepted": 7,
+      "user_authorized_truncated": 2,
+      "manifest_sha256": "1c2e8aa69105a289573eb8df9ff92c9b770eb3a401dc2dead4db027743413805",
+      "verified_provider": "Xiaomi",
+      "selection_file": "data/collections/openrouter-20260922/enrollment-selections.json"
+    },
+    {
+      "id": "770e7c1d-3ebc-4e78-8670-56c8e9022dc1",
+      "kind": "openrouter",
+      "model_id": "mimo-v2.6-pro",
+      "accepted": 1,
+      "user_authorized_truncated": 0,
+      "manifest_sha256": "2974af507922e63fadc1558c05572dc6ac8d9b31414f46e9dbc2e5ae58bf5fde",
+      "verified_provider": "Xiaomi",
+      "selection_file": "data/collections/openrouter-20260922/enrollment-selections.json"
+    },
+    {
+      "id": "83da72fb-6f7d-4ba8-bd24-91681f6c30a2",
+      "kind": "openrouter",
+      "model_id": "mimo-v2.6-pro",
+      "accepted": 15,
+      "user_authorized_truncated": 2,
+      "manifest_sha256": "43774ca8aa38050276eaaa134a11823d2708d342c006ca2b9c06758d4fe26704",
+      "verified_provider": "Xiaomi",
+      "selection_file": "data/collections/openrouter-20260922/enrollment-selections.json"
+    },
+    {
+      "id": "b21af0b2-e576-428a-b33a-43c2d524f09a",
+      "kind": "openrouter",
+      "model_id": "mimo-v2.6-pro",
+      "accepted": 1,
+      "user_authorized_truncated": 0,
+      "manifest_sha256": "007d4beb0840be5826174bb26df18ac45a4cf31128d7259918bc1ee25a56e99d",
+      "verified_provider": "Xiaomi",
+      "selection_file": "data/collections/openrouter-20260922/enrollment-selections.json"
+    },
+    {
+      "id": "cbaa5088-6a65-4615-859f-9d680a556835",
+      "kind": "openrouter",
+      "model_id": "mimo-v2.6-pro",
+      "accepted": 2,
+      "user_authorized_truncated": 0,
+      "manifest_sha256": "43a9555b75f27eed0dd5db18261f7589d8674582c35b689fb32144d35c6202c3",
+      "verified_provider": "Xiaomi",
+      "selection_file": "data/collections/openrouter-20260922/enrollment-selections.json"
+    },
+    {
+      "id": "1e7be77f-b17a-4197-8b0a-0ddb95791fc9",
+      "kind": "openrouter",
+      "model_id": "mimo-v2.6-pro",
+      "accepted": 1,
+      "user_authorized_truncated": 0,
+      "manifest_sha256": "0e42643a5528ac44e613a52ec8ca36f982bd8ade02edc2b99c7ad25674991206",
+      "verified_provider": "Xiaomi",
+      "selection_file": "data/collections/openrouter-20260922/enrollment-selections.json"
+    },
+    {
+      "id": "6beaf808-f573-4bce-b3c6-19618b4a0a04",
+      "kind": "openrouter",
+      "model_id": "mimo-v2.6-pro",
+      "accepted": 3,
+      "user_authorized_truncated": 0,
+      "manifest_sha256": "a510b3877b4ae5bee20f0b428dd67ecf10f5e143155312abb8f4556c9c37049c",
+      "verified_provider": "Xiaomi",
+      "selection_file": "data/collections/openrouter-20260922/enrollment-selections.json"
     }
   ],
   "excluded_sources": [
@@ -219,5 +628,5 @@
     "sqface",
     "manual pasted outputs"
   ],
-  "reference_sha256": "d600eaa4e1dad56bf72810241d598121da13f42403a7f2242c7920c79484477b"
+  "reference_sha256": "aff44bcc676d2db995a054e7733a74cddd12e8e8ae1cf687b55e462fd4da2527"
 }

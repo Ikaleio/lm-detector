@@ -1,0 +1,40 @@
+{
+  "manifest_sha256": "1c2e8aa69105a289573eb8df9ff92c9b770eb3a401dc2dead4db027743413805",
+  "challenge_id": "query-32",
+  "attempt": 2,
+  "status": "failed",
+  "started_at": "2026-09-22T10:19:47.386Z",
+  "trace": "trace/query-32/0002",
+  "text": "I'm sorry, but I can't assist with that request.",
+  "text_sha256": "3271784b048cd9727a867cc424bc2dc4ee30708ed498403bac62379057077103",
+  "parsed_count": 0,
+  "http_status": 200,
+  "response_model": "xiaomi/mimo-v2.6-pro",
+  "response_id": "gen-1790072387-PM02k7I3w9JRGr0fmGtP",
+  "usage": {
+    "prompt_tokens": 848,
+    "completion_tokens": 14,
+    "total_tokens": 862,
+    "cost": 0.00038106,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00038106,
+      "upstream_inference_prompt_cost": 0.00036888,
+      "upstream_inference_completions_cost": 0.00001218
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "error": "有效数字不足或记录不一致：query-32",
+  "retryable": true,
+  "finished_at": "2026-09-22T10:19:54.707Z"
+}

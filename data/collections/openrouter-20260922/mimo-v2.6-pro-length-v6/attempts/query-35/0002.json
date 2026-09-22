@@ -1,0 +1,38 @@
+{
+  "manifest_sha256": "949abb0642df8d78bd1c50a69a867b96317187ad839d9065909a57ecffc84bbb",
+  "challenge_id": "query-35",
+  "attempt": 2,
+  "status": "accepted",
+  "started_at": "2026-09-22T10:29:39.887Z",
+  "trace": "trace/query-35/0002",
+  "text": "142\n87\n253\n33\n318\n109\n176\n44\n229\n72\n341\n15\n128\n194\n63\n287\n101\n32\n176\n239\n84\n303\n17\n118\n162\n280\n55\n221\n98\n336\n14\n133\n247\n66\n184\n11\n298\n73\n205\n116\n28\n352\n91\n157\n310\n40\n217\n62\n274\n125\n333\n18\n170\n232\n81\n301\n26\n143\n258\n48\n198\n106\n344\n12\n269\n69\n224\n93\n326\n37\n151\n242\n83\n315\n22\n188\n75\n283\n113\n349\n30\n164\n211\n57\n294\n67\n137\n320\n8\n204\n88\n277\n45\n180\n120\n337\n25\n148\n235\n52\n307\n70\n168\n250\n39\n214\n104\n329\n19\n272\n85\n143\n313\n58\n228\n76\n347\n32\n155\n244\n95\n286\n13\n192\n110\n265\n64\n322\n29\n207\n80\n275\n43\n172\n130\n342\n21\n159\n238\n54\n305\n71\n220\n102\n331\n36\n186\n117\n281\n61\n325\n15\n146\n252\n89\n296\n47\n200\n78\n268\n108\n350\n23\n166\n230\n50\n311\n68\n134\n256\n34\n218\n96\n338\n41\n175\n122\n284\n56\n328\n10\n152\n240\n82\n300\n27\n202\n114\n271\n73\n345\n17\n182\n126\n289\n59\n316\n33\n226\n86\n334\n46\n160\n140\n254\n74\n308\n20\n190\n105\n279\n51\n339\n31\n212\n128\n323\n65\n262\n111\n348\n38\n178\n136\n292\n49\n314\n24\n234\n92\n282\n77\n332\n13\n185\n124\n276\n60\n327\n35\n208\n144\n251\n83\n302\n28\n196\n112\n266\n54\n343\n42\n222\n98\n288\n70\n318\n16\n168\n132\n295\n44\n329\n37\n246\n108\n280\n62\n337\n22\n173\n148\n259\n79\n304\n30\n203\n115\n273\n56\n346\n39\n225\n87\n285\n75\n321\n12\n187\n138\n263\n58\n333\n26\n215\n101\n278\n68\n310\n34\n162\n129\n298\n48\n326\n41\n237\n94\n284\n72\n340\n18\n209\n145\n255\n84\n306\n25\n180\n119\n270\n63\n331\n32\n228\n106\n287\n55\n324\n20\n165\n135\n293\n45\n338\n28\n241\n89\n282\n77\n313\n36\n193\n122\n268\n66\n335\n14\n218\n97\n275\n52\n328\n23\n177\n141\n261\n81\n309\n30\n206\n113\n272\n59\n342",
+  "text_sha256": "f91ecfce729c95f701e4eef67a296f3f7280e42180d33f1668a84ac0af8cd6b2",
+  "parsed_count": 365,
+  "http_status": 200,
+  "response_model": "xiaomi/mimo-v2.6-pro",
+  "response_id": "gen-1790072979-u6HRZsWuYdJ8aYwwiCs5",
+  "usage": {
+    "prompt_tokens": 2731,
+    "completion_tokens": 1324,
+    "total_tokens": 4055,
+    "cost": 0.0011802618,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 2688,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0011802618,
+      "upstream_inference_prompt_cost": 0.0000283818,
+      "upstream_inference_completions_cost": 0.00115188
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "finished_at": "2026-09-22T10:30:17.038Z"
+}

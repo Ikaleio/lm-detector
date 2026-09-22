@@ -1,4 +1,4 @@
-import type { ApiConfig } from './types'
+import type { ApiConfig } from './types.ts'
 
 export const COMPLETION_TIMEOUT_MS = 250000
 

@@ -1,0 +1,67 @@
+{
+  "model": "xiaomi/mimo-v2.6-flash",
+  "directory": "mimo-v2.6-flash-length-v4",
+  "provider": "Xiaomi",
+  "route": "xiaomi/fp8",
+  "planned": 2,
+  "accepted": 2,
+  "attempts": 3,
+  "failed": 1,
+  "interrupted": 0,
+  "provider_verified": 2,
+  "pending_generation_metadata": [],
+  "accepted_cost_usd": 0.000970715,
+  "verified_at": "2026-09-22T11:17:49.599Z",
+  "records": [
+    {
+      "challenge_id": "query-21",
+      "attempt": 2,
+      "generation_id": "gen-1790072436-7BIiUJOGOXobeFhqUysy",
+      "started_at": "2026-09-22T10:20:36.932Z",
+      "finished_at": "2026-09-22T10:20:51.111Z",
+      "response_provider": "Xiaomi",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-flash-20260921",
+      "finish_reason": "stop",
+      "parsed_count": 312,
+      "native_tokens_reasoning": 0,
+      "total_cost": 0.000413375,
+      "provider_responses": [
+        {
+          "endpoint_id": "6f7ea660-c5e2-492e-8a39-ec254953b3ae",
+          "id": "a74de55a-7886-44c9-bf2a-a0e967b3f746_ebe49f1620d44e77a0f6add7b5360577",
+          "is_byok": false,
+          "latency": 766,
+          "model_permaslug": "xiaomi/mimo-v2.6-flash-20260921",
+          "provider_name": "Xiaomi",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "challenge_id": "query-22",
+      "attempt": 1,
+      "generation_id": "gen-1790072358-1UP96CwQRhF0RRB2HWQq",
+      "started_at": "2026-09-22T10:19:18.710Z",
+      "finished_at": "2026-09-22T10:19:41.826Z",
+      "response_provider": "Xiaomi",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-flash-20260921",
+      "finish_reason": "stop",
+      "parsed_count": 330,
+      "native_tokens_reasoning": 0,
+      "total_cost": 0.00055734,
+      "provider_responses": [
+        {
+          "endpoint_id": "6f7ea660-c5e2-492e-8a39-ec254953b3ae",
+          "id": "b64a94ea-29d9-4b8e-a2ad-a355cf377644_4e6e7f9c48d847699db732a4c3c77ec2",
+          "is_byok": false,
+          "latency": 1389,
+          "model_permaslug": "xiaomi/mimo-v2.6-flash-20260921",
+          "provider_name": "Xiaomi",
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

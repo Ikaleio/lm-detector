@@ -1,0 +1,167 @@
+{
+  "model": "xiaomi/mimo-v2.6-pro",
+  "directory": "mimo-v2.6-pro-length-v6",
+  "provider": "Xiaomi",
+  "route": "xiaomi/fp8",
+  "planned": 7,
+  "accepted": 6,
+  "attempts": 36,
+  "failed": 30,
+  "interrupted": 0,
+  "provider_verified": 6,
+  "pending_generation_metadata": [],
+  "accepted_cost_usd": 0.016303683,
+  "verified_at": "2026-09-22T11:17:49.649Z",
+  "records": [
+    {
+      "challenge_id": "query-27",
+      "attempt": 8,
+      "generation_id": "gen-1790074042-cnoEnrCP7phNikYIHbYs",
+      "started_at": "2026-09-22T10:47:22.685Z",
+      "finished_at": "2026-09-22T10:48:37.961Z",
+      "response_provider": "Xiaomi",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-pro-20260921",
+      "finish_reason": "stop",
+      "parsed_count": 823,
+      "native_tokens_reasoning": 0,
+      "total_cost": 0.002652736,
+      "provider_responses": [
+        {
+          "endpoint_id": "4354fc36-b8ab-4ced-aa8c-0efb6b4523f1",
+          "id": "cb2c21bf-fd28-46d2-9661-bfcaeacb701c_24b3f7ed081642bda0fa57cd04bae57e",
+          "is_byok": false,
+          "latency": 1791,
+          "model_permaslug": "xiaomi/mimo-v2.6-pro-20260921",
+          "provider_name": "Xiaomi",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "challenge_id": "query-30",
+      "attempt": 1,
+      "generation_id": "gen-1790072811-Jy5iAwDuAwBhgc310Z56",
+      "started_at": "2026-09-22T10:26:51.811Z",
+      "finished_at": "2026-09-22T10:27:24.141Z",
+      "response_provider": "Xiaomi",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-pro-20260921",
+      "finish_reason": "stop",
+      "parsed_count": 374,
+      "native_tokens_reasoning": 0,
+      "total_cost": 0.0013746,
+      "provider_responses": [
+        {
+          "endpoint_id": "4354fc36-b8ab-4ced-aa8c-0efb6b4523f1",
+          "id": "c4c0f3fd-7312-44e1-ac4c-466a3f0e3fae_092495c7b6b144469526743b9b307eee",
+          "is_byok": false,
+          "latency": 1190,
+          "model_permaslug": "xiaomi/mimo-v2.6-pro-20260921",
+          "provider_name": "Xiaomi",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "challenge_id": "query-32",
+      "attempt": 1,
+      "generation_id": "gen-1790072811-cMgAmj4HTQc0iNFjBiur",
+      "started_at": "2026-09-22T10:26:51.811Z",
+      "finished_at": "2026-09-22T10:27:41.716Z",
+      "response_provider": "Xiaomi",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-pro-20260921",
+      "finish_reason": "stop",
+      "parsed_count": 623,
+      "native_tokens_reasoning": 0,
+      "total_cost": 0.00295191,
+      "provider_responses": [
+        {
+          "endpoint_id": "4354fc36-b8ab-4ced-aa8c-0efb6b4523f1",
+          "id": "24ab96a6-7027-4bf2-a285-74d75edd6256_90a3f1cde58b4effb5aec2ccb4c0cc04",
+          "is_byok": false,
+          "latency": 2304,
+          "model_permaslug": "xiaomi/mimo-v2.6-pro-20260921",
+          "provider_name": "Xiaomi",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "challenge_id": "query-33",
+      "attempt": 1,
+      "generation_id": "gen-1790072811-Nt4CbQ78NR1AEAtew7Gr",
+      "started_at": "2026-09-22T10:26:51.811Z",
+      "finished_at": "2026-09-22T10:29:08.431Z",
+      "response_provider": "Xiaomi",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-pro-20260921",
+      "finish_reason": "stop",
+      "parsed_count": 1926,
+      "native_tokens_reasoning": 0,
+      "total_cost": 0.00640494,
+      "provider_responses": [
+        {
+          "endpoint_id": "4354fc36-b8ab-4ced-aa8c-0efb6b4523f1",
+          "id": "c02d44ad-4263-42ea-8415-61d911e2c399_c746ba4c2f194031b19e24bc88819d69",
+          "is_byok": false,
+          "latency": 1194,
+          "model_permaslug": "xiaomi/mimo-v2.6-pro-20260921",
+          "provider_name": "Xiaomi",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "challenge_id": "query-34",
+      "attempt": 3,
+      "generation_id": "gen-1790073101-WT0nYQnX9UpH4UP0gEwy",
+      "started_at": "2026-09-22T10:31:41.724Z",
+      "finished_at": "2026-09-22T10:32:30.904Z",
+      "response_provider": "Xiaomi",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-pro-20260921",
+      "finish_reason": "stop",
+      "parsed_count": 418,
+      "native_tokens_reasoning": 0,
+      "total_cost": 0.001739236,
+      "provider_responses": [
+        {
+          "endpoint_id": "4354fc36-b8ab-4ced-aa8c-0efb6b4523f1",
+          "id": "68b4ffb6-ebcd-4eba-93c3-91fabf03eb01_485d2e370d9b49228fe0916278f17893",
+          "is_byok": false,
+          "latency": 1042,
+          "model_permaslug": "xiaomi/mimo-v2.6-pro-20260921",
+          "provider_name": "Xiaomi",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "challenge_id": "query-35",
+      "attempt": 2,
+      "generation_id": "gen-1790072979-u6HRZsWuYdJ8aYwwiCs5",
+      "started_at": "2026-09-22T10:29:39.887Z",
+      "finished_at": "2026-09-22T10:30:17.038Z",
+      "response_provider": "Xiaomi",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.6-pro-20260921",
+      "finish_reason": "stop",
+      "parsed_count": 365,
+      "native_tokens_reasoning": 0,
+      "total_cost": 0.001180261,
+      "provider_responses": [
+        {
+          "endpoint_id": "4354fc36-b8ab-4ced-aa8c-0efb6b4523f1",
+          "id": "465ae6b9-c7a6-4c80-8e57-16c21729d643_3ddc86a2386043899255143059d5e8f5",
+          "is_byok": false,
+          "latency": 683,
+          "model_permaslug": "xiaomi/mimo-v2.6-pro-20260921",
+          "provider_name": "Xiaomi",
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

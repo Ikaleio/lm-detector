@@ -1,0 +1,67 @@
+{
+  "model": "xiaomi/mimo-v2.5",
+  "directory": "mimo-v2.5-length-v2",
+  "provider": "Xiaomi",
+  "route": "xiaomi/fp8",
+  "planned": 3,
+  "accepted": 2,
+  "attempts": 6,
+  "failed": 4,
+  "interrupted": 0,
+  "provider_verified": 2,
+  "pending_generation_metadata": [],
+  "accepted_cost_usd": 0.00134106,
+  "verified_at": "2026-09-22T11:17:49.506Z",
+  "records": [
+    {
+      "challenge_id": "query-08",
+      "attempt": 2,
+      "generation_id": "gen-1790072041-a7RDh2Zu46N9nE9INA3c",
+      "started_at": "2026-09-22T10:14:01.553Z",
+      "finished_at": "2026-09-22T10:14:11.556Z",
+      "response_provider": "Xiaomi",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.5-20260422",
+      "finish_reason": "stop",
+      "parsed_count": 243,
+      "native_tokens_reasoning": 0,
+      "total_cost": 0.0003598,
+      "provider_responses": [
+        {
+          "endpoint_id": "2af4bf94-26fa-42b9-bce0-8b11071e105a",
+          "id": "45f14fde-6c77-4cf7-963e-55cff1614b7e_0be5b821e64e4d5083a834b255e509c3",
+          "is_byok": false,
+          "latency": 1141,
+          "model_permaslug": "xiaomi/mimo-v2.5-20260422",
+          "provider_name": "Xiaomi",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "challenge_id": "query-09",
+      "attempt": 1,
+      "generation_id": "gen-1790071968-34YVOlS5XgcyFZdglHXy",
+      "started_at": "2026-09-22T10:12:48.170Z",
+      "finished_at": "2026-09-22T10:13:12.812Z",
+      "response_provider": "Xiaomi",
+      "provider_name": "Xiaomi",
+      "model": "xiaomi/mimo-v2.5-20260422",
+      "finish_reason": "stop",
+      "parsed_count": 719,
+      "native_tokens_reasoning": 0,
+      "total_cost": 0.00098126,
+      "provider_responses": [
+        {
+          "endpoint_id": "2af4bf94-26fa-42b9-bce0-8b11071e105a",
+          "id": "9a3144ac-daed-4840-a6e6-cc4c27eed303_2adf141c3e5b4175841cb0803713d78a",
+          "is_byok": false,
+          "latency": 972,
+          "model_permaslug": "xiaomi/mimo-v2.5-20260422",
+          "provider_name": "Xiaomi",
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ApiConfig } from '@fingerpoint/shared/types'
 
 export interface WebApiConfig extends ApiConfig {
-  remember: boolean
   autoVerify: boolean
 }
 
@@ -18,7 +17,6 @@ export const defaultConfig: WebApiConfig = {
   format: 'openai',
   stream: true,
   parallel: false,
-  remember: false,
   autoVerify: false,
 }
 
@@ -28,18 +26,16 @@ function restore(): WebApiConfig {
     const raw = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(LEGACY_KEY)
     const saved = raw ? JSON.parse(raw) : null
     if (saved && typeof saved === 'object') {
-      for (const field of ['baseUrl', 'model', 'effort'] as const) {
+      for (const field of ['baseUrl', 'apiKey', 'model', 'effort'] as const) {
         if (typeof saved[field] === 'string') config[field] = saved[field]
       }
       if (['openai', 'responses', 'anthropic'].includes(saved.format)) config.format = saved.format
       for (const field of ['stream', 'parallel', 'autoVerify'] as const) {
         if (typeof saved[field] === 'boolean') config[field] = saved[field]
       }
-      // Migrate legacy secrets to memory; persist() removes them from localStorage.
-      if (typeof saved.apiKey === 'string') config.apiKey = saved.apiKey
-      if (typeof saved.remember === 'boolean') config.remember = saved.remember
     }
-    if (!config.apiKey) {
+    // Migrate old tab-scoped keys without overwriting an explicitly cleared key.
+    if (typeof saved?.apiKey !== 'string') {
       const sessionKey = sessionStorage.getItem(SESSION_KEY)
       if (sessionKey) config.apiKey = sessionKey
     }
@@ -48,11 +44,10 @@ function restore(): WebApiConfig {
 }
 
 function persist(config: WebApiConfig) {
-  const { apiKey, ...rest } = config
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(rest))
+  const { baseUrl, apiKey, model, effort, format, stream, parallel, autoVerify } = config
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({ baseUrl, apiKey, model, effort, format, stream, parallel, autoVerify }))
   localStorage.removeItem(LEGACY_KEY)
-  if (config.remember && apiKey) sessionStorage.setItem(SESSION_KEY, apiKey)
-  else sessionStorage.removeItem(SESSION_KEY)
+  sessionStorage.removeItem(SESSION_KEY)
 }
 
 export function useApiConfig(onPersistError?: () => void) {

@@ -1,0 +1,167 @@
+{
+  "model": "x-ai/grok-4.7",
+  "directory": "grok-4.7-length-v1",
+  "provider": "xAI",
+  "route": "xai",
+  "planned": 6,
+  "accepted": 6,
+  "attempts": 6,
+  "failed": 0,
+  "interrupted": 0,
+  "provider_verified": 6,
+  "pending_generation_metadata": [],
+  "accepted_cost_usd": 0.11702240000000001,
+  "verified_at": "2026-09-22T11:17:49.461Z",
+  "records": [
+    {
+      "challenge_id": "query-22",
+      "attempt": 1,
+      "generation_id": "gen-1790071412-OnZx3aAdozTc8KWuocbZ",
+      "started_at": "2026-09-22T10:03:32.162Z",
+      "finished_at": "2026-09-22T10:04:08.185Z",
+      "response_provider": "xAI",
+      "provider_name": "xAI",
+      "model": "x-ai/grok-4.7-20260916",
+      "finish_reason": "stop",
+      "parsed_count": 296,
+      "native_tokens_reasoning": 2241,
+      "total_cost": 0.0169488,
+      "provider_responses": [
+        {
+          "endpoint_id": "48cfe052-27db-4511-bd21-db8053f20023",
+          "id": "68232c8c-080d-9a66-8cd3-b9db3bd32b2c",
+          "is_byok": false,
+          "latency": 714,
+          "model_permaslug": "x-ai/grok-4.7-20260916",
+          "provider_name": "xAI",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "challenge_id": "query-23",
+      "attempt": 1,
+      "generation_id": "gen-1790071412-ky3LccqM3YbB4FOgwW0G",
+      "started_at": "2026-09-22T10:03:32.162Z",
+      "finished_at": "2026-09-22T10:04:05.722Z",
+      "response_provider": "xAI",
+      "provider_name": "xAI",
+      "model": "x-ai/grok-4.7-20260916",
+      "finish_reason": "stop",
+      "parsed_count": 314,
+      "native_tokens_reasoning": 2147,
+      "total_cost": 0.0181376,
+      "provider_responses": [
+        {
+          "endpoint_id": "48cfe052-27db-4511-bd21-db8053f20023",
+          "id": "16ff3688-77a0-9f32-8170-a43597a779c4",
+          "is_byok": false,
+          "latency": 646,
+          "model_permaslug": "x-ai/grok-4.7-20260916",
+          "provider_name": "xAI",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "challenge_id": "query-24",
+      "attempt": 1,
+      "generation_id": "gen-1790071412-7ln5TFlK7AWlQpWCI00x",
+      "started_at": "2026-09-22T10:03:32.162Z",
+      "finished_at": "2026-09-22T10:04:14.314Z",
+      "response_provider": "xAI",
+      "provider_name": "xAI",
+      "model": "x-ai/grok-4.7-20260916",
+      "finish_reason": "stop",
+      "parsed_count": 330,
+      "native_tokens_reasoning": 2535,
+      "total_cost": 0.0188336,
+      "provider_responses": [
+        {
+          "endpoint_id": "48cfe052-27db-4511-bd21-db8053f20023",
+          "id": "8e637b53-0496-948b-8203-c06d3be39075",
+          "is_byok": false,
+          "latency": 797,
+          "model_permaslug": "x-ai/grok-4.7-20260916",
+          "provider_name": "xAI",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "challenge_id": "query-26",
+      "attempt": 1,
+      "generation_id": "gen-1790071412-EH2MgHDCHfiGKczpdhZc",
+      "started_at": "2026-09-22T10:03:32.162Z",
+      "finished_at": "2026-09-22T10:04:24.140Z",
+      "response_provider": "xAI",
+      "provider_name": "xAI",
+      "model": "x-ai/grok-4.7-20260916",
+      "finish_reason": "stop",
+      "parsed_count": 317,
+      "native_tokens_reasoning": 3083,
+      "total_cost": 0.02428,
+      "provider_responses": [
+        {
+          "endpoint_id": "48cfe052-27db-4511-bd21-db8053f20023",
+          "id": "5ece3d53-4389-9f5a-80bb-f9e7a756111f",
+          "is_byok": false,
+          "latency": 611,
+          "model_permaslug": "x-ai/grok-4.7-20260916",
+          "provider_name": "xAI",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "challenge_id": "query-27",
+      "attempt": 1,
+      "generation_id": "gen-1790071412-GtgX4mHqAkx78OSBWbJA",
+      "started_at": "2026-09-22T10:03:32.162Z",
+      "finished_at": "2026-09-22T10:04:13.627Z",
+      "response_provider": "xAI",
+      "provider_name": "xAI",
+      "model": "x-ai/grok-4.7-20260916",
+      "finish_reason": "stop",
+      "parsed_count": 332,
+      "native_tokens_reasoning": 2510,
+      "total_cost": 0.021752,
+      "provider_responses": [
+        {
+          "endpoint_id": "48cfe052-27db-4511-bd21-db8053f20023",
+          "id": "20c83aa9-d8e1-998e-bf19-3d5dfc261eaa",
+          "is_byok": false,
+          "latency": 678,
+          "model_permaslug": "x-ai/grok-4.7-20260916",
+          "provider_name": "xAI",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "challenge_id": "query-29",
+      "attempt": 1,
+      "generation_id": "gen-1790071412-TkrUQcjwerCPj0aqfCKy",
+      "started_at": "2026-09-22T10:03:32.162Z",
+      "finished_at": "2026-09-22T10:04:12.552Z",
+      "response_provider": "xAI",
+      "provider_name": "xAI",
+      "model": "x-ai/grok-4.7-20260916",
+      "finish_reason": "stop",
+      "parsed_count": 308,
+      "native_tokens_reasoning": 2400,
+      "total_cost": 0.0170704,
+      "provider_responses": [
+        {
+          "endpoint_id": "48cfe052-27db-4511-bd21-db8053f20023",
+          "id": "1909a755-37af-9c3c-8154-44be86486f69",
+          "is_byok": false,
+          "latency": 581,
+          "model_permaslug": "x-ai/grok-4.7-20260916",
+          "provider_name": "xAI",
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

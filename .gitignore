@@ -1,9 +1,13 @@
 node_modules/
+.DS_Store
 dist/
 web/public/data/
 *.tsbuildinfo
 *.log
 .vercel/
+.wrangler/
+.dev.vars
+.dev.vars.*
 .env
 .env.*
 *.lock/

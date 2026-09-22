@@ -1,0 +1,15 @@
+{
+  "manifest_sha256": "08b9a2dcc13287cb7b624e9f82b70bc0c5b38f7b2f6ea815d19192085e398345",
+  "challenge_id": "query-07",
+  "attempt": 1,
+  "status": "failed",
+  "started_at": "2026-09-22T09:47:08.355Z",
+  "trace": "trace/query-07/0001",
+  "text": "",
+  "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "parsed_count": 0,
+  "http_status": 200,
+  "error": "上游请求超时",
+  "retryable": true,
+  "finished_at": "2026-09-22T09:51:18.357Z"
+}

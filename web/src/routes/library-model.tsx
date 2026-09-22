@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router'
-import { motion } from 'framer-motion'
+import { defaultRangeExtractor, useVirtualizer } from '@tanstack/react-virtual'
 import { ChevronLeft } from 'lucide-react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
@@ -8,11 +8,10 @@ import { Button } from '@/components/ui/button'
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from '@/components/ui/empty'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useLoadedBank } from '@/components/app-shell'
+import { useLoadedBank } from '@/lib/bank-context'
 import { useI18n } from '@/i18n'
 import * as client from '@/lib/client'
 import { describeError } from '@/lib/errors'
-import { useMotionPreset } from '@/lib/motion'
 import { cn } from '@/lib/utils'
 import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
 import { sourceLabel } from './library'
@@ -25,17 +24,16 @@ type SampleLoad = { status: 'loading' } | { status: 'ready'; rows: SampleRow[] }
 export default function LibraryModelRoute() {
   const bank = useLoadedBank()
   const { t } = useI18n()
-  const { smooth } = useMotionPreset()
   const { modelId = '' } = useParams()
   const model = bank.models.find(m => m.id === modelId)
 
   return (
-    <div className="fp-page-wide">
-      <div className="flex min-w-0 flex-col gap-1">
+    <div className="fp-page-wide fp-library-model">
+      <div className="flex min-w-0 shrink-0 flex-col gap-1">
         <Link to="/library" className="inline-flex w-fit items-center gap-1 rounded-sm text-meta text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"><ChevronLeft className="size-3.5" />{t('library.back')}</Link>
         {model ? (
           <>
-            <motion.h1 layoutId={`model-${model.id}`} transition={smooth} className="text-h1 w-fit max-w-full [overflow-wrap:anywhere]">{model.display_name}</motion.h1>
+            <h1 className="text-h1 w-fit max-w-full [overflow-wrap:anywhere]">{model.display_name}</h1>
             {model.display_name !== model.id && <p className="fp-mono text-meta text-muted-foreground [overflow-wrap:anywhere]">{model.id}</p>}
             <p className="text-body text-muted-foreground [overflow-wrap:anywhere]">
               {model.family_name} · {t('library.samplesCount', { n: model.response_count })} · {Object.keys(model.sources).map(k => sourceLabel(t, k)).join(' / ')}
@@ -113,27 +111,14 @@ function ModelSamples({ modelId }: { modelId: string }) {
   }
 
   return (
-    <Tabs value={activeId} onValueChange={value => { setChallenge(String(value)); setLimit(PAGE) }} className="grid min-w-0 gap-6 lg:grid-cols-[288px_minmax(0,1fr)]">
-      <nav aria-label={t('library.challenges')} className="min-w-0 lg:sticky lg:top-20 lg:self-start">
-        <div className="hidden flex-col gap-1 lg:flex">
-          {groups.map(([id, list], i) => (
-            <button
-              key={id}
-              type="button"
-              aria-current={id === activeId ? 'true' : undefined}
-              onClick={() => { setChallenge(id); setLimit(PAGE) }}
-              className={cn('flex min-h-10 items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-body hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring', id === activeId && 'bg-muted font-medium')}
-            >
-              <span>{t('library.challenge', { n: i + 1 })}</span>
-              <span className="text-meta text-muted-foreground">{t('library.challengeCount', { n: list.length })}</span>
-            </button>
-          ))}
-        </div>
-        <TabsList aria-label={t('library.challenges')} className="h-10 w-full justify-start overflow-x-auto lg:hidden">
+    <Tabs value={activeId} onValueChange={value => { setChallenge(String(value)); setLimit(PAGE) }} className="grid min-h-0 min-w-0 gap-6 lg:flex-1 lg:grid-cols-[288px_minmax(0,1fr)] lg:grid-rows-[minmax(0,1fr)]">
+      <nav aria-label={t('library.challenges')} className="min-h-0 min-w-0">
+        <ChallengeList groups={groups} activeId={activeId} onSelect={id => { setChallenge(id); setLimit(PAGE) }} />
+        <TabsList aria-label={t('library.challenges')} className="h-10 w-full justify-start overflow-x-auto overflow-y-hidden lg:hidden">
           {groups.map(([id], i) => <TabsTrigger key={id} value={id} className="flex-none">{t('library.challenge', { n: i + 1 })}</TabsTrigger>)}
         </TabsList>
       </nav>
-      <TabsContent value={activeId} className="flex min-w-0 flex-col gap-4">
+      <TabsContent key={activeId} value={activeId} className="flex min-h-0 min-w-0 flex-col gap-4 lg:overflow-y-auto lg:overscroll-contain lg:pr-2">
         {active.slice(0, limit).map((row, i) => <SampleReply key={row.row_id || i} row={row} index={i} />)}
         {active.length > limit && (
           <div><Button variant="outline" className="h-9" onClick={() => setLimit(n => n + PAGE)}>{t('library.showMore', { n: Math.min(PAGE, active.length - limit) })}</Button></div>
@@ -141,6 +126,60 @@ function ModelSamples({ modelId }: { modelId: string }) {
       </TabsContent>
     </Tabs>
   )
+}
+
+function ChallengeList({ groups, activeId, onSelect }: { groups: [string, SampleRow[]][]; activeId: string; onSelect: (id: string) => void }) {
+  const { t } = useI18n()
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const activeRef = useRef<HTMLButtonElement>(null)
+  const focusPending = useRef(false)
+  const activeIndex = groups.findIndex(([id]) => id === activeId)
+  const virtualizer = useVirtualizer({
+    count: groups.length,
+    getScrollElement: () => scrollRef.current,
+    getItemKey: index => groups[index][0],
+    estimateSize: () => 48,
+    overscan: 4,
+    rangeExtractor: range => [...new Set([...defaultRangeExtractor(range), activeIndex])].filter(index => index >= 0).sort((a, b) => a - b),
+  })
+
+  useLayoutEffect(() => {
+    if (activeIndex >= 0) virtualizer.scrollToIndex(activeIndex, { align: 'auto' })
+    if (focusPending.current) {
+      activeRef.current?.focus({ preventScroll: true })
+      focusPending.current = false
+    }
+  }, [activeIndex, virtualizer])
+
+  return <div ref={scrollRef} className="hidden h-full min-h-0 overflow-y-auto overscroll-contain px-1 [scrollbar-gutter:stable] lg:block">
+    <ul className="relative" style={{ height: virtualizer.getTotalSize() }}>
+      {virtualizer.getVirtualItems().map(item => {
+        const [id, rows] = groups[item.index]
+        return <li key={item.key} aria-posinset={item.index + 1} aria-setsize={groups.length} className="absolute top-0 left-0 w-full pb-1" style={{ height: item.size, transform: `translateY(${item.start}px)` }}>
+          <button
+            ref={id === activeId ? activeRef : undefined}
+            type="button"
+            tabIndex={id === activeId ? 0 : -1}
+            aria-current={id === activeId ? 'true' : undefined}
+            onClick={() => onSelect(id)}
+            onKeyDown={event => {
+              const next = event.key === 'Home' ? 0 : event.key === 'End' ? groups.length - 1
+                : event.key === 'ArrowDown' ? Math.min(groups.length - 1, item.index + 1)
+                  : event.key === 'ArrowUp' ? Math.max(0, item.index - 1) : null
+              if (next === null) return
+              event.preventDefault()
+              focusPending.current = true
+              onSelect(groups[next][0])
+            }}
+            className={cn('flex h-full w-full items-center justify-between gap-2 rounded-lg px-3 text-left text-body hover:bg-muted', id === activeId && 'bg-muted font-medium')}
+          >
+            <span>{t('library.challenge', { n: item.index + 1 })}</span>
+            <span className="shrink-0 text-meta text-muted-foreground">{t('library.challengeCount', { n: rows.length })}</span>
+          </button>
+        </li>
+      })}
+    </ul>
+  </div>
 }
 
 function publicMetadata(value: unknown): string | undefined {

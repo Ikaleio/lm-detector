@@ -2,6 +2,9 @@
 node_modules/
 **/node_modules/
 web/dist/
+.wrangler/
+.dev.vars
+.dev.vars.*
 web/public/data/
 .env
 .env.*

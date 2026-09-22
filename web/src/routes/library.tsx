@@ -1,6 +1,5 @@
-import { useMemo, useRef, useState, useSyncExternalStore } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router'
-import { motion } from 'framer-motion'
 import { ChevronDown, Download } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -8,23 +7,14 @@ import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Empty, EmptyContent, EmptyHeader, EmptyTitle } from '@/components/ui/empty'
-import { Segmented } from '@/components/api-config-sheet'
-import { useLoadedBank } from '@/components/app-shell'
+import { Segmented } from '@/components/segmented'
+import { useLoadedBank } from '@/lib/bank-context'
 import { useI18n, type I18n } from '@/i18n'
 import * as client from '@/lib/client'
 import { describeError } from '@/lib/errors'
-import { useMotionPreset } from '@/lib/motion'
 import type { BankModel } from '@fingerpoint/shared/types'
 
 type Sort = 'samples' | 'name'
-
-function subscribeDesktop(onChange: () => void) {
-  const media = window.matchMedia('(min-width: 768px)')
-  media.addEventListener('change', onChange)
-  return () => media.removeEventListener('change', onChange)
-}
-
-const isDesktop = () => window.matchMedia('(min-width: 768px)').matches
 
 export function sourceLabel(t: I18n['t'], kind: string) {
   return kind === 'original' || kind === 'openrouter' || kind === 'api' || kind === 'codex' ? t(`library.source.${kind}`) : t('library.source.unknown')
@@ -34,8 +24,6 @@ export default function LibraryRoute() {
   const bank = useLoadedBank()
   const i18n = useI18n()
   const { t, number, date } = i18n
-  const { smooth } = useMotionPreset()
-  const desktop = useSyncExternalStore(subscribeDesktop, isDesktop, () => false)
   const [query, setQuery] = useState('')
   const [families, setFamilies] = useState<string[]>([])
   const [sort, setSort] = useState<Sort>('samples')
@@ -105,7 +93,7 @@ export default function LibraryRoute() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {models.map(m => <ModelRow key={m.id} model={m} desktop={desktop} />)}
+                {models.map(m => <ModelRow key={m.id} model={m} />)}
               </TableBody>
             </Table>
           </div>
@@ -114,7 +102,7 @@ export default function LibraryRoute() {
               <li key={m.id} className="border-t border-border first:border-t-0">
                 <Link to={`/library/${encodeURIComponent(m.id)}`} className="flex min-h-14 items-center justify-between gap-4 px-4 py-2 hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring">
                   <span className="flex min-w-0 flex-col gap-1">
-                    <motion.span layoutId={desktop ? undefined : `model-${m.id}`} transition={smooth} className="text-body font-medium [overflow-wrap:anywhere]">{m.display_name}</motion.span>
+                    <span className="text-body font-medium [overflow-wrap:anywhere]">{m.display_name}</span>
                     {m.display_name !== m.id && <span className="fp-mono text-meta text-muted-foreground [overflow-wrap:anywhere]">{m.id}</span>}
                     <span className="text-meta text-muted-foreground [overflow-wrap:anywhere]">{m.family_name} · {t('library.samplesCount', { n: m.response_count })}</span>
                   </span>
@@ -134,9 +122,8 @@ export default function LibraryRoute() {
   )
 }
 
-function ModelRow({ model, desktop }: { model: BankModel; desktop: boolean }) {
+function ModelRow({ model }: { model: BankModel }) {
   const { t, number } = useI18n()
-  const { smooth } = useMotionPreset()
   const link = useRef<HTMLAnchorElement>(null)
   return (
     <TableRow className="h-12 cursor-pointer focus-within:bg-muted" onClick={event => {
@@ -146,7 +133,7 @@ function ModelRow({ model, desktop }: { model: BankModel; desktop: boolean }) {
     }}>
       <TableCell className="max-w-96 px-4 py-0 whitespace-normal">
         <Link ref={link} to={`/library/${encodeURIComponent(model.id)}`} className="flex flex-col rounded-sm py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-          <motion.span layoutId={desktop ? `model-${model.id}` : undefined} transition={smooth} className="text-body font-medium [overflow-wrap:anywhere]">{model.display_name}</motion.span>
+          <span className="text-body font-medium [overflow-wrap:anywhere]">{model.display_name}</span>
           {model.display_name !== model.id && <span className="fp-mono text-meta text-muted-foreground [overflow-wrap:anywhere]">{model.id}</span>}
         </Link>
       </TableCell>
