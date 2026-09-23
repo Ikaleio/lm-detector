@@ -68,7 +68,10 @@ export function exportAnalysis(result:Analysis){
 }
 const browserTransport:CompletionTransport = (url,config,body,signal) => {
   const headers={'Content-Type':'application/json',Authorization:`Bearer ${config.apiKey}`,Accept:body.stream?'text/event-stream':'application/json'}
-  return fetch('/api/proxy',{method:'POST',headers,body:JSON.stringify({url,format:config.format,body}),signal,redirect:'error',credentials:'omit'})
+  const requestBody={...body}
+  if(config.format==='responses')delete requestBody.max_output_tokens
+  else if(config.format==='openai')delete requestBody.max_tokens
+  return fetch('/api/proxy',{method:'POST',headers,body:JSON.stringify({url,format:config.format,body:requestBody}),signal,redirect:'error',credentials:'omit'})
 }
 export const testApi = (config:ApiConfig,challenges:Challenge[],onProgress:(p:CollectionProgress)=>void,signal?:AbortSignal) =>
   testApiShared(config,challenges,onProgress,signal,browserTransport)
