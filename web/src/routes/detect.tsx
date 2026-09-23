@@ -359,7 +359,7 @@ export default function DetectRoute() {
             <DialogTitle>{t('detect.errorDetails')}</DialogTitle>
             <DialogDescription className="sr-only">{t('detect.errorDetails')}</DialogDescription>
           </DialogHeader>
-          <pre tabIndex={0} className="fp-mono max-h-64 overflow-auto whitespace-pre-wrap rounded-lg bg-muted p-3 text-meta [overflow-wrap:anywhere]">{errorDetail ?? ''}</pre>
+          <pre tabIndex={0} className="fp-mono rr-mask max-h-64 overflow-auto whitespace-pre-wrap rounded-lg bg-muted p-3 text-meta [overflow-wrap:anywhere]">{errorDetail ?? ''}</pre>
         </DialogContent>
       </Dialog>
     </div>

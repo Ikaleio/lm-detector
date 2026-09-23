@@ -47,7 +47,7 @@ export function ApiConfigPanel({ open, onOpenChange, config, update, disabled, c
   const model = config.model.trim() || t('api.modelMissing')
 
   return (
-    <Collapsible ref={containerRef} open={open} onOpenChange={next => { setShowKey(false); onOpenChange(next) }} className="fp-card scroll-mt-20" aria-label={t('api.title')}>
+    <Collapsible ref={containerRef} open={open} onOpenChange={next => { setShowKey(false); onOpenChange(next) }} className="fp-card rr-block scroll-mt-20" aria-label={t('api.title')}>
       <CollapsibleTrigger className="fp-api-summary fp-mono" aria-label={`${t(open ? 'api.collapse' : 'api.expand')}: ${baseUrl}, ${model}`}>
         <span className="min-w-0 flex-1 truncate text-left" title={baseUrl}>{baseUrl}</span>
         <span className="shrink-0 text-muted-foreground" aria-hidden="true">/</span>
