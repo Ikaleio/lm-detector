@@ -36,10 +36,10 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
     'no-update-check': { type: 'boolean' },
   }, strict: true, allowPositionals: false })
   if (values.help) return undefined
-  const api = values.api ?? 'responses'
-  if (api !== 'responses' && api !== 'chatcompletion' && api !== 'message') {
-    throw new Error('--api must be responses, chatcompletion, or message.')
-  }
+  const apiInput = (values.api ?? 'responses').toLowerCase()
+  const api = apiInput === 'cc' ? 'chatcompletion'
+    : (['responses', 'chatcompletion', 'message'] as const).find(name => name.startsWith(apiInput))
+  if (!apiInput || !api) throw new Error('--api must be a prefix of responses, chatcompletion, or message (or cc).')
   const parallel = positiveInteger(values.parallel ?? '3', '--parallel', 3)
   const repeat = positiveInteger(values.repeat ?? '1', '--repeat')
   const timeout = Number(values.timeout ?? '120')

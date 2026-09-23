@@ -125,8 +125,11 @@ export async function requestSample(
       headers['x-api-key'] = config.apiKey
       headers['anthropic-version'] = '2023-06-01'
     } else headers.Authorization = `Bearer ${config.apiKey}`
+    const body = completionBody(config, challenge.prompt)
+    if (config.format === 'responses') delete body.max_output_tokens
+    else if (config.format === 'openai') delete body.max_tokens
     const init = {
-      method: 'POST', headers, body: JSON.stringify(completionBody(config, challenge.prompt)),
+      method: 'POST', headers, body: JSON.stringify(body),
       signal: combined, redirect: 'error' as const,
       timeout: false, // Disable Bun's socket idle timeout; only the first-byte timer applies.
     }

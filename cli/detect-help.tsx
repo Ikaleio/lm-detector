@@ -6,7 +6,7 @@ const sections = [
     ['-b, --baseurl URL', 'Base URL or complete endpoint. Env: BASE_URL.'],
     ['-m, --model MODEL', 'Model to request. Env: MODEL.'],
     ['-k, --apikey KEY', 'API key. Env: API_KEY. Flags override environment variables.'],
-    ['-a, --api TYPE', 'responses (default), chatcompletion, or message.'],
+    ['-a, --api TYPE', 'responses (default), chatcompletion, or message; any prefix or cc.'],
     ['-e, --effort LEVEL', 'Omitted by default. none/minimal/low/medium/high/xhigh/max, or any provider value.'],
     ['-ns, --no-stream', 'Use JSON instead of SSE. SSE is enabled by default.'],
     ['--timeout SECONDS', 'First SSE byte deadline. Default: 120. No deadline after SSE starts; JSON must finish within this time.'],

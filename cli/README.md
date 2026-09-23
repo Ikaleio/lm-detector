@@ -42,7 +42,7 @@ Explicit flags override environment variables. Credentials do not appear in the 
 | `-m`, `--model` | Requested model. Reads `MODEL` if omitted. |
 | `-k`, `--apikey` | API key. Reads `API_KEY` if omitted. |
 | `-b`, `--baseurl` | HTTP or HTTPS base URL, or the complete endpoint. Reads `BASE_URL` if omitted. |
-| `-a`, `--api` | `responses` (default), `chatcompletion`, or `message`. |
+| `-a`, `--api` | `responses` (default), `chatcompletion`, or `message`. Any prefix works (for example `resp` or `chat`); `cc` also selects `chatcompletion`. |
 | `-p`, `--parallel` | Concurrent samples within a round. Integer from 1 to 3. Default: 3. |
 | `-n`, `--repeat` | Number of detection rounds. Positive integer. Default: 1. |
 | `-s`, `--strict` | Disable automatic truncation. Require all three complete, valid responses. |
@@ -58,6 +58,8 @@ Explicit flags override environment variables. Credentials do not appear in the 
 | `-h`, `--help` | Show help. |
 
 `--base-url` and `--api-key` are accepted as aliases. An origin such as `https://api.example.com` uses `/v1`. A base URL with a path preserves that path and appends the selected endpoint. Messages requests use `x-api-key` and `anthropic-version` headers.
+
+Detection requests omit the optional output token limit for Responses and Chat Completions. Messages requests keep `max_tokens: 8192`, which that API requires.
 
 ## Update notifications
 
