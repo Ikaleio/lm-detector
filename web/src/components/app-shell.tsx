@@ -3,7 +3,7 @@ import { flushSync } from 'react-dom'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
-import { Languages, Monitor, Moon, Sun } from 'lucide-react'
+import { GitBranch, Languages, Monitor, Moon, Sun } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -146,6 +146,10 @@ export function AppShell({ detect }: { detect: ReactNode }) {
             {indicator && <motion.span aria-hidden="true" className="fp-nav-indicator" initial={false} animate={indicator} transition={reduced ? { duration: 0 } : smooth} />}
           </nav>
           <div className="fp-topbar-actions flex items-center gap-1 justify-self-end">
+            <a className="fp-repository-link" href="https://github.com/Ikaleio/lm-detector" target="_blank" rel="noopener noreferrer" aria-label={t('app.repository')} title={t('app.repository')}>
+              <GitBranch className="size-4" aria-hidden="true" />
+              <span>Ikaleio/lm-detector</span>
+            </a>
             <LanguageToggle />
             <ThemeToggle />
           </div>

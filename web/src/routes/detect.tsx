@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useSearchParams } from 'react-router'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Loader2, MoreVertical } from 'lucide-react'
+import { ArrowUpRight, Copy, Loader2, MoreVertical, Terminal } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -24,6 +24,7 @@ import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
 
 type Phase = 'edit' | 'sampling' | 'computing' | 'result'
 const idle = (): SampleUI => ({ text: '', state: 'idle' })
+const cliCommand = 'bunx lmfpd@latest --help'
 type Run = { controller: AbortController; indexes: number[] }
 
 function safeError(message: string | undefined, key: string): string | undefined {
@@ -223,6 +224,15 @@ export default function DetectRoute() {
     catch { if (mounted.current) toast.error(t('detect.imageFailed')) }
   }
 
+  async function copyCliCommand() {
+    try {
+      await navigator.clipboard.writeText(cliCommand)
+      toast.success(t('detect.cliCopied'))
+    } catch {
+      toast.error(t('detect.cliCopyFailed'))
+    }
+  }
+
   const emptyIndexes = samples.map((s, i) => (s.text.trim() ? -1 : i)).filter(i => i >= 0)
   const showStrip = phase === 'computing' || phase === 'result'
 
@@ -254,6 +264,23 @@ export default function DetectRoute() {
         <h1 className="text-h1">{t('detect.title')}</h1>
         <Segmented label={t('detect.modeLabel')} value={mode} onChange={m => { if (!activeRun.current) setMode(m) }} disabled={locked} options={[{ value: 'manual', label: t('detect.modeManual') }, { value: 'api', label: t('detect.modeApi') }]} />
       </div>
+
+      <aside className="fp-cli-promo" aria-label={t('detect.cliTitle')}>
+        <div className="flex min-w-0 items-center gap-2">
+          <Terminal className="size-4 shrink-0 text-primary" aria-hidden="true" />
+          <strong className="shrink-0 font-medium">{t('detect.cliTitle')}</strong>
+          <span className="text-muted-foreground">{t('detect.cliDescription')}</span>
+        </div>
+        <button type="button" className="fp-cli-command" onClick={copyCliCommand} aria-label={t('detect.cliCopy', { command: cliCommand })} title={t('detect.cliCopy', { command: cliCommand })}>
+          <code className="fp-mono text-meta"><span>bunx</span> lmfpd@latest <span>--help</span></code>
+          <Copy className="size-3.5 shrink-0" aria-hidden="true" />
+        </button>
+        <a href="https://github.com/Ikaleio/lm-detector#%E6%A3%80%E6%B5%8B-cli" target="_blank" rel="noopener noreferrer" className="fp-cli-link">
+          <span className="sm:hidden">{t('detect.cliGuideShort')}</span>
+          <span className="hidden sm:inline">{t('detect.cliGuide')}</span>
+          <ArrowUpRight className="size-3.5" aria-hidden="true" />
+        </a>
+      </aside>
 
       <AnimatePresence initial={false}>
         {mode === 'api' && <motion.div
