@@ -28,11 +28,11 @@ const sections = [
 ] as const
 
 const examples = [
-  ['Detect a model with explicit credentials', 'bunx lmfpd@latest -b https://api.example.com/v1 \\\n  -k sk-xxx -m gpt-6-astra'],
-  ['Repeat five rounds with three concurrent samples per round', 'bunx lmfpd@latest -b https://api.example.com/v1 \\\n  -k sk-xxx -m gpt-6-astra -p 3 -n 5'],
-  ['Use API_KEY, MODEL, and BASE_URL from your environment', 'bunx lmfpd@latest -a chatcompletion -e high'],
-  ['Require complete responses and disable streaming', 'bunx lmfpd@latest -s -ns --timeout 180 --output result.json'],
-  ['Analyze a saved report without calling a model', 'bunx lmfpd@latest --input result.json --json'],
+  ['Detect a model with explicit credentials', 'npx lmfpd@latest -b https://api.example.com/v1 \\\n  -k sk-xxx -m gpt-6-astra'],
+  ['Repeat five rounds with three concurrent samples per round', 'npx lmfpd@latest -b https://api.example.com/v1 \\\n  -k sk-xxx -m gpt-6-astra -p 3 -n 5'],
+  ['Use API_KEY, MODEL, and BASE_URL from your environment', 'npx lmfpd@latest -a chatcompletion -e high'],
+  ['Require complete responses and disable streaming', 'npx lmfpd@latest -s -ns --timeout 180 --output result.json'],
+  ['Analyze a saved report without calling a model', 'npx lmfpd@latest --input result.json --json'],
 ] as const
 
 function Help() {
@@ -46,7 +46,8 @@ function Help() {
     </Box>
     <Box flexDirection="column" marginTop={1}>
       <Text bold color="cyan">USAGE</Text>
-      <Text>bunx lmfpd@latest -b URL -k KEY -m MODEL [options]</Text>
+      <Text>npx lmfpd@latest -b URL -k KEY -m MODEL [options]</Text>
+      <Text dimColor>With Bun only: bunx --bun lmfpd@latest [options]</Text>
       <Text dimColor>Defaults: Responses · SSE · relaxed · parallel 3 · one round</Text>
     </Box>
     {sections.map(section => <Box key={section.title} flexDirection="column" marginTop={1}>

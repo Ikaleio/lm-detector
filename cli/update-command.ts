@@ -10,7 +10,7 @@ const available = async (path: string) => access(path).then(() => true, () => fa
 
 function commandFor(manager: Manager, scope: 'temporary' | 'global' | 'local', root?: string): UpdateCommand {
   if (scope === 'temporary') {
-    const runner = { bun: 'bunx', npm: 'npx', pnpm: 'pnpm dlx', yarn: 'yarn dlx' }[manager]
+    const runner = { bun: 'bunx --bun', npm: 'npx', pnpm: 'pnpm dlx', yarn: 'yarn dlx' }[manager]
     return { command: `${runner} lmfpd@latest`, temporary: true }
   }
   const install = manager === 'npm' ? 'npm install' : `${manager} add`

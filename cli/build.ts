@@ -26,12 +26,16 @@ for (const name of ['ink', 'react', 'terminal-link']) {
 }
 execFileSync('bun', [
   'build', resolve(root, 'cli/detect.ts'), '--outdir', resolve(destination, 'bin'),
-  '--entry-naming', 'fpd.js', '--target', 'bun',
+  '--entry-naming', 'fpd.js', '--target', 'node',
   '--define', 'process.env.NODE_ENV="production"',
   '--define', `FPD_BUILD_VERSION=${JSON.stringify(version)}`,
   ...Object.keys(dependencies).flatMap(name => ['--external', name]),
 ], { cwd: root, stdio: 'inherit' })
-await chmod(resolve(destination, 'bin/fpd.js'), 0o755)
+const executable = resolve(destination, 'bin/fpd.js')
+const bundle = await readFile(executable, 'utf8')
+if (!bundle.startsWith('#!/usr/bin/env bun\n')) throw new Error('Unexpected CLI bundle shebang.')
+await writeFile(executable, bundle.replace(/^#![^\n]+/, '#!/usr/bin/env node'))
+await chmod(executable, 0o755)
 
 await Promise.all([
   ...['unified_bank.json', 'shared_detector.json'].map(name =>

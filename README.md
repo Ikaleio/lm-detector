@@ -59,7 +59,7 @@ bun run fpd --help
 
 默认使用 Responses 和 SSE，每轮三条挑战，最多三条并行。`-n` 指定轮数，每轮三条采样全部结束后才启动下一轮。宽松模式达到目标数字数量后自动截断，部分样本成功时只给排名；`-s` 关闭自动截断，要求三条全部成功。`-ns` 关闭 SSE。`--timeout` 以秒指定首字节超时，默认 120 秒，收到 SSE 后不再计时。
 
-也可通过 `bunx lmfpd@latest -b URL -k KEY -m MODEL` 直接运行 npm 包。`--help` 提供分组说明和使用示例。CLI、共享算法、参考库或依赖更新到 `main` 后，发布工作流会自动生成新版本并更新 npm 的 `latest` 标签。
+也可通过 `npx lmfpd@latest -b URL -k KEY -m MODEL` 直接运行 npm 包；仅安装 Bun 时使用 `bunx --bun lmfpd@latest`。发布包支持 Node.js 22+ 和 Bun 1.4.2+。`--help` 提供分组说明和使用示例。CLI、共享算法、参考库或依赖更新到 `main` 后，发布工作流会自动生成新版本并更新 npm 的 `latest` 标签。
 
 旧检测入口 `bun run detect:legacy` 保留 Codex 登录、trace 等原有功能。旧采样与入库命令保持不变。详见 [`cli/README.md`](cli/README.md)。
 

@@ -55,11 +55,11 @@ jobs:
           cd "$smoke_dir"
           printf '{"private":true}\n' > package.json
           bun add "$package_file"
-          bunx --no-install fpd --help
+          bunx --bun --no-install fpd --help
           bun -e 'await Bun.write("input.json", JSON.stringify(Array.from({length:3}, () => ({text:Array.from({length:300},(_,i)=>String((i*73)%355+1)).join(", "),expected_count:300}))))'
-          bunx --no-install fpd --input input.json --json > result.json
+          bunx --bun --no-install fpd --input input.json --json > result.json
           bun -e 'const result=await Bun.file("result.json").json(); if(result.scored_rounds!==1 || !result.analysis.results.length) throw new Error("Installed CLI could not score samples")'
-          bunx --no-install fpd --input input.json > /dev/null
+          bunx --bun --no-install fpd --input input.json > /dev/null
       - name: Upload the npm package
         uses: actions/upload-artifact@v4
         with:

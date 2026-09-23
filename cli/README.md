@@ -1,16 +1,16 @@
 # FPD detection CLI
 
-FPD uses Ink to show live sample progress, candidate rankings, and repeated detection results. It runs with Bun and does not require the website. The title is `FPD / MODEL FINGERPOINT DETECTOR (lm.ikale.io)`. Compatible terminals display `lm.ikale.io` as a clickable link; other terminals display plain text.
+FPD uses Ink to show live sample progress, candidate rankings, and repeated detection results. The published package runs with Node.js 22+ or Bun 1.4.2+ and does not require the website. The title is `FPD / MODEL FINGERPOINT DETECTOR (lm.ikale.io)`. Compatible terminals display `lm.ikale.io` as a clickable link; other terminals display plain text.
 
 ## Run from npm
 
 ```sh
-bunx lmfpd@latest --baseurl https://api.example.com/v1 --apikey sk-xxx --model gpt-6-astra
-bunx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra -p 3 -n 5
-bunx lmfpd@latest --help
+npx lmfpd@latest --baseurl https://api.example.com/v1 --apikey sk-xxx --model gpt-6-astra
+npx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra -p 3 -n 5
+npx lmfpd@latest --help
 ```
 
-Bun downloads the package when needed. The package includes the detection algorithms, reference bank, and verifier. It requires no repository checkout. The installed executable is named `fpd`.
+With Bun and no Node.js installation, use `bunx --bun lmfpd@latest --help`. The runner downloads the package when needed. The package includes the detection algorithms, reference bank, and verifier. It requires no repository checkout. The installed executable is named `fpd`.
 
 ## Run from source
 
