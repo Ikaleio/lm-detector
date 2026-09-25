@@ -1,0 +1,28 @@
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","choices":[{"index":0,"delta":{"content":"301","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","choices":[{"index":0,"delta":{"content":", 47","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","choices":[{"index":0,"delta":{"content":", font-family: Times","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","choices":[{"index":0,"delta":{"content":", serif; font-size:","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","choices":[{"index":0,"delta":{"content":" 1em; margin","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","choices":[{"index":0,"delta":{"content":": 0; padding: ","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","choices":[{"index":0,"delta":{"content":"0; text-align:","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","choices":[{"index":0,"delta":{"content":" left; white-space: normal","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","choices":[{"index":0,"delta":{"content":"; word-wrap: break","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","choices":[{"index":0,"delta":{"content":"-word; word-break:","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","choices":[{"index":0,"delta":{"content":" break-all;","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","choices":[{"index":0,"delta":{"content":"","role":"assistant"},"finish_reason":"stop","native_finish_reason":"stop"}]}
+
+data: {"id":"gen-1790362079-A9pSeXOgrqxpuQw094sn","object":"chat.completion.chunk","created":1790362079,"model":"deepseek/deepseek-v3.2","provider":"Novita","service_tier":null,"choices":[{"index":0,"delta":{"content":"","role":"assistant"},"finish_reason":"stop","native_finish_reason":"stop"}],"usage":{"prompt_tokens":773,"completion_tokens":53,"total_tokens":826,"cost":0.000229137,"is_byok":false,"prompt_tokens_details":{"cached_tokens":0,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.000229137,"upstream_inference_prompt_cost":0.000207937,"upstream_inference_completions_cost":0.0000212},"completion_tokens_details":{"reasoning_tokens":0,"image_tokens":0,"audio_tokens":0}}}
+
+data: [DONE]
+

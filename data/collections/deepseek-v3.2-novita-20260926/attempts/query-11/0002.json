@@ -1,0 +1,40 @@
+{
+  "manifest_sha256": "b30625ec0e18f898922416b4ef8cbc1621680b4c4b2411eaecbd1d7d907caef5",
+  "challenge_id": "query-11",
+  "attempt": 2,
+  "task": {
+    "id": "query-11",
+    "condition": "environment-04",
+    "expected_count": 311,
+    "prompt": "请完成无语义整数选择任务：逐项给出 311 个闭区间 [1, 355] 内的整数，每次只决定当前一项。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+    "system": "",
+    "body": {
+      "model": "deepseek/deepseek-v3.2",
+      "messages": [
+        {
+          "role": "user",
+          "content": "请完成无语义整数选择任务：逐项给出 311 个闭区间 [1, 355] 内的整数，每次只决定当前一项。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。"
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "provider": {
+        "only": [
+          "novita"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "failed",
+  "started_at": "2026-09-25T17:16:24.416Z",
+  "trace": "trace/query-11/0002",
+  "text": "",
+  "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "parsed_count": 0,
+  "completion": "unknown",
+  "http_status": 429,
+  "error": "HTTP 429：Provider returned error",
+  "retryable": true,
+  "finished_at": "2026-09-25T17:16:24.772Z"
+}

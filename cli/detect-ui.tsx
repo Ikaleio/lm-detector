@@ -127,7 +127,12 @@ function Dashboard({ state, options, bankSize, cancel, saved, fatal, updateNotic
   </Box>
 }
 
-export function createDisplay(options: DetectOptions, bankSize: number, cancel: () => void) {
+export interface DetectionDisplay {
+  update(state: DetectionState): void
+  finish(saved?: string, fatal?: string, updateNotice?: UpdateNotice): Promise<void>
+}
+
+export function createDisplay(options: DetectOptions, bankSize: number, cancel: () => void): DetectionDisplay {
   let state: DetectionState = { rounds: [], total: options.repeat, startedAt: Date.now(), cancelled: false }
   const terminal = !!process.stdout.isTTY && !process.env.CI && process.env.TERM !== 'dumb'
   const view = render(<Dashboard state={state} options={options} bankSize={bankSize} cancel={cancel} />, {

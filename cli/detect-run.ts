@@ -131,7 +131,25 @@ export async function runDetection(
 export async function analyzeInput(options: DetectOptions, bank: Bank, detector: SharedDetector): Promise<DetectionState> {
   const data = await readJson(options.input!)
   const source = data && typeof data === 'object' && !Array.isArray(data) ? data as Record<string, unknown> : undefined
-  const entries = Array.isArray(source?.rounds) ? source.rounds : [data]
+  let entries = Array.isArray(source?.rounds) ? source.rounds : [data]
+  if (source?.schema_version === 1 && source.purpose === 'reference' && Array.isArray(source.samples)) {
+    const groups = new Map<string, typeof source.samples>()
+    for (const sample of source.samples) {
+      if (!sample || typeof sample.condition !== 'string' || !['complete', 'truncated', 'unknown'].includes(sample.completion)) {
+        throw new Error('Collection samples must record their condition and completion status.')
+      }
+      const group = groups.get(sample.condition) ?? []
+      group.push(sample)
+      groups.set(sample.condition, group)
+    }
+    entries = []
+    for (const group of groups.values()) {
+      for (let index = 0; index < group.length; index += 3) {
+        const samples = group.slice(index, index + 3)
+        entries.push({ outputs: samples, samples })
+      }
+    }
+  }
   if (!entries.length) throw new Error('The input file contains no rounds.')
   const state: DetectionState = { rounds: [], total: entries.length, startedAt: Date.now(), cancelled: false }
   for (const entry of entries) {
@@ -145,8 +163,8 @@ export async function analyzeInput(options: DetectOptions, bank: Bank, detector:
       samples: outputs.map((output: Output, index: number) => {
         const numbers = parseNumbers(output.text) as number[]
         const savedSample = Array.isArray(entry?.samples) ? entry.samples[index] : undefined
-        const wasTruncated = savedSample?.state === 'truncated'
-        const strictRejection = options.strict && wasTruncated
+        const wasTruncated = savedSample?.state === 'truncated' || savedSample?.completion === 'truncated'
+        const strictRejection = options.strict && (wasTruncated || (savedSample?.completion !== undefined && savedSample.completion !== 'complete'))
         const truncated = !options.strict && numbers.length > output.expected_count
         return {
           state: strictRejection || numbers.length < minimumNumbers(output.expected_count) ? 'failed'
@@ -154,7 +172,7 @@ export async function analyzeInput(options: DetectOptions, bank: Bank, detector:
           text: truncated ? numbers.slice(0, output.expected_count).join(', ') : output.text,
           rawText: typeof savedSample?.rawText === 'string' ? savedSample.rawText : output.text,
           count: truncated ? output.expected_count : numbers.length, expectedCount: output.expected_count,
-          error: strictRejection ? 'This saved sample was truncated. Strict mode requires a complete response.'
+          error: strictRejection ? 'This saved sample has no confirmed complete response. Strict mode requires completion evidence.'
             : numbers.length < minimumNumbers(output.expected_count) ? 'Too few valid numbers.' : undefined,
         }
       }),

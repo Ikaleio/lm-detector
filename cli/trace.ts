@@ -13,7 +13,8 @@ export async function traceTransport(directory:string,transport:CompletionTransp
     let response:Response
     try{response=await transport(url,config,body,signal)}
     catch(error){
-      const message=(error instanceof Error?error.message:String(error)).replaceAll(config.apiKey,'[REDACTED]')
+      const raw=error instanceof Error?error.message:String(error)
+      const message=config.apiKey?raw.replaceAll(config.apiKey,'[REDACTED]'):raw
       await writeFile(prefix+'.error.json',JSON.stringify({message})+'\n',{mode:0o600})
       throw new Error(message)
     }

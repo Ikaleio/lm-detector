@@ -49,6 +49,10 @@ function Help() {
       <Text>npx lmfpd@latest -b URL -k KEY -m MODEL [options]</Text>
       <Text dimColor>With Bun only: bunx --bun lmfpd@latest [options]</Text>
       <Text dimColor>Defaults: Responses · SSE · relaxed · parallel 3 · one round</Text>
+      <Text>fpd sample [options] · collect a portable reference batch</Text>
+      <Text>fpd enroll RUN [options] · validate and enroll a batch</Text>
+      <Text>fpd retrain --data-dir DIR · fit verifier and confidence offline</Text>
+      <Text dimColor>Use the subcommand --help for its options.</Text>
     </Box>
     {sections.map(section => <Box key={section.title} flexDirection="column" marginTop={1}>
       <Text bold color="cyan">{section.title}</Text>

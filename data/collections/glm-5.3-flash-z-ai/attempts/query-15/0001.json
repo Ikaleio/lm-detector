@@ -1,0 +1,68 @@
+{
+  "manifest_sha256": "96a4e2360b2215d47ab2f5a2a5c5de0305843bc02ec59e2e1104e616de3c10b8",
+  "challenge_id": "query-15",
+  "attempt": 1,
+  "task": {
+    "id": "query-15",
+    "condition": "environment-05",
+    "expected_count": 331,
+    "prompt": "Fill exactly 331 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "z-ai/glm-5.3-flash",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Fill exactly 331 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "provider": {
+        "only": [
+          "z-ai/fp8"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "failed",
+  "started_at": "2026-09-25T15:58:47.444Z",
+  "trace": "trace/query-15/0001",
+  "text": "",
+  "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "parsed_count": 0,
+  "completion": "truncated",
+  "http_status": 200,
+  "response_model": "z-ai/glm-5.3-flash",
+  "response_id": "gen-1790351927-Yx2LU7aP4ZDFEEmLFcz7",
+  "usage": {
+    "prompt_tokens": 156,
+    "completion_tokens": 8192,
+    "total_tokens": 8348,
+    "cost": 0.0041194,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0041194,
+      "upstream_inference_prompt_cost": 0.0000234,
+      "upstream_inference_completions_cost": 0.004096
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 8191,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Z.AI",
+  "finish_reason": "length",
+  "actual_channel": "openrouter/z-ai/fp8",
+  "error": "输出未完整结束，本条不计入检测或入库",
+  "retryable": true,
+  "finished_at": "2026-09-25T16:01:18.155Z"
+}

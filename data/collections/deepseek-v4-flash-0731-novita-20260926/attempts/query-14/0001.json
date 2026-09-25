@@ -1,0 +1,40 @@
+{
+  "manifest_sha256": "f67ac9ba3fd13fdb369e1751c679cc37cba7daab3058bafe98a6ecba85de041a",
+  "challenge_id": "query-14",
+  "attempt": 1,
+  "task": {
+    "id": "query-14",
+    "condition": "environment-05",
+    "expected_count": 315,
+    "prompt": "Provide exactly 315 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "deepseek/deepseek-v4-flash-0731",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Provide exactly 315 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "provider": {
+        "only": [
+          "novita"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "failed",
+  "started_at": "2026-09-25T17:21:52.776Z",
+  "trace": "trace/query-14/0001",
+  "text": "",
+  "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "parsed_count": 0,
+  "completion": "unknown",
+  "http_status": 402,
+  "error": "HTTP 402：This request would exceed your available credits given your current in-flight requests. Retry after in-flight requests settle, or add credits.",
+  "retryable": false,
+  "finished_at": "2026-09-25T17:21:53.088Z"
+}

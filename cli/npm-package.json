@@ -1,6 +1,6 @@
 {
   "name": "lmfpd",
-  "description": "Model fingerprint detection with a live terminal interface",
+  "description": "Model fingerprint detection and reference collection with a live terminal interface",
   "type": "module",
   "license": "MIT",
   "homepage": "https://lm.ikale.io",
@@ -14,7 +14,7 @@
   "bin": {
     "fpd": "bin/fpd.js"
   },
-  "files": ["bin", "data", "README.md", "LICENSE"],
+  "files": ["bin", "data", "offline", "README.md", "LICENSE"],
   "engines": {
     "node": ">=22",
     "bun": ">=1.4.2"

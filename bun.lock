@@ -15,7 +15,7 @@
       "name": "@fingerpoint/cli",
       "version": "0.1.0",
       "bin": {
-        "fpd": "./detect.ts",
+        "fpd": "./fpd.ts",
       },
       "dependencies": {
         "@fingerpoint/shared": "workspace:*",

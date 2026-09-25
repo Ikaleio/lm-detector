@@ -1,0 +1,21 @@
+{
+  "url": "https://openrouter.ai/api/v1/chat/completions",
+  "body": {
+    "model": "deepseek/deepseek-v4-flash",
+    "messages": [
+      {
+        "role": "user",
+        "content": "For each of 301 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+      }
+    ],
+    "max_tokens": 8192,
+    "stream": true,
+    "provider": {
+      "only": [
+        "novita"
+      ],
+      "allow_fallbacks": false
+    }
+  },
+  "started_at": "2026-09-25T17:21:55.070Z"
+}

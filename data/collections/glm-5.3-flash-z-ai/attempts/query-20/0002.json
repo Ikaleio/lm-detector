@@ -1,0 +1,70 @@
+{
+  "manifest_sha256": "96a4e2360b2215d47ab2f5a2a5c5de0305843bc02ec59e2e1104e616de3c10b8",
+  "challenge_id": "query-20",
+  "attempt": 2,
+  "task": {
+    "id": "query-20",
+    "condition": "environment-07",
+    "expected_count": 310,
+    "prompt": "请完成无语义整数选择任务：逐项给出 310 个闭区间 [1, 355] 内的整数，每次只决定当前一项。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+    "system": "The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed. You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained.",
+    "body": {
+      "model": "z-ai/glm-5.3-flash",
+      "messages": [
+        {
+          "role": "system",
+          "content": "The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed. You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained."
+        },
+        {
+          "role": "user",
+          "content": "请完成无语义整数选择任务：逐项给出 310 个闭区间 [1, 355] 内的整数，每次只决定当前一项。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。"
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "provider": {
+        "only": [
+          "z-ai/fp8"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-09-25T16:05:29.193Z",
+  "trace": "trace/query-20/0002",
+  "text": "217, 84, 342, 15, 168, 91, 275, 43, 306, 129,\n58, 233, 176, 9, 291, 147, 62, 320, 104, 258,\n31, 189, 276, 113, 354, 47, 220, 165, 98, 301,\n72, 245, 136, 318, 55, 204, 87, 269, 152, 334,\n19, 178, 293, 66, 141, 327, 95, 232, 48, 271,\n310, 123, 86, 255, 170, 39, 284, 157, 74, 345,\n108, 196, 61, 249, 135, 352, 92, 227, 50, 183,\n316, 77, 264, 119, 40, 208, 295, 163, 28, 236,\n151, 98, 302, 45, 187, 330, 112, 69, 254, 173,\n24, 289, 97, 341, 130, 205, 58, 317, 144, 81,\n226, 35, 199, 262, 106, 333, 71, 240, 155, 12,\n298, 63, 217, 138, 305, 90, 246, 179, 33, 272,\n116, 351, 84, 191, 53, 228, 167, 322, 100, 257,\n42, 285, 133, 195, 308, 66, 241, 174, 29, 236,\n313, 102, 260, 187, 55, 340, 128, 75, 296, 149,\n23, 210, 353, 94, 268, 139, 47, 301, 182, 65,\n274, 118, 349, 81, 223, 156, 30, 287, 105, 244,\n169, 52, 331, 96, 259, 140, 315, 73, 196, 352,\n38, 271, 124, 206, 89, 338, 161, 24, 293, 110,\n247, 175, 62, 319, 147, 235, 58, 180, 326, 101,\n264, 37, 154, 290, 122, 344, 79, 213, 168, 306,\n51, 238, 131, 355, 94, 252, 176, 40, 307, 119,\n284, 163, 76, 229, 341, 107, 270, 145, 33, 198,\n312, 85, 246, 159, 21, 296, 138, 71, 254, 183,\n348, 96, 221, 134, 59, 277, 110, 323, 152, 67,\n205, 290, 44, 171, 336, 88, 243, 126, 310, 157,\n70, 232, 185, 327, 99, 261, 136, 54, 289, 173,\n306, 118, 47, 258, 191, 335, 82, 224, 149, 63,\n340, 127, 200, 75, 313, 158, 41, 286, 109, 250,\n92, 354, 165, 38, 273, 146, 308, 61, 219, 134,\n297, 80, 235, 152, 331, 68, 244, 113, 351, 190",
+  "text_sha256": "e49386b75d3a6abbd975e3d55aa14cb2049dcdddba5a385607aacc9ad3106af7",
+  "parsed_count": 310,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "z-ai/glm-5.3-flash",
+  "response_id": "gen-1790352329-2pCIVbsrV7sf2WM8igeT",
+  "usage": {
+    "prompt_tokens": 292,
+    "completion_tokens": 3800,
+    "total_tokens": 4092,
+    "cost": 0.00191308,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 256,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00191308,
+      "upstream_inference_prompt_cost": 0.00001308,
+      "upstream_inference_completions_cost": 0.0019
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2810,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Z.AI",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/z-ai/fp8",
+  "finished_at": "2026-09-25T16:06:39.739Z"
+}

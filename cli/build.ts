@@ -1,4 +1,4 @@
-import { chmod, copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { chmod, copyFile, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { resolve } from 'node:path'
 import { execFileSync } from 'node:child_process'
@@ -17,6 +17,7 @@ execFileSync('bun', ['web/scripts/sync-data.ts'], { cwd: root, stdio: 'inherit' 
 await rm(destination, { recursive: true, force: true })
 await mkdir(resolve(destination, 'bin'), { recursive: true })
 await mkdir(resolve(destination, 'data'), { recursive: true })
+await mkdir(resolve(destination, 'offline'), { recursive: true })
 
 // Keep Ink and its WASM dependency as npm packages. Bundle all local algorithm code.
 const dependencies: Record<string, string> = {}
@@ -25,18 +26,27 @@ for (const name of ['ink', 'react', 'terminal-link']) {
   dependencies[name] = installed.version
 }
 execFileSync('bun', [
-  'build', resolve(root, 'cli/detect.ts'), '--outdir', resolve(destination, 'bin'),
-  '--entry-naming', 'fpd.js', '--target', 'node',
+  'build', resolve(root, 'cli/fpd.ts'), resolve(root, 'cli/bank-worker.ts'), '--outdir', resolve(destination, 'bin'),
+  '--entry-naming', '[name].js', '--target', 'node',
   '--define', 'process.env.NODE_ENV="production"',
   '--define', `FPD_BUILD_VERSION=${JSON.stringify(version)}`,
   ...Object.keys(dependencies).flatMap(name => ['--external', name]),
 ], { cwd: root, stdio: 'inherit' })
 const executable = resolve(destination, 'bin/fpd.js')
-const bundle = await readFile(executable, 'utf8')
-if (!bundle.startsWith('#!/usr/bin/env bun\n')) throw new Error('Unexpected CLI bundle shebang.')
-await writeFile(executable, bundle.replace(/^#![^\n]+/, '#!/usr/bin/env node'))
+for (const name of ['fpd.js', 'bank-worker.js']) {
+  const path = resolve(destination, 'bin', name)
+  let bundle = await readFile(path, 'utf8')
+  if (name === 'fpd.js') {
+    if (!bundle.startsWith('#!/usr/bin/env bun\n')) throw new Error('Unexpected CLI bundle shebang.')
+    bundle = bundle.replace(/^#![^\n]+/, '#!/usr/bin/env node')
+  }
+  // Bun 1.4.2 misdecodes some UTF-8 literals behind this generated fast-path pragma.
+  await writeFile(path, bundle.replace(/^\/\/ @bun\r?\n/m, ''))
+}
 await chmod(executable, 0o755)
 
+const offlineFiles = (await readdir(resolve(root, 'offline'))).filter(name => name.endsWith('.py'))
+await Promise.all(offlineFiles.map(name => copyFile(resolve(root, 'offline', name), resolve(destination, 'offline', name))))
 await Promise.all([
   ...['unified_bank.json', 'shared_detector.json'].map(name =>
     copyFile(resolve(root, 'web/public/data', name), resolve(destination, 'data', name))),

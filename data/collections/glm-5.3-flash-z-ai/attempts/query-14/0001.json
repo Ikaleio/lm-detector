@@ -1,0 +1,66 @@
+{
+  "manifest_sha256": "96a4e2360b2215d47ab2f5a2a5c5de0305843bc02ec59e2e1104e616de3c10b8",
+  "challenge_id": "query-14",
+  "attempt": 1,
+  "task": {
+    "id": "query-14",
+    "condition": "environment-05",
+    "expected_count": 315,
+    "prompt": "Provide exactly 315 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "z-ai/glm-5.3-flash",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Provide exactly 315 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "provider": {
+        "only": [
+          "z-ai/fp8"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-09-25T15:58:23.986Z",
+  "trace": "trace/query-14/0001",
+  "text": "217, 43, 305, 88, 156, 12, 291, 174, 66, 330, 109, 248, 21, 187, 95,\n342, 71, 133, 268, 39, 220, 154, 7, 301, 116, 259, 84, 193, 47, 314,\n128, 275, 59, 206, 341, 92, 169, 30, 244, 111, 352, 76, 198, 143, 18,\n287, 63, 232, 149, 96, 327, 54, 181, 12, 263, 138, 315, 85, 226, 49,\n172, 355, 104, 251, 68, 189, 33, 296, 121, 160, 79, 344, 215, 56, 147,\n308, 91, 236, 165, 27, 112, 279, 44, 200, 353, 98, 173, 61, 288, 130,\n255, 16, 184, 72, 311, 141, 96, 228, 37, 293, 106, 167, 50, 322, 119,\n276, 63, 195, 152, 9, 240, 87, 178, 334, 108, 261, 41, 199, 70, 307,\n146, 23, 218, 95, 257, 136, 349, 82, 171, 55, 290, 125, 202, 15, 268,\n97, 341, 160, 45, 232, 113, 286, 68, 157, 330, 24, 205, 74, 163, 312,\n51, 246, 129, 88, 303, 176, 35, 222, 101, 274, 58, 191, 148, 326, 83,\n210, 12, 297, 66, 153, 235, 40, 281, 117, 194, 72, 317, 156, 29, 249,\n93, 175, 340, 62, 228, 107, 264, 48, 186, 331, 90, 213, 135, 27, 298,\n77, 164, 352, 53, 239, 121, 96, 283, 168, 31, 254, 144, 306, 69, 197,\n110, 271, 36, 223, 99, 180, 345, 60, 207, 133, 86, 260, 17, 152, 231,\n102, 319, 75, 188, 258, 43, 294, 128, 56, 211, 170, 337, 81, 243, 14,\n165, 92, 277, 150, 34, 225, 118, 355, 63, 200, 289, 47, 176, 310, 134,\n95, 248, 302, 20, 161, 73, 336, 108, 251, 45, 194, 139, 84, 267, 32,\n226, 114, 353, 67, 179, 244, 11, 296, 158, 90, 323, 52, 215, 147, 280,\n38, 187, 122, 305, 64, 170, 233, 79, 348, 26, 199, 143, 254, 100, 318,\n57, 240, 173, 91, 286, 136, 344, 22, 209, 151, 74, 262, 117, 331, 189",
+  "text_sha256": "e6cbb93c4e62c77431e986d92e2cc7520012531cd40ec7803072113f55b83bd3",
+  "parsed_count": 315,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "z-ai/glm-5.3-flash",
+  "response_id": "gen-1790351904-1712BKYIbS4XTzM9JGhn",
+  "usage": {
+    "prompt_tokens": 154,
+    "completion_tokens": 3973,
+    "total_tokens": 4127,
+    "cost": 0.0020096,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0020096,
+      "upstream_inference_prompt_cost": 0.0000231,
+      "upstream_inference_completions_cost": 0.0019865
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2965,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Z.AI",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/z-ai/fp8",
+  "finished_at": "2026-09-25T15:59:41.349Z"
+}

@@ -9,16 +9,13 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { Empty, EmptyContent, EmptyHeader, EmptyTitle } from '@/components/ui/empty'
 import { Segmented } from '@/components/segmented'
 import { useLoadedBank } from '@/lib/bank-context'
-import { useI18n, type I18n } from '@/i18n'
+import { useI18n } from '@/i18n'
 import * as client from '@/lib/client'
 import { describeError } from '@/lib/errors'
 import type { BankModel } from '@fingerpoint/shared/types'
 
 type Sort = 'samples' | 'name'
 
-export function sourceLabel(t: I18n['t'], kind: string) {
-  return kind === 'original' || kind === 'openrouter' || kind === 'api' || kind === 'codex' ? t(`library.source.${kind}`) : t('library.source.unknown')
-}
 
 export default function LibraryRoute() {
   const bank = useLoadedBank()
@@ -140,7 +137,7 @@ function ModelRow({ model }: { model: BankModel }) {
       <TableCell className="px-4 py-0 text-muted-foreground">{model.family_name}</TableCell>
       <TableCell className="px-4 py-0 text-right">{number(model.response_count)}</TableCell>
       <TableCell className="px-4 py-0 text-right">{number(model.valid_number_count)}</TableCell>
-      <TableCell className="px-4 py-0 text-muted-foreground">{Object.keys(model.sources).map(k => sourceLabel(t, k)).join(' / ')}</TableCell>
+      <TableCell className="px-4 py-0 text-muted-foreground">{Object.keys(model.sources).join(' / ')}</TableCell>
     </TableRow>
   )
 }

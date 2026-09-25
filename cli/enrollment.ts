@@ -2,14 +2,16 @@ import { mkdir, readFile, rename, rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { Worker } from 'node:worker_threads'
 import { isDeepStrictEqual } from 'node:util'
-import type { Bank, SampleRow } from '@fingerpoint/shared/types'
+import type { Bank } from '@fingerpoint/shared/types'
+import type { ReferenceBatch, ReferenceSample } from '@fingerpoint/shared/reference'
+import { parseReference, referenceSamples } from '@fingerpoint/shared/reference'
 import { parseNumbers } from '@fingerpoint/shared/fingerprint-core.js'
-import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
-import { loadAttempts, loadManifest, referenceRows, selectedAttempts, verifyTrace } from './sampling'
+import { loadAttempts, loadManifest, referenceBatch, selectedAttempts, verifyTrace } from './sampling'
 import { atomicWrite, missing, readJson, saveJson, sha256, withLock } from './storage'
 
-interface Receipt {
-  schema: 'fingerpoint-enrollment-v1'
+export interface EnrollmentProgress { stage: 'validating' | 'building' | 'writing'; message: string }
+export interface Receipt {
+  schema: 'fingerpoint-enrollment-v2'
   run_id: string
   manifest_sha256: string
   added: number
@@ -22,114 +24,132 @@ interface Receipt {
   bank_sha256: string
   selected_attempts: { challenge_id: string; attempt: number; row_id: string }[]
   detector_status: 'legacy-ranking-until-retrained'
+  dry_run?: boolean
+  already_enrolled?: boolean
 }
-function validateRows(rows: SampleRow[]) {
-  const ids = new Set<string>()
-  for (const row of rows) {
-    if (String(row.purpose ?? '').startsWith('holdout') || String(row.purpose ?? '').startsWith('evaluation') || row.test_set_id) throw new Error('评估记录不能入库')
-    if (!row.row_id || !row.source || !row.condition_id || !row.challenge_id || typeof row.text !== 'string') throw new Error('参考样本缺少标识、模型或挑战信息')
-    if (ids.has(row.row_id)) throw new Error(`参考样本标识重复：${row.row_id}`)
-    ids.add(row.row_id)
-    if (!['original', 'openrouter', 'api', 'codex'].includes(row.provenance?.kind)) throw new Error('参考样本缺少有效来源')
-    if (!row.strict_valid || !Number.isInteger(row.requested_count) || row.requested_count < 1 || parseNumbers(row.text).length < Math.max(80, Math.ceil(row.requested_count * .55))) throw new Error(`无效参考样本：${row.row_id}`)
+function validateSamples(batches: ReferenceBatch[]) {
+  for (const { sample } of referenceSamples(batches)) {
+    if (parseNumbers(sample.text).length < Math.max(80, Math.ceil(sample.expected_count * .55))) throw new Error(`Invalid reference sample: ${sample.id}`)
   }
 }
 export async function buildBankFile(reference: string, output: string) {
   await new Promise<void>((resolve, reject) => {
-    const worker = new Worker(new URL('./bank-worker.ts', import.meta.url), { workerData: { reference, output } })
+    const entry = import.meta.url.endsWith('.ts') ? './bank-worker.ts' : './bank-worker.js'
+    const worker = new Worker(new URL(entry, import.meta.url), { workerData: { reference, output } })
     worker.on('message', message => console.error(message))
     worker.on('error', reject)
-    worker.on('exit', code => code === 0 ? resolve() : reject(new Error(`建库进程退出：${code}`)))
+    worker.on('exit', code => code === 0 ? resolve() : reject(new Error(`Bank worker exited with code ${code}.`)))
   })
 }
 async function currentFile(path: string) {
   try { return await readFile(path, 'utf8') } catch (error) { if (missing(error)) return ''; throw error }
 }
 
-/** Complete a prepared transaction before allowing another enrollment. */
-async function recover(directory: string) {
+/** Validate prepared files for preview; install them only after write confirmation. */
+async function recover(directory: string, apply = true) {
   const pending = join(directory, '.pending-enrollment')
   let receipt: Receipt
   try { receipt = await readJson<Receipt>(join(pending, 'receipt.json')) } catch (error) {
     if (!missing(error)) throw error
     // No receipt means preparation did not finish and no official file was replaced.
-    await rm(pending, { recursive: true, force: true }); return
+    if (apply) await rm(pending, { recursive: true, force: true })
+    return
   }
-  if (receipt.schema !== 'fingerpoint-enrollment-v1' || !/^[a-f0-9-]+$/.test(receipt.run_id)) throw new Error('入库恢复记录无效')
+  if (receipt.schema !== 'fingerpoint-enrollment-v2' || !/^[a-f0-9-]+$/.test(receipt.run_id)) throw new Error('Invalid enrollment recovery receipt.')
+  const stagedFiles: Record<string, string> = {}
   for (const [name, oldHash, nextHash] of [
     ['unified_reference.jsonl', receipt.previous_reference_sha256, receipt.reference_sha256],
     ['unified_bank.json', receipt.previous_bank_sha256, receipt.bank_sha256],
   ]) {
     const staged = await readFile(join(pending, 'after', name), 'utf8')
-    if (sha256(staged) !== nextHash) throw new Error('入库暂存文件哈希不匹配')
+    if (sha256(staged) !== nextHash) throw new Error('Staged enrollment file hash mismatch.')
     const currentHash = sha256(await currentFile(join(directory, name)))
-    if (currentHash !== oldHash && currentHash !== nextHash) throw new Error('正式库在事务外被修改，请先核对 .pending-enrollment 中的备份')
+    if (currentHash !== oldHash && currentHash !== nextHash) throw new Error('Official data changed outside the transaction. Inspect the backups in .pending-enrollment before continuing.')
+    stagedFiles[name] = staged
   }
-  for (const name of ['unified_reference.jsonl', 'unified_bank.json']) {
-    await atomicWrite(join(directory, name), await readFile(join(pending, 'after', name), 'utf8'))
+  if (apply) {
+    for (const [name, content] of Object.entries(stagedFiles)) await atomicWrite(join(directory, name), content)
+    await mkdir(join(directory, '.enrollments'), { recursive: true })
+    await rename(pending, join(directory, '.enrollments', receipt.run_id))
   }
-  await mkdir(join(directory, '.enrollments'), { recursive: true })
-  await rename(pending, join(directory, '.enrollments', receipt.run_id))
+  return { runId: receipt.run_id, reference: stagedFiles['unified_reference.jsonl'], bank: stagedFiles['unified_bank.json'] }
 }
 
-export async function enroll(directory: string, dataDirectory: string, dryRun = false) {
+export async function enroll(directory: string, dataDirectory: string, dryRun = false, onProgress?: (progress: EnrollmentProgress) => void): Promise<Receipt> {
   await mkdir(dataDirectory, { recursive: true })
   return withLock(directory, async () => withLock(dataDirectory, async () => {
-    if (!dryRun) await recover(dataDirectory)
+    onProgress?.({ stage: 'validating', message: 'Validating samples and original evidence' })
+    const prepared = await recover(dataDirectory, !dryRun)
+    if (prepared) onProgress?.({ stage: 'validating', message: dryRun ? `Prepared enrollment ${prepared.runId} will be recovered on write.` : `Recovered enrollment ${prepared.runId}.` })
     const manifest = await loadManifest(directory)
     const attempts = await loadAttempts(directory, manifest)
-    const incoming: SampleRow[] = JSON.parse(JSON.stringify(redactPrivateMetadata(referenceRows(manifest, attempts))))
+    const incoming = referenceBatch(manifest, attempts)
     const selected = selectedAttempts(manifest, attempts)
     for (const [index, task] of manifest.tasks.entries()) await verifyTrace(directory, manifest, task, selected[index]!)
-    validateRows(incoming)
+    parseReference(JSON.stringify(incoming))
+    validateSamples([incoming])
     const referencePath = join(dataDirectory, 'unified_reference.jsonl'), bankPath = join(dataDirectory, 'unified_bank.json')
-    const oldReference = await currentFile(referencePath), oldBank = await currentFile(bankPath)
-    const existing: SampleRow[] = oldReference.split('\n').filter(line => line.trim()).map(line => JSON.parse(line))
-    validateRows(existing)
-    if (oldBank && (JSON.parse(oldBank) as Bank).reference_sha256 !== sha256(oldReference)) throw new Error('正式参考库与派生库哈希不匹配，请先恢复或重建')
-    const byId = new Map(existing.map(row => [row.row_id, row]))
-    const signature = (row: SampleRow) => sha256(JSON.stringify([row.source, row.condition_id, row.challenge_id, row.text.trim()]))
-    const signatures = new Set(existing.map(signature))
-    const rows = [...existing]
-    let skipped = 0
-    for (const row of incoming) {
-      const sameModel = existing.find(old => old.source === row.source)
-      if (sameModel && (sameModel.family_id !== row.family_id || sameModel.family_name !== row.family_name)) throw new Error(`模型家族 metadata 与已有模型冲突：${row.source}`)
-      const prior = byId.get(row.row_id)
-      if (prior && !isDeepStrictEqual(prior, row)) throw new Error(`样本标识内容冲突：${row.row_id}`)
-      if (prior || signatures.has(signature(row))) { skipped++; continue }
-      rows.push(row); byId.set(row.row_id, row); signatures.add(signature(row))
+    const oldReference = prepared?.reference ?? await currentFile(referencePath), oldBank = prepared?.bank ?? await currentFile(bankPath)
+    if (!!oldReference !== !!oldBank) throw new Error('Reference data and bank must both exist, or the destination must be empty.')
+    const existing = parseReference(oldReference)
+    validateSamples(existing)
+    if (oldBank && (JSON.parse(oldBank) as Bank).reference_sha256 !== sha256(oldReference)) throw new Error('Reference data and derived bank hashes do not match. Recover or rebuild first.')
+    const byId = new Map<string, { batch: ReferenceBatch; sample: ReferenceSample }>()
+    const signature = (batch: ReferenceBatch, sample: ReferenceSample) => sha256(JSON.stringify([batch.model.id, batch.source.channel, sample.actual_channel, sample.condition, sample.challenge_id, sample.text.trim()]))
+    const signatures = new Set<string>()
+    for (const row of referenceSamples(existing)) { byId.set(row.sample.id, row); signatures.add(signature(row.batch, row.sample)) }
+    const priorBatch = existing.find(batch => batch.id === incoming.id)
+    const { samples: _incomingSamples, ...incomingInfo } = incoming
+    if (priorBatch) {
+      const { samples: _priorSamples, ...priorInfo } = priorBatch
+      if (!isDeepStrictEqual(priorInfo, incomingInfo)) throw new Error(`Batch metadata conflict: ${incoming.id}`)
     }
-    const added = rows.length - existing.length
+    for (const batch of existing) {
+      if (batch.model.id === incoming.model.id && !isDeepStrictEqual(batch.model, incoming.model)) throw new Error(`Model family metadata conflicts with the existing model: ${incoming.model.id}`)
+    }
+    const addedSamples: ReferenceSample[] = []
+    let skipped = 0
+    for (const sample of incoming.samples) {
+      const prior = byId.get(sample.id)
+      if (prior && (prior.batch.id !== incoming.id || !isDeepStrictEqual(prior.sample, sample))) throw new Error(`Conflicting content for sample ID: ${sample.id}`)
+      const key = signature(incoming, sample)
+      if (prior || signatures.has(key)) { skipped++; continue }
+      addedSamples.push(sample); signatures.add(key)
+    }
+    const added = addedSamples.length, total = byId.size + added
+    const batches = existing.map(batch => batch === priorBatch ? { ...batch, samples: [...batch.samples, ...addedSamples] } : batch)
+    if (!priorBatch && added) batches.push({ ...incomingInfo, samples: addedSamples })
+    const nextReference = added ? batches.map(batch => JSON.stringify(batch)).join('\n') + '\n' : oldReference
+    const receipt: Receipt = { schema: 'fingerpoint-enrollment-v2', run_id: manifest.id, manifest_sha256: manifest.fingerprint,
+      added, skipped, total, created_at: new Date().toISOString(),
+      previous_reference_sha256: sha256(oldReference), reference_sha256: sha256(nextReference),
+      previous_bank_sha256: sha256(oldBank), bank_sha256: sha256(oldBank),
+      selected_attempts: incoming.samples.map(sample => ({ challenge_id: sample.challenge_id, attempt: sample.attempt!, row_id: sample.id })),
+      detector_status: 'legacy-ranking-until-retrained', ...(dryRun ? { dry_run: true } : {}) }
     if (dryRun || !added) {
       if (!dryRun) {
         try {
-          const receipt = await readJson<Receipt>(join(dataDirectory, '.enrollments', manifest.id, 'receipt.json'))
-          if (receipt.manifest_sha256 !== manifest.fingerprint) throw new Error('已入库批次的 manifest 不匹配')
-          await saveJson(join(directory, 'enrollment.json'), receipt)
-          return { ...receipt, added: 0, skipped, already_enrolled: true }
+          const priorReceipt = await readJson<Receipt>(join(dataDirectory, '.enrollments', manifest.id, 'receipt.json'))
+          if (priorReceipt.manifest_sha256 !== manifest.fingerprint) throw new Error('Previously enrolled batch has a different manifest fingerprint.')
+          const result = { ...priorReceipt, added: 0, skipped, total, already_enrolled: true }
+          await saveJson(join(directory, 'enrollment.json'), result)
+          return result
         } catch (error) { if (!missing(error)) throw error }
+        await saveJson(join(directory, 'enrollment.json'), receipt)
       }
-      const result = { run_id: manifest.id, added, skipped, total: rows.length, dry_run: dryRun }
-      if (!dryRun) await saveJson(join(directory, 'enrollment.json'), result)
-      return result
+      return receipt
     }
     const pending = join(dataDirectory, '.pending-enrollment')
     await mkdir(join(pending, 'before'), { recursive: true })
     await mkdir(join(pending, 'after'), { recursive: true })
     await atomicWrite(join(pending, 'before', 'unified_reference.jsonl'), oldReference)
     await atomicWrite(join(pending, 'before', 'unified_bank.json'), oldBank)
-    const nextReference = rows.map(row => JSON.stringify(row)).join('\n') + '\n'
     await atomicWrite(join(pending, 'after', 'unified_reference.jsonl'), nextReference)
+    onProgress?.({ stage: 'building', message: 'Building the reference fingerprint bank' })
     await buildBankFile(join(pending, 'after', 'unified_reference.jsonl'), join(pending, 'after', 'unified_bank.json'))
-    const nextBank = await readFile(join(pending, 'after', 'unified_bank.json'), 'utf8')
-    const receipt: Receipt = { schema: 'fingerpoint-enrollment-v1', run_id: manifest.id, manifest_sha256: manifest.fingerprint,
-      added, skipped, total: rows.length, created_at: new Date().toISOString(),
-      previous_reference_sha256: sha256(oldReference), reference_sha256: sha256(nextReference),
-      previous_bank_sha256: sha256(oldBank), bank_sha256: sha256(nextBank),
-      selected_attempts: manifest.tasks.map((task, index) => ({ challenge_id: task.id, attempt: selected[index]!.attempt, row_id: incoming[index].row_id })),
-      detector_status: 'legacy-ranking-until-retrained' }
+    receipt.bank_sha256 = sha256(await readFile(join(pending, 'after', 'unified_bank.json'), 'utf8'))
     await saveJson(join(pending, 'receipt.json'), receipt)
+    onProgress?.({ stage: 'writing', message: 'Atomically writing reference data and bank' })
     await recover(dataDirectory)
     await saveJson(join(directory, 'enrollment.json'), receipt)
     return receipt

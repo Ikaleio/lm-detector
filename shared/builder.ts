@@ -1,8 +1,9 @@
 import { Matrix, SingularValueDecomposition } from 'ml-matrix'
 import { countNumbers, hellingerFeature, orderedBlockFeature, parseNumbers, robustScoreNumbers } from './fingerprint-core.js'
-import type { Bank, SampleRow } from './types'
+import type { Bank } from './types'
+import type { ReferenceBatch } from './reference'
 
-type Prepared = SampleRow & { numbers:number[]; counts:number[]; h:number[]; o:number[] }
+type Prepared = { source:string; family_id:string; family_name:string; channel:string; condition_id:string; challenge_id:string; numbers:number[]; counts:number[]; h:number[]; o:number[] }
 const avg = (xs:number[]) => xs.reduce((a,b)=>a+b,0)/xs.length
 const dot = (a:number[],b:number[]) => a.reduce((s,x,i)=>s+x*b[i],0)
 const unit = (a:number[]) => { const n=Math.max(Math.sqrt(dot(a,a)),1e-12);return a.map(x=>x/n) }
@@ -12,7 +13,7 @@ function featureFit(features:number[][], rows:Prepared[], nuisance:string[], com
   const mean=meanRows(features)
   const scale=mean.map((m,i)=>Math.sqrt(avg(features.map(f=>(f[i]-m)**2)))||1)
   const z=features.map(f=>f.map((x,i)=>(x-mean[i])/scale[i]))
-  const offsets=nuisance.map(e=>meanRows(z.filter((_,i)=>(rows[i].nuisance_condition_id||rows[i].condition_id)===e&&complete.includes(rows[i].condition_id))))
+  const offsets=nuisance.map(e=>meanRows(z.filter((_,i)=>rows[i].condition_id===e&&complete.includes(rows[i].condition_id))))
   let basis:number[][]=[]
   if(offsets.length>1){
     const center=meanRows(offsets), matrix=offsets.map(f=>f.map((x,i)=>x-center[i]))
@@ -26,7 +27,7 @@ function featureFit(features:number[][], rows:Prepared[], nuisance:string[], com
 function fit(rows:Prepared[], models:string[]) {
   const envs=[...new Set(rows.map(r=>r.condition_id))].sort()
   const complete=envs.filter(e=>new Set(rows.filter(r=>r.condition_id===e).map(r=>r.source)).size===models.length)
-  const nuisance=[...new Set(rows.filter(r=>complete.includes(r.condition_id)).map(r=>r.nuisance_condition_id||r.condition_id))].sort()
+  const nuisance=[...new Set(rows.filter(r=>complete.includes(r.condition_id)).map(r=>r.condition_id))].sort()
   const h=featureFit(rows.map(r=>r.h),rows,nuisance,complete),o=featureFit(rows.map(r=>r.o),rows,nuisance,complete)
   const centers=(values:number[][])=>models.map(m=>unit(meanRows(values.filter((_,i)=>rows[i].source===m))))
   return {model_order:models,robust_ready:!!complete.length,training_rows:rows.length,complete_environments:complete,
@@ -45,15 +46,19 @@ function calibrate(records:{scores:number[];truth:number}[]) {
   const correct=records.filter(r=>r.scores.indexOf(Math.max(...r.scores))===r.truth).length
   return {beta,cv_accuracy:correct/records.length,cv_samples:records.length,cv_correct:correct,cv_nll:best,fallback:false}
 }
-export function buildBank(input:SampleRow[],progress:(message:string)=>void=()=>{}):Bank {
-  if(!input.length)throw new Error('统一库至少需要一条有效样本')
-  if(input.some(r=>String(r.purpose||'').startsWith('holdout')||String(r.purpose||'').startsWith('evaluation')||r.test_set_id))throw new Error('测试集不能用于建库或校准')
-  const rows:Prepared[]=input.map(r=>{const numbers=parseNumbers(r.text),c=countNumbers(numbers);return {...r,numbers,counts:c,h:hellingerFeature(c),o:orderedBlockFeature(numbers)}})
+export function buildBank(input:ReferenceBatch[],progress:(message:string)=>void=()=>{}):Bank {
+  if(!input.some(batch=>batch.samples.length))throw new Error('统一库至少需要一条有效样本')
+  if(input.some(batch=>batch.purpose!=='reference'))throw new Error('测试集不能用于建库或校准')
+  const rows:Prepared[]=[]
+  for(const batch of input)for(const sample of batch.samples){
+    const numbers=parseNumbers(sample.text),c=countNumbers(numbers)
+    rows.push({source:batch.model.id,family_id:batch.model.family,family_name:batch.model.family_name,channel:sample.actual_channel??batch.source.channel,condition_id:sample.condition,challenge_id:sample.challenge_id,numbers,counts:c,h:hellingerFeature(c),o:orderedBlockFeature(numbers)})
+  }
   const models=[...new Set(rows.map(r=>r.source))]
   const robust=fit(rows,models)
   const calibration:Bank['calibration']={}
   for(const n of [1,2,3]){
-    progress(`正在拟合 ${n} 条回答的校准参数`)
+    progress(`Fitting calibration for ${n} response${n === 1 ? '' : 's'}`)
     const records:{scores:number[];truth:number}[]=[]
     for(const condition of [...new Set(rows.map(r=>r.condition_id))].sort()){
       const challenges=[...new Set(rows.filter(r=>r.condition_id===condition).map(r=>r.challenge_id))].sort().filter(id=>models.every(m=>rows.some(r=>r.source===m&&r.challenge_id===id)))
@@ -72,5 +77,5 @@ export function buildBank(input:SampleRow[],progress:(message:string)=>void=()=>
     }
     calibration[String(n)]=calibrate(records)
   }
-  return {schema:'robust-number-fingerprint-bank',built_at:new Date().toISOString(),method:{name:'Ordered-block + nuisance-Hellinger',range:[1,355],alpha:.5,ordered_block_weight:.25},sources:counts(rows.map(r=>r.provenance.kind)),recommended_queries:3,minimum_valid_numbers:80,models:models.map(id=>{const selected=rows.filter(r=>r.source===id);return {id,display_name:id,family:selected[0].family_id||'other',family_name:selected[0].family_name||'其他',response_count:selected.length,valid_number_count:selected.reduce((n,r)=>n+r.numbers.length,0),frequency_references:selected.map(r=>r.counts),counts:selected[0].counts.map((_,i)=>selected.reduce((n,r)=>n+r.counts[i],0)),sources:counts(selected.map(r=>r.provenance.kind)),conditions:counts(selected.map(r=>r.condition_id))}}),robust,calibration}
+  return {schema:'robust-number-fingerprint-bank',built_at:new Date().toISOString(),method:{name:'Ordered-block + nuisance-Hellinger',range:[1,355],alpha:.5,ordered_block_weight:.25},sources:counts(rows.map(r=>r.channel)),recommended_queries:3,minimum_valid_numbers:80,models:models.map(id=>{const selected=rows.filter(r=>r.source===id);return {id,display_name:id,family:selected[0].family_id||'other',family_name:selected[0].family_name||'其他',response_count:selected.length,valid_number_count:selected.reduce((n,r)=>n+r.numbers.length,0),frequency_references:selected.map(r=>r.counts),counts:selected[0].counts.map((_,i)=>selected.reduce((n,r)=>n+r.counts[i],0)),sources:counts(selected.map(r=>r.channel)),conditions:counts(selected.map(r=>r.condition_id))}}),robust,calibration}
 }

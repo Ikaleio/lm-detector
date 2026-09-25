@@ -1,0 +1,66 @@
+{
+  "manifest_sha256": "606704eb45077c4eceb0b4e80c66be82b0ef9d6d128bebb12af2726205ebbe6f",
+  "challenge_id": "query-29",
+  "attempt": 1,
+  "task": {
+    "id": "query-29",
+    "condition": "environment-10",
+    "expected_count": 308,
+    "prompt": "The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed. You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained.\n\nFinal task:\n请完成无语义整数选择任务：逐项给出 308 个闭区间 [1, 355] 内的整数，每次只决定当前一项。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+    "system": "",
+    "body": {
+      "model": "deepseek/deepseek-v4-pro-0813",
+      "messages": [
+        {
+          "role": "user",
+          "content": "The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed. You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained.\n\nFinal task:\n请完成无语义整数选择任务：逐项给出 308 个闭区间 [1, 355] 内的整数，每次只决定当前一项。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。"
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "provider": {
+        "only": [
+          "deepseek"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-09-25T18:13:43.405Z",
+  "trace": "trace/query-29/0001",
+  "text": "17, 203, 88, 341, 5, 276, 119, 54, 310, 142, 231, 73, 355, 198, 26, 312, 64, 150, 297, 9, 112, 244, 38, 189, 321, 76, 254, 13, 167, 300, 48, 215, 92, 330, 61, 178, 271, 35, 146, 288, 22, 193, 354, 85, 317, 49, 262, 128, 205, 71, 339, 104, 226, 15, 157, 295, 66, 183, 322, 41, 249, 78, 350, 136, 280, 12, 168, 223, 44, 308, 97, 214, 336, 58, 187, 265, 129, 343, 174, 31, 209, 62, 289, 151, 304, 20, 237, 116, 352, 83, 270, 134, 318, 47, 199, 260, 33, 176, 345, 101, 228, 74, 310, 162, 335, 29, 211, 94, 279, 143, 302, 87, 196, 353, 42, 118, 268, 340, 25, 181, 156, 294, 70, 332, 108, 247, 179, 317, 52, 225, 286, 11, 170, 344, 91, 238, 137, 274, 38, 305, 133, 267, 19, 347, 102, 220, 55, 311, 148, 242, 324, 79, 186, 258, 121, 333, 46, 191, 293, 27, 155, 230, 69, 338, 113, 252, 8, 185, 327, 96, 240, 145, 303, 32, 206, 285, 98, 349, 177, 132, 315, 57, 221, 109, 271, 34, 190, 266, 144, 306, 82, 329, 124, 250, 18, 169, 298, 67, 213, 175, 269, 36, 201, 319, 77, 235, 122, 307, 139, 282, 16, 331, 93, 256, 141, 65, 212, 348, 103, 236, 323, 50, 278, 114, 299, 39, 184, 314, 123, 259, 72, 337, 126, 204, 291, 24, 160, 243, 28, 210, 229, 95, 255, 149, 320, 51, 188, 277, 10, 239, 334, 89, 218, 115, 272, 153, 309, 63, 197, 342, 23, 296, 120, 253, 182, 43, 232, 106, 316, 68, 217, 125, 351, 30, 202, 275, 161, 326, 14, 245, 131, 284, 56, 222, 313, 81, 195, 346, 100, 248, 6, 328, 173, 301, 45, 207, 264, 127, 325, 80, 147, 290, 110, 251, 37, 200, 21, 292",
+  "text_sha256": "8ba792d6a85b22f958f8dd4e1fd0fd11bf6ba35ee85ff2423b534db455eb29e4",
+  "parsed_count": 308,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "deepseek/deepseek-v4-pro-0813",
+  "response_id": "gen-1790360023-P7RZZIEkuIlkT8qKM07n",
+  "usage": {
+    "prompt_tokens": 361,
+    "completion_tokens": 8045,
+    "total_tokens": 8406,
+    "cost": 0.01616736,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01616736,
+      "upstream_inference_prompt_cost": 0.00023826,
+      "upstream_inference_completions_cost": 0.0159291
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 7122,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "DeepSeek",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/deepseek",
+  "finished_at": "2026-09-25T18:14:42.173Z"
+}

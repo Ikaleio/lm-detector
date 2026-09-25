@@ -14,12 +14,11 @@ import * as client from '@/lib/client'
 import { describeError } from '@/lib/errors'
 import { cn } from '@/lib/utils'
 import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
-import { sourceLabel } from './library'
-import type { SampleRow } from '@fingerpoint/shared/types'
+import type { ReferenceEntry } from '@/lib/client'
 
 const PAGE = 12
 
-type SampleLoad = { status: 'loading' } | { status: 'ready'; rows: SampleRow[] } | { status: 'failed'; error: unknown }
+type SampleLoad = { status: 'loading' } | { status: 'ready'; rows: ReferenceEntry[] } | { status: 'failed'; error: unknown }
 
 export default function LibraryModelRoute() {
   const bank = useLoadedBank()
@@ -36,7 +35,7 @@ export default function LibraryModelRoute() {
             <h1 className="text-h1 w-fit max-w-full [overflow-wrap:anywhere]">{model.display_name}</h1>
             {model.display_name !== model.id && <p className="fp-mono text-meta text-muted-foreground [overflow-wrap:anywhere]">{model.id}</p>}
             <p className="text-body text-muted-foreground [overflow-wrap:anywhere]">
-              {model.family_name} · {t('library.samplesCount', { n: model.response_count })} · {Object.keys(model.sources).map(k => sourceLabel(t, k)).join(' / ')}
+              {model.family_name} · {t('library.samplesCount', { n: model.response_count })} · {Object.keys(model.sources).join(' / ')}
             </p>
           </>
         ) : <h1 className="text-h1">{t('library.notFound')}</h1>}
@@ -64,12 +63,12 @@ function ModelSamples({ modelId }: { modelId: string }) {
   }, [modelId, attempt])
 
   const groups = useMemo(() => {
-    const byChallenge = new Map<string, SampleRow[]>()
+    const byChallenge = new Map<string, ReferenceEntry[]>()
     if (load.status === 'ready') {
       for (const row of load.rows) {
-        const group = byChallenge.get(row.challenge_id)
+        const group = byChallenge.get(row.sample.challenge_id)
         if (group) group.push(row)
-        else byChallenge.set(row.challenge_id, [row])
+        else byChallenge.set(row.sample.challenge_id, [row])
       }
     }
     return [...byChallenge].sort((a, b) => a[0].localeCompare(b[0]))
@@ -119,7 +118,7 @@ function ModelSamples({ modelId }: { modelId: string }) {
         </TabsList>
       </nav>
       <TabsContent key={activeId} value={activeId} className="flex min-h-0 min-w-0 flex-col gap-4 lg:overflow-y-auto lg:overscroll-contain lg:pr-2">
-        {active.slice(0, limit).map((row, i) => <SampleReply key={row.row_id || i} row={row} index={i} />)}
+        {active.slice(0, limit).map((row, i) => <SampleReply key={row.sample.id} row={row} index={i} />)}
         {active.length > limit && (
           <div><Button variant="outline" className="h-9" onClick={() => setLimit(n => n + PAGE)}>{t('library.showMore', { n: Math.min(PAGE, active.length - limit) })}</Button></div>
         )}
@@ -128,7 +127,7 @@ function ModelSamples({ modelId }: { modelId: string }) {
   )
 }
 
-function ChallengeList({ groups, activeId, onSelect }: { groups: [string, SampleRow[]][]; activeId: string; onSelect: (id: string) => void }) {
+function ChallengeList({ groups, activeId, onSelect }: { groups: [string, ReferenceEntry[]][]; activeId: string; onSelect: (id: string) => void }) {
   const { t } = useI18n()
   const scrollRef = useRef<HTMLDivElement>(null)
   const activeRef = useRef<HTMLButtonElement>(null)
@@ -198,39 +197,45 @@ function publicMetadata(value: unknown): string | undefined {
   }
 }
 
-function SampleReply({ row, index }: { row: SampleRow; index: number }) {
+function SampleReply({ row: { batch, sample }, index }: { row: ReferenceEntry; index: number }) {
   const { t, number, date } = useI18n()
-  const { provenance } = row
-  const endpoint = publicMetadata(provenance.endpoint)
-  const provider = publicMetadata(provenance.provider_name ?? provenance.reported_provider ?? provenance.provider)
-  const channel = publicMetadata(provenance.channel ?? provenance.original_provider ?? provenance.name ?? row.provider)
-  const batch = publicMetadata(provenance.batch ?? row.collection_batch)
+  const endpoint = publicMetadata(batch.source.endpoint)
+  const provider = publicMetadata(sample.provider_reported)
+  const channel = publicMetadata(sample.actual_channel ?? batch.source.channel)
+  const batchId = publicMetadata(batch.id)
+  const collectedAt = sample.finished_at ?? sample.started_at
 
   return (
     <article className="fp-card flex min-w-0 flex-col gap-3 p-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-meta text-muted-foreground">
-          {t('library.replyN', { n: index + 1 })} · {t('detect.numbers', { count: client.parseNumbers(row.text).length })} / {number(row.requested_count)} · {row.collected_at ? t('library.collectedAt', { date: date(row.collected_at) }) : t('library.noDate')} · {sourceLabel(t, provenance.kind)}
+          {t('library.replyN', { n: index + 1 })} · {t('detect.numbers', { count: client.parseNumbers(sample.text).length })} / {number(sample.expected_count)} · {collectedAt ? t('library.collectedAt', { date: date(collectedAt) }) : t('library.noDate')} · {channel}
         </h2>
-        <Badge className={cn('h-[22px] rounded-[var(--radius-badge)] px-2 text-meta font-medium', row.strict_valid ? 'bg-success/12 text-success' : 'bg-muted text-muted-foreground')}>
-          {t(row.strict_valid ? 'library.strictValid' : 'library.strictInvalid')}
+        <Badge className={cn('h-[22px] rounded-[var(--radius-badge)] px-2 text-meta font-medium', sample.completion === 'complete' ? 'bg-success/12 text-success' : 'bg-muted text-muted-foreground')}>
+          {t(`library.completion.${sample.completion}`)}
         </Badge>
       </div>
-      {row.prompt ? (
+      {sample.prompt ? (
         <details className="text-body">
           <summary className="w-fit cursor-pointer rounded-sm text-card-title focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">{t('library.viewPrompt')}</summary>
-          <p className="mt-2 whitespace-pre-wrap text-muted-foreground [overflow-wrap:anywhere]">{row.prompt}</p>
+          {sample.system_prompt && <p className="mt-2 whitespace-pre-wrap text-muted-foreground [overflow-wrap:anywhere]">{sample.system_prompt}</p>}
+          <p className="mt-2 whitespace-pre-wrap text-muted-foreground [overflow-wrap:anywhere]">{sample.prompt}</p>
         </details>
       ) : <p className="text-meta text-muted-foreground">{t('library.noPrompt')}</p>}
-      <pre tabIndex={0} aria-label={t('library.replyN', { n: index + 1 })} className="fp-reply max-h-[60vh] whitespace-pre-wrap font-sans text-body [overflow-wrap:anywhere] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">{row.text}</pre>
-      {(endpoint || provider || channel || batch) && (
+      <pre tabIndex={0} aria-label={t('library.replyN', { n: index + 1 })} className="fp-reply max-h-[60vh] whitespace-pre-wrap font-sans text-body [overflow-wrap:anywhere] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">{sample.text}</pre>
+      {sample.note && <p className="text-meta text-muted-foreground [overflow-wrap:anywhere]">{publicMetadata(sample.note)}</p>}
+      {(endpoint || provider || channel || batchId) && (
         <details className="text-meta text-muted-foreground">
           <summary className="w-fit cursor-pointer rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">{t('library.provenance')}</summary>
           <dl className="mt-2 grid gap-x-4 gap-y-1 sm:grid-cols-[max-content_minmax(0,1fr)] [&>dd]:[overflow-wrap:anywhere]">
             {endpoint && <><dt>{t('library.endpoint')}</dt><dd>{endpoint}</dd></>}
             {provider && <><dt>{t('library.provider')}</dt><dd>{provider}</dd></>}
             {channel && <><dt>{t('library.channel')}</dt><dd>{channel}</dd></>}
-            {batch && <><dt>{t('library.batch')}</dt><dd>{batch}</dd></>}
+            {batchId && <><dt>{t('library.batch')}</dt><dd>{batchId}</dd></>}
+            {batch.request.model && <><dt>{t('library.requestModel')}</dt><dd>{publicMetadata(batch.request.model)}</dd></>}
+            {sample.response_model && <><dt>{t('library.responseModel')}</dt><dd>{publicMetadata(sample.response_model)}</dd></>}
+            <dt>{t('library.condition')}</dt><dd>{sample.condition}</dd>
+            {sample.evidence_path && <><dt>{t('library.evidence')}</dt><dd>{publicMetadata(sample.evidence_path)}</dd></>}
           </dl>
         </details>
       )}

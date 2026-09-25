@@ -4,13 +4,14 @@
   "version": "0.1.0",
   "type": "module",
   "bin": {
-    "fpd": "./detect.ts"
+    "fpd": "./fpd.ts"
   },
   "scripts": {
-    "detect": "bun detect.ts",
+    "detect": "bun fpd.ts",
     "detect:legacy": "bun detect-legacy.ts",
-    "sample": "bun sample.ts",
-    "enroll": "bun enroll.ts"
+    "sample": "bun fpd.ts sample",
+    "enroll": "bun fpd.ts enroll",
+    "retrain": "bun fpd.ts retrain"
   },
   "dependencies": {
     "@fingerpoint/shared": "workspace:*",

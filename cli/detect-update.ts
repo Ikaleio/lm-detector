@@ -15,6 +15,7 @@ const hour = 60 * 60 * 1000
 const maxBytes = 32 * 1024
 
 export interface UpdateNotice extends UpdateCommand { current: string; latest: string }
+export type UpdateCheck = () => UpdateNotice | undefined
 interface Cache { checkedAt: number; checkedFor: string; latest?: string; success: boolean }
 
 function stableVersion(value: unknown): value is string {
@@ -61,7 +62,7 @@ async function registryVersion(registry: string, signal: AbortSignal): Promise<s
 }
 
 // The caller never awaits this work. stop() cancels it and returns only an already available notice.
-export function startUpdateCheck(): () => UpdateNotice | undefined {
+export function startUpdateCheck(): UpdateCheck {
   if (!stableVersion(currentVersion)) return () => undefined
   const version = currentVersion
   const controller = new AbortController()

@@ -19,12 +19,13 @@
     "preview:pages": "wrangler pages dev web/dist --ip 127.0.0.1 --port 8788",
     "deploy:pages": "wrangler pages deploy web/dist",
     "sync-data": "bun web/scripts/sync-data.ts",
-    "detect": "bun cli/detect.ts",
-    "fpd": "bun cli/detect.ts",
+    "detect": "bun cli/fpd.ts",
+    "fpd": "bun cli/fpd.ts",
     "detect:legacy": "bun cli/detect-legacy.ts",
-    "sample": "bun cli/sample.ts",
+    "sample": "bun cli/fpd.ts sample",
     "vercel-build": "bun run build",
-    "enroll": "bun cli/enroll.ts"
+    "enroll": "bun cli/fpd.ts enroll",
+    "retrain": "bun cli/fpd.ts retrain"
   },
   "devDependencies": {
     "@fingerpoint/cli": "workspace:*",
