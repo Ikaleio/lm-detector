@@ -57,7 +57,7 @@ export default function DetectRoute() {
   const [resultModel, setResultModel] = useState<string | null>(null)
   const [expanded, setExpanded] = useState<number | null>(null)
   const [errorDetail, setErrorDetail] = useState<string | null>(null)
-  const [config, update] = useApiConfig(() => toast.error(t('errors.unknown')))
+  const [config, update, profileManager] = useApiConfig(() => toast.error(t('errors.unknown')))
   const [apiConfigOpen, setApiConfigOpen] = useState(() => !configComplete(config))
   const apiConfigRef = useRef<HTMLDivElement>(null)
   const activeRun = useRef<Run | null>(null)
@@ -291,7 +291,7 @@ export default function DetectRoute() {
           transition={snappy}
           className="shrink-0 overflow-hidden"
         >
-          <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} disabled={locked} />
+          <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} profileManager={profileManager} disabled={locked} />
         </motion.div>}
       </AnimatePresence>
 
