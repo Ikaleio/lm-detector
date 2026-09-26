@@ -7,6 +7,7 @@ FPD uses Ink for live detection, reference collection, and enrollment. The publi
 ```sh
 npx lmfpd@latest --baseurl https://api.example.com/v1 --apikey sk-xxx --model gpt-6-astra
 npx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra -p 3 -n 5
+npx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra --count 1
 npx lmfpd@latest --help
 ```
 
@@ -43,13 +44,14 @@ Explicit flags override environment variables. Credentials do not appear in the 
 | `-k`, `--apikey` | API key. Reads `API_KEY` if omitted. |
 | `-b`, `--baseurl` | HTTP or HTTPS base URL, or the complete endpoint. Reads `BASE_URL` if omitted. |
 | `-a`, `--api` | `responses` (default), `chatcompletion`, or `message`. Any prefix works (for example `resp` or `chat`); `cc` also selects `chatcompletion`. |
-| `-p`, `--parallel` | Concurrent samples within a round. Integer from 1 to 3. Default: 3. |
+| `--count` | Samples requested per round. Integer from 1 to 3. Default: 3. One or two samples produce rankings without confidence scores. |
+| `-p`, `--parallel` | Concurrent samples within a round. Integer from 1 to 3. Default: 3, capped at `--count`. Does not change the number of requests. |
 | `-n`, `--repeat` | Number of detection rounds. Positive integer. Default: 1. |
-| `-s`, `--strict` | Disable automatic truncation. Require all three complete, valid responses. |
+| `-s`, `--strict` | Disable automatic truncation. Require `--count 3` and all three complete, valid responses. |
 | `-ns`, `--no-stream` | Request JSON instead of SSE. |
 | `--timeout` | Timeout in seconds. Default: 120. Fractional seconds are supported. |
 | `-e`, `--effort` | Optional provider reasoning effort. Accepts any string, including `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Omitted from API requests by default. |
-| `--challenges FILE` | Reuse a JSON array of three challenges in every round. |
+| `--challenges FILE` | Reuse a JSON array of challenges in every round. Its length must match `--count` (default: 3). |
 | `--bank FILE` | Use a custom reference bank. |
 | `--input FILE` | Analyze saved outputs without API requests. |
 | `--output FILE` | Save all rounds, request settings, challenges, received text, and results. |
@@ -75,15 +77,17 @@ Use `--no-update-check` or set `FPD_NO_UPDATE_CHECK=1` to disable the feature.
 
 ## Sampling behavior
 
-Each round generates three random challenges from the existing shared challenge generator. The challenge prompts remain unchanged to preserve the sampling method. The CLI interface, help, and local error messages use English.
+Each round generates `--count` random challenges from the existing shared challenge generator (default: three). Use `--count 1` for one API request per round or `--count 2` for two. `-p 1` only serializes the requests; `-n 1` runs one round. The challenge prompts remain unchanged to preserve the sampling method. The CLI interface, help, and local error messages use English.
+
+For a fixed single challenge, use `--count 1 --challenges one-challenge.json`; the file must contain a one-element array with `id`, `prompt`, and `expected_count`. A mismatched array length is rejected before any model requests.
 
 The default relaxed mode stops a streaming sample after it receives the requested number of complete integers. The interface marks it **Capped**. JSON responses with excess numbers are trimmed after receipt. The raw text received before cancellation remains in the saved sample record. Incomplete final integer tokens do not trigger truncation.
 
 A naturally completed sample must contain at least `max(80, ceil(expected_count * 0.55))` valid numbers, matching the existing scorer. A refusal, provider error, or unfinished response is rejected unless relaxed mode already stopped it at the requested count.
 
-Relaxed mode can rank one or two valid samples. Partial rankings have no confidence scores. Strict mode disables the client count limit, waits for complete responses, and skips scoring unless all three samples succeed. Provider token limits still apply. Failed samples remain visible and are preserved in saved results.
+Relaxed mode can rank one or two valid samples, including when that is the requested count. Partial rankings have no confidence scores; the verifier and confidence calibration still require three valid samples. Strict mode requires `--count 3`, disables the client count limit, waits for complete responses, and skips scoring unless all three samples succeed. Combining `--strict` with `--count 1` or `--count 2` is rejected before any model requests. Provider token limits still apply. Failed samples remain visible and are preserved in saved results.
 
-All three requests must settle before the next round starts, including failed requests. Each round uses its own concurrency limit. The CLI does not retry requests automatically. A failed round does not prevent later rounds from running.
+All requested samples must settle before the next round starts, including failed requests. Each round uses its own concurrency limit, capped at the sample count. The CLI does not retry requests automatically. A failed round does not prevent later rounds from running.
 
 The timeout starts when each request is dispatched. For SSE, the first nonempty response-body chunk clears the timer, including a heartbeat or metadata event. Response headers alone do not clear it. No client deadline or Bun idle timeout remains after SSE starts. For JSON, the entire response must arrive before the deadline.
 
@@ -98,6 +102,8 @@ bun run fpd --input result.json --strict --json
 ```
 
 The input can be a saved report, a report with `outputs`, an array of one to three `{ "text": "...", "expected_count": 300 }` objects, or a collection `result.json`. Collection samples are grouped by condition into rounds of up to three answers. Reports with several rounds are analyzed one round at a time. Strict replay rejects recorded truncation and unknown collection completion. Offline analysis of a plain output array cannot verify its original network completion status.
+
+`--count` applies only to online detection and cannot be combined with `--input`; offline rounds use the saved outputs. Online reports include the requested count as `request.count` and the effective concurrency as `request.parallel`.
 
 The TUI shows the latest ranking and recent round summaries. JSON retains every round. The most frequent candidate counts round winners; it is not a combined probability. Confidence is relative to models in the reference bank and does not establish the upstream model's identity. An incompatible custom bank uses the existing legacy ranker without confidence scores.
 
@@ -115,7 +121,7 @@ fpd retrain --data-dir ./reference-data
 
 `fpd sample` opens a focused setup wizard when required fields are missing in an interactive terminal. It masks keys, previews requests before sending, and displays live progress. Fully specified flags work without a terminal; `--json` writes only the final report to stdout. Credentials can come from `API_KEY`, `MODEL`, and `BASE_URL`.
 
-Collection uses the fixed 36-challenge suite, not detection's random three-challenge rounds. `--count` chooses a smaller fixed plan. `--parallel` defaults to 3; `--max-attempts` defaults to 3 cumulative attempts per challenge. `q` or Ctrl+C saves interrupted evidence. Resume skips selected challenges and never changes batch model, channel, or request settings.
+Collection uses the fixed 36-challenge suite, not detection's random one-to-three-challenge rounds. `--count` chooses a smaller fixed plan. `--parallel` defaults to 3; `--max-attempts` defaults to 3 cumulative attempts per challenge. `q` or Ctrl+C saves interrupted evidence. Resume skips selected challenges and never changes batch model, channel, or request settings.
 
 Declare `--label`, `--family`, `--family-name`, `--channel`, and one or more `--response-model` values. Subscription channels must end with `-subscription`; use `codex-subscription` for local Codex login or `kimi-code-subscription` for Kimi Code. `--subscription` enforces the suffix for another subscription route. Billing/account details are not stored. OpenRouter fixed routes such as `openrouter/anthropic` pin `provider.only` and disable fallback. Reported provider metadata is retained separately from the requested channel.
 

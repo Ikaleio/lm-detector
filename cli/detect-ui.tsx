@@ -78,7 +78,7 @@ function Dashboard({ state, options, bankSize, cancel, saved, fatal, updateNotic
       <Text><Text bold color="cyan">FPD</Text><Text dimColor> / MODEL FINGERPOINT DETECTOR (</Text><Text color="cyan">{terminalLink('lm.ikale.io', 'https://lm.ikale.io', { fallback: false })}</Text><Text dimColor>)</Text></Text>
       <Text wrap="truncate-end" bold>{options.input ? `Offline · ${safe(options.input)}` : safe(options.config.model)}</Text>
       {!compact && !options.input && <Text dimColor wrap="truncate-middle">{safe(options.config.baseUrl)}</Text>}
-      <Text dimColor>{options.input ? 'Saved outputs' : `${options.api} · ${options.config.stream ? 'SSE' : 'JSON'} · parallel ${options.parallel}`} · {options.strict ? 'strict' : 'relaxed'} · {bankSize} models</Text>
+      <Text dimColor>{options.input ? 'Saved outputs' : `${options.api} · ${options.config.stream ? 'SSE' : 'JSON'} · count ${options.count} · parallel ${options.parallel}`} · {options.strict ? 'strict' : 'relaxed'} · {bankSize} models</Text>
     </Box>
     <Box justifyContent="space-between">
       <Text bold>{state.finishedAt ? '●' : spinner} {phase} · round {latest?.index ?? 1}/{state.total}</Text>
@@ -109,7 +109,7 @@ function Dashboard({ state, options, bankSize, cancel, saved, fatal, updateNotic
       {visibleHistory.map(round => <Box key={round.index}>
         <Box width={5}><Text dimColor>#{round.index}</Text></Box>
         <Box flexGrow={1} flexBasis={0}><Text wrap="truncate-end" color={round.error ? 'yellow' : undefined}>{safe(round.analysis?.prediction_name || 'Not scored')}</Text></Box>
-        <Box width={7} justifyContent="flex-end"><Text dimColor>{round.samples.filter(acceptedSample).length}/3</Text></Box>
+        <Box width={7} justifyContent="flex-end"><Text dimColor>{round.samples.filter(acceptedSample).length}/{round.samples.length}</Text></Box>
         <Box width={10} justifyContent="flex-end"><Text>{percentage(round.analysis?.verification_confidence)}</Text></Box>
       </Box>)}
       {history.length > visibleHistory.length && <Text dimColor>Showing the last {visibleHistory.length} rounds. Use --output to save every round.</Text>}
@@ -118,7 +118,7 @@ function Dashboard({ state, options, bankSize, cancel, saved, fatal, updateNotic
     <Box marginTop={1} flexDirection="column">
       {fatal && <Text color="red">{safe(fatal)}</Text>}
       {saved && <Text color="green">Saved {safe(saved)}</Text>}
-      <Text dimColor>{state.finishedAt ? `${scored}/${state.total} rounds scored · ${elapsed}` : 'q / Ctrl+C to cancel · each round waits for all three samples'}</Text>
+      <Text dimColor>{state.finishedAt ? `${scored}/${state.total} rounds scored · ${elapsed}` : 'q / Ctrl+C to cancel · each round waits for all requested samples'}</Text>
     </Box>
     {updateNotice && <Box marginTop={1} flexDirection="column">
       <Text color="yellow">Update available: {updateNotice.current} → {updateNotice.latest}</Text>

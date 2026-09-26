@@ -40,7 +40,7 @@ export async function runDetectionCommand(args: string[]) {
       const [bankData, detectorData, challenges] = await Promise.all([
         readJson(options.bank ?? fileURLToPath(new URL('../data/unified_bank.json', import.meta.url))),
         readJson(fileURLToPath(new URL('../data/shared_detector.json', import.meta.url))),
-        loadChallenges(options.challenges),
+        loadChallenges(options.challenges, options.count),
       ])
       const bank = bankData as Bank, detector = detectorData as SharedDetector
       if (!Array.isArray(bank?.models) || !bank.models.length) throw new Error('The reference bank must contain a nonempty models array.')

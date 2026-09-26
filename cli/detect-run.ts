@@ -30,13 +30,13 @@ export async function readJson(path: string): Promise<unknown> {
   }
 }
 
-export async function loadChallenges(path?: string): Promise<Challenge[] | undefined> {
+export async function loadChallenges(path?: string, count = 3): Promise<Challenge[] | undefined> {
   if (!path) return undefined
   const data = await readJson(path)
-  if (!Array.isArray(data) || data.length !== 3 || !data.every(item => item &&
+  if (!Array.isArray(data) || data.length !== count || !data.every(item => item &&
     typeof item.id === 'string' && typeof item.prompt === 'string' && item.prompt.trim() &&
     Number.isSafeInteger(item.expected_count) && item.expected_count > 0)) {
-    throw new Error('The challenge file must contain three objects with id, prompt, and a positive integer expected_count.')
+    throw new Error(`The challenge file must contain ${count} challenge object${count === 1 ? '' : 's'} matching --count, each with id, prompt, and a positive integer expected_count.`)
   }
   return data as Challenge[]
 }
@@ -48,7 +48,7 @@ function englishAnalysis(analysis: Analysis): Analysis {
     reason = `Received ${analysis.used_outputs}/3 valid samples. Three valid samples are required.`
   } else if (analysis.decision === 'partial') {
     label = 'Partial sample ranking'
-    reason = `Ranked ${analysis.used_outputs}/3 valid samples. Confidence requires three valid samples.`
+    reason = `Ranked ${analysis.used_outputs} valid sample${analysis.used_outputs === 1 ? '' : 's'}. Confidence requires three valid samples.`
   } else if (analysis.method === 'custom-bank-legacy-ranking') {
     label = 'Custom bank ranking'
     reason = 'The verifier does not match this bank. Confidence is unavailable.'
@@ -91,7 +91,7 @@ export async function runDetection(
   report()
   for (let index = 0; index < options.repeat; index++) {
     if (signal.aborted) break
-    const challenges: Challenge[] = fixedChallenges ?? generateChallenges()
+    const challenges: Challenge[] = fixedChallenges ?? generateChallenges(options.count)
     const round: Round = {
       index: index + 1, challenges, outputs: [], startedAt: Date.now(),
       samples: challenges.map(challenge => ({
@@ -190,7 +190,7 @@ export function serializeResult(state: DetectionState, options: DetectOptions, b
   const only = state.rounds.length === 1 ? state.rounds[0] : undefined
   const result = {
     schema: 'fpd-detection-v1', created_at: new Date(state.startedAt).toISOString(),
-    request: options.input ? undefined : { ...config, api: options.api, parallel: options.parallel, repeat: options.repeat,
+    request: options.input ? undefined : { ...config, api: options.api, count: options.count, parallel: options.parallel, repeat: options.repeat,
       strict: options.strict, timeout_seconds: options.timeoutMs / 1000 },
     bank: { reference_sha256: bank.reference_sha256, models: bank.models.length },
     cancelled: state.cancelled, requested_rounds: state.total,
