@@ -4,6 +4,7 @@ import type { ApiConfig } from '@fingerpoint/shared/types'
 export interface DetectOptions {
   config: ApiConfig
   api: 'responses' | 'chatcompletion' | 'message'
+  count: number
   parallel: number
   repeat: number
   strict: boolean
@@ -27,7 +28,7 @@ function positiveInteger(value: string, name: string, maximum = Number.MAX_SAFE_
 export function parseOptions(args: string[], env = process.env): DetectOptions | undefined {
   const { values } = parseArgs({ args: args.map(arg => arg === '-ns' ? '--no-stream' : arg), options: {
     model: { type: 'string', short: 'm' }, apikey: { type: 'string', short: 'k' }, baseurl: { type: 'string', short: 'b' },
-    api: { type: 'string', short: 'a' }, parallel: { type: 'string', short: 'p' },
+    api: { type: 'string', short: 'a' }, count: { type: 'string' }, parallel: { type: 'string', short: 'p' },
     repeat: { type: 'string', short: 'n' }, strict: { type: 'boolean', short: 's' },
     'no-stream': { type: 'boolean' }, timeout: { type: 'string' }, effort: { type: 'string', short: 'e' },
     input: { type: 'string' }, output: { type: 'string' }, bank: { type: 'string' },
@@ -40,14 +41,18 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
   const api = apiInput === 'cc' ? 'chatcompletion'
     : (['responses', 'chatcompletion', 'message'] as const).find(name => name.startsWith(apiInput))
   if (!apiInput || !api) throw new Error('--api must be a prefix of responses, chatcompletion, or message (or cc).')
-  const parallel = positiveInteger(values.parallel ?? '3', '--parallel', 3)
+  const count = positiveInteger(values.count ?? '3', '--count', 3)
+  const parallel = Math.min(positiveInteger(values.parallel ?? '3', '--parallel', 3), count)
   const repeat = positiveInteger(values.repeat ?? '1', '--repeat')
   const timeout = Number(values.timeout ?? '120')
   if (!Number.isFinite(timeout) || timeout < 0.001 || timeout > 2_147_483.647) {
     throw new Error('--timeout must be between 0.001 and 2147483.647 seconds.')
   }
-  if (values.input && (repeat !== 1 || values.challenges)) {
-    throw new Error('--input cannot be combined with --repeat or --challenges.')
+  if (values.input && (repeat !== 1 || values.challenges || values.count !== undefined)) {
+    throw new Error('--input cannot be combined with --repeat, --challenges, or --count.')
+  }
+  if (values.strict && count !== 3) {
+    throw new Error('--strict requires --count 3. Use relaxed mode for one or two samples without confidence scores.')
   }
   const config: ApiConfig = {
     model: (values.model ?? env.MODEL ?? '').trim(),
@@ -64,7 +69,7 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
     }
   }
   return {
-    config, api, parallel, repeat, timeoutMs: Math.round(timeout * 1000),
+    config, api, count, parallel, repeat, timeoutMs: Math.round(timeout * 1000),
     strict: !!values.strict, json: !!values.json,
     updateCheck: !values['no-update-check'] && !env.FPD_NO_UPDATE_CHECK && !env.NO_UPDATE_NOTIFIER,
     input: values.input, output: values.output, bank: values.bank, challenges: values.challenges,

@@ -12,10 +12,11 @@ const sections = [
     ['--timeout SECONDS', 'First SSE byte deadline. Default: 120. No deadline after SSE starts; JSON must finish within this time.'],
   ] },
   { title: 'DETECTION', options: [
-    ['-p, --parallel NUMBER', 'Concurrent samples within each round: 1–3. Default: 3.'],
+    ['--count NUMBER', 'Samples per round: 1–3. Default: 3. One or two samples rank without confidence.'],
+    ['-p, --parallel NUMBER', 'Concurrent samples within each round: 1–3. Default: 3, capped at --count.'],
     ['-n, --repeat NUMBER', 'Sequential detection rounds. Default: 1.'],
-    ['-s, --strict', 'Disable automatic truncation. Require all three complete, valid responses.'],
-    ['--challenges FILE', 'Reuse three saved challenges for every round.'],
+    ['-s, --strict', 'Disable automatic truncation. Require --count 3 and all three complete, valid responses.'],
+    ['--challenges FILE', 'Reuse saved challenges for every round. Array length must match --count.'],
     ['--bank FILE', 'Use a custom reference bank.'],
   ] },
   { title: 'OUTPUT', options: [
@@ -31,6 +32,7 @@ const examples = [
   ['Detect a model with explicit credentials', 'npx lmfpd@latest -b https://api.example.com/v1 \\\n  -k sk-xxx -m gpt-6-astra'],
   ['Repeat five rounds with three concurrent samples per round', 'npx lmfpd@latest -b https://api.example.com/v1 \\\n  -k sk-xxx -m gpt-6-astra -p 3 -n 5'],
   ['Use API_KEY, MODEL, and BASE_URL from your environment', 'npx lmfpd@latest -a chatcompletion -e high'],
+  ['Rank with a single API request using environment credentials', 'npx lmfpd@latest --count 1'],
   ['Require complete responses and disable streaming', 'npx lmfpd@latest -s -ns --timeout 180 --output result.json'],
   ['Analyze a saved report without calling a model', 'npx lmfpd@latest --input result.json --json'],
 ] as const
@@ -42,13 +44,13 @@ function Help() {
   return <Box flexDirection="column" width={width} paddingX={1}>
     <Box borderStyle="round" borderColor="cyan" paddingX={1} flexDirection="column">
       <Text><Text bold color="cyan">FPD</Text> / MODEL FINGERPOINT DETECTOR (<Text color="cyan">{terminalLink('lm.ikale.io', 'https://lm.ikale.io', { fallback: false })}</Text>)</Text>
-      <Text dimColor>Three samples per round. Live progress. Ranked candidates.</Text>
+      <Text dimColor>One to three samples per round. Live progress. Ranked candidates.</Text>
     </Box>
     <Box flexDirection="column" marginTop={1}>
       <Text bold color="cyan">USAGE</Text>
       <Text>npx lmfpd@latest -b URL -k KEY -m MODEL [options]</Text>
       <Text dimColor>With Bun only: bunx --bun lmfpd@latest [options]</Text>
-      <Text dimColor>Defaults: Responses · SSE · relaxed · parallel 3 · one round</Text>
+      <Text dimColor>Defaults: Responses · SSE · relaxed · count 3 · parallel 3 · one round</Text>
       <Text>fpd sample [options] · collect a portable reference batch</Text>
       <Text>fpd enroll RUN [options] · validate and enroll a batch</Text>
       <Text>fpd retrain --data-dir DIR · fit verifier and confidence offline</Text>
@@ -64,7 +66,7 @@ function Help() {
     <Box flexDirection="column" marginTop={1}>
       <Text bold color="cyan">HOW ROUNDS WORK</Text>
       <Text>Relaxed mode caps each sample at its requested number count. One or two valid samples can produce a ranking without confidence scores.</Text>
-      <Text>Each round waits for all three samples to settle before the next round starts. No automatic retries. Detection never enrolls samples.</Text>
+      <Text>Each round waits for all requested samples to settle before the next round starts. No automatic retries. Detection never enrolls samples.</Text>
       <Text dimColor>Use q or Ctrl+C to cancel. --base-url and --api-key are also accepted.</Text>
     </Box>
     <Box flexDirection="column" marginTop={1}>

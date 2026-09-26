@@ -53,11 +53,12 @@ API 请求和密钥通过同源 `/api/proxy` 转发到用户填写的 HTTPS 地�
 ```sh
 bun run fpd --model gpt-5.6-sol --apikey sk-xxx --baseurl https://openrouter.ai/api/v1 -p 3 -n 5
 bun run fpd --api chatcompletion --output result.json
+bun run fpd --count 1 --output single.json
 bun run fpd --input result.json --json
 bun run fpd --help
 ```
 
-默认使用 Responses 和 SSE，每轮三条挑战，最多三条并行。`-n` 指定轮数，每轮三条采样全部结束后才启动下一轮。宽松模式达到目标数字数量后自动截断，部分样本成功时只给排名；`-s` 关闭自动截断，要求三条全部成功。`-ns` 关闭 SSE。`--timeout` 以秒指定首字节超时，默认 120 秒，收到 SSE 后不再计时。
+默认使用 Responses 和 SSE，每轮三条挑战，最多三条并行。`--count` 指定每轮题数（1–3，默认 3）；`--count 1` 只请求一次并给出无置信度的候选排名，`--count 2` 同样只给排名。`-p` 仅控制并发，实际并发不超过题数；`-n` 指定轮数，每轮请求全部结束后才启动下一轮。宽松模式达到目标数字数量后自动截断，部分样本成功时只给排名；`-s` 关闭自动截断，要求 `--count 3` 且三条全部成功。`-ns` 关闭 SSE。`--timeout` 以秒指定首字节超时，默认 120 秒，收到 SSE 后不再计时。
 
 也可通过 `npx lmfpd@latest -b URL -k KEY -m MODEL` 直接运行 npm 包；仅安装 Bun 时使用 `bunx --bun lmfpd@latest`。发布包支持 Node.js 22+ 和 Bun 1.4.2+。`--help` 提供分组说明和使用示例。CLI、共享算法、参考库或依赖更新到 `main` 后，发布工作流会自动生成新版本并更新 npm 的 `latest` 标签。
 
@@ -81,7 +82,7 @@ bun run fpd --help
 - `data/enrollment-suite.json`：固定采样挑战集。
 - `data/import_manifest.json`：保留的历史迁移清单，不作为当前数量统计，也不随 Web 构建发布。
 
-`shared/shared-detector.ts` 计算候选排名、核验分数和置信度。浏览器 Worker、主线程回退和 CLI 共用同一实现。正式库需要三条有效回答；回答不足时返回 `unscorable`。置信度是校准层在参考身份上的闭集概率：按排名分数乘以冻结的温度后归一化，合计为 100%，与排名同序。它不含库外概率，也不能独立证明后端身份。核验分数只作为第二意见显示是否与排名一致。缺少匹配校准层时回退为未校准的核验 sigmoid 读数，未适配冻结核验器的自定义库使用传统排名。
+`shared/shared-detector.ts` 计算候选排名、核验分数和置信度。浏览器 Worker、主线程回退和 CLI 共用同一实现。核验分数和置信度需要三条有效回答；允许部分样本排名时，一两条有效回答只生成候选排名，无法评分时返回 `unscorable`。置信度是校准层在参考身份上的闭集概率：按排名分数乘以冻结的温度后归一化，合计为 100%，与排名同序。它不含库外概率，也不能独立证明后端身份。核验分数只作为第二意见显示是否与排名一致。缺少匹配校准层时回退为未校准的核验 sigmoid 读数，未适配冻结核验器的自定义库使用传统排名。
 
 `shared/builder.ts` 提供离线建库算法。参考库、派生库和冻结核验参数需要匹配。参考样本不能包含固定评估集的回答。采样与入库由 TypeScript CLI 完成，回归评估在外层研究仓库进行。产品构建只同步正式数据。参考库变化后，核验器不匹配时使用基础排名，置信度为空；核验器匹配、仅校准层缺失或不匹配时，显示未校准的核验读数。
 
