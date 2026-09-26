@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useLocation, useSearchParams } from 'react-router'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowUpRight, Copy, Loader2, MoreVertical, Terminal } from 'lucide-react'
@@ -57,7 +57,8 @@ export default function DetectRoute() {
   const [resultModel, setResultModel] = useState<string | null>(null)
   const [expanded, setExpanded] = useState<number | null>(null)
   const [errorDetail, setErrorDetail] = useState<string | null>(null)
-  const [config, update] = useApiConfig(() => toast.error(t('errors.unknown')))
+  const [config, update, profileManager] = useApiConfig(() => toast.error(t('errors.unknown')))
+  const previousProfileId = useRef(profileManager.activeId)
   const [apiConfigOpen, setApiConfigOpen] = useState(() => !configComplete(config))
   const apiConfigRef = useRef<HTMLDivElement>(null)
   const activeRun = useRef<Run | null>(null)
@@ -65,6 +66,11 @@ export default function DetectRoute() {
   const samplesRef = useRef(samples)
   const sampledConfigs = useRef<(WebApiConfig | undefined)[]>([])
   const resultRef = useRef(result)
+  useLayoutEffect(() => {
+    if (previousProfileId.current === profileManager.activeId) return
+    previousProfileId.current = profileManager.activeId
+    restart()
+  }, [profileManager.activeId])
   useEffect(() => {
     mounted.current = true
     return () => {
@@ -291,7 +297,7 @@ export default function DetectRoute() {
           transition={snappy}
           className="shrink-0 overflow-hidden"
         >
-          <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} disabled={locked} />
+          <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} profileManager={profileManager} disabled={locked} />
         </motion.div>}
       </AnimatePresence>
 
