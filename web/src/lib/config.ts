@@ -71,7 +71,7 @@ function sanitizeProfile(raw: unknown, fallbackId: string, fallbackName = ''): A
   return profile
 }
 
-function restore(): StoredApiProfiles {
+function readProfiles(): StoredApiProfiles | null {
   try {
     const rawProfiles = localStorage.getItem(PROFILES_STORAGE_KEY)
     if (rawProfiles) {
@@ -86,7 +86,14 @@ function restore(): StoredApiProfiles {
         return { activeId, profiles: sanitizedList }
       }
     }
+  } catch { /* No usable profiles in storage */ }
+  return null
+}
 
+function restore(): StoredApiProfiles {
+  const stored = readProfiles()
+  if (stored) return stored
+  try {
     const rawLegacy = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(LEGACY_KEY)
     if (rawLegacy) {
       const saved = JSON.parse(rawLegacy)
@@ -125,35 +132,72 @@ function persist(state: StoredApiProfiles) {
 
 export function useApiConfig(onPersistError?: () => void) {
   const [state, setState] = useState<StoredApiProfiles>(restore)
+  const current = useRef(state)
   const warned = useRef(false)
+  const persistenceFailed = useRef(false)
   const onError = useRef(onPersistError)
   onError.current = onPersistError
 
   useEffect(() => {
     try {
-      persist(state)
+      const stored = readProfiles()
+      if (stored) {
+        current.current = stored
+        setState(stored)
+      } else {
+        persist(current.current)
+      }
     } catch {
       if (!warned.current) onError.current?.()
       warned.current = true
+      persistenceFailed.current = true
     }
-  }, [state])
+
+    const syncProfiles = (event: StorageEvent) => {
+      if (event.key !== PROFILES_STORAGE_KEY) return
+      const stored = readProfiles()
+      if (!stored) return
+      current.current = stored
+      persistenceFailed.current = false
+      setState(stored)
+    }
+    window.addEventListener('storage', syncProfiles)
+    return () => window.removeEventListener('storage', syncProfiles)
+  }, [])
+
+  const commit = useCallback((change: (previous: StoredApiProfiles) => StoredApiProfiles) => {
+    const previous = (persistenceFailed.current ? null : readProfiles()) ?? current.current
+    const next = change(previous)
+    current.current = next
+    setState(next)
+    if (next === previous) return
+    try {
+      persist(next)
+      persistenceFailed.current = false
+    } catch {
+      if (!warned.current) onError.current?.()
+      warned.current = true
+      persistenceFailed.current = true
+    }
+  }, [])
 
   const activeProfile = state.profiles.find(p => p.id === state.activeId) ?? state.profiles[0]
 
   const update = useCallback((patch: Partial<WebApiConfig>) => {
-    setState(prev => ({
+    const activeId = state.activeId
+    commit(prev => ({
       ...prev,
-      profiles: prev.profiles.map(p => (p.id === prev.activeId ? { ...p, ...patch } : p)),
+      profiles: prev.profiles.map(p => (p.id === activeId ? { ...p, ...patch } : p)),
     }))
-  }, [])
+  }, [commit, state.activeId])
 
   const select = useCallback((id: string) => {
-    setState(prev => {
+    commit(prev => {
       if (prev.activeId === id) return prev
       if (!prev.profiles.some(p => p.id === id)) return prev
       return { ...prev, activeId: id }
     })
-  }, [])
+  }, [commit])
 
   const create = useCallback((name?: string, template?: Partial<WebApiConfig>) => {
     const id = generateId()
@@ -163,16 +207,16 @@ export function useApiConfig(onPersistError?: () => void) {
       id,
       name: name ?? '',
     }
-    setState(prev => ({
+    commit(prev => ({
       activeId: id,
       profiles: [...prev.profiles, newProfile],
     }))
     return id
-  }, [])
+  }, [commit])
 
   const duplicate = useCallback((id: string, suffix = ' (copy)') => {
     const newId = generateId()
-    setState(prev => {
+    commit(prev => {
       const source = prev.profiles.find(p => p.id === id) ?? prev.profiles[0]
       if (!source) return prev
       const newProfile: ApiProfile = {
@@ -193,10 +237,10 @@ export function useApiConfig(onPersistError?: () => void) {
       }
     })
     return newId
-  }, [])
+  }, [commit])
 
   const remove = useCallback((id: string) => {
-    setState(prev => {
+    commit(prev => {
       if (prev.profiles.length <= 1) return prev
       const nextProfiles = prev.profiles.filter(p => p.id !== id)
       let nextActiveId = prev.activeId
@@ -208,14 +252,14 @@ export function useApiConfig(onPersistError?: () => void) {
         profiles: nextProfiles,
       }
     })
-  }, [])
+  }, [commit])
 
   const rename = useCallback((id: string, name: string) => {
-    setState(prev => ({
+    commit(prev => ({
       ...prev,
       profiles: prev.profiles.map(p => (p.id === id ? { ...p, name } : p)),
     }))
-  }, [])
+  }, [commit])
 
   const manager: ApiProfileManager = {
     profiles: state.profiles,
