@@ -1,6 +1,6 @@
 export const zh = {
   app: {
-    name: 'Figerpoint Detector',
+    name: 'Fingerpoint Detector',
     detect: '检测',
     library: '样本库',
     toggleTheme: '切换主题，当前：{theme}',
@@ -243,7 +243,7 @@ export type Messages = typeof zh
 
 export const en: Messages = {
   app: {
-    name: 'Figerpoint Detector',
+    name: 'Fingerpoint Detector',
     detect: 'Detect',
     library: 'Library',
     toggleTheme: 'Change theme, current: {theme}',
