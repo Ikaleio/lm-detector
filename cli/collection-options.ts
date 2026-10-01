@@ -1,6 +1,7 @@
 import { parseArgs } from 'node:util'
 import { validateChannel } from '@fingerpoint/shared/reference'
 import type { ApiConfig } from '@fingerpoint/shared/types'
+import { t, translateHelp } from './i18n'
 
 export interface CollectionOptions {
   command: 'sample' | 'enroll'
@@ -38,7 +39,7 @@ export interface CollectionOptions {
 export function integer(value: string, name: string, maximum = Number.MAX_SAFE_INTEGER): number {
   const number = Number(value)
   if (!/^\d+$/.test(value) || !Number.isSafeInteger(number) || number < 1 || number > maximum) {
-    throw new Error(`${name} must be an integer from 1 to ${maximum}.`)
+    throw new Error(t('{0} must be an integer from 1 to {1}.', name, maximum))
   }
   return number
 }
@@ -46,7 +47,7 @@ export function integer(value: string, name: string, maximum = Number.MAX_SAFE_I
 export function collectionApi(value: string): CollectionOptions['api'] {
   const input = value.toLowerCase()
   const api = input === 'cc' ? 'chatcompletion' : (['responses', 'chatcompletion', 'message'] as const).find(name => input && name.startsWith(input))
-  if (!api) throw new Error('--api must be responses, chatcompletion, or message (or cc).')
+  if (!api) throw new Error(t('--api must be responses, chatcompletion, or message (or cc).'))
   return api
 }
 
@@ -120,11 +121,12 @@ export function parseCollectionOptions(command: 'sample' | 'enroll', args: strin
   return options
 }
 
-export const collectionHelp = (command: 'sample' | 'enroll') => command === 'enroll' ? `Usage: fpd enroll DIR [--data-dir DIR] [--dry-run] [--yes] [--json]
+export const collectionHelp = (command: 'sample' | 'enroll') => translateHelp(command === 'enroll' ? `Usage: fpd enroll DIR [--data-dir DIR] [--dry-run] [--yes] [--json]
 
 Validate saved evidence, deduplicate accepted samples, and rebuild the reference bank.
 Interactive enrollment previews the destination and counts before confirmation.
 Noninteractive enrollment requires an explicit --data-dir.
+  --lang LANGUAGE        CLI language: en, zh, ja, ko, fr. Env: FPD_LANG. Default: en.
 --yes skips confirmation only with an explicit --data-dir.
 --dry-run validates evidence and reports counts without writing or confirmation.
 After a write, run fpd retrain --data-dir DIR to fit matching verifier and confidence parameters.
@@ -133,6 +135,7 @@ After a write, run fpd retrain --data-dir DIR to fit matching verifier and confi
        fpd sample --resume DIR [--max-attempts N]
 
 Missing setup fields open a focused wizard in an interactive terminal.
+  --lang LANGUAGE        CLI language: en, zh, ja, ko, fr. Env: FPD_LANG. Default: en.
   --model, -m MODEL       Requested model (or MODEL)
   --baseurl, -b URL       API endpoint (or BASE_URL)
   --apikey, -k KEY        API key (prefer API_KEY; never saved)
@@ -165,4 +168,4 @@ Missing setup fields open a focused wizard in an interactive terminal.
 codex-subscription uses the local Codex login and fixed Responses endpoint.
 Subscription channels must end in -subscription (including kimi-code-subscription).
 q / Ctrl+C cancels collection and saves progress. Partial batches exit with code 2.
-`
+`)

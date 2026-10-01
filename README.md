@@ -58,6 +58,8 @@ bunx --bun lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra
 
 完整参数见 [CLI 使用](#cli-使用)。
 
+CLI 界面支持英文、简体中文、日文、韩文和法文。使用 `--lang en|zh|ja|ko|fr`（例如 `npx lmfpd@latest --lang ja --help`），或设置 `FPD_LANG`。显式参数优先于环境变量，默认英文。界面语言不控制挑战提示词的语言，详见 [CLI 语言说明](cli/README.md#cli-language)。
+
 ### 本地开发
 
 ```sh

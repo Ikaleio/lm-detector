@@ -1,5 +1,6 @@
 import { Box, Text, render, useWindowSize } from 'ink'
 import terminalLink from 'terminal-link'
+import { t } from './i18n'
 
 const sections = [
   { title: 'CONNECTION', options: [
@@ -23,6 +24,7 @@ const sections = [
     ['--input FILE', 'Analyze saved outputs offline. No API requests.'],
     ['--output FILE', 'Save all rounds, samples, and results as JSON. Credentials are excluded.'],
     ['--json', 'Write JSON to stdout instead of the TUI.'],
+    ['--lang LANGUAGE', 'CLI language: en, zh, ja, ko, fr. Env: FPD_LANG. Default: en.'],
     ['--no-update-check', 'Disable background update checks. Env: FPD_NO_UPDATE_CHECK=1.'],
     ['-h, --help', 'Show this help.'],
   ] },
@@ -38,7 +40,7 @@ const examples = [
 ] as const
 
 export function StarNote() {
-  return <Text dimColor><Text color="yellow">★</Text> Like FPD? Star it on GitHub: {terminalLink('github.com/Ikaleio/lm-detector', 'https://github.com/Ikaleio/lm-detector', { fallback: false })}</Text>
+  return <Text dimColor><Text color="yellow">★</Text> {t('Like FPD? Star it on GitHub: ')}{terminalLink('github.com/Ikaleio/lm-detector', 'https://github.com/Ikaleio/lm-detector', { fallback: false })}</Text>
 }
 
 function Help() {
@@ -47,40 +49,40 @@ function Help() {
   const narrow = width < 65
   return <Box flexDirection="column" width={width} paddingX={1}>
     <Box borderStyle="round" borderColor="cyan" paddingX={1} flexDirection="column">
-      <Text><Text bold color="cyan">FPD</Text> / MODEL FINGERPOINT DETECTOR (<Text color="cyan">{terminalLink('lm.ikale.io', 'https://lm.ikale.io', { fallback: false })}</Text>)</Text>
-      <Text dimColor>One to three samples per round. Live progress. Ranked candidates.</Text>
+      <Text><Text bold color="cyan">FPD</Text> / {t('MODEL FINGERPOINT DETECTOR')} (<Text color="cyan">{terminalLink('lm.ikale.io', 'https://lm.ikale.io', { fallback: false })}</Text>)</Text>
+      <Text dimColor>{t('One to three samples per round. Live progress. Ranked candidates.')}</Text>
     </Box>
     <Box flexDirection="column" marginTop={1}>
-      <Text bold color="cyan">USAGE</Text>
+      <Text bold color="cyan">{t('USAGE')}</Text>
       <Text>npx lmfpd@latest -b URL -k KEY -m MODEL [options]</Text>
-      <Text dimColor>With Bun only: bunx --bun lmfpd@latest [options]</Text>
-      <Text dimColor>Defaults: Responses · SSE · relaxed · count 3 · parallel 3 · one round</Text>
-      <Text>fpd sample [options] · collect a portable reference batch</Text>
-      <Text>fpd enroll RUN [options] · validate and enroll a batch</Text>
-      <Text>fpd retrain --data-dir DIR · fit verifier and confidence offline</Text>
-      <Text dimColor>Use the subcommand --help for its options.</Text>
+      <Text dimColor>{t('With Bun only: bunx --bun lmfpd@latest [options]')}</Text>
+      <Text dimColor>{t('Defaults: Responses · SSE · relaxed · count 3 · parallel 3 · one round')}</Text>
+      <Text>{t('fpd sample [options] · collect a portable reference batch')}</Text>
+      <Text>{t('fpd enroll RUN [options] · validate and enroll a batch')}</Text>
+      <Text>{t('fpd retrain --data-dir DIR · fit verifier and confidence offline')}</Text>
+      <Text dimColor>{t('Use the subcommand --help for its options.')}</Text>
     </Box>
-    {sections.map(section => <Box key={section.title} flexDirection="column" marginTop={1}>
-      <Text bold color="cyan">{section.title}</Text>
+    {sections.map(section => <Box key={t(section.title)} flexDirection="column" marginTop={1}>
+      <Text bold color="cyan">{t(section.title)}</Text>
       {section.options.map(([flag, description]) => <Box key={flag} flexDirection={narrow ? 'column' : 'row'} marginBottom={narrow ? 1 : 0}>
         <Box width={narrow ? undefined : 25} flexShrink={0}><Text bold>{flag}</Text></Box>
-        <Box flexGrow={1} flexBasis={narrow ? undefined : 0} paddingLeft={narrow ? 2 : 0}><Text>{description}</Text></Box>
+        <Box flexGrow={1} flexBasis={narrow ? undefined : 0} paddingLeft={narrow ? 2 : 0}><Text>{t(description)}</Text></Box>
       </Box>)}
     </Box>)}
     <Box flexDirection="column" marginTop={1}>
-      <Text bold color="cyan">HOW ROUNDS WORK</Text>
-      <Text>Relaxed mode caps each sample at its requested number count. One or two valid samples can produce a ranking without confidence scores.</Text>
-      <Text>Each round waits for all requested samples to settle before the next round starts. No automatic retries. Detection never enrolls samples.</Text>
-      <Text dimColor>Use q or Ctrl+C to cancel. --base-url and --api-key are also accepted.</Text>
+      <Text bold color="cyan">{t('HOW ROUNDS WORK')}</Text>
+      <Text>{t('Relaxed mode caps each sample at its requested number count. One or two valid samples can produce a ranking without confidence scores.')}</Text>
+      <Text>{t('Each round waits for all requested samples to settle before the next round starts. No automatic retries. Detection never enrolls samples.')}</Text>
+      <Text dimColor>{t('Use q or Ctrl+C to cancel. --base-url and --api-key are also accepted.')}</Text>
     </Box>
     <Box flexDirection="column" marginTop={1}>
-      <Text bold color="cyan">EXAMPLES</Text>
-      {examples.map(([label, command]) => <Box key={label} flexDirection="column" marginTop={1}>
-        <Text dimColor>{label}</Text>
+      <Text bold color="cyan">{t('EXAMPLES')}</Text>
+      {examples.map(([label, command]) => <Box key={t(label)} flexDirection="column" marginTop={1}>
+        <Text dimColor>{t(label)}</Text>
         <Text color="green">{command}</Text>
       </Box>)}
     </Box>
-    <Box marginTop={1}><Text dimColor>API examples without -b, -k, and -m require BASE_URL, API_KEY, and MODEL.</Text></Box>
+    <Box marginTop={1}><Text dimColor>{t('API examples without -b, -k, and -m require BASE_URL, API_KEY, and MODEL.')}</Text></Box>
     <Box marginTop={1}><StarNote /></Box>
   </Box>
 }

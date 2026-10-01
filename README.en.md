@@ -58,6 +58,8 @@ bunx --bun lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra
 
 See [CLI Usage](#cli-usage) for all options.
 
+The CLI interface supports English, Simplified Chinese, Japanese, Korean, and French. Use `--lang en|zh|ja|ko|fr` (for example, `npx lmfpd@latest --lang ja --help`) or set `FPD_LANG`. The explicit flag overrides the environment variable; English is the default. The interface language does not select the challenge prompt language. See [CLI language](cli/README.md#cli-language) for details.
+
 ### Local development
 
 ```sh

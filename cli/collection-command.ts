@@ -1,6 +1,7 @@
 import { mkdir, readFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import { validateChannel } from '@fingerpoint/shared/reference'
+import { t, translateLabel } from './i18n'
 import { CODEX_ENDPOINT } from './codex'
 import { requestEndpoint } from './detect-options'
 import { collectionApi, collectionConfig, collectionHelp, integer, parseCollectionOptions } from './collection-options'
@@ -14,7 +15,7 @@ import { enroll } from './enrollment'
 import { saveJson, withLock } from './storage'
 
 function requireValue(value: string): void {
-  if (!value.trim()) throw new Error('Enter a value.')
+  if (!value.trim()) throw new Error(t('Enter a value.'))
 }
 
 async function setup(options: CollectionOptions, repository: string | null, interactive: boolean): Promise<void> {
@@ -25,19 +26,19 @@ async function setup(options: CollectionOptions, repository: string | null, inte
   }
   if (missing) {
     for (const [key, label, hint] of [
-      ['model', 'Requested model', 'API model ID (or set MODEL).'],
-      ['label', 'Reference model label', 'Stable label stored in the reference bank.'],
-      ['family', 'Model family', 'Family ID, for example gpt or claude.'],
-      ['familyName', 'Family display name', 'For example GPT or Claude.'],
+      ['model', t('Requested model'), t('API model ID (or set MODEL).')],
+      ['label', t('Reference model label'), t('Stable label stored in the reference bank.')],
+      ['family', t('Model family'), t('Family ID, for example gpt or claude.')],
+      ['familyName', t('Family display name'), t('For example GPT or Claude.')],
     ] as const) {
-      if (!options[key]) options[key] = await askCollectionField({ title: 'Setup', label, hint, validate: requireValue })
+      if (!options[key]) options[key] = await askCollectionField({ title: t('Setup'), label, hint, validate: requireValue })
     }
-    if (!options.channel) options.channel = await askCollectionField({ title: 'Setup', label: 'Collection channel',
-      hint: 'Route ID, for example openrouter/anthropic, codex-subscription, or kimi-code-subscription.',
+    if (!options.channel) options.channel = await askCollectionField({ title: t('Setup'), label: t('Collection channel'),
+      hint: t('Route ID, for example openrouter/anthropic, codex-subscription, or kimi-code-subscription.'),
       validate: value => { requireValue(value); validateChannel(value, options.subscription) } })
-    if (!options.responseModels.length) options.responseModels = (await askCollectionField({ title: 'Setup', label: 'Allowed response models',
-      hint: 'Comma-separated exact IDs. Responses outside this list stop collection.',
-      validate: value => { if (!value.split(',').every(model => model.trim())) throw new Error('Enter one or more model IDs, separated by commas.') },
+    if (!options.responseModels.length) options.responseModels = (await askCollectionField({ title: t('Setup'), label: t('Allowed response models'),
+      hint: t('Comma-separated exact IDs. Responses outside this list stop collection.'),
+      validate: value => { if (!value.split(',').every(model => model.trim())) throw new Error(t('Enter one or more model IDs, separated by commas.')) },
     })).split(',').map(model => model.trim())
   }
   validateChannel(options.channel, options.subscription)
@@ -49,21 +50,21 @@ async function setup(options: CollectionOptions, repository: string | null, inte
     options.stream = true
   } else if (missing) {
     if (!options.supplied.has('api') && options.channel !== 'codex-subscription') {
-      options.api = collectionApi(await askCollectionField({ title: 'Setup', label: 'API format', hint: 'responses, chatcompletion (cc), or message', defaultValue: options.api, validate: value => { collectionApi(value) } }))
+      options.api = collectionApi(await askCollectionField({ title: t('Setup'), label: t('API format'), hint: t('responses, chatcompletion (cc), or message'), defaultValue: options.api, validate: value => { collectionApi(value) } }))
     }
-    if (!options.baseUrl) options.baseUrl = await askCollectionField({ title: 'Setup', label: 'API endpoint', hint: 'Base URL or full endpoint (or set BASE_URL).',
+    if (!options.baseUrl) options.baseUrl = await askCollectionField({ title: t('Setup'), label: t('API endpoint'), hint: t('Base URL or full endpoint (or set BASE_URL).'),
       validate: value => { requireValue(value); requestEndpoint({ ...collectionConfig(options), baseUrl: value }) } })
-    if (!options.apiKey) options.apiKey = await askCollectionField({ title: 'Setup', label: 'API key', hint: 'Masked input. Prefer setting API_KEY before running fpd. The key is never saved.', secret: true, validate: requireValue })
+    if (!options.apiKey) options.apiKey = await askCollectionField({ title: t('Setup'), label: t('API key'), hint: t('Masked input. Prefer setting API_KEY before running fpd. The key is never saved.'), secret: true, validate: requireValue })
   }
   if (missing) {
-    if (!options.supplied.has('effort')) options.effort = await askCollectionField({ title: 'Setup', label: 'Reasoning effort', hint: 'Use default to omit this parameter, or enter the API effort level.', defaultValue: options.effort, validate: requireValue })
-    if (!options.outputDir) options.outputDir = await askCollectionField({ title: 'Setup', label: 'Output directory', defaultValue: collectionDirectory(undefined, repository), validate: requireValue })
+    if (!options.supplied.has('effort')) options.effort = await askCollectionField({ title: t('Setup'), label: t('Reasoning effort'), hint: t('Use default to omit this parameter, or enter the API effort level.'), defaultValue: options.effort, validate: requireValue })
+    if (!options.outputDir) options.outputDir = await askCollectionField({ title: t('Setup'), label: t('Output directory'), defaultValue: collectionDirectory(undefined, repository), validate: requireValue })
     for (const [key, flag, label, maximum] of [
-      ['count', 'count', 'Fixed suite challenge count', 36],
-      ['parallel', 'parallel', 'Concurrent requests', 36],
-      ['maxAttempts', 'max-attempts', 'Maximum cumulative attempts per challenge', 20],
+      ['count', 'count', t('Fixed suite challenge count'), 36],
+      ['parallel', 'parallel', t('Concurrent requests'), 36],
+      ['maxAttempts', 'max-attempts', t('Maximum cumulative attempts per challenge'), 20],
     ] as const) {
-      if (!options.supplied.has(flag)) options[key] = integer(await askCollectionField({ title: 'Setup', label,
+      if (!options.supplied.has(flag)) options[key] = integer(await askCollectionField({ title: t('Setup'), label,
         defaultValue: String(options[key]), validate: value => { integer(value, label, maximum) } }), label, maximum)
     }
   }
@@ -102,7 +103,7 @@ export async function runCollectionCommand(command: 'sample' | 'enroll', args: s
     const destination = options.enroll ? await enrollmentDirectory(options.dataDir, repository, interactive) : undefined
     if (command === 'enroll' && !options.resume) {
       if (!interactive) throw new Error('Specify the saved batch directory: fpd enroll DIR --data-dir DIR.')
-      options.resume = await askCollectionField({ title: 'Setup · Enrollment', label: 'Saved batch directory', validate: requireValue })
+      options.resume = await askCollectionField({ title: t('Setup · Enrollment'), label: t('Saved batch directory'), validate: requireValue })
     }
     let manifest: Manifest
     let directory: string
@@ -134,26 +135,26 @@ export async function runCollectionCommand(command: 'sample' | 'enroll', args: s
       && Math.max(0, ...attempts.filter(row => row.challenge_id === task.id).map(row => row.attempt)) < options!.maxAttempts)
     if (needsRequests && !manifest.codex && !options.apiKey) {
       if (!interactive) throw new Error('Set --apikey or API_KEY before resuming collection.')
-      options.apiKey = await askCollectionField({ title: 'Setup · Resume', label: 'API key', hint: 'Masked input. The key is never saved.', secret: true, validate: requireValue })
+      options.apiKey = await askCollectionField({ title: t('Setup · Resume'), label: t('API key'), hint: t('Masked input. The key is never saved.'), secret: true, validate: requireValue })
     }
     if (interactive && command === 'sample') {
       const rows: [string, string][] = [
-        ['Batch', options.resume ? `Resume ${manifest.id}` : 'New reference batch'],
-        ['Label / family', `${manifest.model.id} / ${manifest.model.family_name}`],
-        ['Requested model', manifest.request.model ?? 'Unknown'],
-        ['Channel', manifest.source.channel],
-        ['Endpoint', manifest.source.endpoint ?? 'Unknown'],
-        ['Allowed models', manifest.request.response_models.join(', ')],
-        ['Request', `${manifest.request.format} · ${manifest.request.stream ? 'streaming' : 'JSON'} · effort ${manifest.request.reasoning_effort || 'default'}`],
-        ['Plan', `${manifest.tasks.length} fixed challenges · ${options.parallel} concurrent · ${options.maxAttempts} attempts maximum`],
-        ['Authentication', manifest.codex ? 'Local Codex login (run codex login if needed)' : options.apiKey ? 'API key supplied (not saved)' : 'Offline; no credentials needed'],
-        ['Output', directory],
+        [t('Batch'), options.resume ? t('Resume {0}', manifest.id) : t('New reference batch')],
+        [t('Label / family'), `${manifest.model.id} / ${manifest.model.family_name}`],
+        [t('Requested model'), manifest.request.model ?? t('Unknown')],
+        [t('Channel'), manifest.source.channel],
+        [t('Endpoint'), manifest.source.endpoint ?? t('Unknown')],
+        [t('Allowed models'), manifest.request.response_models.join(', ')],
+        [t('Request'), t('{0} · {1} · effort {2}', String(manifest.request.format), manifest.request.stream ? t('Streaming response') : 'JSON', manifest.request.reasoning_effort || 'default')],
+        [t('Plan'), t('{0} fixed challenges · {1} concurrent · {2} attempts maximum', manifest.tasks.length, options.parallel, options.maxAttempts)],
+        [t('Authentication'), manifest.codex ? t('Local Codex login (run codex login if needed)') : options.apiKey ? t('API key supplied (not saved)') : t('Offline; no credentials needed')],
+        [t('Output'), directory],
       ]
-      if (destination) rows.push(['Enrollment target', destination.path])
-      if (adjustment) rows.push(['Challenge adjustment', `${adjustment.challenge}${options.promptFile ? `: ${resolve(options.promptFile)}` : ''}${options.systemFile ? `; system ${resolve(options.systemFile)}` : ''}${adjustment.effort ? `; effort ${adjustment.effort}` : ''}`], ['Note', adjustment.note])
-      if (options.adopt) rows.push(['Offline adoption', `${options.adopt.id}:${options.adopt.attempt}${options.take ? ` · first ${options.take} numbers` : ''}`], ['Note', options.note!])
-      if (!await confirmCollection('Setup · Review', rows.map(([name, value]) => [name, terminalText(value, options!.apiKey)]),
-        options.adopt ? 'Adopt this saved response? No API requests will run.' : needsRequests ? 'Start these API requests?' : 'Verify and save this batch?')) throw new CollectionCancelled()
+      if (destination) rows.push([t('Enrollment target'), destination.path])
+      if (adjustment) rows.push([t('Challenge adjustment'), `${adjustment.challenge}${options.promptFile ? `: ${resolve(options.promptFile)}` : ''}${options.systemFile ? `; system ${resolve(options.systemFile)}` : ''}${adjustment.effort ? `; effort ${adjustment.effort}` : ''}`], [t('Note'), adjustment.note])
+      if (options.adopt) rows.push([t('Offline adoption'), `${options.adopt.id}:${options.adopt.attempt}${options.take ? ` · first ${options.take} numbers` : ''}`], [t('Note'), options.note!])
+      if (!await confirmCollection(t('Setup · Review'), rows.map(([name, value]) => [name, terminalText(value, options!.apiKey)]),
+        options.adopt ? t('Adopt this saved response? No API requests will run.') : needsRequests ? t('Start these API requests?') : t('Verify and save this batch?'))) throw new CollectionCancelled()
     }
     if (!options.resume) {
       await mkdir(dirname(directory), { recursive: true })
@@ -211,12 +212,12 @@ export async function runCollectionCommand(command: 'sample' | 'enroll', args: s
         report.destination = destination.path
         report.status = 'validated'
       } else {
-        const confirmed = !interactive || options.yes || await confirmCollection('Setup · Enrollment review', [
-          ['Batch', directory], ['Destination', destination.path], ['Destination source', destination.automatic ? 'Detected repository (not yet written)' : 'Explicit --data-dir'],
-          ['New samples', String(preview.added)], ['Duplicates skipped', String(preview.skipped)], ['Resulting samples', String(preview.total)],
-          ['Accepted responses', `${report.natural} natural completions · ${report.truncated} accepted truncations · ${report.unknownCompletion} unknown completion`],
-          ['Verifier', preview.added ? 'Not retrained; updated bank needs matching verifier/calibration.' : 'No reference changes.'],
-        ], 'Write these samples and rebuild this reference bank?')
+        const confirmed = !interactive || options.yes || await confirmCollection(t('Setup · Enrollment review'), [
+          [t('Batch'), directory], [t('Destination'), destination.path], [t('Destination source'), destination.automatic ? t('Detected repository (not yet written)') : t('Explicit --data-dir')],
+          [t('New samples'), String(preview.added)], [t('Duplicates skipped'), String(preview.skipped)], [t('Resulting samples'), String(preview.total)],
+          [t('Accepted responses'), t('{0} natural completions · {1} accepted truncations · {2} unknown completion', report.natural, report.truncated, report.unknownCompletion)],
+          [t('Verifier'), preview.added ? t('Not retrained; updated bank needs matching verifier/calibration.') : t('No reference changes.')],
+        ], t('Write these samples and rebuild this reference bank?'))
         if (confirmed) {
           report.enrollment = await enroll(directory, destination.path, false, progress)
           report.destination = destination.path
@@ -243,5 +244,5 @@ export async function runCollectionCommand(command: 'sample' | 'enroll', args: s
     if (failure) report.error = failure
     await printCollectionReport(report, options?.json ?? args.includes('--json'), interactive)
   } else if (failure && (options?.json || args.includes('--json'))) process.stdout.write(JSON.stringify({ status: 'error', error: failure }) + '\n')
-  if (failure) process.stderr.write(failure + '\n')
+  if (failure) process.stderr.write(translateLabel(failure) + '\n')
 }

@@ -77,7 +77,7 @@ Use `--no-update-check` or set `FPD_NO_UPDATE_CHECK=1` to disable the feature.
 
 ## Sampling behavior
 
-Each round generates `--count` random challenges from the existing shared challenge generator (default: three). Use `--count 1` for one API request per round or `--count 2` for two. `-p 1` only serializes the requests; `-n 1` runs one round. The challenge prompts remain unchanged to preserve the sampling method. The CLI interface, help, and local error messages use English.
+Each round generates `--count` random challenges from the existing shared challenge generator (default: three). Use `--count 1` for one API request per round or `--count 2` for two. `-p 1` only serializes the requests; `-n 1` runs one round. The challenge prompts remain unchanged to preserve the sampling method. The CLI interface and help support English (`en`, default), Simplified Chinese (`zh`), Japanese (`ja`), Korean (`ko`), and French (`fr`). Select a language with `--lang` or `FPD_LANG`; an explicit flag takes precedence. This controls terminal text independently of the randomly selected challenge languages. JSON field names, model IDs, captured responses, and provider diagnostics retain their original content.
 
 For a fixed single challenge, use `--count 1 --challenges one-challenge.json`; the file must contain a one-element array with `id`, `prompt`, and `expected_count`. A mismatched array length is rejected before any model requests.
 
@@ -164,3 +164,16 @@ npm trust github lmfpd --repo Ikaleio/lm-detector \
 ```
 
 The trusted publisher must allow direct `npm publish`. After setup, GitHub Actions needs no stored npm token. Dispatch the workflow once to verify this authorization before relying on automatic releases.
+
+## CLI language
+
+```sh
+npx lmfpd@latest --lang ja --help
+npx lmfpd@latest sample --lang ko --help
+npx lmfpd@latest --lang=fr --input result.json
+FPD_LANG=zh npx lmfpd@latest --help
+```
+
+`--lang` works before or after the subcommand for `detect`, `sample`, `enroll`, and `retrain`. Supported values are `en`, `zh`, `ja`, `ko`, and `fr`. The last explicit flag wins, overriding `FPD_LANG`; the default is English. Missing or unsupported values exit with code 1. Human-readable help, status labels, progress summaries, and common local validation errors are translated. Technical diagnostics not covered by the catalogs and upstream errors are displayed as received. JSON reports remain suitable for the existing offline tools.
+
+Translations live in `cli/locales/`, keyed by the English source message. Keep all catalogs in sync and preserve numbered placeholders such as `{0}`. Values are interpolated after translation and are never translated themselves.

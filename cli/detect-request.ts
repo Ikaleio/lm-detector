@@ -3,6 +3,7 @@ import { completionBody } from '@fingerpoint/shared/completion-request'
 import { parseNumbers } from '@fingerpoint/shared/fingerprint-core.js'
 import type { Challenge } from '@fingerpoint/shared/types'
 import { readBefore, throughputMeter, USAGE_GRACE_MS, type Throughput, type ThroughputMeter } from '@fingerpoint/shared/throughput'
+import { translateLabel } from './i18n'
 import { requestEndpoint, type DetectOptions } from './detect-options'
 
 // Provider payloads have different shapes. Validate the fields used at this boundary.
@@ -25,8 +26,9 @@ export interface Sample {
 export const minimumNumbers = (expected: number) => Math.max(80, Math.ceil(expected * 0.55))
 export const acceptedSample = (sample: Sample) => sample.state === 'complete' || sample.state === 'truncated'
 export const cleanText = (value: string) => stripVTControlCharacters(value).replace(/[\x00-\x1f\x7f-\x9f]/g, ' ')
-export function errorMessage(error: unknown, key = '') {
-  const message = error instanceof Error ? error.message : String(error)
+export function errorMessage(error: unknown, key = '', localized = false) {
+  const source = error instanceof Error ? error.message : String(error)
+  const message = localized ? translateLabel(source) : source
   return cleanText(key ? message.replaceAll(key, '[REDACTED]') : message).slice(0, 500)
 }
 const record = (value: unknown): Payload => value !== null && typeof value === 'object' && !Array.isArray(value) ? value : {}

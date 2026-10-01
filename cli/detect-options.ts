@@ -1,5 +1,6 @@
 import { parseArgs } from 'node:util'
 import type { ApiConfig } from '@fingerpoint/shared/types'
+import { t } from './i18n'
 
 export interface DetectOptions {
   config: ApiConfig
@@ -20,7 +21,7 @@ export interface DetectOptions {
 function positiveInteger(value: string, name: string, maximum = Number.MAX_SAFE_INTEGER) {
   const number = Number(value)
   if (!/^\d+$/.test(value) || !Number.isSafeInteger(number) || number < 1 || number > maximum) {
-    throw new Error(`${name} must be an integer from 1 to ${maximum}.`)
+    throw new Error(t('{0} must be an integer from 1 to {1}.', name, maximum))
   }
   return number
 }
@@ -40,19 +41,19 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
   const apiInput = (values.api ?? 'responses').toLowerCase()
   const api = apiInput === 'cc' ? 'chatcompletion'
     : (['responses', 'chatcompletion', 'message'] as const).find(name => name.startsWith(apiInput))
-  if (!apiInput || !api) throw new Error('--api must be a prefix of responses, chatcompletion, or message (or cc).')
+  if (!apiInput || !api) throw new Error(t('--api must be a prefix of responses, chatcompletion, or message (or cc).'))
   const count = positiveInteger(values.count ?? '3', '--count', 3)
   const parallel = Math.min(positiveInteger(values.parallel ?? '3', '--parallel', 3), count)
   const repeat = positiveInteger(values.repeat ?? '1', '--repeat')
   const timeout = Number(values.timeout ?? '120')
   if (!Number.isFinite(timeout) || timeout < 0.001 || timeout > 2_147_483.647) {
-    throw new Error('--timeout must be between 0.001 and 2147483.647 seconds.')
+    throw new Error(t('--timeout must be between 0.001 and 2147483.647 seconds.'))
   }
   if (values.input && (repeat !== 1 || values.challenges || values.count !== undefined)) {
-    throw new Error('--input cannot be combined with --repeat, --challenges, or --count.')
+    throw new Error(t('--input cannot be combined with --repeat, --challenges, or --count.'))
   }
   if (values.strict && count !== 3) {
-    throw new Error('--strict requires --count 3. Use relaxed mode for one or two samples without confidence scores.')
+    throw new Error(t('--strict requires --count 3. Use relaxed mode for one or two samples without confidence scores.'))
   }
   const config: ApiConfig = {
     model: (values.model ?? env.MODEL ?? '').trim(),
@@ -64,8 +65,8 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
   if (!values.input) {
     for (const [name, value, variable] of [
       ['model', config.model, 'MODEL'], ['apikey', config.apiKey, 'API_KEY'], ['baseurl', config.baseUrl, 'BASE_URL'],
-    ]) {
-      if (!value) throw new Error(`Set --${name} or the ${variable} environment variable.`)
+    ] as const) {
+      if (!value) throw new Error(t('Set --{0} or the {1} environment variable.', name, variable))
     }
   }
   return {
@@ -78,14 +79,14 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
 
 export function requestEndpoint(config: ApiConfig): string {
   let url: URL
-  try { url = new URL(config.baseUrl) } catch { throw new Error('Base URL must be a valid HTTP or HTTPS URL.') }
+  try { url = new URL(config.baseUrl) } catch { throw new Error(t('Base URL must be a valid HTTP or HTTPS URL.')) }
   if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password || url.search || url.hash) {
-    throw new Error('Base URL must use HTTP or HTTPS without credentials, a query, or a fragment.')
+    throw new Error(t('Base URL must use HTTP or HTTPS without credentials, a query, or a fragment.'))
   }
   const suffix = config.format === 'responses' ? '/responses' : config.format === 'anthropic' ? '/messages' : '/chat/completions'
   const path = url.pathname.replace(/\/+$/, '')
   if (/\/(responses|messages|chat\/completions)$/.test(path) && !path.endsWith(suffix)) {
-    throw new Error('The endpoint in --baseurl does not match --api.')
+    throw new Error(t('The endpoint in --baseurl does not match --api.'))
   }
   url.pathname = path.endsWith(suffix) ? path : (path || '/v1') + suffix
   return url.href

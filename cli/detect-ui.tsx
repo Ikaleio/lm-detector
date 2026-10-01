@@ -3,6 +3,7 @@ import { Box, Text, render, useInput, useWindowSize } from 'ink'
 import terminalLink from 'terminal-link'
 import { anomalousSamples } from '@fingerpoint/shared/sample-distribution'
 import type { Analysis } from '@fingerpoint/shared/types'
+import { t, translateLabel, type Message } from './i18n'
 import type { DetectOptions } from './detect-options'
 import type { DetectionState } from './detect-run'
 import { acceptedSample, cleanText, type Sample } from './detect-request'
@@ -18,7 +19,7 @@ function speed({ throughput }: Sample, wide: boolean) {
   return wide || !rate ? [ttft, rate].filter(Boolean).join(' · ') : rate
 }
 const percentage = (value: number | null | undefined) => value == null ? '—' : `${(value * 100).toFixed(1)}%`
-const labels: Record<Sample['state'], string> = {
+const labels: Record<Sample['state'], Message> = {
   queued: 'Queued', waiting: 'Waiting', streaming: 'Streaming', complete: 'Complete',
   truncated: 'Capped', failed: 'Failed', cancelled: 'Cancelled',
 }
@@ -30,12 +31,12 @@ function Ranking({ analysis, compact, safe }: { analysis: Analysis; compact: boo
   const calibrated = analysis.probability_status === 'reference_calibrated'
   const hasConfidence = analysis.results.some(row => row.verification_confidence != null)
   return <Box flexDirection="column" marginTop={1}>
-    <Text bold color="cyan">LEADING CANDIDATES</Text>
+    <Text bold color="cyan">{t('LEADING CANDIDATES')}</Text>
     <Box>
       <Box width={4}><Text dimColor>#</Text></Box>
-      <Box flexGrow={1}><Text dimColor>Model</Text></Box>
-      <Box width={9} justifyContent="flex-end"><Text dimColor>Score</Text></Box>
-      <Box width={12} justifyContent="flex-end"><Text dimColor>{calibrated ? 'Confidence' : hasConfidence ? 'Verifier' : 'Confidence'}</Text></Box>
+      <Box flexGrow={1}><Text dimColor>{t('Model')}</Text></Box>
+      <Box width={9} justifyContent="flex-end"><Text dimColor>{t('Score')}</Text></Box>
+      <Box width={12} justifyContent="flex-end"><Text dimColor>{calibrated ? t('Confidence') : hasConfidence ? t('Verifier') : t('Confidence')}</Text></Box>
     </Box>
     {analysis.results.slice(0, compact ? 3 : 5).map((row, index) => <Box key={row.model}>
       <Box width={4}><Text color={index === 0 ? 'cyan' : undefined}>{index + 1}</Text></Box>
@@ -43,10 +44,10 @@ function Ranking({ analysis, compact, safe }: { analysis: Analysis; compact: boo
       <Box width={9} justifyContent="flex-end"><Text>{row.score.toFixed(3)}</Text></Box>
       <Box width={12} justifyContent="flex-end"><Text color={index === 0 ? 'cyan' : undefined}>{percentage(row.verification_confidence)}</Text></Box>
     </Box>)}
-    <Text dimColor>{analysis.decision === 'partial' ? 'Partial ranking · confidence unavailable'
-      : calibrated ? 'Confidence is relative to the reference bank; it does not prove identity.'
-      : hasConfidence ? 'Verifier values are uncalibrated scores, not identity probabilities.' : 'Confidence unavailable for this bank.'}</Text>
-    {!compact && <Text dimColor>{safe(analysis.evidence.label)}</Text>}
+    <Text dimColor>{analysis.decision === 'partial' ? t('Partial ranking · confidence unavailable')
+      : calibrated ? t('Confidence is relative to the reference bank; it does not prove identity.')
+      : hasConfidence ? t('Verifier values are uncalibrated scores, not identity probabilities.') : t('Confidence unavailable for this bank.')}</Text>
+    {!compact && <Text dimColor>{safe(translateLabel(analysis.evidence.label))}</Text>}
   </Box>
 }
 
@@ -69,7 +70,7 @@ function Dashboard({ state, options, bankSize, cancel, saved, fatal, updateNotic
   const completed = state.rounds.filter(round => round.finishedAt).length
   const scored = state.rounds.filter(round => round.analysis?.results.length).length
   const elapsed = seconds((state.finishedAt ?? now) - state.startedAt)
-  const phase = state.cancelled ? 'Cancelled' : state.finishedAt ? 'Finished' : 'Detecting'
+  const phase = state.cancelled ? t('Cancelled') : state.finishedAt ? t('Finished') : t('Detecting')
   const spinner = '⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'[Math.floor(now / 100) % 10]
   const history = state.rounds.filter(round => round.finishedAt)
   const visibleHistory = history.slice(compact ? -3 : -5)
@@ -85,16 +86,16 @@ function Dashboard({ state, options, bankSize, cancel, saved, fatal, updateNotic
   const tied = consensus ? [...winnerCounts].filter(([, count]) => count === consensus[1]).length > 1 : false
   return <Box flexDirection="column" width={Math.max(30, Math.min(columns || 80, 100))} paddingX={1}>
     <Box borderStyle="round" borderColor="cyan" paddingX={1} flexDirection="column">
-      <Text><Text bold color="cyan">FPD</Text><Text dimColor> / MODEL FINGERPOINT DETECTOR (</Text><Text color="cyan">{terminalLink('lm.ikale.io', 'https://lm.ikale.io', { fallback: false })}</Text><Text dimColor>)</Text></Text>
-      <Text wrap="truncate-end" bold>{options.input ? `Offline · ${safe(options.input)}` : safe(options.config.model)}</Text>
+      <Text><Text bold color="cyan">FPD</Text><Text dimColor> / {t('MODEL FINGERPOINT DETECTOR')} (</Text><Text color="cyan">{terminalLink('lm.ikale.io', 'https://lm.ikale.io', { fallback: false })}</Text><Text dimColor>)</Text></Text>
+      <Text wrap="truncate-end" bold>{options.input ? t('Offline · {0}', safe(options.input)) : safe(options.config.model)}</Text>
       {!compact && !options.input && <Text dimColor wrap="truncate-middle">{safe(options.config.baseUrl)}</Text>}
-      <Text dimColor>{options.input ? 'Saved outputs' : `${options.api} · ${options.config.stream ? 'SSE' : 'JSON'} · count ${options.count} · parallel ${options.parallel}`} · {options.strict ? 'strict' : 'relaxed'} · {bankSize} models</Text>
+      <Text dimColor>{options.input ? t('Saved outputs') : t('{0} · {1} · count {2} · parallel {3}', options.api, options.config.stream ? 'SSE' : 'JSON', options.count, options.parallel)} · {options.strict ? t('strict') : t('relaxed')} · {t('{0} models', bankSize)}</Text>
     </Box>
     <Box justifyContent="space-between">
-      <Text bold>{state.finishedAt ? '●' : spinner} {phase} · round {latest?.index ?? 1}/{state.total}</Text>
+      <Text bold>{state.finishedAt ? '●' : spinner} {phase}{t(' · round {0}/{1}', latest?.index ?? 1, state.total)}</Text>
       <Text dimColor>{elapsed}</Text>
     </Box>
-    {!options.input && <Text dimColor>First byte {options.timeoutMs / 1000}s{options.config.stream ? ' · no deadline after SSE starts' : ' · deadline covers the full JSON response'}</Text>}
+    {!options.input && <Text dimColor>{t('First byte {0}s', options.timeoutMs / 1000)}{options.config.stream ? t(' · no deadline after SSE starts') : t(' · deadline covers the full JSON response')}</Text>}
     {latest && <Box flexDirection="column" marginTop={1}>
       {latest.samples.map((sample, index) => {
         const active = sample.state === 'waiting' || sample.state === 'streaming'
@@ -105,40 +106,40 @@ function Dashboard({ state, options, bankSize, cancel, saved, fatal, updateNotic
         return <Box key={index} flexDirection="column">
           <Box>
             <Box width={5}><Text dimColor>#{index + 1}</Text></Box>
-            <Box width={12}><Text color={color}>{active ? spinner : warning ? '!' : acceptedSample(sample) ? '✓' : sample.state === 'failed' ? '×' : '·'} {labels[sample.state]}</Text></Box>
+            <Box width={12}><Text color={color}>{active ? spinner : warning ? '!' : acceptedSample(sample) ? '✓' : sample.state === 'failed' ? '×' : '·'} {t(labels[sample.state])}</Text></Box>
             {columns >= 75 && <Box width={15}><Text color={color}>{'━'.repeat(filled)}<Text dimColor>{'─'.repeat(12 - filled)}</Text></Text></Box>}
             <Box flexGrow={1}><Text>{sample.count}/{sample.expectedCount}</Text></Box>
             {!active && sample.throughput && <Text dimColor>{speed(sample, columns >= 75)} · </Text>}
             <Text dimColor>{time}</Text>
           </Box>
-          {sample.error && <Text color="red" wrap="truncate-end">   {safe(sample.error)}</Text>}
-          {warning && <Text color="yellow" wrap="truncate-end">   Abnormal distribution · every number is 200 or higher</Text>}
+          {sample.error && <Text color="red" wrap="truncate-end">   {safe(translateLabel(sample.error))}</Text>}
+          {warning && <Text color="yellow" wrap="truncate-end">   {t('Abnormal distribution · every number is 200 or higher')}</Text>}
         </Box>
       })}
     </Box>}
-    {latest?.error && <Text color="yellow">{safe(latest.error)}</Text>}
-    {anomalous.length > 0 && <Text color="yellow">Sample {anomalous.map(index => index + 1).join(', ')}: abnormal distribution. This result is unreliable. The prompt causes it, so {options.challenges ? 'replace these prompts in the --challenges file' : 'rerun to draw new prompts'}.</Text>}
+    {latest?.error && <Text color="yellow">{safe(translateLabel(latest.error))}</Text>}
+    {anomalous.length > 0 && <Text color="yellow">{t('Sample {0}: abnormal distribution. This result is unreliable. The prompt causes it, so {1}.', anomalous.map(index => index + 1).join(', '), options.challenges ? t('replace these prompts in the --challenges file') : t('rerun to draw new prompts'))}</Text>}
     {latest?.analysis && latest.analysis.results.length > 0 && <Ranking analysis={latest.analysis} compact={compact} safe={safe} />}
     {state.total > 1 && history.length > 0 && <Box flexDirection="column" marginTop={1}>
-      <Text bold color="cyan">ROUNDS <Text dimColor> · {completed}/{state.total} settled · {scored} scored</Text></Text>
+      <Text bold color="cyan">{t('ROUNDS')} <Text dimColor>{t(' · {0}/{1} settled · {2} scored', completed, state.total, scored)}</Text></Text>
       {visibleHistory.map(round => <Box key={round.index}>
         <Box width={5}><Text dimColor>#{round.index}</Text></Box>
-        <Box flexGrow={1} flexBasis={0}><Text wrap="truncate-end" color={round.error ? 'yellow' : undefined}>{safe(round.analysis?.prediction_name || 'Not scored')}</Text></Box>
+        <Box flexGrow={1} flexBasis={0}><Text wrap="truncate-end" color={round.error ? 'yellow' : undefined}>{safe(round.analysis?.prediction_name || t('Not scored'))}</Text></Box>
         <Box width={7} justifyContent="flex-end"><Text dimColor>{round.samples.filter(acceptedSample).length}/{round.samples.length}</Text></Box>
         <Box width={10} justifyContent="flex-end"><Text>{percentage(round.analysis?.verification_confidence)}</Text></Box>
       </Box>)}
-      {history.length > visibleHistory.length && <Text dimColor>Showing the last {visibleHistory.length} rounds. Use --output to save every round.</Text>}
-      {state.finishedAt && consensus && <Text>{tied ? 'Tied lead' : 'Most frequent'}: <Text bold>{safe(consensus[0])}</Text>{tied ? ' and others' : ''} · {consensus[1]}/{scored} scored rounds</Text>}
+      {history.length > visibleHistory.length && <Text dimColor>{t('Showing the last {0} rounds. Use --output to save every round.', visibleHistory.length)}</Text>}
+      {state.finishedAt && consensus && <Text>{tied ? t('Tied lead') : t('Most frequent')}: <Text bold>{safe(consensus[0])}</Text>{tied ? t(' and others') : ''}{t(' · {0}/{1} scored rounds', consensus[1], scored)}</Text>}
     </Box>}
     <Box marginTop={1} flexDirection="column">
       {fatal && <Text color="red">{safe(fatal)}</Text>}
-      {saved && <Text color="green">Saved {safe(saved)}</Text>}
-      <Text dimColor>{state.finishedAt ? `${scored}/${state.total} rounds scored · ${elapsed}` : 'q / Ctrl+C to cancel · each round waits for all requested samples'}</Text>
+      {saved && <Text color="green">{t('Saved {0}', safe(saved))}</Text>}
+      <Text dimColor>{state.finishedAt ? t('{0}/{1} rounds scored · {2}', scored, state.total, elapsed) : t('q / Ctrl+C to cancel · each round waits for all requested samples')}</Text>
       {state.finishedAt && scored > 0 && !fatal && <StarNote />}
     </Box>
     {updateNotice && <Box marginTop={1} flexDirection="column">
-      <Text color="yellow">Update available: {updateNotice.current} → {updateNotice.latest}</Text>
-      <Text>{updateNotice.temporary ? 'Run the latest version' : 'Update'}: <Text color="cyan">{updateNotice.command}</Text></Text>
+      <Text color="yellow">{t('Update available: {0} → {1}', updateNotice.current, updateNotice.latest)}</Text>
+      <Text>{updateNotice.temporary ? t('Run the latest version') : t('Update')}: <Text color="cyan">{updateNotice.command}</Text></Text>
     </Box>}
   </Box>
 }
@@ -164,7 +165,7 @@ export function createDisplay(options: DetectOptions, bankSize: number, cancel: 
           const id = `${round.index}:${index}`
           if (!sample.finishedAt || settled.has(id)) return
           settled.add(id)
-          process.stderr.write(`[${round.index}/${state.total}] Sample ${index + 1}: ${labels[sample.state]} (${sample.count}/${sample.expectedCount})${sample.throughput ? ` · ${speed(sample, true)}` : ''}${sample.error ? ` · ${sample.error}` : ''}\n`)
+          process.stderr.write(`${t('[{0}/{1}] Sample {2}: {3} ({4}/{5})', round.index, state.total, index + 1, t(labels[sample.state]), sample.count, sample.expectedCount)}${sample.throughput ? ` · ${speed(sample, true)}` : ''}${sample.error ? ` · ${translateLabel(sample.error)}` : ''}\n`)
         })
       }
       view.rerender(<Dashboard state={state} options={options} bankSize={bankSize} cancel={cancel} />)
