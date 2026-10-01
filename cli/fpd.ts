@@ -3,16 +3,19 @@
 import { runCollectionCommand } from './collection-command'
 import { runDetectionCommand } from './detect'
 import { runRetrainCommand } from './retrain-command'
+import { configureLanguage, t } from './i18n'
 
-const [command, ...args] = process.argv.slice(2)
-if (command === 'sample' || command === 'enroll') {
-  await runCollectionCommand(command, args)
-} else if (command === 'retrain') {
-  try { await runRetrainCommand(args) }
-  catch (error) {
-    console.error(error instanceof Error ? error.message : String(error))
-    process.exitCode = 1
+try {
+  const argv = configureLanguage(process.argv.slice(2))
+  const [command, ...args] = argv
+  if (command === 'sample' || command === 'enroll') {
+    await runCollectionCommand(command, args)
+  } else if (command === 'retrain') {
+    await runRetrainCommand(args)
+  } else {
+    await runDetectionCommand(command === 'detect' ? args : argv)
   }
-} else {
-  await runDetectionCommand(command === 'detect' ? args : process.argv.slice(2))
+} catch (error) {
+  console.error(t('Error') + ': ' + (error instanceof Error ? error.message : String(error)))
+  process.exitCode = 1
 }

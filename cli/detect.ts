@@ -2,6 +2,7 @@ import { writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import type { Bank } from '@fingerpoint/shared/types'
 import type { SharedDetector } from '@fingerpoint/shared/shared-detector'
+import { t } from './i18n'
 import { parseOptions, requestEndpoint } from './detect-options'
 import { errorMessage } from './detect-request'
 import { analyzeInput, loadChallenges, readJson, runDetection, serializeResult } from './detect-run'
@@ -62,9 +63,9 @@ export async function runDetectionCommand(args: string[]) {
     }
   } catch (error) {
     stopUpdateCheck?.()
-    const message = errorMessage(error, key)
+    const message = errorMessage(error, key, true)
     if (display) await display.finish(undefined, message)
-    else process.stderr.write(`Error: ${message}\nUse --help for usage.\n`)
+    else process.stderr.write(`${t('Error')}: ${message}\n${t('Use --help for usage.')}\n`)
     process.exitCode = 1
   } finally {
     stopUpdateCheck?.()
