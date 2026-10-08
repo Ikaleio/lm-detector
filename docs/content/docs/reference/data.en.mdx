@@ -34,7 +34,7 @@ data
 - `fpd sample`, `fpd enroll DIR`, and `fpd retrain --data-dir DIR` can all run outside the repository. Enrollment validates complete batches and raw evidence, deduplicates by model, channel, condition, challenge, and text, and rebuilds the derived bank. Retraining fits the ranker and the confidence calibration offline from the target reference bank. If nested calibration fails, `shared_detector.json` is not replaced. Training evidence is saved in `.training/`.
 - The data bundled with the CLI is read-only. The maintenance destination must be specified explicitly, or confirmed after the CLI detects this repository during interactive enrollment.
 - The fixed evaluation set must not be added to the reference bank, the model centroids, or the calibration.
-- The website build writes redacted data to `web/public/data/`. That directory is a build output and must not be maintained as a second official bank.
+- The website build writes redacted data to `web/public/data/`. That directory is a build output and must not be maintained as a second official bank. The build also derives `usage_fit.json` from the `usage` of the reference batches: one usage fit for each model with at least 8 replies that carry usage, used by the website's [usage check](../web/index.mdx#usage-check).
 
 ## Tokenizer bank
 

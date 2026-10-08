@@ -9,6 +9,8 @@ export interface CompletionResult {
   responseModel?: string
   responseId?: string
   usage?: unknown
+  /** The whole reply that `usage` counts, including text after a number cap; absent until the reply has ended. */
+  usageText?: string
   providerReported?: string
   finishReason?: string
   completion: Completion
@@ -31,7 +33,7 @@ const outputText = (response: Record<string, unknown>): string => array(response
 export async function readCompletion(response: Response, format: Format, onText?: (text: string) => void, onProgress?: (result: CompletionResult) => void, maxNumbers?: number, meter?: ThroughputMeter): Promise<CompletionResult> {
   let text = '', raw = '', finish = '', terminal = false, ended = false, capped = false
   let responseModel: string | undefined, responseId: string | undefined, providerReported: string | undefined, usage: unknown
-  const snapshot = (): CompletionResult => ({ text, responseModel, responseId, usage, providerReported, finishReason: finish || undefined,
+  const snapshot = (): CompletionResult => ({ text, responseModel, responseId, usage, usageText: terminal ? raw : undefined, providerReported, finishReason: finish || undefined,
     capped, completion: capped ? 'truncated' : terminal && ['stop', 'end_turn', 'completed'].includes(finish) ? 'complete' : ['length', 'max_tokens', 'incomplete', 'max_output_tokens'].includes(finish) || (ended && !terminal && text.length > 0) ? 'truncated' : 'unknown' })
   const report = () => onProgress?.(snapshot())
   const metadata = (value: unknown) => {
@@ -72,6 +74,7 @@ export async function readCompletion(response: Response, format: Format, onText?
       if (format === 'responses') { text = outputText(d); finish = string(d.status); terminal = d.status === 'completed' }
       else if (format === 'anthropic') { text = array(d.content).filter(x => x.type === 'text').map(x => string(x.text)).join(''); finish = string(d.stop_reason); terminal = true }
       else { const c = array(d.choices)[0] ?? {}, message = object(c.message); text = string(message.content); finish = message.refusal ? 'refusal' : string(c.finish_reason); terminal = true }
+      raw = text
       onText?.(text); report()
     } else {
       if (!response.body) throw coded('接口未返回流式正文', 'no_stream_body')

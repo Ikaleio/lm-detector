@@ -29,6 +29,8 @@ import { cn } from '@/lib/utils'
 import type { Analysis, Challenge, CodedError, CollectionProgress } from '@fingerpoint/shared/types'
 import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
 import { anomalousSamples } from '@fingerpoint/shared/sample-distribution'
+import { compareUsage, type UsageFitBank } from '@fingerpoint/shared/usage-fit'
+import { UsageCheck } from '@/components/usage-check'
 
 type Phase = 'edit' | 'sampling' | 'computing' | 'result'
 /** A sample index, or the tokenizer probe in the fourth slot of the sample strip. */
@@ -107,6 +109,14 @@ export default function DetectRoute() {
   const canSample = configComplete(config) && !computing && !connection.checking
   const probeShown = mode === 'api' && tokenizer.session.phase !== 'idle'
   useModelMatchCelebration(result, resultModel, active && mode === 'api' && phase === 'result')
+  // Only API replies carry usage, and only the unedited ones keep it.
+  const usageObservations = mode === 'api' && phase === 'result' ? samples.flatMap(sample => sample.usage ? [sample.usage] : []) : []
+  const [usageFit, setUsageFit] = useState<UsageFitBank | null>(null)
+  const wantsUsageFit = usageObservations.length > 0 && !usageFit
+  useEffect(() => {
+    if (!wantsUsageFit) return
+    client.loadUsageFit().then(bank => { if (mounted.current) setUsageFit(bank) }, () => { if (mounted.current) toast.error(t('usage.loadFailed')) })
+  }, [wantsUsageFit])
 
   function replaceSamples(next: SampleUI[]) {
     samplesRef.current = next
@@ -215,7 +225,7 @@ export default function DetectRoute() {
       if ((state === 'done' || state === 'capped') && challenge.text.trim()) {
         accepted = true
         sampled.current[index] = requestConfig
-        patch(index, { text: challenge.text, draftText: undefined, state, elapsedMs, throughput: challenge.throughput, errorCode: undefined, httpStatus: undefined, errorText: undefined })
+        patch(index, { text: challenge.text, draftText: undefined, state, elapsedMs, throughput: challenge.throughput, usage: challenge.usage, errorCode: undefined, httpStatus: undefined, errorText: undefined })
         setResult(null)
       } else {
         const previous = samplesRef.current[index]
@@ -321,7 +331,7 @@ export default function DetectRoute() {
 
   function edit(i: number, text: string) {
     if (runs.current.has(i) || verifying.current) return
-    patch(i, { text, draftText: undefined, state: 'idle', errorCode: undefined, httpStatus: undefined, errorText: undefined, elapsedMs: undefined, throughput: undefined })
+    patch(i, { text, draftText: undefined, state: 'idle', errorCode: undefined, httpStatus: undefined, errorText: undefined, elapsedMs: undefined, throughput: undefined, usage: undefined })
     setResult(null)
   }
 
@@ -465,7 +475,9 @@ export default function DetectRoute() {
           <PixelShader effect="scan" cell={3} className="h-6 min-w-0 flex-1 text-muted-foreground/60" />
         </div>
       )}
-      {phase === 'result' && result && <ResultPanel result={result} anomalous={anomalous} mode={mode} onReplacePrompts={() => replacePrompts(anomalous)} />}
+      {phase === 'result' && result && <ResultPanel result={result} anomalous={anomalous} mode={mode} onReplacePrompts={() => replacePrompts(anomalous)}>
+        {usageFit && usageObservations.length > 0 && <UsageCheck comparisons={compareUsage(usageFit, usageObservations)} observations={usageObservations.length} top={result.results[0]?.model} claimed={resultModel} />}
+      </ResultPanel>}
 
       <div className="fp-detect-footer">
         <a href={REPOSITORY_URL} target="_blank" rel="noopener noreferrer" className="fp-star-link" onClick={markStarVisited}>

@@ -5,6 +5,7 @@ import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
 import { parseReference, referenceSamples } from '@fingerpoint/shared/reference'
 import { nearestModels, supportsSharedDetector } from '@fingerpoint/shared/shared-detector'
 import { assertTokenizerBank } from '@fingerpoint/shared/tokenizer-bank'
+import { fitUsage } from '@fingerpoint/shared/usage-fit'
 
 try {
   await stat('data/.pending-enrollment')
@@ -51,7 +52,9 @@ await publish('unified_reference.jsonl', references)
 await publish('unified_bank.json', JSON.stringify(publicBank))
 await publish('shared_detector.json', detectorText)
 await publish('tokenizer_bank.json', tokenizerBankText)
+const usageFit = fitUsage(batches)
+await publish('usage_fit.json', JSON.stringify(usageFit))
 await writeFile('web/public/data/manifest.json', JSON.stringify(manifest))
 await mkdir('web/.generated', { recursive: true })
 await writeFile('web/.generated/unified_bank.json', JSON.stringify(publicBank, null, 2) + '\n')
-console.log(`Synced ${batches.length} reference batches, ${[...sampleCounts.values()].reduce((sum, count) => sum + count, 0)} samples and their derived bank.`)
+console.log(`Synced ${batches.length} reference batches, ${[...sampleCounts.values()].reduce((sum, count) => sum + count, 0)} samples and their derived bank; fitted usage for ${usageFit.models.length} models.`)

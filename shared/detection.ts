@@ -2,6 +2,7 @@ import { completionBody, COMPLETION_TIMEOUT_MS, sendsSpeed, SPEED_BETA } from '.
 import { readCompletion } from './completion'
 import { parseNumbers } from './fingerprint-core.js'
 import { throughputMeter } from './throughput'
+import { usageObservation } from './usage-fit'
 import type { ApiConfig, Challenge, CodedError, CollectionProgress, ErrorCode, Output, SampleState } from './types'
 
 export type CompletionTransport = (url:string, config:ApiConfig, body:Record<string,unknown>, signal:AbortSignal) => Promise<Response>
@@ -57,7 +58,7 @@ export async function testApi(config:ApiConfig,challenges:Challenge[],onProgress
     signal?.throwIfAborted();states[i]={...states[i],status:'正在请求',state:'requesting'};report(`正在请求挑战 ${i+1}`,i)
     try{
       const r=await complete(config,challenges[i].prompt,'',signal,text=>{states[i]={text,status:'正在接收输出',state:'streaming'};report(config.parallel?'三个挑战并行处理中':`挑战 ${i+1} 正在接收输出`,i)},transport,config.relaxed ? challenges[i].expected_count : undefined)
-      states[i].text=r.text;states[i].throughput=r.throughput
+      states[i].text=r.text;states[i].throughput=r.throughput;states[i].usage=usageObservation(r.usageText,r.usage)
       if(parseNumbers(r.text).length<Math.max(80,Math.ceil(challenges[i].expected_count*.55)))throw coded('有效数字不足','insufficient_numbers')
       outputs[i]={text:r.text,expected_count:challenges[i].expected_count};accepted++;states[i]={...states[i],status:r.capped?'capped':'done',state:r.capped?'capped':'done'}
     }catch(error){

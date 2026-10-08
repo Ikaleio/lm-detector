@@ -48,6 +48,12 @@ If all three answers are valid, the result area lists the candidates of the refe
 
 The ranking and the confidence come from the number fingerprint alone. In API mode, the result of the [tokenizer probe](./tokenizer.mdx) appears separately as reference information in the fourth entry of the sample strip and in the tokenizer details. The result does not wait for the probe, which keeps running beside it.
 
+### Usage check [#usage-check]
+
+In API mode, when the API reports output tokens (`usage`) for replies that ended normally, a "Usage check" appears below the candidate list. The site build fits one usage formula per library model from that model's replies: output tokens ≈ a × digit characters + b × estimated tokens of everything except the digits, with a and b fitted for each model. Reasoning tokens are subtracted first when the API lists them. The page compares the actual usage of these replies with the top candidate, the model you entered (when the library has it), and the model with the closest usage, and shows the deviation. A deviation within twice the spread of that model's own samples counts as consistent.
+
+Usage depends on the tokenizer, and many models share one, so usually a dozen to a few dozen library models are consistent at the same time. Consistent usage does not confirm the model identity; clearly inconsistent usage means that the upstream tokenizer differs from that model's records. If the API counts reasoning tokens in the output without listing them, the deviation grows. The check is reference only and does not change the ranking or the confidence. Replies that you edited, and streamed replies that were capped and not read to their end, are left out.
+
 If the confidence of the top candidate is below 75%, the page shows a low-confidence warning. If only one or two answers are valid, the page shows only the ranking, without confidence.
 
 If the smallest valid number of a sample is 200 or more, the page marks its distribution as abnormal and the result as unreliable. The prompt causes this distribution, so resampling with the same prompt repeats it. In API mode, "New prompt and resample" generates new challenges for these samples and samples them again at once with the original settings; in manual mode, "New prompt" only replaces the prompts and clears the matching answers. The other samples stay as they are. This warning plays no part in scoring.

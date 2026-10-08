@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { motion, useMotionValueEvent, useSpring } from 'framer-motion'
 import { Info, TriangleAlert } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -36,7 +36,8 @@ export function ConfidenceBar({ value }: { value: number | null }) {
   )
 }
 
-export function ResultPanel({ result, anomalous, mode, onReplacePrompts }: { result: Analysis; anomalous: number[]; mode: Mode; onReplacePrompts: () => void }) {
+/** `children` follow the candidate list, before the limits; they hold reference checks that do not change the ranking. */
+export function ResultPanel({ result, anomalous, mode, onReplacePrompts, children }: { result: Analysis; anomalous: number[]; mode: Mode; onReplacePrompts: () => void; children?: ReactNode }) {
   const { t, percent } = useI18n()
   const [all, setAll] = useState(false)
   const { reduced } = useMotionPreset()
@@ -130,6 +131,7 @@ export function ResultPanel({ result, anomalous, mode, onReplacePrompts }: { res
           )}
         </motion.ol>
       )}
+      {children}
       <div className="flex flex-col gap-2 text-body text-muted-foreground">
         <p>{t('detect.disclaimer')}</p>
         <details>

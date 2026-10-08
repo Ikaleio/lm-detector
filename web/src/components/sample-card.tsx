@@ -15,6 +15,7 @@ import { describe } from '@/lib/errors'
 import { useMotionPreset } from '@/lib/motion'
 import type { Challenge, ErrorCode, SampleState } from '@fingerpoint/shared/types'
 import type { Throughput } from '@fingerpoint/shared/throughput'
+import type { UsageObservation } from '@fingerpoint/shared/usage-fit'
 
 export interface SampleUI {
   text: string
@@ -25,6 +26,8 @@ export interface SampleUI {
   errorText?: string
   elapsedMs?: number
   throughput?: Throughput
+  /** Reported output tokens of the API reply in `text`; cleared when the reply is edited. */
+  usage?: UsageObservation
 }
 
 export type Mode = 'manual' | 'api'

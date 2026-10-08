@@ -1,6 +1,7 @@
 import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
 import { coded, endpoint, testApi as testApiShared, type CompletionTransport } from '@fingerpoint/shared/detection'
 import { assertTokenizerBank, type TokenizerBank } from '@fingerpoint/shared/tokenizer-bank'
+import { assertUsageFitBank, type UsageFitBank } from '@fingerpoint/shared/usage-fit'
 import { probeTokenizer as probeTokenizerShared, tokenizerReport, type TokenizerRun } from '@fingerpoint/shared/tokenizer-probe'
 import { generateChallenges } from '@fingerpoint/shared/challenge-browser.js'
 import { parseNumbers } from '@fingerpoint/shared/fingerprint-core.js'
@@ -101,6 +102,15 @@ export const transportFor = (route:Route):CompletionTransport => route.kind==='d
 export const testApi = (config:ApiConfig,challenges:Challenge[],onProgress:(p:CollectionProgress)=>void,route:Route,signal?:AbortSignal) =>
   testApiShared(config,challenges,onProgress,signal,transportFor(route))
 
+let usageFitLoading:Promise<UsageFitBank>|undefined
+/** Per-model usage fits that the build derives from the reference library. */
+export function loadUsageFit():Promise<UsageFitBank>{
+  return usageFitLoading ??= readStaticData('usage_fit.json').then(text=>{
+    const bank=JSON.parse(text) as unknown
+    assertUsageFitBank(bank)
+    return bank
+  }).catch(error=>{usageFitLoading=undefined;throw error})
+}
 let tokenizerBankLoading:Promise<TokenizerBank>|undefined
 export function loadTokenizerBank():Promise<TokenizerBank>{
   return tokenizerBankLoading ??= readStaticData('tokenizer_bank.json').then(text=>{
