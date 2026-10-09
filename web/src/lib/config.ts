@@ -4,6 +4,8 @@ import type { ApiConfig } from '@fingerpoint/shared/types'
 
 export interface WebApiConfig extends ApiConfig {
   serviceTier: ServiceTier
+  /** Requests that the samples and the tokenizer probe each keep in flight; 1 sends them one at a time. */
+  concurrency: number
   relaxed: boolean
   autoVerify: boolean
   /** Probe the tokenizer alongside sampling and show it as reference information beside the result. */
@@ -50,17 +52,27 @@ export const defaultConfig: WebApiConfig = {
   format: 'openai',
   serviceTier: 'default',
   stream: true,
-  parallel: true,
+  concurrency: 3,
   relaxed: true,
   autoVerify: true,
   tokenizerProbe: false,
 }
 
-const configFields = ['baseUrl', 'apiKey', 'model', 'effort', 'format', 'serviceTier', 'stream', 'parallel', 'relaxed', 'autoVerify', 'tokenizerProbe'] as const
+export const CONCURRENCY_RANGE = { min: 1, max: 8 } as const
+
+/** The stored concurrency; an older `parallel` switch reads as the default when on and as 1 when off. */
+export function readConcurrency(value: Record<string, unknown>): number | undefined {
+  const { concurrency, parallel } = value
+  if (typeof concurrency === 'number' && Number.isInteger(concurrency) && concurrency >= CONCURRENCY_RANGE.min && concurrency <= CONCURRENCY_RANGE.max) return concurrency
+  if (typeof parallel === 'boolean') return parallel ? defaultConfig.concurrency : 1
+  return undefined
+}
+
+const configFields = ['baseUrl', 'apiKey', 'model', 'effort', 'format', 'serviceTier', 'stream', 'concurrency', 'relaxed', 'autoVerify', 'tokenizerProbe'] as const
 
 function snapshot(profile: ApiProfile): ProfileSnapshot {
-  const { name, baseUrl, apiKey, model, effort, format, serviceTier, stream, parallel, relaxed, autoVerify, tokenizerProbe } = profile
-  return { name, baseUrl, apiKey, model, effort, format, serviceTier, stream, parallel, relaxed, autoVerify, tokenizerProbe }
+  const { name, baseUrl, apiKey, model, effort, format, serviceTier, stream, concurrency, relaxed, autoVerify, tokenizerProbe } = profile
+  return { name, baseUrl, apiKey, model, effort, format, serviceTier, stream, concurrency, relaxed, autoVerify, tokenizerProbe }
 }
 
 function readSnapshot(raw: unknown): ProfileSnapshot | null {
@@ -72,12 +84,14 @@ function readSnapshot(raw: unknown): ProfileSnapshot | null {
   }
   if (value.format !== 'openai' && value.format !== 'responses' && value.format !== 'anthropic') return null
   if (value.serviceTier !== undefined && !isServiceTier(value.serviceTier)) return null
-  for (const field of ['stream', 'parallel', 'autoVerify']) {
+  for (const field of ['stream', 'autoVerify']) {
     if (typeof value[field] !== 'boolean') return null
   }
   for (const field of ['relaxed', 'tokenizerProbe']) {
     if (value[field] !== undefined && typeof value[field] !== 'boolean') return null
   }
+  const concurrency = readConcurrency(value)
+  if (concurrency === undefined) return null
   return {
     name: value.name,
     baseUrl: value.baseUrl as string,
@@ -87,7 +101,7 @@ function readSnapshot(raw: unknown): ProfileSnapshot | null {
     format: value.format,
     serviceTier: value.serviceTier ?? 'default',
     stream: value.stream as boolean,
-    parallel: value.parallel as boolean,
+    concurrency,
     relaxed: typeof value.relaxed === 'boolean' ? value.relaxed : true,
     autoVerify: value.autoVerify as boolean,
     tokenizerProbe: typeof value.tokenizerProbe === 'boolean' ? value.tokenizerProbe : false,
@@ -122,9 +136,10 @@ function sanitizeProfile(raw: unknown, fallbackId: string, fallbackName = ''): A
       profile.format = obj.format
     }
     if (isServiceTier(obj.serviceTier)) profile.serviceTier = obj.serviceTier
-    for (const field of ['stream', 'parallel', 'relaxed', 'autoVerify', 'tokenizerProbe'] as const) {
+    for (const field of ['stream', 'relaxed', 'autoVerify', 'tokenizerProbe'] as const) {
       if (typeof obj[field] === 'boolean') profile[field] = obj[field] as boolean
     }
+    profile.concurrency = readConcurrency(obj) ?? profile.concurrency
   }
   return profile
 }
@@ -190,8 +205,8 @@ function persist(state: StoredApiProfiles) {
   localStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(state))
   const active = state.profiles.find(p => p.id === state.activeId) ?? state.profiles[0]
   if (active) {
-    const { baseUrl, apiKey, model, effort, format, serviceTier, stream, parallel, relaxed, autoVerify, tokenizerProbe } = active
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ baseUrl, apiKey, model, effort, format, serviceTier, stream, parallel, relaxed, autoVerify, tokenizerProbe }))
+    const { baseUrl, apiKey, model, effort, format, serviceTier, stream, concurrency, relaxed, autoVerify, tokenizerProbe } = active
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ baseUrl, apiKey, model, effort, format, serviceTier, stream, concurrency, relaxed, autoVerify, tokenizerProbe }))
   }
   localStorage.removeItem(LEGACY_KEY)
   sessionStorage.removeItem(SESSION_KEY)

@@ -63,6 +63,7 @@ version: 2026-10-06
 - [SHOULD] 提交时有缺项：展开缺项所在的区域，聚焦第一个缺失字段，字段下方用 `FieldError` 说明。
 - [SHOULD] 推荐标记 `RecommendMark`（`fp-recommend`）高 18px、`--radius-badge` 圆角、primary 文字和 10% primary 底色、`text-meta` 500 字重，放在推荐选项的文字后、推荐设置的标题后或推荐取值下方，文字计入该项的可访问名称或取值文本；一组选项最多一个推荐标记。标记文字默认是“推荐”，需要给出理由时换成一句短句。（来源：2026-10-06 用户要求为推荐选项和推荐设置加标记，并为 API 模式写明推荐理由。）
 - [SHOULD] 带检查动作的输入框：右侧放 outline 按钮；检查结果写在输入框下方 `role="status"` 的 `text-meta` 文字中，成功用 success 色。
+- [SHOULD] 取值为少量整数的设置用 `Slider`，与开关同在一个网格格子里：上方 `FieldTitle`；轨道下方一行 `text-meta` muted 刻度数字，与滑块两端对齐，当前值改为 foreground 500 字重；默认值就是推荐值，它的刻度数字下方放 `RecommendMark`；最下方 `FieldDescription` 只说明当前值的效果。（来源：2026-10-06 用户要求用滑块设置并发请求数，并标出推荐值。）
 
 ### 两列证据详情
 
@@ -230,6 +231,7 @@ version: 2026-10-06
 | 数据反馈 | `Table` `Badge` `Empty` `Skeleton` `Alert`（`default` `warning` `destructive`） `Separator` | `web/src/components/ui/` | 表格、状态、空状态、警告 | 已实现 |
 | 工作台组件 | `SampleCard` `SampleStrip` `StateBadge` `toneClass` `ResultPanel` `ConfidenceBar` `AnimatedPercent` `ApiConfigPanel` `ProxySettings` | `web/src/components/` | 多卡片工作台 | 已实现 |
 | 证据详情 | `TokenizerCard` `TokenizerStripButton` `TokenizerDetails` `ModelCheck`；`fp-custom-tokenizer-candidates` | `web/src/components/tokenizer-panel.tsx`、`web/src/components/tokenizer-claim.tsx`、`web/src/index.css` | 两列证据详情 | 已实现 |
+| 滑块 | `Slider`（`getAriaLabel` `getAriaValueText`） | `web/src/components/ui/slider.tsx` | 取值为少量整数的设置 | 已实现 |
 | 动效 | `spring` `useMotionPreset` `listStagger` `listItem` | `web/src/lib/motion.ts` | 所有动画 | 已实现 |
 | 推荐标记 | `RecommendMark`（`fp-recommend`） | `web/src/components/recommend-mark.tsx`、`web/src/index.css` | 推荐选项、推荐设置、推荐取值 | 已实现 |
 | 像素装饰 | `PixelShader`（`effect` `cell` `image`） `PixelSpinner` `fp-pixel` | `web/src/components/pixel-shader.tsx`、`web/src/lib/pixel-effects.ts`、`web/src/lib/pixel-renderer.ts`、`web/src/shell.css` | 品牌、加载、等待、空状态 | 已实现 |

@@ -15,17 +15,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel, FieldSet } from '@/components/ui/field'
+import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel, FieldSet, FieldTitle } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
+import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Segmented } from '@/components/segmented'
 import { BrandIcon } from '@/components/brand-icon'
 import { useI18n } from '@/i18n'
-import type { ApiProfile, ApiProfileManager, WebApiConfig } from '@/lib/config'
+import { CONCURRENCY_RANGE, defaultConfig, type ApiProfile, type ApiProfileManager, type WebApiConfig } from '@/lib/config'
 import { readProfileFile, saveProfileFile } from '@/lib/profile-file'
 import { ProxySettings } from '@/components/proxy-settings'
+import { RecommendMark } from '@/components/recommend-mark'
 import { cn } from '@/lib/utils'
 import { useMotionPreset } from '@/lib/motion'
 import { TOKENIZER_MODEL } from '@fingerpoint/shared/tokenizer-posterior'
@@ -39,14 +41,50 @@ const placeholders: Record<WebApiConfig['format'], string> = {
 const efforts = ['none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max']
 const MotionButton = motion.create(Button)
 
-function SwitchRow({ id, label, help, checked, onChange, disabled }: { id: string; label: string; help?: string; checked: boolean; onChange: (v: boolean) => void; disabled: boolean }) {
+function SwitchRow({ id, label, help, checked, onChange, disabled, recommended }: { id: string; label: string; help?: string; checked: boolean; onChange: (v: boolean) => void; disabled: boolean; recommended?: boolean }) {
   return (
     <Field orientation="horizontal" data-disabled={disabled}>
       <FieldContent>
-        <FieldLabel htmlFor={id}>{label}</FieldLabel>
+        <FieldLabel htmlFor={id} className="items-center">{label}{recommended && <RecommendMark />}</FieldLabel>
         {help && <FieldDescription id={`${id}-help`}>{help}</FieldDescription>}
       </FieldContent>
       <Switch id={id} checked={checked} onCheckedChange={onChange} disabled={disabled} aria-describedby={help ? `${id}-help` : undefined} />
+    </Field>
+  )
+}
+
+/**
+ * A slider over the allowed range. The numbers under the track mark each step and highlight the current one;
+ * the default value carries the recommended mark.
+ */
+function ConcurrencyField({ value, onChange, disabled }: { value: number; onChange: (v: number) => void; disabled: boolean }) {
+  const { t } = useI18n()
+  const recommended = defaultConfig.concurrency
+  const steps = Array.from({ length: CONCURRENCY_RANGE.max - CONCURRENCY_RANGE.min + 1 }, (_, i) => CONCURRENCY_RANGE.min + i)
+  return (
+    <Field data-disabled={disabled}>
+      <FieldTitle>{t('api.concurrency')}</FieldTitle>
+      <div className="flex flex-col gap-1.5 pt-1">
+        <Slider
+          min={CONCURRENCY_RANGE.min}
+          max={CONCURRENCY_RANGE.max}
+          step={1}
+          value={[value]}
+          onValueChange={next => onChange(typeof next === 'number' ? next : next[0])}
+          disabled={disabled}
+          getAriaLabel={() => t('api.concurrency')}
+          getAriaValueText={(formatted, current) => current === recommended ? `${formatted} ${t('app.recommended')}` : formatted}
+        />
+        <div aria-hidden="true" className="flex justify-between text-meta text-muted-foreground">
+          {steps.map(step => (
+            <span key={step} className="flex w-3 flex-col items-center gap-1">
+              <span className={cn('transition-colors', step === value && 'font-medium text-foreground')}>{step}</span>
+              {step === recommended && <RecommendMark />}
+            </span>
+          ))}
+        </div>
+      </div>
+      <FieldDescription>{value === 1 ? t('api.concurrencyOneHelp') : t('api.concurrencyHelp', { n: value })}</FieldDescription>
     </Field>
   )
 }
@@ -380,10 +418,10 @@ export function ApiConfigPanel({ open, onOpenChange, config, update, profileMana
           <Separator />
           <FieldGroup className="grid gap-4 md:grid-cols-2">
             <SwitchRow id="api-stream" label={t('api.stream')} help={t('api.streamHelp')} checked={config.stream ?? true} onChange={stream => update({ stream })} disabled={disabled} />
-            <SwitchRow id="api-parallel" label={t('api.parallel')} help={t(config.tokenizerProbe ? 'api.parallelProbeHelp' : 'api.parallelHelp')} checked={config.parallel ?? true} onChange={parallel => update({ parallel })} disabled={disabled} />
-            <SwitchRow id="api-relaxed" label={t('api.relaxed')} help={t('api.relaxedHelp')} checked={config.relaxed} onChange={relaxed => update({ relaxed })} disabled={disabled} />
+            <ConcurrencyField value={config.concurrency} onChange={concurrency => update({ concurrency })} disabled={disabled} />
+            <SwitchRow id="api-relaxed" label={t('api.relaxed')} help={t('api.relaxedHelp')} checked={config.relaxed} onChange={relaxed => update({ relaxed })} disabled={disabled} recommended />
             <SwitchRow id="api-auto" label={t('api.autoVerify')} checked={config.autoVerify} onChange={autoVerify => update({ autoVerify })} disabled={disabled} />
-            <SwitchRow id="api-tokenizer" label={t('api.tokenizerProbe')} help={t('api.tokenizerProbeHelp', { max: TOKENIZER_MODEL.maximumProbes + 2 })} checked={config.tokenizerProbe} onChange={tokenizerProbe => update({ tokenizerProbe })} disabled={disabled} />
+            <SwitchRow id="api-tokenizer" label={t('api.tokenizerProbe')} help={t('api.tokenizerProbeHelp', { max: TOKENIZER_MODEL.maximumProbes + 2 })} checked={config.tokenizerProbe} onChange={tokenizerProbe => update({ tokenizerProbe })} disabled={disabled} recommended />
           </FieldGroup>
           <Separator />
           <FieldGroup className="grid gap-4 md:grid-cols-2">

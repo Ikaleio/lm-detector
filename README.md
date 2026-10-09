@@ -26,7 +26,7 @@
 - **三种协议**：OpenAI Responses、Chat Completions 和 Anthropic Messages，默认使用 SSE 流式响应。
 - **参考库**：覆盖 GPT、Claude、Gemini、Grok、Qwen、DeepSeek 等常见模型家族。网页的参考库页面可以只读浏览和导出。
 - **分词器探测（可选，默认关闭）**：在网页的 API 配置中打开“分词器探测”，或在命令行加上 `--tokenizer`，检测会多发约 12 个短请求，从接口返回的用量（`usage`）识别上游的分词器（模型把文字切成 token 的规则），并与所填模型核对。结果只作参考：排名和置信度只由数字指纹计算，也不等待探测。很多模型共用同一种分词器，所以分词器一致不能证明模型身份。
-- **连接方式可选**：默认经本站代理转发；也可以选“自动”（接口允许网页直接访问时由浏览器直接请求，受浏览器跨域限制（CORS）不允许时改经本站代理）、固定直连，或自己[一键部署](https://lm.ikale.io/docs/deployment/worker)的 Cloudflare Worker。
+- **连接方式可选**：默认为“自动”，接口允许网页直接访问时由浏览器直接请求，受浏览器跨域限制（CORS）不允许时改经本站代理；也可以固定直连、固定经本站代理，或自己[一键部署](https://lm.ikale.io/docs/deployment/worker)的 Cloudflare Worker。
 - **可追溯的数据维护**：`fpd sample`、`fpd enroll`、`fpd retrain` 依次完成采样、入库和离线重训。失败记录和旧尝试全部保留。
 
 > [!IMPORTANT]

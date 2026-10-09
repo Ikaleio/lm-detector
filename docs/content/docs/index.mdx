@@ -21,7 +21,7 @@ import { FlaskConical, Globe, Rocket, Terminal } from 'lucide-react'
 - **三种协议**：OpenAI Responses、Chat Completions 和 Anthropic Messages，默认使用 SSE 流式响应。
 - **参考库**：覆盖 GPT、Claude、Gemini、Grok、Qwen、DeepSeek 等常见模型家族。网页的参考库页面可以只读浏览和导出。
 - **分词器探测（可选，默认关闭）**：在 API 配置中打开“分词器探测”，或在命令行加上 `--tokenizer`，检测会多发约 12 个短请求，从接口返回的用量识别上游的分词器（模型把文字切成 token 的规则），并与所填模型核对。结果只作参考：排名和置信度只由数字指纹计算，也不等待探测。很多模型共用同一种分词器，所以分词器一致不能证明模型身份。
-- **连接方式可选**：在 API 配置中选择自动、直连、本站代理（默认）或自建 Worker。自动模式在接口允许网页直接访问（CORS）时由浏览器直接请求，否则经本站代理；需要时可以换成自己部署的 Cloudflare Worker。
+- **连接方式可选**：在 API 配置中选择自动（默认）、直连、本站代理或自建 Worker。自动模式在接口允许网页直接访问（CORS）时由浏览器直接请求，否则经本站代理；需要时可以换成自己部署的 Cloudflare Worker。
 - **可追溯的数据维护**：`fpd sample`、`fpd enroll`、`fpd retrain` 依次完成采样、入库和离线重训。失败记录和旧尝试全部保留。
 
 <Callout type="warn" title="结果只是参考库内的排序">

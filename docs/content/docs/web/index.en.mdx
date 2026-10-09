@@ -30,15 +30,15 @@ Before any reply is filled in, "New prompts" in the action bar replaces all thre
 | Protocol | Chat Completions, Responses, or Messages |
 | Service tier | Flex, Default, Fast, or Ultrafast. Default sends no parameter. Messages sends `speed` with the `anthropic-beta: fast-mode-2026-02-01` header; Chat Completions and Responses send `service_tier` |
 
-Switches below the configuration, all on by default except "Tokenizer probe":
+Below the configuration are switches, all on by default except "Tokenizer probe", and a concurrency slider:
 
 - **Streaming**: uses SSE and shows output as it is generated. When off, the page waits for the complete JSON response.
-- **Parallel requests**: sends the three samples at once, and the tokenizer probe four requests at a time. When off, requests go one by one, which takes longer.
-- **Relaxed mode**: streaming sampling stops once it receives the requested count of complete valid integers. A non-streaming reply that exceeds the requested count keeps only the first N. The interface marks both cases as "Capped". When off, the upstream reply must finish naturally and completely.
+- **Concurrent requests**: 1 to 8, with the recommended 3 selected by default. Sampling and the tokenizer probe each send at most this many requests at the same time; at 1, requests go one by one, which takes longer.
+- **Relaxed mode** (recommended): streaming sampling stops once it receives the requested count of complete valid integers. A non-streaming reply that exceeds the requested count keeps only the first N. The interface marks both cases as "Capped". When off, the upstream reply must finish naturally and completely.
 - **Verify automatically after sampling**: computes the result automatically once all three samples succeed and no other sample is still sampling.
-- **Tokenizer probe**: off by default. When on, it sends about 12 extra short requests while sampling (at most 22) and identifies the upstream tokenizer. The result is reference information and does not change the ranking. APIs billed per request bill these requests. See [Tokenizer probe](./tokenizer.mdx).
+- **Tokenizer probe** (recommended): off by default. When on, it sends about 12 extra short requests while sampling (at most 22) and identifies the upstream tokenizer. The result is reference information and does not change the ranking. APIs billed per request bill these requests. See [Tokenizer probe](./tokenizer.mdx).
 
-Below the switches is "Connection": Auto, Direct, This site's proxy (the default), or Own Worker. It decides whether the browser calls the API directly or sends requests through a proxy; see [Connection](./connection.mdx).
+Below the switches is "Connection": Auto (the default), Direct, This site's proxy, or Own Worker. It decides whether the browser calls the API directly or sends requests through a proxy; see [Connection](./connection.mdx).
 
 The configuration and the key are saved automatically in the browser's localStorage and are restored after a reload or when you reopen the page. The profile menu supports several profiles, which you can rename, create, duplicate, and delete. "Save" only confirms the current configuration in the browser. "Export" and "Load" move a configuration between a file and the browser. An exported file contains your API key in plain text, so do not send it to anyone or upload it to cloud storage. "Connection" is a browser-level setting and does not belong to any profile.
 

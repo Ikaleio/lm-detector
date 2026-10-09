@@ -1,6 +1,6 @@
 ---
 title: Connection
-description: The Connection setting decides whether the browser calls the API directly or sends requests through this site's proxy or a Worker you deploy yourself. By default, requests go through this site's proxy. Auto first checks whether the API allows web pages to call it directly and otherwise uses this site's proxy.
+description: The Connection setting decides whether the browser calls the API directly or sends requests through this site's proxy or a Worker you deploy yourself. The default is Auto, which first checks whether the API allows web pages to call it directly, calls it from the browser if so, and otherwise uses this site's proxy.
 icon: ShieldCheck
 ---
 
@@ -12,9 +12,9 @@ The browser's cross-origin restriction (CORS) decides whether a web page may rea
 
 | Option | Where requests go |
 | --- | --- |
-| Auto | Before each sampling or probing run, checks the API once: direct if it allows web pages to call it, otherwise through this site's proxy |
+| Auto (default) | Before each sampling or probing run, checks the API once: direct if it allows web pages to call it, otherwise through this site's proxy |
 | Direct | Always from the browser straight to the API, without a proxy. Requests fail if the API does not allow cross-origin calls from web pages |
-| This site's proxy (default) | Always through this site's proxy, `/api/proxy` |
+| This site's proxy | Always through this site's proxy, `/api/proxy` |
 | Own Worker | Always through the Worker you deployed |
 
 The route is fixed when a run starts. Changing the connection mode during a run does not affect the requests in progress.

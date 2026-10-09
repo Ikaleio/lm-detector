@@ -26,7 +26,7 @@ The [tokenizer probe](./web/tokenizer.mdx) is off by default. If you turn on “
 Each answer needs at least 80 valid integers and at least 55% of the requested count. If all three answers are valid, the page shows the ranking and a confidence value for each candidate. If only one or two are valid, the page shows the ranking only. For what the results mean, see [Website](./web/index.mdx#reading-results).
 
 <Callout title="Where requests go">
-  "Connection" at the bottom of the API configuration defaults to This site's proxy: requests go through this site's `/api/proxy`. You can also pick Auto: before the requests start, the page checks once whether the API allows web pages to call it directly (the browser's cross-origin restriction, CORS). If it does, the browser calls the API directly; otherwise requests go through this site's proxy. Or always use Direct or Own Worker. See [Connection](./web/connection.mdx).
+  "Connection" at the bottom of the API configuration defaults to Auto: before the requests start, the page checks once whether the API allows web pages to call it directly (the browser's cross-origin restriction, CORS). If it does, the browser calls the API directly; otherwise requests go through this site's `/api/proxy`. You can also always use Direct, This site's proxy, or Own Worker. See [Connection](./web/connection.mdx).
 </Callout>
 
 ## Run in a terminal

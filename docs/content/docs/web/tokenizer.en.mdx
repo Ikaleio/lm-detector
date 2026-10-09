@@ -16,7 +16,7 @@ The tokenizer probe is part of API mode and is off by default. Turn on the "Toke
 
 After you click "Start sampling", a "Tokenizer probe" card appears below the three sample cards. It shows the number of finished requests and the tokenizer leading so far. Each request only asks the model to reply OK; the page reads the input token count from the `usage` the API returns.
 
-With "Parallel requests" on, the tokenizer probe sends four requests at a time; with it off, requests go one by one, which takes longer.
+The tokenizer probe sends at most "Concurrent requests" requests at a time (3 by default); at 1, requests go one by one, which takes longer.
 
 The three samples share one probe: stopping a sample card ends only that sample, and the probe keeps running; "Stop" in the action bar also stops the probe.
 

@@ -53,8 +53,8 @@ export function parseProxyEndpoint(value: string): string | null {
 }
 
 /**
- * How runs reach the API, shared by every profile: `site` (the default), `direct` and `worker` always take that route;
- * `auto` checks once per run whether the API allows direct browser calls and otherwise uses this site's proxy.
+ * How runs reach the API, shared by every profile: `auto` (the default) checks once per run whether the API allows
+ * direct browser calls and otherwise uses this site's proxy; `direct`, `site` and `worker` always take that route.
  * `endpoint` is the Worker address, null while the typed address is empty or invalid.
  */
 export type ConnectionMode = 'auto' | 'direct' | 'site' | 'worker'
@@ -65,7 +65,7 @@ let setting: ConnectionSetting | undefined
 function loadSetting(): ConnectionSetting {
   let stored: Partial<ConnectionSetting> | null = null
   try { stored = JSON.parse(localStorage.getItem(SETTING_KEY) ?? 'null') } catch { /* unreadable: use the default */ }
-  const mode = modes.find(mode => mode === stored?.mode) ?? 'site'
+  const mode = modes.find(mode => mode === stored?.mode) ?? 'auto'
   const endpoint = typeof stored?.endpoint === 'string' ? parseProxyEndpoint(stored.endpoint) : null
   return { mode, endpoint }
 }

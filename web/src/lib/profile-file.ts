@@ -1,5 +1,5 @@
 import { isServiceTier } from '@fingerpoint/shared/completion-request'
-import type { ApiProfile, WebApiConfig } from '@/lib/config'
+import { readConcurrency, type ApiProfile, type WebApiConfig } from '@/lib/config'
 
 const fileKind = 'fingerpoint-api-profile'
 const fileVersion = 1
@@ -35,12 +35,14 @@ export async function readProfileFile(file: File): Promise<{ name: string; confi
     throw new Error('Invalid profile file')
   }
   if (value.serviceTier !== undefined && !isServiceTier(value.serviceTier)) throw new Error('Invalid profile file')
-  for (const field of ['stream', 'parallel', 'autoVerify']) {
+  for (const field of ['stream', 'autoVerify']) {
     if (typeof value[field] !== 'boolean') throw new Error('Invalid profile file')
   }
   for (const field of ['relaxed', 'tokenizerProbe']) {
     if (value[field] !== undefined && typeof value[field] !== 'boolean') throw new Error('Invalid profile file')
   }
+  const concurrency = readConcurrency(value)
+  if (concurrency === undefined) throw new Error('Invalid profile file')
   return {
     name: value.name.trim(),
     config: {
@@ -51,7 +53,7 @@ export async function readProfileFile(file: File): Promise<{ name: string; confi
       format: value.format,
       serviceTier: value.serviceTier ?? 'default',
       stream: value.stream as boolean,
-      parallel: value.parallel as boolean,
+      concurrency,
       relaxed: value.relaxed === undefined ? true : value.relaxed as boolean,
       autoVerify: value.autoVerify as boolean,
       tokenizerProbe: value.tokenizerProbe === undefined ? false : value.tokenizerProbe as boolean,
@@ -71,7 +73,7 @@ export async function saveProfileFile(profile: ApiProfile, name: string): Promis
     format: profile.format,
     serviceTier: profile.serviceTier,
     stream: profile.stream,
-    parallel: profile.parallel,
+    concurrency: profile.concurrency,
     relaxed: profile.relaxed,
     autoVerify: profile.autoVerify,
     tokenizerProbe: profile.tokenizerProbe,

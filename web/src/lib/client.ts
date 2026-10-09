@@ -109,6 +109,6 @@ export function loadTokenizerBank():Promise<TokenizerBank>{
     return bank
   }).catch(error=>{tokenizerBankLoading=undefined;throw error})
 }
-/** Four probes in flight when parallel requests are on, otherwise one at a time for the fewest requests. */
-export const probeTokenizer = (config:ApiConfig,bank:TokenizerBank,route:Route,signal:AbortSignal,onUpdate:(run:TokenizerRun)=>void) =>
-  probeTokenizerShared(config,bank,{url:endpoint(config),transport:transportFor(route),concurrency:config.parallel?4:1,signal,onUpdate})
+/** Keeps `concurrency` probes in flight; one at a time sends the fewest requests. */
+export const probeTokenizer = (config:ApiConfig&{concurrency:number},bank:TokenizerBank,route:Route,signal:AbortSignal,onUpdate:(run:TokenizerRun)=>void) =>
+  probeTokenizerShared(config,bank,{url:endpoint(config),transport:transportFor(route),concurrency:config.concurrency,signal,onUpdate})

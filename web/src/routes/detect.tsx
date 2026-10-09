@@ -182,7 +182,8 @@ export default function DetectRoute() {
     const token = generation.current
     const route = await resolveRoute(requestConfig)
     if (!route || generation.current !== token || verifying.current || !mounted.current || indexes.some(i => runs.current.has(i))) return
-    const frozenConfig = { ...requestConfig, parallel: indexes.length > 1 && (requestConfig.parallel ?? false) }
+    const lanes = Math.min(requestConfig.concurrency, indexes.length)
+    const frozenConfig = { ...requestConfig, parallel: lanes > 1 }
     const controllers = new Map(indexes.map(i => [i, new AbortController()]))
     for (const [i, controller] of controllers) runs.current.set(i, controller)
     // The probe measures the upstream itself, so one probe serves every sample drawn with this configuration.
@@ -191,9 +192,12 @@ export default function DetectRoute() {
       ? { ...sample, draftText: '', state: 'pending', errorCode: undefined, httpStatus: undefined, errorText: undefined, elapsedMs: undefined, throughput: undefined }
       : sample))
 
+    // Each lane takes the next waiting sample, so at most `lanes` requests are in flight.
     const accepted: boolean[] = []
-    if (frozenConfig.parallel) accepted.push(...await Promise.all(indexes.map(i => sampleOne(i, frozenConfig, controllers.get(i)!, route))))
-    else for (const i of indexes) accepted.push(await sampleOne(i, frozenConfig, controllers.get(i)!, route))
+    const queue = [...indexes]
+    await Promise.all(Array.from({ length: lanes }, async () => {
+      for (let i = queue.shift(); i !== undefined; i = queue.shift()) accepted.push(await sampleOne(i, frozenConfig, controllers.get(i)!, route))
+    }))
     if (frozenConfig.autoVerify && accepted.every(Boolean) && samplesRef.current.every(sample => sample.text.trim())) {
       void verify()
     }
