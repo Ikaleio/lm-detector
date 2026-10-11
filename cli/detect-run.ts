@@ -1,5 +1,8 @@
 import { readFile } from 'node:fs/promises'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { generateChallenges } from '@fingerpoint/shared/challenge-browser.js'
+import { decodeDetector } from '@fingerpoint/shared/detector-codec'
 import { directTransport } from '@fingerpoint/shared/detection'
 import { parseNumbers } from '@fingerpoint/shared/fingerprint-core.js'
 import { analyzeSharedOutputs, type SharedDetector } from '@fingerpoint/shared/shared-detector'
@@ -48,6 +51,17 @@ export async function readJson(path: string): Promise<unknown> {
   }
 }
 
+/**
+ * The detector stored beside the bank: the packaged one by default, or the one `fpd retrain --data-dir DIR` writes
+ * next to a custom `DIR/unified_bank.json`. The website decodes the same file.
+ */
+export async function readDetector(bankPath?: string): Promise<SharedDetector> {
+  const path = bankPath ? join(dirname(bankPath), 'shared_detector.bin') : fileURLToPath(new URL('../data/shared_detector.bin', import.meta.url))
+  try { return decodeDetector(await readFile(path)) } catch {
+    throw new Error(`Cannot read the detector from ${path}.${bankPath ? ' Run fpd retrain --data-dir for this bank first.' : ''}`)
+  }
+}
+
 export async function loadChallenges(path?: string, count = 3): Promise<Challenge[] | undefined> {
   if (!path) return undefined
   const data = await readJson(path)
@@ -67,9 +81,6 @@ function englishAnalysis(analysis: Analysis): Analysis {
   } else if (analysis.decision === 'partial') {
     label = 'Partial sample ranking'
     reason = `Ranked ${analysis.used_outputs} valid sample${analysis.used_outputs === 1 ? '' : 's'}. Confidence requires three valid samples.`
-  } else if (analysis.method === 'custom-bank-legacy-ranking') {
-    label = 'Custom bank ranking'
-    reason = 'The detector does not match this bank. Confidence is unavailable.'
   } else if (analysis.probability_status === 'reference_calibrated') {
     label = 'Calibrated ranking'
     reason = 'Confidence is a closed-set probability within the reference bank.'

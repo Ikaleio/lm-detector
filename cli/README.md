@@ -55,7 +55,7 @@ Explicit flags override environment variables. Credentials do not appear in the 
 | `-e`, `--effort` | Optional provider reasoning effort. Accepts any string, including `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, and `max`. Omitted from API requests by default. |
 | `-t`, `--service-tier` | Service tier: `flex`, `default`, `fast`, or `ultrafast`. Any prefix works. Aliases: `slow` (flex), `f` (fast), `uf` (ultrafast), `priority` (fast), `standard` (default). `default` omits the parameter. |
 | `--challenges FILE` | Reuse a JSON array of challenges in every round. Its length must match `--count` (default: 3). |
-| `--bank FILE` | Use a custom reference bank. |
+| `--bank FILE` | Use a custom reference bank. The detector is read from `shared_detector.bin` in the same directory. |
 | `--tokenizer` | Run the tokenizer probe. Off by default. Sends about 12 more requests, at most `--max-probes` + 2. The ranking is the same with or without it. |
 | `--max-probes` | Probe text limit for the tokenizer probe, 4 to 60. Default: 20. The two baseline requests are extra. Use only with `--tokenizer`. |
 | `--tokenizer-bank FILE` | Use a custom tokenizer bank. Use only with `--tokenizer` or `--input`. |
@@ -111,7 +111,7 @@ The input can be a saved report, a report with `outputs`, an array of one to thr
 
 `--count` applies only to online detection and cannot be combined with `--input`; offline rounds use the saved outputs. Online reports include the requested count as `request.count` and the effective concurrency as `request.parallel`.
 
-The TUI shows the latest ranking and recent round summaries. After at least one scored round, a dimmed final line links the GitHub repository. JSON retains every round. The most frequent candidate counts round winners; it is not a combined probability. Confidence is relative to models in the reference bank and does not establish the upstream model's identity. An incompatible custom bank uses the existing legacy ranker without confidence scores.
+The TUI shows the latest ranking and recent round summaries. After at least one scored round, a dimmed final line links the GitHub repository. JSON retains every round. The most frequent candidate counts round winners; it is not a combined probability. Confidence is relative to models in the reference bank and does not establish the upstream model's identity. If a custom bank does not match its detector, detection stops with an error; run `fpd retrain --data-dir DIR` for that bank.
 
 Exit codes: `0` when all requested rounds produce a ranking, `1` for invalid input or any unscored round, `130` after cancellation (including a tokenizer probe stopped after the last round), and `143` after SIGTERM. A partial ranking is a successful relaxed-mode result.
 
@@ -165,9 +165,7 @@ In this repository, output defaults to `runs/`; elsewhere it defaults to `./fpd-
 
 An interrupted enrollment is validated during preview without applying it. Confirmed enrollment completes the prepared transaction before importing new samples. Unexpected changes outside that transaction are never overwritten.
 
-Reference JSONL contains one version-1 batch per line, with shared metadata and a `samples` array. Old row and collection-manifest formats are rejected. Enrollment rebuilds the chosen bank but does not silently retrain its detector; until the bank and detector match again, detection falls back to the legacy ranking without confidence. Run `fpd retrain --data-dir DIR` after enrollment to fit and export a matching ranker and confidence calibration. The command requires `uv` and Python with the pinned numerical dependencies; it does not call a model API or use holdout data. It stores fit evidence and the previous detector under `DIR/.training/`, then replaces `DIR/shared_detector.json` only after nested calibration validation passes. Failed fitting or validation leaves the previous detector intact. The package's bundled bank stays read-only. See [Sampling and resuming](https://lm.ikale.io/docs/en/cli/sampling) and [Enrollment and retraining](https://lm.ikale.io/docs/en/cli/enroll) for the full workflow.
-
-The previous detection interface remains available in the repository as `bun run detect:legacy`.
+Reference JSONL contains one version-1 batch per line, with shared metadata and a `samples` array. Old row and collection-manifest formats are rejected. Enrollment rebuilds the chosen bank but does not silently retrain its detector; detection with that bank fails until the detector is retrained. Run `fpd retrain --data-dir DIR` after enrollment to fit and export a matching ranker and confidence calibration. The command requires `uv` and Python with the pinned numerical dependencies; it does not call a model API or use holdout data. It stores fit evidence and the previous detector under `DIR/.training/`, then replaces `DIR/shared_detector.bin` only after nested calibration validation passes. Failed fitting or validation leaves the previous detector intact. The package's bundled bank stays read-only. See [Sampling and resuming](https://lm.ikale.io/docs/en/cli/sampling) and [Enrollment and retraining](https://lm.ikale.io/docs/en/cli/enroll) for the full workflow.
 
 ## Package builds and automatic publication
 

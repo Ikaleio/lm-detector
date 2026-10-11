@@ -64,7 +64,7 @@ If you created a Direct Upload project, you can also run `bun run build:pages:up
 
 ## Static data
 
-At build time, the reference bank, the derived bank, and the detector are each compressed with zstd, then split into 4 MiB chunks in `web/dist/data/chunks/`. The browser joins and decompresses them according to `data/manifest.json`. Detection loads only the data it needs. The largest static file is under the 25 MiB limit of Pages. The CLI package is still built from the redacted derived bank generated at build time and the original detector file. It does not depend on the compressed site data.
+At build time, the reference bank, the derived bank, and the binary detector are each compressed with zstd level 19, then split into 4 MiB chunks in `web/dist/data/chunks/`. Each entry in `data/manifest.json` has `parts` and `bytes`; `bytes` is the compressed size and is used for download progress. The browser joins and decompresses the files according to the manifest. Detection loads only the data it needs. After the reference bank loads, the website downloads the detector in the background and shows the progress in the top bar. If scoring starts before the download finishes, the computing row and the detect button show that detection is waiting for the detector download. The build fails when the bank and the detector do not match. The largest static file is under the 25 MiB limit of Pages. The CLI package is still built from the redacted derived bank generated at build time and `shared_detector.bin`. It does not depend on the compressed site data.
 
 ## GitHub Pages
 

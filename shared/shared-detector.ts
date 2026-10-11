@@ -1,4 +1,4 @@
-import { analyzeGlobalOutputs, countNumbers, hellingerFeature, orderedBlockFeature, parseNumbers } from './fingerprint-core.js'
+import { countNumbers, hellingerFeature, orderedBlockFeature, parseNumbers } from './fingerprint-core.js'
 import { positionalDecision, type PositionalHead } from './positional'
 import type { Analysis, Bank, Output } from './types'
 
@@ -103,16 +103,8 @@ function rankSharedNumbers(numbers:Matrix,artifact:SharedDetector):Vector {
 }
 
 export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedDetector,options:{allowPartial?:boolean}={}):Analysis {
-  if(!supportsSharedDetector(bank,artifact)) {
-    const old:Analysis=analyzeGlobalOutputs(outputs,bank)
-    return {...old,probability:null,absolute_match:null,family_probability:null,
-      results:old.results.map(r=>({model:r.model,display_name:r.display_name,family:r.family,family_name:r.family_name,score:r.score,
-        probability:null,absolute_match:null,identity_probability:null})),
-      family_probabilities:[],calibration:null,
-      probability_status:'unavailable',risk_certificate:null,
-      decision:'not_confirmed',method:'custom-bank-legacy-ranking',
-      evidence:{insufficient:true,label:'自定义库排名',reason:'当前参考库与检测器不匹配，使用该库的传统排名，置信度不可用。',threshold:null,method:'custom-bank-legacy-ranking'}}
-  }
+  if(!supportsSharedDetector(bank,artifact))
+    throw new Error('The reference bank does not match the detector. Run fpd retrain --data-dir DIR for this bank.')
   const parsed=outputs.map(o=>parseNumbers(o.text))
   const diagnostics=outputs.map((o,index)=>{
     const minimum=Math.max(80,Math.ceil((o.expected_count||0)*.55))
@@ -121,16 +113,14 @@ export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedD
       accepted:parsed[index].length>=minimum,raw_out_of_range_count:raw.filter(n=>n<1||n>355).length}
   })
   const used=diagnostics.filter(d=>d.accepted).length
-  const common={probability:null,absolute_match:null,family_probability:null,
-    probability_status:'unavailable',risk_certificate:null,
+  const common={probability:null,probability_status:'unavailable',
     used_outputs:used,diagnostics,method:'shared-detector-v2',
     model_version:{base_sha256:artifact.base_sha256}}
   if(options.allowPartial && used>0 && used<3 && outputs.length<=3) {
     const ranking=rankSharedNumbers(parsed.filter((_,i)=>diagnostics[i].accepted),artifact)
     const order=artifact.model_ids.map((_,i)=>i).sort((i,j)=>ranking[j]-ranking[i])
     const results=order.map(i=>({model:artifact.model_ids[i],display_name:bank.models[i].display_name,
-      family:bank.models[i].family,family_name:bank.models[i].family_name,score:ranking[i],
-      probability:null,absolute_match:null,identity_probability:null}))
+      family:bank.models[i].family,family_name:bank.models[i].family_name,score:ranking[i],probability:null}))
     const first=order[0]
     return {...common,method:'shared-ranker-partial-v1',decision:'partial',
       prediction:results[0].model,prediction_name:results[0].display_name,
@@ -149,7 +139,7 @@ export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedD
   const order=artifact.model_ids.map((_,i)=>i).sort((i,j)=>ranking[j]-ranking[i])
   const results=order.map(i=>({model:artifact.model_ids[i],display_name:bank.models[i].display_name,
     family:bank.models[i].family,family_name:bank.models[i].family_name,score:ranking[i],
-    probability:probabilities?.[i]??null,absolute_match:null,identity_probability:probabilities?.[i]??null}))
+    probability:probabilities?.[i]??null}))
   const first=order[0]
   return {...common,prediction:results[0].model,prediction_name:results[0].display_name,
     family_prediction:bank.models[first].family,family_prediction_name:bank.models[first].family_name,
@@ -158,7 +148,7 @@ export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedD
     probability_scope:probabilities?'reference-closed-set':null,
     calibration:probabilities?{method:artifact.calibration!.method,run:artifact.calibration!.calibration_run,
       tau:artifact.calibration!.tau,sha256:artifact.calibration_sha256??null}:null,
-    decision:'not_confirmed',evidence:{insufficient:true,
+    evidence:{insufficient:true,
       label:probabilities?'库内校准排名':'未校准排名',
       reason:probabilities?'置信度是参考库内的闭集相对概率，不包含库外模型。':'校准参数与当前检测器不匹配，置信度不可用。候选顺序由排名分数决定。',
       threshold:null,method:probabilities?'reference-calibrated-ranking':'uncalibrated-ranking'}}

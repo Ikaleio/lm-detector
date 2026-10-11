@@ -1,11 +1,11 @@
 import { writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import type { Bank } from '@fingerpoint/shared/types'
-import type { SharedDetector } from '@fingerpoint/shared/shared-detector'
+import { supportsSharedDetector } from '@fingerpoint/shared/shared-detector'
 import { assertTokenizerBank, type TokenizerBank } from '@fingerpoint/shared/tokenizer-bank'
 import { parseOptions, requestEndpoint } from './detect-options'
 import { errorMessage } from './detect-request'
-import { analyzeInput, loadChallenges, readJson, runDetection, serializeResult } from './detect-run'
+import { analyzeInput, loadChallenges, readDetector, readJson, runDetection, serializeResult } from './detect-run'
 import { startUpdateCheck } from './detect-update'
 import type { UpdateCheck } from './detect-update'
 import { createDisplay } from './detect-ui'
@@ -38,16 +38,18 @@ export async function runDetectionCommand(args: string[]) {
       if (options.updateCheck && !options.input && !options.json && process.stdout.isTTY && !process.env.CI && process.env.TERM !== 'dumb') {
         stopUpdateCheck = startUpdateCheck()
       }
-      const [bankData, detectorData, challenges, tokenizerData] = await Promise.all([
+      const [bankData, detector, challenges, tokenizerData] = await Promise.all([
         readJson(options.bank ?? fileURLToPath(new URL('../data/unified_bank.json', import.meta.url))),
-        readJson(fileURLToPath(new URL('../data/shared_detector.json', import.meta.url))),
+        readDetector(options.bank),
         loadChallenges(options.challenges, options.count),
         // --input reads a saved probe without requests, so it always needs the bank to recompute it.
         options.tokenizer || options.input ? readJson(options.tokenizerBank ?? fileURLToPath(new URL('../data/tokenizer_bank.json', import.meta.url))) : undefined,
       ])
-      const bank = bankData as Bank, detector = detectorData as SharedDetector
+      const bank = bankData as Bank
       if (!Array.isArray(bank?.models) || !bank.models.length) throw new Error('The reference bank must contain a nonempty models array.')
-      if (detector?.schema !== 'shared-detector-v2') throw new Error('The detector artifact has an unsupported schema.')
+      if (detector.schema !== 'shared-detector-v2') throw new Error('The detector artifact has an unsupported schema.')
+      // Checked before any request, so a mismatched bank never spends API calls.
+      if (!supportsSharedDetector(bank, detector)) throw new Error('The reference bank does not match its detector. Run fpd retrain --data-dir DIR for this bank.')
       let tokenizerBank: TokenizerBank | undefined
       if (tokenizerData !== undefined) {
         assertTokenizerBank(tokenizerData)

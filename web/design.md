@@ -1,7 +1,7 @@
 ---
 name: fingerpoint-design
 description: 用于 Fingerpoint Detector 的网页工具界面（多卡片工作台、数据长列表、主从浏览）、文档站长文页、浏览器导出的结果图片和链接预览图。读者是逐条核对数字、标识符和百分比的技术用户；目标是中性灰阶表面、单一蓝色强调、像素指纹装饰和无回弹弹簧动效，中英文混排，浅色与深色主题。
-version: 2026-10-06
+version: 2026-10-11
 ---
 
 ## 1. 范围与优先级
@@ -32,6 +32,7 @@ version: 2026-10-06
 - [SHOULD] Star 入口 `fp-repository-star` 高 32px，`star` 色图标与 `text-meta` 500 字重文字，边框为 35% `star` 混入 `border`，底色为 8% `star`。（决策：在仓库入口旁给出一个低调的 Star 入口。来源：2026-10-06 用户要求。）
 - [MUST] 768px 以下，顶栏右侧的图标按钮（仓库入口除外）至少 44×44px；Star 入口在这一宽度去掉边框和底色，只保留 `star` 色图标。
 - [MUST] 品牌标识 `fp-brand`：左侧 32px 像素指纹 `fp-brand-mark`（muted-foreground），右侧两行文字，上行 `fp-brand-title`，下行 `fp-brand-byline`。
+- [SHOULD] 检测站顶栏左栏 `fp-topbar-start` 依次放品牌标识和检测器下载进度 `DetectorProgress`，间隔 16px。下载开始 300ms 后仍未完成才显示进度，缓存命中时不显示。1280px 起：94px 宽的 `ProgressCells`，后接 `text-meta` muted 文字“检测器 已下载 / 总量 MB”。完成后格子全满，后接 success 色 `CircleCheck` 和“检测器已就绪”，1.6 秒后淡出。失败时去掉格子，显示 destructive 色 `CircleAlert`、失败文字和 ghost `xs` 重试按钮。1280px 以下，进度改为顶栏上边缘的 2px muted-foreground 横线，按已下载比例 `scaleX`；失败时不显示。检查方法：1280px 下五种语言的加载、就绪、失败三种状态，进度右缘都在主导航左缘以左。（来源：2026-10-11 用户要求进入网页时在品牌旁异步显示检测器下载进度。）
 - [SHOULD] 当前导航项用 2px primary 下划线 `fp-nav-indicator` 标出，下划线只在导航容器内横移。指向另一个站点的导航项是普通整页链接，不参与下划线动画。
 - [MUST] 主题菜单是“浅色 / 深色 / 跟随系统”三项单选，标出当前项，默认跟随系统；切换主题或语言不清除页面上已输入的内容。
 - [SHOULD] 顶栏右侧图标：仓库入口用 lucide `GitBranch`，Star 入口用填充的 `Star`，语言切换用 `Languages`，主题按钮显示当前选项对应的 `Sun`、`Moon` 或 `Monitor`；图标 16px，按钮带可读名称。
@@ -49,6 +50,7 @@ version: 2026-10-06
 - [SHOULD] 操作行左侧是次要链接 `fp-star-link`，右侧是操作栏 `fp-actionbar`，两端与网格左右边缘对齐，同高 36px。
 - [SHOULD] 768px 以下操作栏固定在视口底部（最小高 64px，避开 safe-area-inset-bottom），页面底部留出同样的空间；次要链接留在内容流末尾。
 - [SHOULD] 结果状态：卡片网格收为一行摘要条 `SampleStrip`；点击一项在摘要条下方展开它的详情，一次只展开一项；再次点击该项或点详情右上角的“收起”关闭。640px 以下摘要条隐藏计数，不缩小文字。
+- [MUST] 计算要等检测器下载时明确说明：计算状态行改为两行，上行依次为 `PixelSpinner`、`text-body` muted 的“正在等待检测器下载完成”、行尾 `text-meta` 已下载量；下行是整行 `ProgressCells`。主按钮文字改为“等待检测器”，后接 `percent` 格式的进度。下载完成后恢复为普通计算状态行。（来源：2026-10-11 用户要求检测器阻塞计算时明确显示，检测按钮也要显示。）
 - [SHOULD] 结果区 `ResultPanel` 自上而下：`text-section-title` 区块标题、摘要卡片、整行警告、`text-body` muted 说明、候选列表、限制说明。区块间隔 24px。
 - [SHOULD] 摘要卡片分左右两栏。左栏依次为 `text-meta` 标签、`text-display` 名称（`overflow-wrap:anywhere`）、`text-body` muted 次级信息，名称旁放 `logo` 像素标识。右栏右对齐，依次为 `text-display-number` 主百分比、`text-meta` 标签和来源行，整组相对卡片垂直居中。窄屏保留两栏，名称和来源可以换行。
 - [SHOULD] 候选列表放在一张 `fp-card` 里，每行用 `fp-result-row`：24px 序号列、名称列（font-medium）、120px 次要标签列（muted，单行省略）、`ConfidenceBar`、64px 右对齐百分比列，最小行高 48px，行间 1px 分隔线。默认显示前 8 行，末行用 ghost 小按钮展开全部。
@@ -161,7 +163,7 @@ version: 2026-10-06
 - [SHOULD] 只为真实的对象或数据集合设置表面；卡片里不再嵌套卡片，详情中的列表不加边框。
 - [MUST] 页面不横向溢出：长文本先换行（标识符用 `overflow-wrap:anywhere`）或在自身区域内滚动，不隐藏整页溢出。
 - [MUST] 全局预留滚动条空间（`scrollbar-gutter: stable`），内容不随滚动条出现而横移。
-- [SHOULD] 断点只用以下四个：640px（容器内边距、顶栏双行）、768px（固定操作栏、候选行两行、列表与表格切换、触控尺寸）、1024px（三列网格、文档侧栏、主从分栏、证据两列）、1280px（文档本页目录）。文档站 Fumadocs 的 `md` 断点设为 1024px。
+- [SHOULD] 断点只用以下四个：640px（容器内边距、顶栏双行）、768px（固定操作栏、候选行两行、列表与表格切换、触控尺寸）、1024px（三列网格、文档侧栏、主从分栏、证据两列）、1280px（文档本页目录、顶栏下载进度的方格与横线切换）。文档站 Fumadocs 的 `md` 断点设为 1024px。
 
 ### 控件与状态
 
@@ -169,6 +171,7 @@ version: 2026-10-06
 - [SHOULD] 状态徽标：`Badge` 高 22px、`--radius-badge`、`text-meta` font-medium，色调取 `toneClass` 的 muted、success、warning、destructive；进行中时在文字前加旋转的 lucide `Loader2`。
 - [MUST] 进行中的徽标和按钮用 lucide `Loader2` 旋转图标，不用像素 spinner。
 - [SHOULD] 等待与载入：计算状态行用 `scan` 加 `PixelSpinner`；列表载入用 `blocks`；尚无内容的输入区用 `rain`；等待开始的区域背景用 `dither`。
+- [SHOULD] 已知总量的下载进度用 `ProgressCells`：6×6px 方格，间隔 2px，格数随宿主宽度变化，两端与宿主对齐。已下载的格用 muted-foreground，未下载的格用 22% muted-foreground，下载中的下一格按 1 秒两步闪烁到 foreground。不用 primary。它是承载数据的进度条，带 `role="progressbar"`，不属于像素装饰。（决策：方格与品牌指纹的像素颗粒一致，灰阶保持中性工具感。来源：2026-10-11 实现检测器下载进度时确定。）
 - [SHOULD] 空状态、未找到、无法评分：`Empty` 加 `static` 像素效果；载入失败时改用 destructive/35，并给出重试按钮。
 - [SHOULD] 错误：字段错误用 `FieldError`；区块级错误用 `Alert variant="destructive"`；需要注意的整行提示用 `Alert variant="warning"`；原始错误详情放在用户主动打开的 `Dialog` 里。
 - [SHOULD] 禁用：50% 不透明度、`not-allowed` 光标；运行中被锁定的区域整体禁用，不隐藏。
@@ -220,7 +223,7 @@ version: 2026-10-06
 | 颜色与主题 | `background` `foreground` `card` `popover` `primary` `secondary` `muted` `muted-foreground` `accent` `border` `input` `ring` `success` `warning` `destructive` `star` | `web/src/tokens.css`、`web/src/index.css` | 所有颜色 | 已实现 |
 | 圆角与阴影 | `--radius` `--radius-card` `--radius-badge` `--shadow-overlay` | `web/src/tokens.css` | 控件、卡片、徽标、浮层 | 已实现 |
 | 字号角色 | `text-display` `text-display-number` `text-h1` `text-section-title` `text-card-title` `text-body` `text-meta` | `web/src/tokens.css` | 所有文字 | 已实现 |
-| 应用外壳 | `fp-topbar` `fp-topbar-inner` `fp-topbar-actions` `fp-brand` `fp-brand-mark` `fp-brand-text` `fp-brand-title` `fp-brand-byline` `fp-nav` `fp-nav-indicator` `fp-repository-link` `fp-repository-star`；`--fp-topbar-height` | `web/src/shell.css` | 工具页和文档页顶栏 | 已实现 |
+| 应用外壳 | `fp-topbar` `fp-topbar-inner` `fp-topbar-start` `fp-topbar-actions` `fp-brand` `fp-brand-mark` `fp-brand-text` `fp-brand-title` `fp-brand-byline` `fp-nav` `fp-nav-indicator` `fp-repository-link` `fp-repository-star`；`--fp-topbar-height` | `web/src/shell.css` | 工具页和文档页顶栏 | 已实现 |
 | 页面容器 | `fp-shell` `fp-page` `fp-page-wide` `fp-footer` | `web/src/index.css` | 工具页 | 已实现 |
 | 工作台布局 | `fp-grid-samples` `fp-detect-footer` `fp-actionbar` `fp-cli-promo` `fp-cli-command` `fp-cli-link` `fp-star-link`（`data-size="sm"`） | `web/src/index.css` | 多卡片工作台 | 已实现 |
 | 表面与数据 | `fp-card`（`data-warning`） `fp-bar` `fp-reply` `fp-mono` `fp-caret` `fp-api-summary` `fp-result-summary` `fp-result-score` `fp-result-row`（`data-unscored`） | `web/src/index.css` | 卡片、置信度条、原文、标识符、候选行 | 已实现 |
@@ -232,6 +235,7 @@ version: 2026-10-06
 | 证据详情 | `TokenizerCard` `TokenizerStripButton` `TokenizerDetails` `ModelCheck`；`fp-custom-tokenizer-candidates` | `web/src/components/tokenizer-panel.tsx`、`web/src/components/tokenizer-claim.tsx`、`web/src/index.css` | 两列证据详情 | 已实现 |
 | 动效 | `spring` `useMotionPreset` `listStagger` `listItem` | `web/src/lib/motion.ts` | 所有动画 | 已实现 |
 | 推荐标记 | `RecommendMark`（`fp-recommend`） | `web/src/components/recommend-mark.tsx`、`web/src/index.css` | 推荐选项、推荐设置、推荐取值 | 已实现 |
+| 下载进度 | `DetectorProgress` `ProgressCells`（`value` `active` `label`） `downloadFraction` `downloadBytes`；`fp-progress-cells` `fp-detector-progress` | `web/src/components/detector-progress.tsx`、`web/src/index.css` | 顶栏检测器下载、计算等待下载 | 已实现 |
 | 像素装饰 | `PixelShader`（`effect` `cell` `image`） `PixelSpinner` `fp-pixel` | `web/src/components/pixel-shader.tsx`、`web/src/lib/pixel-effects.ts`、`web/src/lib/pixel-renderer.ts`、`web/src/shell.css` | 品牌、加载、等待、空状态 | 已实现 |
 | 文档组件 | `SiteHeader` `DocsBar` `Card` `Callout` `Mermaid` `TokenizerClasses` | `docs/app/components/` | 文档站 | 已实现 |
 | 预览图 | `OgImage` `ogResponse` `ogRenderer` `ogFontFamilies` | `docs/app/lib/og-image.tsx`、`docs/app/lib/og-response.ts`、`docs/app/lib/og.server.ts` | 链接预览图 | 已实现 |

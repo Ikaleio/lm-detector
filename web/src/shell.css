@@ -3,6 +3,8 @@
 .fp-topbar { position: sticky; top: 0; z-index: 20; height: var(--fp-topbar-height); background: var(--background); border-bottom: 1px solid var(--border); }
 .fp-topbar-inner { height: 100%; max-width: 1440px; margin: 0 auto; padding: 0 1rem; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
 .fp-brand { display: flex; align-items: center; gap: .5rem; justify-self: start; }
+/* Brand and the detector download progress share the left cell of the web top bar. */
+.fp-topbar-start { display: flex; align-items: center; gap: 1rem; min-width: 0; justify-self: start; }
 .fp-brand-text { display: flex; flex-direction: column; }
 .fp-brand-mark { flex-shrink: 0; width: 32px; height: 32px; color: var(--muted-foreground); }
 .fp-brand-title { font-family: var(--font-brand-title); font-size: .875rem; line-height: 1.25; font-weight: 500; white-space: nowrap; }

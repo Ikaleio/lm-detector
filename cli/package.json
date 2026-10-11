@@ -8,7 +8,6 @@
   },
   "scripts": {
     "detect": "bun fpd.ts",
-    "detect:legacy": "bun detect-legacy.ts",
     "sample": "bun fpd.ts sample",
     "enroll": "bun fpd.ts enroll",
     "retrain": "bun fpd.ts retrain"

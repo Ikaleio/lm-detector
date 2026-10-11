@@ -38,9 +38,6 @@ export interface ApiProfileManager {
 }
 
 const PROFILES_STORAGE_KEY = 'fingerpoint-detect-profiles-v1'
-const STORAGE_KEY = 'fingerpoint-detect-api-v2'
-const LEGACY_KEY = 'fingerpoint-detect-api-v1'
-const SESSION_KEY = 'fingerpoint-detect-api-key'
 
 export const defaultConfig: WebApiConfig = {
   baseUrl: 'https://openrouter.ai/api/v1',
@@ -105,11 +102,11 @@ function generateId(): string {
   return 'p_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 8)
 }
 
-function sanitizeProfile(raw: unknown, fallbackId: string, fallbackName = ''): ApiProfile {
+function sanitizeProfile(raw: unknown, fallbackId: string): ApiProfile {
   const profile: ApiProfile = {
     ...defaultConfig,
     id: fallbackId,
-    name: fallbackName,
+    name: '',
   }
   if (raw && typeof raw === 'object') {
     const obj = raw as Record<string, unknown>
@@ -158,25 +155,6 @@ function readProfiles(): StoredApiProfiles | null {
 function restore(): StoredApiProfiles {
   const stored = readProfiles()
   if (stored) return stored
-  try {
-    const rawLegacy = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem(LEGACY_KEY)
-    if (rawLegacy) {
-      const saved = JSON.parse(rawLegacy)
-      if (saved && typeof saved === 'object') {
-        const id = generateId()
-        const initialName = typeof saved.model === 'string' && saved.model.trim() ? saved.model.trim() : 'OpenRouter'
-        const migrated = sanitizeProfile(saved, id, initialName)
-        if (typeof saved.apiKey !== 'string') {
-          const sessionKey = sessionStorage.getItem(SESSION_KEY)
-          if (sessionKey) migrated.apiKey = sessionKey
-        }
-        return { activeId: id, profiles: [migrated], savedProfiles: { [id]: snapshot(migrated) } }
-      }
-    }
-  } catch {
-    /* storage unavailable or parse error */
-  }
-
   const initialId = generateId()
   const initialProfile = { ...defaultConfig, id: initialId, name: 'OpenRouter' }
   return {
@@ -188,13 +166,6 @@ function restore(): StoredApiProfiles {
 
 function persist(state: StoredApiProfiles) {
   localStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(state))
-  const active = state.profiles.find(p => p.id === state.activeId) ?? state.profiles[0]
-  if (active) {
-    const { baseUrl, apiKey, model, effort, format, serviceTier, stream, parallel, relaxed, autoVerify, tokenizerProbe } = active
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ baseUrl, apiKey, model, effort, format, serviceTier, stream, parallel, relaxed, autoVerify, tokenizerProbe }))
-  }
-  localStorage.removeItem(LEGACY_KEY)
-  sessionStorage.removeItem(SESSION_KEY)
 }
 
 export function useApiConfig(onPersistError?: () => void) {

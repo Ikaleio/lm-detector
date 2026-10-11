@@ -30,7 +30,7 @@ def reference_records(path: Path) -> list[dict]:
                 or not isinstance(batch.get('plan'), dict)
                 or not isinstance(batch.get('samples'), list) or not batch['samples']
                 or batch.get('test_set_id')):
-            raise ValueError('Reference data must contain version 1 reference batches, not legacy or evaluation rows')
+            raise ValueError('Reference data must contain version 1 reference batches, not evaluation rows')
         validate_channel(batch['source'].get('channel'))
         for sample in batch['samples']:
             if (not isinstance(sample, dict) or not isinstance(sample.get('id'), str)

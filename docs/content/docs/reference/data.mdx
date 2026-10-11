@@ -10,10 +10,9 @@ icon: Database
 data
 ├── unified_reference.jsonl
 ├── unified_bank.json
-├── shared_detector.json
+├── shared_detector.bin
 ├── enrollment-suite.json
 ├── tokenizer_bank.json
-├── import_manifest.json
 └── collections
 ```
 
@@ -21,17 +20,16 @@ data
 | --- | --- |
 | `unified_reference.jsonl` | 参考批次，每行一个版本 1 批次：共用模型、渠道与调用设置，回答放在 `samples` 数组中 |
 | `unified_bank.json` | 由参考批次派生的统计库 |
-| `shared_detector.json` | 冻结的排名器和校准参数，用 SHA-256 绑定参考数据 |
+| `shared_detector.bin` | 冻结的排名器和校准参数，用 SHA-256 绑定参考数据。格式为 JSON 头加 float32 数值，由 `fpd retrain` 写入，通过 `shared/detector-codec.ts` 读取 |
 | `enrollment-suite.json` | 36 道固定采样挑战；它是采样输入，不是参考回答 |
 | `tokenizer_bank.json` | 分词器库：分词器探测用的测试文本、每一类分词器的计数和型号映射 |
-| `import_manifest.json` | 历史清单，不代表当前数量 |
 | `collections/` | 采样请求、尝试和来源核验记录 |
 
 `collections/` 不参与评分，也不复制到网站的公开数据。改名、退库或迁移格式前的参考行不再另存副本，需要时从 git 历史找回。批次与样本的字段见[采样与续采](../cli/sampling.mdx#batch-format)。
 
 ## 维护规则
 
-- `fpd sample`、`fpd enroll DIR` 和 `fpd retrain --data-dir DIR` 都可以在仓库外运行。入库校验完整批次和原始证据，按模型、渠道、条件、题目与文本去重并重建派生库；重训从目标参考库离线拟合排名器与置信度校准，嵌套校准未通过时不替换 `shared_detector.json`，训练证据保存在 `.training/`。
+- `fpd sample`、`fpd enroll DIR` 和 `fpd retrain --data-dir DIR` 都可以在仓库外运行。入库校验完整批次和原始证据，按模型、渠道、条件、题目与文本去重并重建派生库；重训从目标参考库离线拟合排名器与置信度校准，嵌套校准未通过时不替换 `shared_detector.bin`，训练证据保存在 `.training/`。
 - CLI 随包数据只读；维护目标必须显式指定，或在交互入库时识别本仓库后确认。
 - 固定评估集不能加入参考库、模型中心或校准。
 - 网站构建把脱敏数据写入 `web/public/data/`。该目录是生成产物，不能作为另一份正式库维护。
@@ -54,6 +52,9 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-11 检测器改为二进制 shared_detector.bin" id="2026-10-11-detector-bin">
+    检测器参数改存为 `shared_detector.bin`：JSON 头加 float32 数值。网站下载的检测器从 9.75 MB 降到 3.37 MB。留出集的预测和排名没有变化（116/116 组相同，置信度最大变化 1.8e-7）。删除 `import_manifest.json`。
+  </Accordion>
   <Accordion title="2026-10-08 删除 muse-spark-1.3-contributor" id="2026-10-08-muse-contributor">
     维护者确认 `muse-spark-1.3-contributor` 与 `muse-spark-1.3` 是同一模型，因此删除前者的 2 个参考批次（36 条回答，渠道 `openrouter/unknown`）。正式库变为 57 个指纹身份、2,128 条样本。删除前的两行参考批次可从 git 历史找回。
 

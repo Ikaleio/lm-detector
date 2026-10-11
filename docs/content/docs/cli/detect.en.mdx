@@ -45,7 +45,7 @@ npx lmfpd@latest -a cc --tokenizer
 | `-n, --repeat N` | Sequential detection rounds | `1` |
 | `-s, --strict` | Disable automatic truncation and require 3 complete, valid answers | Off |
 | `--challenges FILE` | Reuse saved challenges in every round. The count must match `--count` | Random |
-| `--bank FILE` | Use a custom reference bank | Bundled bank |
+| `--bank FILE` | Use a custom reference bank. The detector is read from `shared_detector.bin` in the same directory | Bundled bank |
 | `--tokenizer` | Run the [tokenizer probe](./tokenizer.mdx). Sends about 12 more requests. The ranking is the same with or without it | Off |
 | `--max-probes N` | Probe text limit for the tokenizer probe, 4–60. Use only with `--tokenizer` | `20` |
 | `--tokenizer-bank FILE` | Use a custom tokenizer bank. Use only with `--tokenizer` or `--input` | Bundled tokenizer bank |
@@ -87,7 +87,7 @@ bun run fpd --input result.json --strict --json
 
 `--input` accepts a saved report, a report with `outputs`, an array of one to three `{ "text": "...", "expected_count": 300 }` objects, or the `result.json` of a sampling batch. Sampling batches are grouped by condition into rounds of up to three answers. Reports with several rounds are analyzed one round at a time. Strict recomputation rejects samples recorded as truncated or with unknown completion. A plain output array cannot verify its original network completion status. `--count` applies only to online detection and cannot be combined with `--input`.
 
-When all three samples are valid and the calibration matches the detector, the result is labeled **Calibrated ranking** and each candidate has a confidence value. When the calibration does not match, the result is labeled **Uncalibrated ranking**: it gives the ranking only, and confidence is unavailable. The terminal interface shows the latest ranking and summaries of recent rounds. After at least one scored round, a dimmed final line links the GitHub repository. JSON retains every round. The "most frequent candidate" counts round winners; it is not a combined probability. Confidence is relative to models in the reference bank and does not establish the upstream model's identity. When a custom reference bank does not match the detector, only the legacy ranker is used: the result is labeled **Custom bank ranking**, without confidence scores.
+When all three samples are valid and the calibration matches the detector, the result is labeled **Calibrated ranking** and each candidate has a confidence value. When the calibration does not match, the result is labeled **Uncalibrated ranking**: it gives the ranking only, and confidence is unavailable. The terminal interface shows the latest ranking and summaries of recent rounds. After at least one scored round, a dimmed final line links the GitHub repository. JSON retains every round. The "most frequent candidate" counts round winners; it is not a combined probability. Confidence is relative to models in the reference bank and does not establish the upstream model's identity. When a custom reference bank does not match its detector, detection stops with an error that asks you to run `fpd retrain --data-dir DIR`.
 
 Each round is scored from the number fingerprint alone, when its samples finish. With `--tokenizer`, the [tokenizer probe](./tokenizer.mdx) result shows in a separate block as reference only. It does not change the candidates, their order, or the confidence. With `--input`, a tokenizer probe saved in the report shows in the same block. Reading it sends no requests.
 
@@ -101,5 +101,3 @@ If the smallest valid number of a sample is 200 or more, the interface warns tha
 | `1` | Invalid input, or any round could not be scored |
 | `130` | Canceled, including a tokenizer probe stopped after the last round |
 | `143` | Received SIGTERM |
-
-The previous detection interface remains available in the repository as `bun run detect:legacy`.

@@ -28,7 +28,7 @@ def fit(data_dir: Path, out: Path, rows: list[dict], bank: dict, reference_sha: 
             sort_keys=True, separators=(',', ':')).encode()).hexdigest(),
         model_ids=ids, response_counts=[entry['response_count'] for entry in bank['models']],
         ranker=export_ranker(ranker), calibration=None, calibration_sha256=None,
-        probability_status='unavailable', risk_certificate=None)
+        probability_status='unavailable')
     candidate = out / 'shared_detector.json'
     candidate.write_text(json.dumps(artifact, separators=(',', ':'), allow_nan=False,
                                     default=json_default) + '\n', encoding='utf-8')

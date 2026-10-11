@@ -144,6 +144,24 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
 .fp-api-content[data-starting-style], .fp-api-content[data-ending-style] { height: 0; opacity: 0; }
 .fp-bar { height: 6px; border-radius: 3px; background: var(--muted); overflow: hidden; }
 .fp-bar > span { display: block; height: 100%; border-radius: 3px; background: var(--primary); }
+/* Download progress (design.md「下载进度」): 6px square cells; the parent sets the width and the cell count follows. */
+.fp-progress-cells { display: flex; justify-content: space-between; gap: 2px; height: 6px; overflow: hidden; color: var(--muted-foreground); }
+.fp-progress-cells > span { flex: none; width: 6px; height: 6px; background: color-mix(in oklab, currentColor 22%, transparent); transition: background-color 120ms; }
+.fp-progress-cells > [data-state="filled"] { background: currentColor; }
+.fp-progress-cells > [data-state="active"] { animation: fp-progress-cell 1s steps(1) infinite; }
+@keyframes fp-progress-cell { 50% { background: var(--foreground); } }
+.fp-detector-progress { display: flex; align-items: center; gap: .5rem; }
+.fp-detector-progress-label { display: inline-flex; align-items: center; gap: .25rem; color: var(--muted-foreground); white-space: nowrap; }
+.fp-detector-progress-label svg { width: .875rem; height: .875rem; flex-shrink: 0; }
+.fp-detector-progress[data-status="ready"] .fp-detector-progress-label { color: var(--success); }
+.fp-detector-progress[data-status="failed"] .fp-detector-progress-label { color: var(--destructive); }
+.fp-detector-progress-line { display: none; }
+/* Below 1280px the brand cell has no room, so the progress becomes a line along the top edge of the top bar. */
+@media (max-width: 1279px) {
+  .fp-detector-progress > :not(.fp-detector-progress-line) { display: none; }
+  .fp-detector-progress-line { display: block; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--muted-foreground); transform-origin: left; transition: transform 200ms ease-out; }
+  .fp-detector-progress[data-status="failed"] { display: none; }
+}
 .fp-reply { max-height: 40vh; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
 .fp-reply:is(textarea, button) { height: 12rem; min-height: 12rem; max-height: 12rem; flex-shrink: 0; field-sizing: fixed; resize: none; }
 

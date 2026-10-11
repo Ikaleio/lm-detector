@@ -45,7 +45,7 @@ npx lmfpd@latest -a cc --tokenizer
 | `-n, --repeat N` | 顺序执行的检测轮数 | `1` |
 | `-s, --strict` | 关闭自动截断，要求 3 条完整有效的回答 | 关闭 |
 | `--challenges FILE` | 每轮复用保存的挑战，数量必须等于 `--count` | 随机生成 |
-| `--bank FILE` | 使用自定义参考库 | 内置参考库 |
+| `--bank FILE` | 使用自定义参考库；检测器读取同一目录下的 `shared_detector.bin` | 内置参考库 |
 | `--tokenizer` | 做[分词器探测](./tokenizer.mdx)，多发约 12 个请求；有没有探测，排名都相同 | 不探测 |
 | `--max-probes N` | 分词器探测的测试文本数量上限，4–60；只能与 `--tokenizer` 一起使用 | `20` |
 | `--tokenizer-bank FILE` | 使用自定义分词器库；只能与 `--tokenizer` 或 `--input` 一起使用 | 内置分词器库 |
@@ -87,7 +87,7 @@ bun run fpd --input result.json --strict --json
 
 `--input` 接受：保存的报告、带 `outputs` 的报告、由一到三个 `{ "text": "...", "expected_count": 300 }` 组成的数组，或采样批次的 `result.json`。采样批次按条件分组，每轮最多三条回答；多轮报告逐轮分析。严格重新计算会拒绝记录为截断或完整性未知的样本；纯输出数组无法核实原始的网络完成状态。`--count` 只用于在线检测，不能与 `--input` 同用。
 
-三条样本都有效且校准与检测器匹配时，结果标为 **Calibrated ranking**，每个候选附带置信度；校准不匹配时标为 **Uncalibrated ranking**，只给出排名，置信度不可用。终端界面显示最新排名和最近几轮的摘要；至少一轮评分后，末尾以暗色显示 GitHub 仓库链接。JSON 保留每一轮。“最常见候选”统计的是各轮的第一名，不是合并概率。置信度只在参考库模型之间比较，不能确认上游模型的身份。自定义参考库与检测器不匹配时，只用传统排名器，结果标为 **Custom bank ranking**，不给出置信度。
+三条样本都有效且校准与检测器匹配时，结果标为 **Calibrated ranking**，每个候选附带置信度；校准不匹配时标为 **Uncalibrated ranking**，只给出排名，置信度不可用。终端界面显示最新排名和最近几轮的摘要；至少一轮评分后，末尾以暗色显示 GitHub 仓库链接。JSON 保留每一轮。“最常见候选”统计的是各轮的第一名，不是合并概率。置信度只在参考库模型之间比较，不能确认上游模型的身份。自定义参考库与检测器不匹配时，检测报错停止，提示运行 `fpd retrain --data-dir DIR`。
 
 每一轮只按数字指纹评分，样本完成后立即给出结果。使用 `--tokenizer` 时，[分词器探测](./tokenizer.mdx)的结果单独显示在一个区块里，只作参考，不改变候选、顺序或置信度。使用 `--input` 时，报告里保存的分词器探测显示在同一个区块里；读取它不发送请求。
 
@@ -101,5 +101,3 @@ bun run fpd --input result.json --strict --json
 | `1` | 输入无效，或有任一轮未能评分 |
 | `130` | 被取消，包括最后一轮结束后停止分词器探测 |
 | `143` | 收到 SIGTERM |
-
-仓库内仍保留旧版检测界面：`bun run detect:legacy`。

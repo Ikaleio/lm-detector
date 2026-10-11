@@ -64,7 +64,7 @@ bun run deploy:pages
 
 ## 静态数据
 
-参考库、派生库与检测器在构建时分别 zstd 压缩，再按 4 MiB 切分到 `web/dist/data/chunks/`。浏览器按 `data/manifest.json` 拼接、解压；检测只加载需要的数据。最大的静态文件小于 Pages 的 25 MiB 限制。CLI 包仍从构建时生成的脱敏派生库和原始检测器文件打包，不依赖压缩后的站点数据。
+参考库、派生库与二进制检测器在构建时分别用 zstd 19 级压缩，再按 4 MiB 切分到 `web/dist/data/chunks/`。`data/manifest.json` 的每一项包含 `parts` 和 `bytes`；`bytes` 是压缩后大小，用于显示下载进度。浏览器按清单拼接、解压；检测只加载需要的数据。参考库加载完成后，网站在后台下载检测器，并在顶栏显示进度；评分开始时若下载未完成，计算行和检测按钮会提示正在等待检测器下载。参考库与检测器不匹配时，构建失败。最大的静态文件小于 Pages 的 25 MiB 限制。CLI 包仍从构建时生成的脱敏派生库和 `shared_detector.bin` 打包，不依赖压缩后的站点数据。
 
 ## GitHub Pages
 

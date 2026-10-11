@@ -39,8 +39,9 @@ icon: Code
 | --- | --- |
 | `challenge-browser.js` | 检测挑战生成 |
 | `completion-request.ts`、`completion.ts`、`detection.ts` | 请求体、响应解析和检测流程 |
-| `fingerprint-core.js`、`number-features.js`、`gaussian-core.js` | 数字特征与基础评分 |
+| `fingerprint-core.js` | 数字特征与基础评分 |
 | `shared-detector.ts` | 冻结的排名器和置信度校准 |
+| `detector-codec.ts` | 解码二进制检测器文件 `shared_detector.bin`；CLI、网站和评估器共用 |
 | `sample-distribution.ts` | 标记最小有效数字不低于 200 的异常样本；只用于界面提示，不参与评分 |
 | `builder.ts` | 从参考样本离线建库；拒绝带评估标记的样本 |
 | `tokenizer-bank.ts`、`tokenizer-usage.ts` | 分词器库的类型与校验，以及从 JSON 或 SSE 响应读取用量 |
@@ -54,7 +55,7 @@ icon: Code
 `web/src/` 包含检测页面、只读样本库与界面文案（简体中文、繁体中文、英文、日文、法文）。路由使用 React Router 的 HashRouter；界面使用 shadcn/ui（Base UI）、Tailwind CSS v4 和 Framer Motion。[设计规范](./design.mdx)定义视觉原语和交互约束，颜色与品牌字体在 `web/src/tokens.css` 中，本文档也使用同一个文件。
 
 - `src/i18n/messages.ts` 包含简体中文与英文文案，并定义所有语言共用的 `Messages` 类型；`zh-hant.ts`、`ja.ts`、`fr.ts` 是其余语言。`src/i18n/index.tsx` 的 `LOCALES` 列出可选语言，并提供语言偏好、插值及日期和数字格式化。新增或修改文案时，五个文件一起改。切换语言不修改算法提示词或用户回复；文档站只有中英文，繁体中文链接到中文文档，日文和法文链接到英文文档。
-- 网站没有入库功能，不读取旧的 IndexedDB 自定义库，也不合并或重建参考数据。
+- 网站没有入库功能，也不合并或重建参考数据。
 - 构建前的 `scripts/sync-data.ts` 校验并脱敏正式数据，把参考库、派生库与检测器压缩成 zstd 静态分段，并生成数据清单。
 - 生产构建从 `telemetry.json` 注入 Koitoyu 和 Recorder 脚本，本地开发不加载。Recorder 回放会遮蔽 API 配置区和错误详情，输入框默认被遮蔽。
 

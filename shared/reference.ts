@@ -95,7 +95,7 @@ export function parseReference(content: string): ReferenceBatch[] {
   const batchIds = new Set<string>()
   for (const batch of batches) {
     if (!batch || batch.schema_version !== 1 || batch.purpose !== 'reference' || typeof batch.id !== 'string' || !batch.id || batchIds.has(batch.id) || !batch.model?.id || !batch.model.family || !batch.model.family_name || !batch.source?.channel || !batch.request || !Array.isArray(batch.request.response_models) || !Array.isArray(batch.plan?.challenge_ids) || !Array.isArray(batch.samples) || !batch.samples.length) {
-      throw new Error('Reference data must contain version 1 reference batches; legacy rows and evaluation data are not supported.')
+      throw new Error('Reference data must contain version 1 reference batches; evaluation data is not supported.')
     }
     if ('test_set_id' in batch) throw new Error('Evaluation batches cannot be used as reference data.')
     validateChannel(batch.source.channel)

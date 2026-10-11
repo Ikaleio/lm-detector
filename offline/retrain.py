@@ -57,7 +57,7 @@ def main() -> int:
     try:
         print('VALIDATE reference data and bank', file=sys.stderr, flush=True)
         rows, bank, panel, reference_sha, bank_sha = input_data(data_dir)
-        previous = data_dir / 'shared_detector.json'
+        previous = data_dir / 'shared_detector.bin'
         previous_sha = sha(previous) if previous.exists() else None
         source_dir = Path(__file__).resolve().parent
         code_hashes = {name: sha(source_dir / name) for name in SOURCE_FILES}
@@ -65,7 +65,7 @@ def main() -> int:
         out = data_dir / '.training' / stamp
         out.mkdir(parents=True, exist_ok=False)
         if previous_sha is not None:
-            backup = out / 'before-shared-detector.json'
+            backup = out / 'before-shared-detector.bin'
             shutil.copyfile(previous, backup)
             if sha(backup) != previous_sha:
                 raise ValueError('Previous detector changed while saving its backup')

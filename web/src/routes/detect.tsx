@@ -8,6 +8,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { ApiConfigPanel } from '@/components/api-config-panel'
 import { PixelShader, PixelSpinner } from '@/components/pixel-shader'
+import { downloadBytes, downloadFraction, ProgressCells } from '@/components/detector-progress'
+import { useDetectorDownload } from '@/lib/detector'
 import { Segmented } from '@/components/segmented'
 import { useLoadedBank } from '@/lib/bank-context'
 import { ResultPanel } from '@/components/result-panel'
@@ -49,7 +51,7 @@ function safeError(message: string | undefined, key: string): string | undefined
 export default function DetectRoute() {
   const bank = useLoadedBank()
   const i18n = useI18n()
-  const { t } = i18n
+  const { t, percent } = i18n
   const { snappy, smooth, reduced } = useMotionPreset()
   const active = useLocation().pathname === '/'
   const [params, setParams] = useSearchParams()
@@ -61,6 +63,9 @@ export default function DetectRoute() {
   }, [active, mode, params, setParams])
   const tokenizer = useTokenizerProbe()
   const connection = useConnectionRoute()
+  const detectorDownload = useDetectorDownload()
+  const detectorFraction = downloadFraction(detectorDownload)
+  const detectorBytes = downloadBytes(detectorDownload, t)
 
   const [challenges, setChallenges] = useState<Challenge[]>(() => client.generateChallenges(3))
   const [samples, setSamples] = useState<SampleUI[]>(() => [idle(), idle(), idle()])
@@ -458,13 +463,23 @@ export default function DetectRoute() {
         </>}
       </section>
 
-      {phase === 'computing' && (
+      {phase === 'computing' && (detectorDownload.status === 'loading' ? (
+        // Scoring waits for the detector download; say so instead of showing a plain computing line.
+        <div className="flex h-12 flex-col justify-center gap-2">
+          <div className="flex items-center gap-2 text-body text-muted-foreground">
+            <PixelSpinner />
+            <span role="status">{t('detect.waitingDetector')}</span>
+            {detectorBytes && <span className="ms-auto text-meta tabular-nums">{detectorBytes}</span>}
+          </div>
+          <ProgressCells value={detectorFraction} active label={t('app.detector')} className="w-full" />
+        </div>
+      ) : (
         <div className="flex h-12 items-center gap-2 text-body text-muted-foreground" role="status">
           <PixelSpinner />
           {t('detect.computing')}
           <PixelShader effect="scan" cell={3} className="h-6 min-w-0 flex-1 text-muted-foreground/60" />
         </div>
-      )}
+      ))}
       {phase === 'result' && result && <ResultPanel result={result} anomalous={anomalous} mode={mode} onReplacePrompts={() => replacePrompts(anomalous)} />}
 
       <div className="fp-detect-footer">
@@ -491,7 +506,12 @@ export default function DetectRoute() {
           ) : phase === 'computing' ? (
             <>
               {stopProbe}
-              <Button className="h-9" disabled><PixelSpinner data-icon="inline-start" />{t('detect.computing')}</Button>
+              <Button className="h-9" disabled>
+                <PixelSpinner data-icon="inline-start" />
+                {detectorDownload.status === 'loading'
+                  ? <>{t('detect.waitingDetectorShort')}{detectorFraction !== null && <span className="tabular-nums">{percent(detectorFraction)}</span>}</>
+                  : t('detect.computing')}
+              </Button>
             </>
           ) : (
             <>

@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile, stat, rm } from 'node:fs/promises'
 import { createHash } from 'node:crypto'
-import { zstdCompressSync } from 'node:zlib'
+import { constants, zstdCompressSync } from 'node:zlib'
+import { decodeDetector } from '@fingerpoint/shared/detector-codec'
 import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
 import { parseReference, referenceSamples } from '@fingerpoint/shared/reference'
 import { nearestModels, supportsSharedDetector } from '@fingerpoint/shared/shared-detector'
@@ -22,19 +23,19 @@ if (sampleCounts.size !== bank.models.length || bank.models.some((model: { id: s
   throw new Error('参考样本数与派生库不匹配，不能发布。')
 }
 const references = batches.map(batch => JSON.stringify(redactPrivateMetadata(batch))).join('\n') + '\n'
-const detectorText = await readFile('data/shared_detector.json', 'utf8')
-const detector = JSON.parse(detectorText)
+const detectorBytes = await readFile('data/shared_detector.bin')
+const detector = decodeDetector(detectorBytes)
 const tokenizerBankText = await readFile('data/tokenizer_bank.json', 'utf8')
 assertTokenizerBank(JSON.parse(tokenizerBankText))
 const publicBank = redactPrivateMetadata(bank)
 publicBank.reference_sha256 = createHash('sha256').update(references).digest('hex')
-if (supportsSharedDetector(bank, detector)) {
-  nearestModels(detector).forEach((neighbors, i) => { publicBank.models[i].nearest_models = neighbors })
-}
+if (!supportsSharedDetector(bank, detector)) throw new Error('派生库与检测器不匹配，不能发布。请先运行 fpd retrain。')
+nearestModels(detector).forEach((neighbors, i) => { publicBank.models[i].nearest_models = neighbors })
 const chunkSize = 4 * 1024 * 1024
-const manifest: Record<string, string[]> = {}
-async function publish(name: string, content: string) {
-  const compressed = zstdCompressSync(Buffer.from(content))
+/** `bytes` is the compressed size, which the browser uses to report download progress. */
+const manifest: Record<string, { parts: string[]; bytes: number }> = {}
+async function publish(name: string, content: string | Uint8Array) {
+  const compressed = zstdCompressSync(content, { params: { [constants.ZSTD_c_compressionLevel]: 19 } })
   const digest = createHash('sha256').update(compressed).digest('hex').slice(0, 16)
   const parts: string[] = []
   for (let offset = 0; offset < compressed.length; offset += chunkSize) {
@@ -42,14 +43,14 @@ async function publish(name: string, content: string) {
     await writeFile(`web/public/data/chunks/${part}`, compressed.subarray(offset, offset + chunkSize))
     parts.push(part)
   }
-  manifest[name] = parts
+  manifest[name] = { parts, bytes: compressed.length }
 }
 await rm('web/public/data', { recursive: true, force: true })
 await mkdir('web/public/data', { recursive: true })
 await mkdir('web/public/data/chunks')
 await publish('unified_reference.jsonl', references)
 await publish('unified_bank.json', JSON.stringify(publicBank))
-await publish('shared_detector.json', detectorText)
+await publish('shared_detector.bin', detectorBytes)
 await publish('tokenizer_bank.json', tokenizerBankText)
 await writeFile('web/public/data/manifest.json', JSON.stringify(manifest))
 await mkdir('web/.generated', { recursive: true })

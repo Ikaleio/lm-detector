@@ -28,7 +28,6 @@
     "sync-data": "bun web/scripts/sync-data.ts",
     "detect": "bun cli/fpd.ts",
     "fpd": "bun cli/fpd.ts",
-    "detect:legacy": "bun cli/detect-legacy.ts",
     "sample": "bun cli/fpd.ts sample",
     "vercel-build": "bun run build",
     "enroll": "bun cli/fpd.ts enroll",

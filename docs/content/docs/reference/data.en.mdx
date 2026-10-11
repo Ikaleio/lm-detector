@@ -10,10 +10,9 @@ icon: Database
 data
 ├── unified_reference.jsonl
 ├── unified_bank.json
-├── shared_detector.json
+├── shared_detector.bin
 ├── enrollment-suite.json
 ├── tokenizer_bank.json
-├── import_manifest.json
 └── collections
 ```
 
@@ -21,17 +20,16 @@ data
 | --- | --- |
 | `unified_reference.jsonl` | Reference batches. Each line holds one version-1 batch: the model, channel, and call settings are shared, and the answers are in the `samples` array |
 | `unified_bank.json` | Statistics derived from the reference batches |
-| `shared_detector.json` | Frozen ranker and calibration parameters, bound to the reference data by SHA-256 |
+| `shared_detector.bin` | Frozen ranker and calibration parameters, bound to the reference data by SHA-256. A JSON header plus float32 values, written by `fpd retrain` and read through `shared/detector-codec.ts` |
 | `enrollment-suite.json` | The 36 fixed sampling challenges. This file is sampling input, not reference answers |
 | `tokenizer_bank.json` | Tokenizer bank: probe texts, per-class counts, and model mappings for the tokenizer probe |
-| `import_manifest.json` | Historical manifest. It does not reflect the current counts |
 | `collections/` | Sampling requests, attempts, and provenance checks |
 
 `collections/` is not used for scoring and is not copied into the public data of the website. Reference rows from before a rename, retirement, or format migration are not kept as separate copies. Retrieve them from the git history when needed. For the fields of batches and samples, see [Sampling and resuming](../cli/sampling.mdx#batch-format).
 
 ## Maintenance rules
 
-- `fpd sample`, `fpd enroll DIR`, and `fpd retrain --data-dir DIR` can all run outside the repository. Enrollment validates complete batches and raw evidence, deduplicates by model, channel, condition, challenge, and text, and rebuilds the derived bank. Retraining fits the ranker and the confidence calibration offline from the target reference bank. If nested calibration fails, `shared_detector.json` is not replaced. Training evidence is saved in `.training/`.
+- `fpd sample`, `fpd enroll DIR`, and `fpd retrain --data-dir DIR` can all run outside the repository. Enrollment validates complete batches and raw evidence, deduplicates by model, channel, condition, challenge, and text, and rebuilds the derived bank. Retraining fits the ranker and the confidence calibration offline from the target reference bank. If nested calibration fails, `shared_detector.bin` is not replaced. Training evidence is saved in `.training/`.
 - The data bundled with the CLI is read-only. The maintenance destination must be specified explicitly, or confirmed after the CLI detects this repository during interactive enrollment.
 - The fixed evaluation set must not be added to the reference bank, the model centroids, or the calibration.
 - The website build writes redacted data to `web/public/data/`. That directory is a build output and must not be maintained as a second official bank.
@@ -54,6 +52,9 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-11 Store the detector as binary shared_detector.bin" id="2026-10-11-detector-bin">
+    The detector parameters are now stored in `shared_detector.bin`: a JSON header plus float32 values. The website downloads 3.37 MB for the detector instead of 9.75 MB. Holdout predictions and rankings did not change (116/116 groups identical; maximum confidence change 1.8e-7). `import_manifest.json` was removed.
+  </Accordion>
   <Accordion title="2026-10-08 Remove muse-spark-1.3-contributor" id="2026-10-08-muse-contributor">
     The maintainer confirmed that `muse-spark-1.3-contributor` and `muse-spark-1.3` are the same model. The two reference batches of the former (36 answers, channel `openrouter/unknown`) were removed. The bank now contains 57 fingerprint identities and 2,128 samples. The two reference rows before the removal can be retrieved from the git history.
 

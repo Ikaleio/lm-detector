@@ -39,8 +39,9 @@ icon: Code
 | --- | --- |
 | `challenge-browser.js` | Detection challenge generation |
 | `completion-request.ts`, `completion.ts`, `detection.ts` | Request bodies, response parsing, and the detection flow |
-| `fingerprint-core.js`, `number-features.js`, `gaussian-core.js` | Number features and base scoring |
+| `fingerprint-core.js` | Number features and base scoring |
 | `shared-detector.ts` | Frozen ranker and confidence calibration |
+| `detector-codec.ts` | Decodes the binary detector file `shared_detector.bin`. Shared by the CLI, the website, and the evaluators |
 | `sample-distribution.ts` | Flags anomalous samples whose smallest valid number is at least 200. Used only for interface hints, not for scoring |
 | `builder.ts` | Builds the bank offline from reference samples. Rejects samples with an evaluation mark |
 | `tokenizer-bank.ts`, `tokenizer-usage.ts` | Tokenizer bank types and validation, and reading usage from JSON or SSE responses |
@@ -54,7 +55,7 @@ The official data and frozen parameters are in `data/`. The website calls only t
 `web/src/` contains the detection pages, the read-only sample library, and the interface copy (Simplified Chinese, Traditional Chinese, English, Japanese, and French). Routing uses the HashRouter of React Router. The interface uses shadcn/ui (Base UI), Tailwind CSS v4, and Framer Motion. The [design spec](./design.mdx) defines the visual primitives and interaction constraints. Colors and brand fonts are in `web/src/tokens.css`, and these docs use the same file.
 
 - `src/i18n/messages.ts` contains the Simplified Chinese and English copy and defines the `Messages` type that all languages share. `zh-hant.ts`, `ja.ts`, and `fr.ts` hold the other languages. `LOCALES` in `src/i18n/index.tsx` lists the available languages, and the file provides the language preference, interpolation, and date and number formatting. Add or change copy in all five files together. Switching the language does not change the algorithm prompts or user answers. The docs exist in Chinese and English only: Traditional Chinese links to the Chinese docs, and Japanese and French link to the English docs.
-- The website has no enrollment feature. It does not read the old IndexedDB custom bank, and it does not merge or rebuild reference data.
+- The website has no enrollment feature. It does not merge or rebuild reference data.
 - Before the build, `scripts/sync-data.ts` validates and redacts the official data, compresses the reference bank, derived bank, and detector into static zstd chunks, and generates the data manifest.
 - The production build injects the Koitoyu and Recorder scripts from `telemetry.json`. Local development does not load them. Recorder replays mask the API configuration area and error details, and input fields are masked by default.
 

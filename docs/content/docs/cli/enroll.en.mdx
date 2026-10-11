@@ -26,7 +26,7 @@ Enrollment parses the raw responses again and validates the requests, text, resp
 
 If an unfinished transaction exists, the preview checks the hashes of the staged and official files and computes the counts from the recovered state, but writes no files. The recovery completes only after you confirm enrollment. If changes outside the transaction are found, enrollment refuses to overwrite them.
 
-The reference bank installed with the CLI is always read-only. Enrollment rebuilds the destination reference bank but does not automatically retrain the ranker or the confidence calibration. When the bank and the detector do not match, detection falls back to the legacy ranking without confidence. After enrollment, run `fpd retrain`.
+The reference bank installed with the CLI is always read-only. Enrollment rebuilds the destination reference bank but does not automatically retrain the ranker or the confidence calibration. After enrollment, the bank and the detector no longer match, and detection with that bank fails until you run `fpd retrain`.
 
 ## Retraining [#retrain]
 
@@ -36,7 +36,7 @@ fpd retrain --data-dir ./reference-data
 
 After you update the official data inside the repository, you can also run `bun run retrain --data-dir ./data` from the root directory. Retraining requires `uv` and Python. The CLI uses Bun to manage the directory lock, options, and processes; the bundled `offline/` modules perform the numerical fitting. The command does not call a model API and does not read the fixed evaluation set.
 
-Retraining first checks the hashes of the reference bank and the fingerprint bank, then refits the ranker and the confidence temperature over the fixed reference environments. The plan, metrics, and frozen source code of each training run are saved in `.training/` in the destination directory. If parameters already exist, the same run directory also stores `before-shared-detector.json`. Calibration must pass the [nested holdout check](../principles/ranking.mdx#calibration) before `shared_detector.json` is replaced atomically. On failure, the previous parameters stay in place, and detection keeps using the basic ranking. `--data-dir` must point to an existing directory. The bank bundled with the published package stays read-only.
+Retraining first checks the hashes of the reference bank and the fingerprint bank, then refits the ranker and the confidence temperature over the fixed reference environments. The plan, metrics, and frozen source code of each training run are saved in `.training/` in the destination directory. If parameters already exist, the same run directory also stores `before-shared-detector.bin`. Calibration must pass the [nested holdout check](../principles/ranking.mdx#calibration) before `shared_detector.bin` is replaced atomically. On failure, the previous parameters stay in place, and the bank still cannot be used for detection. `--data-dir` must point to an existing directory. The bank bundled with the published package stays read-only.
 
 <Callout type="warn" title="Evaluation data must stay out of the reference bank">
   The fixed evaluation set must not be used to build the bank, train, or calibrate, and must not be added to the reference bank or the model centroids. In the full research repository, run `bun run rebuild-bank` first, then run `bun run evaluate:holdout`, and check the coverage, identification results, and before-and-after changes in `reports/holdout/latest.md`. `rebuild-bank` must run before retraining, and the reference bank must not change after retraining.

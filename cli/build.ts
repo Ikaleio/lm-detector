@@ -49,7 +49,7 @@ const offlineFiles = (await readdir(resolve(root, 'offline'))).filter(name => na
 await Promise.all(offlineFiles.map(name => copyFile(resolve(root, 'offline', name), resolve(destination, 'offline', name))))
 await Promise.all([
   copyFile(resolve(root, 'web/.generated/unified_bank.json'), resolve(destination, 'data/unified_bank.json')),
-  copyFile(resolve(root, 'data/shared_detector.json'), resolve(destination, 'data/shared_detector.json')),
+  copyFile(resolve(root, 'data/shared_detector.bin'), resolve(destination, 'data/shared_detector.bin')),
   copyFile(resolve(root, 'data/tokenizer_bank.json'), resolve(destination, 'data/tokenizer_bank.json')),
   copyFile(resolve(root, 'cli/README.md'), resolve(destination, 'README.md')),
   copyFile(resolve(root, 'LICENSE'), resolve(destination, 'LICENSE')),

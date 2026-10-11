@@ -143,7 +143,7 @@ export function createManifest(config: ApiConfig, metadata: Metadata, count: num
 }
 export async function loadManifest(directory: string): Promise<Manifest> {
   const manifest = await readJson<Manifest>(join(directory, 'manifest.json'))
-  if (manifest.schema_version !== 1 || manifest.purpose !== 'reference' || !manifest.model || !manifest.request || !manifest.source || !manifest.plan || !Array.isArray(manifest.tasks)) throw new Error('Only current reference collection manifests can be resumed or enrolled; legacy records are not supported.')
+  if (manifest.schema_version !== 1 || manifest.purpose !== 'reference' || !manifest.model || !manifest.request || !manifest.source || !manifest.plan || !Array.isArray(manifest.tasks)) throw new Error('Only current reference collection manifests can be resumed or enrolled.')
   if (manifest.fingerprint !== fingerprint(manifest)) throw new Error('Manifest was modified. Create a new batch to change its configuration.')
   validateMetadata({ label: manifest.model.id, family: manifest.model.family, family_name: manifest.model.family_name, channel: manifest.source.channel, response_models: manifest.request.response_models })
   if (!manifest.tasks.length || new Set(manifest.tasks.map(task => task.id)).size !== manifest.tasks.length || !isDeepStrictEqual(manifest.plan.challenge_ids, manifest.tasks.map(task => task.id))) throw new Error('Challenges must be nonempty, unique, and match the batch plan.')

@@ -27,6 +27,30 @@ def save(path: Path, value: object) -> None:
                                default=json_default) + '\n', encoding='utf-8')
 
 
+def encode_detector(artifact: dict) -> bytes:
+    """Binary detector read by `shared/detector-codec.ts`, which documents the layout."""
+    values: list[float] = []
+
+    def pack(value):
+        value = json_default(value) if isinstance(value, (np.ndarray, np.generic)) else value
+        if isinstance(value, dict):
+            return {key: pack(item) for key, item in value.items()}
+        if not isinstance(value, (list, tuple)):
+            return value
+        if value and all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in value):
+            values.extend(value)
+            return {'$f32': len(values) - len(value), 'n': len(value)}
+        return [pack(item) for item in value]
+
+    header = json.dumps(pack(artifact), separators=(',', ':'), allow_nan=False).encode('utf-8')
+    padding = bytes(-(4 + len(header)) % 4)
+    floats = np.asarray(values, dtype='<f4')
+    if not np.isfinite(floats).all():
+        raise ValueError('Detector parameters do not fit in float32')
+    shuffled = floats.view(np.uint8).reshape(-1, 4).T.tobytes()
+    return len(header).to_bytes(4, 'little') + header + padding + shuffled
+
+
 def export_ranker(ranker):
     return dict(head_params=ranker.head_params, full_params=ranker.full_params,
         lda_weights=ranker.lda.coef_, lda_bias=ranker.lda.intercept_,
@@ -76,17 +100,16 @@ def install(data_dir: Path, fit_dir: Path, calibration_dir: Path, bank: dict,
         raise ValueError('Confidence calibration is bound to a different scorer')
     artifact.update(calibration=head, calibration_sha256=head_sha,
                     probability_status='reference_calibrated')
-    out = data_dir / 'shared_detector.json'
+    out = data_dir / 'shared_detector.bin'
     if (sha(data_dir / 'unified_reference.jsonl') != reference_sha
             or sha(data_dir / 'unified_bank.json') != fit['bank_sha256']):
         raise ValueError('Reference inputs changed during fitting')
     if (out.exists() and sha(out) != previous_sha) or (not out.exists() and previous_sha is not None):
         raise ValueError('Previous detector changed during fitting')
-    payload = json.dumps(artifact, separators=(',', ':'), allow_nan=False,
-                         default=json_default) + '\n'
+    payload = encode_detector(artifact)
     temporary = None
     try:
-        with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', dir=data_dir,
+        with tempfile.NamedTemporaryFile(mode='wb', dir=data_dir,
                                          prefix='.shared_detector-', suffix='.tmp', delete=False) as file:
             temporary = Path(file.name)
             file.write(payload)
@@ -96,5 +119,5 @@ def install(data_dir: Path, fit_dir: Path, calibration_dir: Path, bank: dict,
     finally:
         if temporary is not None:
             temporary.unlink(missing_ok=True)
-    return dict(path=str(out), bytes=len(payload.encode('utf-8')),
-                sha256=hashlib.sha256(payload.encode('utf-8')).hexdigest(), models=len(ids))
+    return dict(path=str(out), bytes=len(payload),
+                sha256=hashlib.sha256(payload).hexdigest(), models=len(ids))

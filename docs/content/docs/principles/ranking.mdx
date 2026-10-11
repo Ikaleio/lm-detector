@@ -32,7 +32,7 @@ $$
 
 ## 置信度校准 [#calibration]
 
-置信度只在三条回答都有效、且 `data/shared_detector.json` 中的校准与检测器匹配时计算。它是参考库内的温度 softmax：
+置信度只在三条回答都有效、且 `data/shared_detector.bin` 中的校准与检测器匹配时计算。它是参考库内的温度 softmax：
 
 $$
 p_k = \frac{\exp(\tau s_k)}{\sum_j \exp(\tau s_j)}
@@ -46,7 +46,7 @@ $$
 | --- | --- |
 | `data/unified_reference.jsonl` | 参考批次，每行包含模型、渠道、请求参数和回答 |
 | `data/unified_bank.json` | 由参考批次派生的统计库 |
-| `data/shared_detector.json` | 冻结的排名器和校准参数，用 SHA-256 绑定参考数据 |
+| `data/shared_detector.bin` | 冻结的排名器和校准参数（二进制），用 SHA-256 绑定参考数据；CLI 与网站都通过 `shared/detector-codec.ts` 解码 |
 | `data/enrollment-suite.json` | 36 道固定采样挑战 |
 
-如果参考库与检测器不匹配（例如用 `--bank` 指定自定义库），检测只给出传统排名，不计算置信度。数据文件的格式与变更记录见[数据文件](../reference/data.mdx)。
+如果参考库与检测器不匹配（例如用 `--bank` 指定自定义库），检测报错停止，需要先运行 `fpd retrain --data-dir DIR`。数据文件的格式与变更记录见[数据文件](../reference/data.mdx)。

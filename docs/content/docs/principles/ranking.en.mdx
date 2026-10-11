@@ -32,7 +32,7 @@ The ranking score $s$ sets the candidate order. The weights of the two scores an
 
 ## Confidence calibration [#calibration]
 
-The confidence is calculated only when all three answers are valid and the calibration in `data/shared_detector.json` matches the detector. It is a temperature softmax within the reference bank:
+The confidence is calculated only when all three answers are valid and the calibration in `data/shared_detector.bin` matches the detector. It is a temperature softmax within the reference bank:
 
 $$
 p_k = \frac{\exp(\tau s_k)}{\sum_j \exp(\tau s_j)}
@@ -46,7 +46,7 @@ $$
 | --- | --- |
 | `data/unified_reference.jsonl` | Reference batches. Each line holds the model, channel, request parameters, and answers |
 | `data/unified_bank.json` | Statistics derived from the reference batches |
-| `data/shared_detector.json` | Frozen ranker and calibration parameters, bound to the reference data by SHA-256 |
+| `data/shared_detector.bin` | Frozen ranker and calibration parameters (binary), bound to the reference data by SHA-256. The CLI and the website both decode it with `shared/detector-codec.ts` |
 | `data/enrollment-suite.json` | The 36 fixed sampling challenges |
 
-If the reference bank does not match the detector (for example, a custom bank from `--bank`), detection gives a legacy ranking only, without confidence. See [Data files](../reference/data.mdx) for the format and change log of the data files.
+If the reference bank does not match the detector (for example, a custom bank from `--bank`), detection stops with an error; run `fpd retrain --data-dir DIR` first. See [Data files](../reference/data.mdx) for the format and change log of the data files.

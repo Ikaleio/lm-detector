@@ -26,7 +26,7 @@ fpd enroll ./my-run --data-dir ./reference-data --json
 
 存在未完成的事务时，预览核对暂存文件和正式文件的哈希，按恢复后的状态计算数量，但不写文件；确认入库后才完成恢复。发现事务之外的改动时拒绝覆盖。
 
-随 CLI 安装的参考库始终只读。入库会重建目标参考库，但不会自动重训排名器和置信度校准；参考库与检测器不匹配时，检测退回传统排名，没有置信度。入库之后需要再运行 `fpd retrain`。
+随 CLI 安装的参考库始终只读。入库会重建目标参考库，但不会自动重训排名器和置信度校准；入库后参考库与检测器不再匹配，用该参考库检测会报错，直到运行 `fpd retrain`。
 
 ## 重训 [#retrain]
 
@@ -36,7 +36,7 @@ fpd retrain --data-dir ./reference-data
 
 在仓库内更新正式数据后，也可以在根目录运行 `bun run retrain --data-dir ./data`。重训需要 `uv` 和 Python；CLI 用 Bun 管理目录锁、参数和进程，数值拟合由包内的 `offline/` 模块完成。命令不请求模型 API，也不读取固定评估集。
 
-重训先检查参考库与指纹库的哈希，再按固定参考环境重新拟合排名器和置信度温度。训练的计划、指标和冻结源码保存在目标目录的 `.training/`；已有参数时，同一运行目录还保存 `before-shared-detector.json`。校准必须通过[嵌套留出验收](../principles/ranking.mdx#calibration)，才会原子替换 `shared_detector.json`；失败时保留原参数，检测继续使用基础排名。`--data-dir` 必须指向已有目录，发布包自带的库仍然只读。
+重训先检查参考库与指纹库的哈希，再按固定参考环境重新拟合排名器和置信度温度。训练的计划、指标和冻结源码保存在目标目录的 `.training/`；已有参数时，同一运行目录还保存 `before-shared-detector.bin`。校准必须通过[嵌套留出验收](../principles/ranking.mdx#calibration)，才会原子替换 `shared_detector.bin`；失败时保留原参数，该参考库仍不能用于检测。`--data-dir` 必须指向已有目录，发布包自带的库仍然只读。
 
 <Callout type="warn" title="评估数据不能进入参考库">
   固定评估集不得用于建库、训练或校准，也不能加入参考库或模型中心。在完整的研究仓库中，先运行 `bun run rebuild-bank`，再运行 `bun run evaluate:holdout`，检查 `reports/holdout/latest.md` 的覆盖率、识别结果及前后变化；`rebuild-bank` 必须在重训之前运行，重训之后不能再改动参考库。

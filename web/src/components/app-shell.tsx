@@ -10,12 +10,14 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Toaster } from '@/components/ui/sonner'
 import { PixelShader } from '@/components/pixel-shader'
+import { DetectorProgress } from '@/components/detector-progress'
 import { LOCALES, useI18n, type Locale } from '@/i18n'
 import { useMotionPreset } from '@/lib/motion'
 import { BankContext } from '@/lib/bank-context'
 import { docsHref } from '@/lib/docs'
 import { markStarVisited, REPOSITORY_URL } from '@/lib/star'
 import * as client from '@/lib/client'
+import { loadDetector } from '@/lib/detector'
 import type { Bank } from '@fingerpoint/shared/types'
 
 const { commit, time: buildTime } = __BUILD__
@@ -152,13 +154,16 @@ export function AppShell({ detect }: { detect: ReactNode }) {
     <div className="fp-shell" data-detect-active={pathname === '/'}>
       <header className="fp-topbar">
         <div className="fp-topbar-inner">
-          <NavLink to="/" onClick={event => navigatePage(event, '/')} className="fp-brand">
-            <PixelShader effect="fingerprint" cell={2} className="fp-brand-mark" />
-            <span className="fp-brand-text">
-              <span className="fp-brand-title">{t('app.name')}</span>
-              <span className="fp-brand-byline">by Ikaleio</span>
-            </span>
-          </NavLink>
+          <div className="fp-topbar-start">
+            <NavLink to="/" onClick={event => navigatePage(event, '/')} className="fp-brand">
+              <PixelShader effect="fingerprint" cell={2} className="fp-brand-mark" />
+              <span className="fp-brand-text">
+                <span className="fp-brand-title">{t('app.name')}</span>
+                <span className="fp-brand-byline">by Ikaleio</span>
+              </span>
+            </NavLink>
+            <DetectorProgress />
+          </div>
           <nav ref={navRef} className="fp-nav" aria-label={t('app.navigation')}>
             {links.map(link => (
               <NavLink key={link.to} to={link.to} end={link.end} onClick={event => navigatePage(event, link.to)}>
@@ -211,7 +216,11 @@ function useBank() {
   const [failed, setFailed] = useState(false)
   const load = () => {
     setFailed(false)
-    client.loadBank().then(setBank).catch(() => setFailed(true))
+    client.loadBank().then(bank => {
+      setBank(bank)
+      // Scoring is the only step that needs the detector, so it downloads in the background once the page can render.
+      loadDetector().catch(() => {})
+    }).catch(() => setFailed(true))
   }
   useEffect(load, [])
   return { bank, failed, reload: load }

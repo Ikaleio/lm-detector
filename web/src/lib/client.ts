@@ -4,22 +4,18 @@ import { assertTokenizerBank, type TokenizerBank } from '@fingerpoint/shared/tok
 import { probeTokenizer as probeTokenizerShared, tokenizerReport, type TokenizerRun } from '@fingerpoint/shared/tokenizer-probe'
 import { generateChallenges } from '@fingerpoint/shared/challenge-browser.js'
 import { parseNumbers } from '@fingerpoint/shared/fingerprint-core.js'
-import { analyzeSharedOutputs, type SharedDetector } from '@fingerpoint/shared/shared-detector'
+import { analyzeSharedOutputs } from '@fingerpoint/shared/shared-detector'
 import type { Analysis, ApiConfig, Bank, Challenge, CollectionProgress, Output } from '@fingerpoint/shared/types'
 import { parseReference, referenceSamples } from '@fingerpoint/shared/reference'
 import type { ReferenceBatch, ReferenceSample } from '@fingerpoint/shared/reference'
 import { directHeaders, directInit } from './route'
 import { readStaticData } from './static-data'
+import { loadDetector } from './detector'
 export { generateChallenges, parseNumbers }
 
 export interface ReferenceEntry { batch: ReferenceBatch; sample: ReferenceSample }
 let current:Bank|undefined, referenceCache:ReferenceBatch[]|undefined
 let loading:Promise<Bank>|undefined
-let detectorLoading:Promise<SharedDetector>|undefined
-function loadDetector():Promise<SharedDetector>{
-  return detectorLoading ??= readStaticData('shared_detector.json').then(data=>JSON.parse(data) as SharedDetector)
-    .catch(error=>{detectorLoading=undefined;throw error})
-}
 function worker<T>(data:unknown,onProgress?:(text:string)=>void,fallback?:()=>T):Promise<T>{
   return new Promise((resolve,reject)=>{
     let w:Worker|undefined,finished=false

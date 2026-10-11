@@ -23,7 +23,6 @@ export interface Receipt {
   previous_bank_sha256: string
   bank_sha256: string
   selected_attempts: { challenge_id: string; attempt: number; row_id: string }[]
-  detector_status: 'legacy-ranking-until-retrained'
   dry_run?: boolean
   already_enrolled?: boolean
 }
@@ -125,7 +124,7 @@ export async function enroll(directory: string, dataDirectory: string, dryRun = 
       previous_reference_sha256: sha256(oldReference), reference_sha256: sha256(nextReference),
       previous_bank_sha256: sha256(oldBank), bank_sha256: sha256(oldBank),
       selected_attempts: incoming.samples.map(sample => ({ challenge_id: sample.challenge_id, attempt: sample.attempt!, row_id: sample.id })),
-      detector_status: 'legacy-ranking-until-retrained', ...(dryRun ? { dry_run: true } : {}) }
+      ...(dryRun ? { dry_run: true } : {}) }
     if (dryRun || !added) {
       if (!dryRun) {
         try {
