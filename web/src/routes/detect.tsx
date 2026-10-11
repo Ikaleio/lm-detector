@@ -429,7 +429,7 @@ export default function DetectRoute() {
           transition={snappy}
           className="shrink-0 overflow-hidden"
         >
-          <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} profileManager={profileManager} disabled={locked} />
+          <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} profileManager={profileManager} disabled={locked} onStartSampling={() => sampleIndexes(emptyIndexes)} />
         </motion.div>}
       </AnimatePresence>
 

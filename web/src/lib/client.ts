@@ -101,6 +101,34 @@ export const transportFor = (route:Route):CompletionTransport => route.kind==='d
 export const testApi = (config:ApiConfig,challenges:Challenge[],onProgress:(p:CollectionProgress)=>void,route:Route,signal?:AbortSignal) =>
   testApiShared(config,challenges,onProgress,signal,transportFor(route))
 
+/** The /models endpoint of a base URL, stripping a completion suffix the user may have pasted in. */
+function modelsEndpoint(config: ApiConfig): string {
+  const base = config.baseUrl.trim().replace(/\/+$/, '')
+  if (config.format === 'anthropic') {
+    const stripped = base.replace(/\/messages$/, '')
+    return stripped + (stripped.endsWith('/v1') ? '/models' : '/v1/models')
+  }
+  const stripped = base.replace(/\/(chat\/completions|responses)$/, '')
+  return stripped + '/models'
+}
+
+/**
+ * Lists the models the upstream advertises. This is a plain browser GET with the format's auth header, so it works on
+ * gateways that allow browser CORS (many do, e.g. hub.linux.do returns `access-control-allow-origin: *`). On hosts that
+ * forbid CORS the caller should fall back to the proxy, but the proxy currently relays completions only.
+ */
+export async function listModels(config: ApiConfig): Promise<string[]> {
+  const url = modelsEndpoint(config)
+  const response = await fetch(url, { ...directInit, method: 'GET', headers: directHeaders(config, config.apiKey, false), signal: AbortSignal.timeout(15000) })
+  if (!response.ok) throw coded(`The models endpoint returned HTTP ${response.status}.`, 'http', { httpStatus: response.status })
+  const payload = await response.json() as { data?: unknown }
+  const data = Array.isArray(payload) ? payload : (payload && typeof payload === 'object' && Array.isArray(payload.data) ? payload.data : [])
+  return data.map((entry: unknown) => {
+    if (entry && typeof entry === 'object' && typeof (entry as { id?: unknown }).id === 'string') return (entry as { id: string }).id
+    return null
+  }).filter((id: string | null): id is string => !!id && !!id.trim())
+}
+
 let tokenizerBankLoading:Promise<TokenizerBank>|undefined
 export function loadTokenizerBank():Promise<TokenizerBank>{
   return tokenizerBankLoading ??= readStaticData('tokenizer_bank.json').then(text=>{
