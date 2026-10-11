@@ -429,7 +429,11 @@ export default function DetectRoute() {
           transition={snappy}
           className="shrink-0 overflow-hidden"
         >
-          <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} profileManager={profileManager} disabled={locked} onStartSampling={() => sampleIndexes(emptyIndexes)} />
+          <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} profileManager={profileManager} disabled={locked} onStartSampling={() => {
+            // After a finished detection no sample is empty, so the button first restarts, then starts a fresh run in one step.
+            if (emptyIndexes.length === 0) restartAfterResult()
+            void sampleIndexes(emptyIndexes.length > 0 ? emptyIndexes : [0, 1, 2])
+          }} />
         </motion.div>}
       </AnimatePresence>
 
