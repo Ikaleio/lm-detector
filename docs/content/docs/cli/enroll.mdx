@@ -39,7 +39,9 @@ fpd retrain --data-dir ./reference-data
 重训先检查参考库与指纹库的哈希，再按固定参考环境重新拟合排名器和置信度温度。训练的计划、指标和冻结源码保存在目标目录的 `.training/`；已有参数时，同一运行目录还保存 `before-shared-detector.bin`。校准必须通过[嵌套留出验收](../principles/ranking.mdx#calibration)，才会原子替换 `shared_detector.bin`；失败时保留原参数，该参考库仍不能用于检测。`--data-dir` 必须指向已有目录，发布包自带的库仍然只读。
 
 <Callout type="warn" title="评估数据不能进入参考库">
-  固定评估集不得用于建库、训练或校准，也不能加入参考库或模型中心。在完整的研究仓库中，先运行 `bun run rebuild-bank`，再运行 `bun run evaluate:holdout`，检查 `reports/holdout/latest.md` 的覆盖率、识别结果及前后变化；`rebuild-bank` 必须在重训之前运行，重训之后不能再改动参考库。
+  固定评估集不得用于建库、训练或校准，也不能加入参考库或模型中心。在完整的研究仓库中，每次入库前保存基线评估，入库时为该模型补齐两组三条独立评估回答。沿用固定挑战，记录实际渠道、推理参数和全部尝试。
+
+  从 `research/` 运行 `bun run rebuild-bank`，再重训，最后运行 `bun run evaluate:holdout`。检查 `reports/holdout/latest.md` 的覆盖率，分别报告旧评估组的前后变化和新增模型的识别结果。`rebuild-bank` 必须在重训之前运行，重训之后不能再改动参考库。
 </Callout>
 
 ## 发布

@@ -39,7 +39,9 @@ After you update the official data inside the repository, you can also run `bun 
 Retraining first checks the hashes of the reference bank and the fingerprint bank, then refits the ranker and the confidence temperature over the fixed reference environments. The plan, metrics, and frozen source code of each training run are saved in `.training/` in the destination directory. If parameters already exist, the same run directory also stores `before-shared-detector.bin`. Calibration must pass the [nested holdout check](../principles/ranking.mdx#calibration) before `shared_detector.bin` is replaced atomically. On failure, the previous parameters stay in place, and the bank still cannot be used for detection. `--data-dir` must point to an existing directory. The bank bundled with the published package stays read-only.
 
 <Callout type="warn" title="Evaluation data must stay out of the reference bank">
-  The fixed evaluation set must not be used to build the bank, train, or calibrate, and must not be added to the reference bank or the model centroids. In the full research repository, run `bun run rebuild-bank` first, then run `bun run evaluate:holdout`, and check the coverage, identification results, and before-and-after changes in `reports/holdout/latest.md`. `rebuild-bank` must run before retraining, and the reference bank must not change after retraining.
+  The fixed evaluation set must not enter bank construction, training, calibration, the reference bank, or model centroids. In the full research repository, save a baseline evaluation before each enrollment. As part of enrollment, complete two independent evaluation groups of three answers for the model. Reuse the fixed challenges and record the actual provider, reasoning settings, and every attempt.
+
+  From `research/`, run `bun run rebuild-bank`, retrain, then run `bun run evaluate:holdout`. Check coverage in `reports/holdout/latest.md`. Report changes on the same previous evaluation groups separately from identification results for the new model. Run `rebuild-bank` before retraining, and do not change the reference bank after retraining.
 </Callout>
 
 ## Publishing

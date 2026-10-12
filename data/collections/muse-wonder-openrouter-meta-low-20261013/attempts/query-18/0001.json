@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "00698dd5b3241daf5d88461e925851ce2855b3bbd0690948785426c4e56f128b",
+  "challenge_id": "query-18",
+  "attempt": 1,
+  "task": {
+    "id": "query-18",
+    "condition": "environment-06",
+    "expected_count": 327,
+    "prompt": "Fill exactly 327 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "meta/muse-wonder",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Fill exactly 327 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "low",
+      "provider": {
+        "only": [
+          "meta"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-10-12T17:30:37.645Z",
+  "trace": "trace/query-18/0001",
+  "text": "[214,87,301,45,168,332,19,256,143,78,295,112,340,63,201,27,189,314,96,237,158,8,273,124,350,71,206,331,54,182,299,140,33,268,91,224,177,3,315,260,129,346,85,197,42,283,165,230,11,308,74,191,254,118,337,59,202,146,321,26,175,289,103,348,66,219,152,294,38,241,167,12,326,88,205,279,134,355,57,193,248,99,317,172,44,261,121,304,70,228,183,15,342,109,266,81,198,323,136,252,49,287,160,22,311,94,235,178,64,298,127,353,76,209,144,275,31,190,238,105,324,58,171,216,84,339,150,7,263,119,292,41,186,233,97,318,155,69,274,210,86,343,128,257,20,305,113,174,239,62,281,147,34,196,329,79,222,161,90,267,116,354,53,188,247,102,330,73,215,139,284,46,199,312,125,36,259,170,93,336,61,227,154,291,108,351,68,203,276,17,320,135,242,56,195,28,307,149,231,98,264,111,352,75,181,326,328,43,218,162,297,130,9,244,185,310,52,169,234,101,278,145,341,24,207,122,269,80,335,157,213,48,300,133,250,18,322,106,179,258,92,347,166,29,286,141,226,313,60,204,123,349,37,240,184,95,271,153,288,65,316,77,208,131,345,50,176,232,262,89,194,25,303,148,221,344,83,268,114,200,59,115,327,137,255,10,319,104,173,246,82,338,159,23,296,67,211,280,126,187,333,47,192,309,138,253,16,325,100,217,72,282,151,334,55,198,39,243,117,290,163,21,306,132,277,88,225]",
+  "text_sha256": "037256d27a07a5871736ac13a46e5b97f2e94038059d3833af0e716ce5ad15fb",
+  "parsed_count": 327,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "meta/muse-wonder",
+  "response_id": "gen-1791826237-CPiZJV3iuUdCAhX9SeQI",
+  "usage": {
+    "prompt_tokens": 143,
+    "completion_tokens": 4277,
+    "total_tokens": 4420,
+    "cost": 0.086112,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.086112,
+      "upstream_inference_prompt_cost": 0.000572,
+      "upstream_inference_completions_cost": 0.08554
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3561,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Meta",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/meta",
+  "finished_at": "2026-10-12T17:30:56.669Z"
+}

@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "00698dd5b3241daf5d88461e925851ce2855b3bbd0690948785426c4e56f128b",
+  "challenge_id": "query-01",
+  "attempt": 1,
+  "task": {
+    "id": "query-01",
+    "condition": "environment-01",
+    "expected_count": 218,
+    "prompt": "For each of 218 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "meta/muse-wonder",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For each of 218 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "low",
+      "provider": {
+        "only": [
+          "meta"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-10-12T17:29:35.964Z",
+  "trace": "trace/query-01/0001",
+  "text": "[147,32,291,84,203,349,17,226,158,69,312,45,278,191,7,334,126,259,93,180,21,307,142,268,55,197,351,88,214,163,29,241,118,302,74,185,27,330,109,256,63,198,344,137,22,283,171,96,315,48,229,154,81,297,12,265,190,104,338,71,216,39,281,149,324,58,173,246,90,205,33,318,127,272,186,14,239,101,355,67,194,260,43,309,152,228,86,341,119,275,6,208,167,295,52,131,322,78,243,189,25,314,143,267,98,201,347,61,224,176,38,289,115,332,84,157,271,19,236,300,73,182,248,9,326,140,213,57,284,166,95,319,44,257,129,202,350,68,231,184,16,276,133,308,87,195,262,41,298,150,221,103,337,59,178,244,28,311,146,269,82,199,353,124,237,64,170,293,35,218,107,264,188,50,321,139,206,76,285,161,23,340,112,254,181,97,303,49,227,169,134,291,66,210,345,18,273,155,120,328,89,242,174,31,306,145,219,100,352,62,187,263,42,317,128,235,79,294]",
+  "text_sha256": "32e1d753a6c1b9cc7d773b0172f8a92a34179e8448475f65cb98069839759483",
+  "parsed_count": 218,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "meta/muse-wonder",
+  "response_id": "gen-1791826176-gWuPQcicQhzVoq5tqK49",
+  "usage": {
+    "prompt_tokens": 142,
+    "completion_tokens": 1383,
+    "total_tokens": 1525,
+    "cost": 0.028228,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.028228,
+      "upstream_inference_prompt_cost": 0.000568,
+      "upstream_inference_completions_cost": 0.02766
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 924,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Meta",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/meta",
+  "finished_at": "2026-10-12T17:29:43.310Z"
+}

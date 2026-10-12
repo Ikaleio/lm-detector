@@ -52,6 +52,11 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-13 Add muse-wonder" id="2026-10-13-muse-wonder">
+    Added 36 fixed-challenge answers for `muse-wonder`. The reference bank now contains 58 fingerprint identities and 2,164 samples. Collection requests `meta/muse-wonder` through streaming OpenRouter Chat Completions, with `reasoning_effort=low` and the fixed `openrouter/meta` route. Fallbacks are disabled. All 36 answers completed naturally on the first attempt, without truncation. Returned model IDs and Meta provider metadata passed checks against the raw responses.
+
+    Sampling evidence and the enrollment receipt are saved in `collections/muse-wonder-openrouter-meta-low-20261013/`. This enrollment also adds two independent fixed evaluation groups of three answers, with the same provider and `low` reasoning effort. Evaluation answers do not enter bank construction, training, or calibration.
+  </Accordion>
   <Accordion title="2026-10-11 Store the detector as binary shared_detector.bin" id="2026-10-11-detector-bin">
     The detector parameters are now stored in `shared_detector.bin`: a JSON header plus float32 values. The website downloads 3.37 MB for the detector instead of 9.75 MB. Holdout predictions and rankings did not change (116/116 groups identical; maximum confidence change 1.8e-7). `import_manifest.json` was removed.
   </Accordion>

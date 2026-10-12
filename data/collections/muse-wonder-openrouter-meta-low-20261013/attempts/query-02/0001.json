@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "00698dd5b3241daf5d88461e925851ce2855b3bbd0690948785426c4e56f128b",
+  "challenge_id": "query-02",
+  "attempt": 1,
+  "task": {
+    "id": "query-02",
+    "condition": "environment-01",
+    "expected_count": 233,
+    "prompt": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "meta/muse-wonder",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "low",
+      "provider": {
+        "only": [
+          "meta"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-10-12T17:29:35.964Z",
+  "trace": "trace/query-02/0001",
+  "text": "[47,203,118,331,9,274,156,88,342,61,190,25,297,143,219,77,308,134,51,260,182,95,327,12,241,168,304,73,199,136,285,44,171,229,102,355,67,213,148,321,38,267,114,193,81,349,157,226,29,301,124,208,59,276,170,93,335,147,21,254,189,106,318,64,232,175,41,293,128,210,85,346,163,237,54,289,119,202,76,330,145,18,271,197,111,324,68,248,131,305,92,177,259,36,214,160,283,49,338,123,196,84,307,152,23,264,139,220,71,352,108,187,33,295,166,243,57,314,129,201,79,268,144,222,101,340,174,26,288,155,63,231,184,117,309,46,257,192,87,137,298,52,215,169,104,326,75,240,183,311,39,273,126,205,94,344,161,28,291,150,218,83,334,112,195,66,279,142,303,58,172,99,250,35,317,127,204,89,261,149,236,62,286,133,209,78,322,154,27,300,115,191,43,269,178,96,337,141,224,70,294,120,207,55,263,180,320,97,246,164,31,216,90,272,158,233,105,348,176,42,198,74,306,151,24,258,130,217,86,339,162,284,53]",
+  "text_sha256": "d4fb4e3a9150dd4150931b3e8586a5585bf28e0869dcb57a46b3c18808f90921",
+  "parsed_count": 233,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "meta/muse-wonder",
+  "response_id": "gen-1791826176-IaT3AE7MwKt0gb5cCeWp",
+  "usage": {
+    "prompt_tokens": 142,
+    "completion_tokens": 2026,
+    "total_tokens": 2168,
+    "cost": 0.041088,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.041088,
+      "upstream_inference_prompt_cost": 0.000568,
+      "upstream_inference_completions_cost": 0.04052
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1520,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Meta",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/meta",
+  "finished_at": "2026-10-12T17:29:47.142Z"
+}

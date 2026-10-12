@@ -52,6 +52,11 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-13 新增 muse-wonder" id="2026-10-13-muse-wonder">
+    新增 `muse-wonder` 的 36 条固定挑战回答，正式库扩展到 58 个指纹身份、2,164 条样本。请求型号为 `meta/muse-wonder`，使用 OpenRouter Chat Completions 流式输出、`reasoning_effort=low` 和固定 `openrouter/meta` 渠道，禁止回退。36 条回答均在首次尝试自然完成，无截断，返回型号和 Meta 供应商元数据通过原始响应校验。
+
+    采样证据和入库收据保存在 `collections/muse-wonder-openrouter-meta-low-20261013/`。本次入库同步补充两组三条独立固定评估回答，使用相同渠道和 `low` 推理强度。评估回答只用于评估，不参与建库、训练或校准。
+  </Accordion>
   <Accordion title="2026-10-11 检测器改为二进制 shared_detector.bin" id="2026-10-11-detector-bin">
     检测器参数改存为 `shared_detector.bin`：JSON 头加 float32 数值。网站下载的检测器从 9.75 MB 降到 3.37 MB。留出集的预测和排名没有变化（116/116 组相同，置信度最大变化 1.8e-7）。删除 `import_manifest.json`。
   </Accordion>
