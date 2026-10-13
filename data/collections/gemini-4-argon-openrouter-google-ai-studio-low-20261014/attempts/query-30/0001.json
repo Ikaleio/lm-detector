@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "5a057781496e5bebb95e86c95a6b4a728734f48a47f36218b50f9a63f3c2b8c3",
+  "challenge_id": "query-30",
+  "attempt": 1,
+  "task": {
+    "id": "query-30",
+    "condition": "environment-10",
+    "expected_count": 324,
+    "prompt": "Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed. You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained. The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context.\n\nFinal task:\n进行一轮快速逐项取值：分别给出 324 个取值范围为 1 至 355 的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+    "system": "",
+    "body": {
+      "model": "google/gemini-4-argon",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed. You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained. The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context.\n\nFinal task:\n进行一轮快速逐项取值：分别给出 324 个取值范围为 1 至 355 的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。"
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "low",
+      "provider": {
+        "only": [
+          "google-ai-studio"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-10-13T16:17:57.304Z",
+  "trace": "trace/query-30/0001",
+  "text": "241, 88, 319, 14, 175, 293, 62, 108, 344, 19, 256, 132, 77, 301, 45, 212, 189, 9, 350, 163, 278, 54, 117, 331, 81, 204, 29, 149, 267, 38, 195, 312, 70, 128, 284, 3, 156, 223, 95, 339, 41, 178, 250, 112, 67, 305, 184, 23, 290, 142, 85, 326, 59, 215, 134, 11, 273, 198, 74, 348, 103, 237, 48, 169, 315, 92, 261, 17, 145, 280, 64, 209, 334, 121, 36, 247, 181, 89, 308, 52, 160, 296, 27, 139, 228, 79, 352, 114, 192, 43, 269, 153, 6, 321, 98, 234, 68, 172, 287, 31, 125, 341, 84, 201, 148, 57, 310, 253, 16, 187, 275, 106, 61, 329, 218, 39, 166, 299, 73, 136, 244, 8, 346, 119, 207, 50, 282, 158, 94, 317, 25, 179, 264, 130, 71, 336, 194, 46, 231, 109, 291, 18, 151, 271, 82, 303, 164, 55, 220, 137, 349, 91, 248, 34, 185, 314, 66, 123, 285, 12, 174, 259, 101, 49, 324, 211, 78, 144, 297, 21, 168, 338, 87, 239, 116, 58, 306, 191, 37, 276, 154, 7, 225, 343, 99, 182, 262, 63, 131, 318, 42, 205, 289, 76, 147, 332, 15, 251, 111, 69, 294, 177, 32, 236, 127, 354, 86, 214, 51, 162, 309, 28, 197, 272, 97, 140, 327, 60, 243, 188, 13, 302, 118, 72, 266, 157, 44, 335, 208, 90, 281, 133, 24, 222, 347, 65, 171, 255, 104, 316, 47, 190, 292, 80, 146, 323, 10, 238, 122, 56, 279, 165, 340, 93, 217, 35, 180, 304, 75, 138, 260, 20, 328, 113, 246, 53, 173, 288, 83, 152, 345, 30, 203, 126, 68, 311, 196, 40, 270, 143, 5, 333, 107, 229, 96, 167, 295, 22, 183, 257, 115, 307, 62, 210, 135, 351, 48, 240, 176, 88, 283, 150, 19, 320, 102, 263, 77, 193, 337, 33, 226, 129, 298, 59, 170, 249, 105, 313, 26, 186, 274, 141, 91, 355, 161",
+  "text_sha256": "d21e5d8bb3d9ce769a515c7b5677625378ddec732da026ca9af1e961405cda35",
+  "parsed_count": 325,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "google/gemini-4-argon",
+  "response_id": "gen-1791908277-Nu0JjOACMcJ9Hk2zdwHV",
+  "usage": {
+    "prompt_tokens": 308,
+    "completion_tokens": 1517,
+    "total_tokens": 1825,
+    "cost": 0.015786,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.015786,
+      "upstream_inference_prompt_cost": 0.000616,
+      "upstream_inference_completions_cost": 0.01517
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Google AI Studio",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/google-ai-studio",
+  "finished_at": "2026-10-13T16:18:13.097Z"
+}

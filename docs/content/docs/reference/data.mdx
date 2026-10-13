@@ -52,6 +52,13 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-14 新增 gemini-4-argon" id="2026-10-14-gemini-4-argon">
+    新增 `gemini-4-argon` 的 36 条固定挑战回答，正式库扩展到 59 个指纹身份、2,200 条样本。请求型号为 `google/gemini-4-argon`，使用 OpenRouter Chat Completions 流式输出、`reasoning_effort=low` 和固定 `openrouter/google-ai-studio` 渠道，禁止回退。36 条回答均在首次尝试通过校验。33 条自然完成，`query-10`、`query-25` 和 `query-36` 在 500 个整数处截断，并保留截断标记。
+
+    返回型号和 Google AI Studio 供应商元数据通过原始响应校验。采样证据和入库收据保存在 `collections/gemini-4-argon-openrouter-google-ai-studio-low-20261014/`。本次入库同步补充两组三条独立固定评估回答，使用相同渠道和 `low` 推理强度。评估回答不参与建库、训练或校准。
+
+    重训后，新增两组评估均识别为 `gemini-4-argon`。原有 116 个完整组的预测不变，入库前后均命中 105 组。全库完成 118/120 组、354/360 条有效回答，完整组命中 107/118。缺少的两组属于 `kimi-k2.8-preview`。
+  </Accordion>
   <Accordion title="2026-10-13 新增 muse-wonder" id="2026-10-13-muse-wonder">
     新增 `muse-wonder` 的 36 条固定挑战回答，正式库扩展到 58 个指纹身份、2,164 条样本。请求型号为 `meta/muse-wonder`，使用 OpenRouter Chat Completions 流式输出、`reasoning_effort=low` 和固定 `openrouter/meta` 渠道，禁止回退。36 条回答均在首次尝试自然完成，无截断，返回型号和 Meta 供应商元数据通过原始响应校验。
 
