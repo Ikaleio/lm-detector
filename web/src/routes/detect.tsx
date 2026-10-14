@@ -21,7 +21,8 @@ import { configComplete, useApiConfig, type WebApiConfig } from '@/lib/config'
 import { describeError } from '@/lib/errors'
 import { exportResultImage } from '@/lib/export-image'
 import { useMotionPreset } from '@/lib/motion'
-import { useModelMatchCelebration } from '@/lib/use-model-match-celebration'
+import { isModelMatch, useModelMatchCelebration } from '@/lib/use-model-match-celebration'
+import { trackDetection } from '@/lib/telemetry'
 import { useTokenizerProbe } from '@/lib/use-tokenizer-probe'
 import { useConnectionRoute } from '@/lib/use-connection-route'
 import { docsHref } from '@/lib/docs'
@@ -258,8 +259,10 @@ export default function DetectRoute() {
       // The result is the number fingerprint alone; a probe still running keeps going beside it.
       const analysis = await client.analyze(outputs, bank)
       if (!mounted.current || verifying.current !== token) return
-      setResultModel(mode === 'api' ? config.model : null)
+      const model = mode === 'api' ? config.model : null
+      setResultModel(model)
       setResult(analysis)
+      if (model) trackDetection(model, isModelMatch(analysis, model))
     } catch (error) {
       if (!mounted.current || verifying.current !== token) return
       toast.error(describeError(i18n, error, 'errors.analyze'))

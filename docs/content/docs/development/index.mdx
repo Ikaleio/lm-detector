@@ -57,7 +57,7 @@ icon: Code
 - `src/i18n/messages.ts` 包含简体中文与英文文案，并定义所有语言共用的 `Messages` 类型；`zh-hant.ts`、`ja.ts`、`fr.ts` 是其余语言。`src/i18n/index.tsx` 的 `LOCALES` 列出可选语言，并提供语言偏好、插值及日期和数字格式化。新增或修改文案时，五个文件一起改。切换语言不修改算法提示词或用户回复；文档站只有中英文，繁体中文链接到中文文档，日文和法文链接到英文文档。
 - 网站没有入库功能，也不合并或重建参考数据。
 - 构建前的 `scripts/sync-data.ts` 校验并脱敏正式数据，把参考库、派生库与检测器压缩成 zstd 静态分段，并生成数据清单。
-- 生产构建从 `telemetry.json` 注入 Koitoyu 和 Recorder 脚本，本地开发不加载。Recorder 回放会遮蔽 API 配置区和错误详情，输入框默认被遮蔽。
+- 生产构建从 `telemetry.json` 注入 Koitoyu 和 Recorder 脚本，本地开发不加载。Recorder 回放会遮蔽 API 配置区和错误详情，输入框默认被遮蔽。API 模式每次检测发送 `detect` 事件，结果触发彩带时另发 `detect-genuine` 事件，两者都只带模型名 `model`，写法与参考库一致（去掉 provider 前缀，`claude-opus-5-5` 记为 `claude-opus-5.5`）；按 `model` 计算两者之比即各模型的真货率。
 
 ## 本文档
 

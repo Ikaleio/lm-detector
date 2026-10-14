@@ -4,7 +4,20 @@ import type { Analysis } from '@fingerpoint/shared/types'
 import { useMotionPreset } from '@/lib/motion'
 import { NORMAL_CONFIDENCE_THRESHOLD } from '@/lib/result-confidence'
 
-const modelId = (model: string) => model.trim().replace(/^[^/]+\//, '').replace(/(\d)\.(?=\d)/g, '$1-')
+/**
+ * The model name in reference-bank form: no provider prefix, and a dash between two single digits becomes a dot,
+ * so `anthropic/claude-opus-5-5` reads `claude-opus-5.5` while dates such as `2024-08-06` stay as they are.
+ */
+export const canonicalModel = (model: string) => model.trim().replace(/^[^/]+\//, '').replace(/(?<!\d)(\d)-(\d)(?!\d)/g, '$1.$2')
+
+/** Whether the top candidate is the requested model with normal confidence; this is what the celebration marks. */
+export function isModelMatch(result: Analysis, selectedModel: string) {
+  if (result.decision === 'unscorable') return false
+  const top = result.results[0]
+  const confidence = top?.probability ?? null
+  if (!top || confidence === null || !Number.isFinite(confidence) || confidence < NORMAL_CONFIDENCE_THRESHOLD) return false
+  return !!canonicalModel(selectedModel) && canonicalModel(top.model) === canonicalModel(selectedModel)
+}
 
 export function useModelMatchCelebration(result: Analysis | null, selectedModel: string | null, enabled: boolean) {
   const { reduced } = useMotionPreset()
@@ -13,12 +26,7 @@ export function useModelMatchCelebration(result: Analysis | null, selectedModel:
   useEffect(() => {
     if (lastResult.current === result) return
     lastResult.current = result
-    if (!enabled || reduced || !result || !selectedModel || result.decision === 'unscorable') return
-
-    const top = result.results[0]
-    const confidence = top?.probability ?? null
-    if (!top || confidence === null || !Number.isFinite(confidence) || confidence < NORMAL_CONFIDENCE_THRESHOLD) return
-    if (!modelId(selectedModel) || modelId(top.model) !== modelId(selectedModel)) return
+    if (!enabled || reduced || !result || !selectedModel || !isModelMatch(result, selectedModel)) return
 
     const reach = document.documentElement.clientWidth * 0.75
     const rise = document.documentElement.clientHeight * 0.6
