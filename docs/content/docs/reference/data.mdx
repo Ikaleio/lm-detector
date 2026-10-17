@@ -52,6 +52,15 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-17 新增 deepseek-v4.1-flash-1017" id="2026-10-17-deepseek-flash-1017">
+    `deepseek-v4.1-flash-1017` 请求 `deepseek/deepseek-v4.1-flash`，固定 OpenRouter 的 `openrouter/deepseek` 官方供应商渠道，禁止回退。采样使用 Chat Completions 流式输出和 `reasoning_effort=low`。
+
+    `1017` 标签依据 [DeepSeek 官方 2026-10-17 更新公告](https://api-docs.deepseek.com/updates/)：官方 API 的稳定别名已升级。OpenRouter 的目录仍标记 `20260910`，原始响应返回无日期型号，不能独立证明日期版本。采样证据保存在 `collections/deepseek-v4.1-flash-1017-openrouter-deepseek-low-20261017/`。
+
+    本次入库补充两组三条独立固定评估回答，沿用固定挑战、相同渠道和 `low` 档位。评估回答不参与建库、训练或校准。
+
+    36 条参考回答和 6 条独立评估回答全部在首次尝试自然完成。参考库共有 60 个身份、2,236 条样本。重训后，新模型两组均排名第一。旧的 118 个完整组从 107 组正确降至 105 组：旧版 `deepseek-v4.1-flash` 第 1 组和 `gpt-5.4` 第 2 组均改判为 `1017`。评估覆盖 120/122 组、360/366 条回答，完整组命中 107/120。
+  </Accordion>
   <Accordion title="2026-10-14 新增 gemini-4-argon" id="2026-10-14-gemini-4-argon">
     新增 `gemini-4-argon` 的 36 条固定挑战回答，正式库扩展到 59 个指纹身份、2,200 条样本。请求型号为 `google/gemini-4-argon`，使用 OpenRouter Chat Completions 流式输出、`reasoning_effort=low` 和固定 `openrouter/google-ai-studio` 渠道，禁止回退。36 条回答均在首次尝试通过校验。33 条自然完成，`query-10`、`query-25` 和 `query-36` 在 500 个整数处截断，并保留截断标记。
 

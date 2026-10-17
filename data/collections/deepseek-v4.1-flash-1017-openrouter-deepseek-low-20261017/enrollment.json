@@ -1,0 +1,195 @@
+{
+  "schema": "fingerpoint-enrollment-v2",
+  "run_id": "653ba610-1f33-40ab-93bc-d05685e87c70",
+  "manifest_sha256": "c195c604530f7c0612018b40c2ae2726c55c92a2ca0debbc4da76d89af6501c2",
+  "added": 36,
+  "skipped": 0,
+  "total": 2236,
+  "created_at": "2026-10-17T09:34:59.837Z",
+  "previous_reference_sha256": "8af405bf4f7fa3de6e00a86fd67424e6d629db5a27a9e94295bdc7977f0e8faf",
+  "reference_sha256": "42898744de03f54a58c399c61157671d4f8fa858ea5ea39661ac8fc3eba58ef5",
+  "previous_bank_sha256": "4778a1684d5464449967856e2e82d340e9ed0e68c555c157931224a6a365cc7d",
+  "bank_sha256": "66465e6251fbaa3597ad24a4101cce787c525a1dff19741ab636bc187d6e33fc",
+  "selected_attempts": [
+    {
+      "challenge_id": "query-01",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-01"
+    },
+    {
+      "challenge_id": "query-02",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-02"
+    },
+    {
+      "challenge_id": "query-03",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-03"
+    },
+    {
+      "challenge_id": "query-04",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-04"
+    },
+    {
+      "challenge_id": "query-05",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-05"
+    },
+    {
+      "challenge_id": "query-06",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-06"
+    },
+    {
+      "challenge_id": "query-07",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-07"
+    },
+    {
+      "challenge_id": "query-08",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-08"
+    },
+    {
+      "challenge_id": "query-09",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-09"
+    },
+    {
+      "challenge_id": "query-10",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-10"
+    },
+    {
+      "challenge_id": "query-11",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-11"
+    },
+    {
+      "challenge_id": "query-12",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-12"
+    },
+    {
+      "challenge_id": "query-13",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-13"
+    },
+    {
+      "challenge_id": "query-14",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-14"
+    },
+    {
+      "challenge_id": "query-15",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-15"
+    },
+    {
+      "challenge_id": "query-16",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-16"
+    },
+    {
+      "challenge_id": "query-17",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-17"
+    },
+    {
+      "challenge_id": "query-18",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-18"
+    },
+    {
+      "challenge_id": "query-19",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-19"
+    },
+    {
+      "challenge_id": "query-20",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-20"
+    },
+    {
+      "challenge_id": "query-21",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-21"
+    },
+    {
+      "challenge_id": "query-22",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-22"
+    },
+    {
+      "challenge_id": "query-23",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-23"
+    },
+    {
+      "challenge_id": "query-24",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-24"
+    },
+    {
+      "challenge_id": "query-25",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-25"
+    },
+    {
+      "challenge_id": "query-26",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-26"
+    },
+    {
+      "challenge_id": "query-27",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-27"
+    },
+    {
+      "challenge_id": "query-28",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-28"
+    },
+    {
+      "challenge_id": "query-29",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-29"
+    },
+    {
+      "challenge_id": "query-30",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-30"
+    },
+    {
+      "challenge_id": "query-31",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-31"
+    },
+    {
+      "challenge_id": "query-32",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-32"
+    },
+    {
+      "challenge_id": "query-33",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-33"
+    },
+    {
+      "challenge_id": "query-34",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-34"
+    },
+    {
+      "challenge_id": "query-35",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-35"
+    },
+    {
+      "challenge_id": "query-36",
+      "attempt": 1,
+      "row_id": "653ba610-1f33-40ab-93bc-d05685e87c70:query-36"
+    }
+  ]
+}

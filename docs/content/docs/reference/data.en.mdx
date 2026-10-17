@@ -52,6 +52,15 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-17 Add deepseek-v4.1-flash-1017" id="2026-10-17-deepseek-flash-1017">
+    `deepseek-v4.1-flash-1017` requests `deepseek/deepseek-v4.1-flash` through the fixed `openrouter/deepseek` official provider route. Fallbacks are disabled. Collection uses streaming Chat Completions with `reasoning_effort=low`.
+
+    The `1017` label follows the [DeepSeek official October 17 release notes](https://api-docs.deepseek.com/updates/), which state that the stable API alias was upgraded. The OpenRouter catalog still names `20260910`. Raw responses return the undated model ID and do not independently attest the dated version. Evidence is saved in `collections/deepseek-v4.1-flash-1017-openrouter-deepseek-low-20261017/`.
+
+    This enrollment adds two independent fixed evaluation groups of three answers with the same provider and `low` effort. Evaluation answers do not enter bank construction, training, or calibration.
+
+    All 36 reference answers and six independent evaluation answers completed naturally on their first attempt. The bank contains 60 identities and 2,236 samples. Both new groups ranked the new label first after retraining. Correct predictions on the previous 118 complete groups fell from 107 to 105. The first old `deepseek-v4.1-flash` group and the second `gpt-5.4` group changed to `1017`. Evaluation covers 120 of 122 groups and 360 of 366 answers, with 107 of 120 complete groups correct.
+  </Accordion>
   <Accordion title="2026-10-14 Add gemini-4-argon" id="2026-10-14-gemini-4-argon">
     Added 36 fixed-challenge answers for `gemini-4-argon`. The reference bank now contains 59 fingerprint identities and 2,200 samples. Collection requests `google/gemini-4-argon` through streaming OpenRouter Chat Completions, with `reasoning_effort=low` and the fixed `openrouter/google-ai-studio` route. Fallbacks are disabled. All 36 answers passed validation on the first attempt. Of these, 33 completed naturally. `query-10`, `query-25`, and `query-36` stopped at 500 integers and retain their truncation markers.
 
