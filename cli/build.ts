@@ -25,15 +25,16 @@ for (const name of ['ink', 'react', 'terminal-link']) {
   const installed = JSON.parse(await readFile(new URL(`./node_modules/${name}/package.json`, import.meta.url), 'utf8'))
   dependencies[name] = installed.version
 }
+// Splitting keeps the dynamically imported commands, and with them Ink and React, out of fpd.js until fpd.ts sets
+// NODE_ENV. Import declarations are hoisted, so a single-file bundle would load them first.
 execFileSync('bun', [
   'build', resolve(root, 'cli/fpd.ts'), resolve(root, 'cli/bank-worker.ts'), '--outdir', resolve(destination, 'bin'),
-  '--entry-naming', '[name].js', '--target', 'node',
-  '--define', 'process.env.NODE_ENV="production"',
+  '--entry-naming', '[name].js', '--target', 'node', '--splitting',
   '--define', `FPD_BUILD_VERSION=${JSON.stringify(version)}`,
   ...Object.keys(dependencies).flatMap(name => ['--external', name]),
 ], { cwd: root, stdio: 'inherit' })
 const executable = resolve(destination, 'bin/fpd.js')
-for (const name of ['fpd.js', 'bank-worker.js']) {
+for (const name of await readdir(resolve(destination, 'bin'))) {
   const path = resolve(destination, 'bin', name)
   let bundle = await readFile(path, 'utf8')
   if (name === 'fpd.js') {
