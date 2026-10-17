@@ -21,7 +21,7 @@ import { configComplete, useApiConfig, type WebApiConfig } from '@/lib/config'
 import { describeError } from '@/lib/errors'
 import { exportResultImage } from '@/lib/export-image'
 import { useMotionPreset } from '@/lib/motion'
-import { isModelMatch, useModelMatchCelebration } from '@/lib/use-model-match-celebration'
+import { useModelMatchCelebration } from '@/lib/use-model-match-celebration'
 import { trackDetection } from '@/lib/telemetry'
 import { useTokenizerProbe } from '@/lib/use-tokenizer-probe'
 import { useConnectionRoute } from '@/lib/use-connection-route'
@@ -262,7 +262,7 @@ export default function DetectRoute() {
       const model = mode === 'api' ? config.model : null
       setResultModel(model)
       setResult(analysis)
-      if (model) trackDetection(model, isModelMatch(analysis, model))
+      if (model) trackDetection(model, analysis)
     } catch (error) {
       if (!mounted.current || verifying.current !== token) return
       toast.error(describeError(i18n, error, 'errors.analyze'))
