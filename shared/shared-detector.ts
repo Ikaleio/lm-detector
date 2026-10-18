@@ -102,6 +102,24 @@ function rankSharedNumbers(numbers:Matrix,artifact:SharedDetector):Vector {
   return ranking
 }
 
+/**
+ * Language-model replies jump between distant values (strongly negative lag-1 autocorrelation, almost no
+ * steps of 20 or less); program RNG output and sorted or shuffled lists do not. The limits are the 99.5%
+ * quantiles over the reference bank's three-answer groups.
+ */
+const SEQUENCE_LIMITS={autocorrelation:-.23,small_step_share:.05}
+
+function sequenceShape(numbers:Matrix) {
+  const shapes=numbers.map(n=>{
+    const m=mean(n),variance=mean(n.map(x=>(x-m)**2)),steps=n.slice(1).map((x,i)=>x-n[i])
+    return {autocorrelation:variance?mean(steps.map((_,i)=>(n[i+1]-m)*(n[i]-m)))/variance:1,
+      small_step_share:mean(steps.map(d=>Math.abs(d)<=20?1:0))}
+  })
+  const autocorrelation=median(shapes.map(s=>s.autocorrelation)),small_step_share=median(shapes.map(s=>s.small_step_share))
+  return {autocorrelation,small_step_share,
+    model_like:autocorrelation<=SEQUENCE_LIMITS.autocorrelation && small_step_share<=SEQUENCE_LIMITS.small_step_share}
+}
+
 export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedDetector,options:{allowPartial?:boolean}={}):Analysis {
   if(!supportsSharedDetector(bank,artifact))
     throw new Error('The reference bank does not match the detector. Run fpd retrain --data-dir DIR for this bank.')
@@ -113,11 +131,18 @@ export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedD
       accepted:parsed[index].length>=minimum,raw_out_of_range_count:raw.filter(n=>n<1||n>355).length}
   })
   const used=diagnostics.filter(d=>d.accepted).length
+  const accepted=parsed.filter((_,i)=>diagnostics[i].accepted)
+  const sequence=used?sequenceShape(accepted):null
   const common={probability:null,probability_status:'unavailable',
-    used_outputs:used,diagnostics,method:'shared-detector-v2',
+    used_outputs:used,diagnostics,sequence,method:'shared-detector-v2',
     model_version:{base_sha256:artifact.base_sha256}}
+  const notModel={...common,prediction:'',prediction_name:'不像语言模型回答',family_prediction_name:'',
+    results:[],decision:'not_model',evidence:{insufficient:true,label:'不像语言模型回答',
+      reason:'相邻数字的变化方式与参考库中的语言模型回答不同，常见于程序生成、排序或打乱顺序的数字。未生成排名。',
+      threshold:null,method:'sequence-shape'}}
   if(options.allowPartial && used>0 && used<3 && outputs.length<=3) {
-    const ranking=rankSharedNumbers(parsed.filter((_,i)=>diagnostics[i].accepted),artifact)
+    if(!sequence!.model_like)return notModel
+    const ranking=rankSharedNumbers(accepted,artifact)
     const order=artifact.model_ids.map((_,i)=>i).sort((i,j)=>ranking[j]-ranking[i])
     const results=order.map(i=>({model:artifact.model_ids[i],display_name:bank.models[i].display_name,
       family:bank.models[i].family,family_name:bank.models[i].family_name,score:ranking[i],probability:null}))
@@ -134,6 +159,7 @@ export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedD
     family_prediction_name:'',results:[],decision:'unscorable',evidence:{insufficient:true,
       label:'需要三条完整回答',reason:`当前有 ${used}/${outputs.length} 条有效回答。请补齐原来的三条回答后重新检测。`,
       threshold:null,method:'complete-three-answers'}}
+  if(!sequence!.model_like)return notModel
   const ranking=rankSharedNumbers(parsed,artifact)
   const probabilities=calibrateRanking(ranking,artifact)
   const order=artifact.model_ids.map((_,i)=>i).sort((i,j)=>ranking[j]-ranking[i])

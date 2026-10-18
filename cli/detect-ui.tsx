@@ -129,7 +129,8 @@ function Dashboard({ state, options, bankSize, tokenizerBank, cancel, saved, fat
   const spinner = '⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'[Math.floor(now / 100) % 10]
   const history = state.rounds.filter(round => round.finishedAt)
   const visibleHistory = history.slice(compact ? -3 : -5)
-  const anomalous = latest?.analysis?.results.length ? anomalousSamples(latest.outputs.map(output => output.text)) : []
+  const anomalous = latest?.analysis?.results.length || latest?.analysis?.decision === 'not_model'
+    ? anomalousSamples(latest.outputs.map(output => output.text)) : []
   const winnerCounts = new Map<string, number>()
   for (const round of history) {
     if (round.analysis?.results.length) {

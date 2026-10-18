@@ -3,6 +3,12 @@ title: Ranking and calibration
 description: A frequency ranking and a position/order discriminant set the candidate order with equal weights, and a temperature softmax gives the confidence within the reference bank.
 ---
 
+## Language-model reply check [#sequence-check]
+
+Before ranking, the detector checks how consecutive numbers change. The language-model replies in the reference bank jump between distant values: the lag-1 autocorrelation of consecutive numbers is clearly negative, and steps of 20 or less almost never occur. Program-generated random numbers, sorted numbers and shuffled replies do not have this structure.
+
+For each valid answer, the detector calculates the lag-1 autocorrelation and the share of consecutive differences with an absolute value of 20 or less. It takes the median of each over the valid answers. If the autocorrelation is above −0.23 or the share is above 0.05, the result is "Not like a language model reply", with no ranking and no confidence. The two limits are the 99.5% quantiles of these values over the reference bank's three-answer groups, grouped by environment. 5 of the 708 reference groups exceed them.
+
 ## Ranker
 
 The ranker calculates two scores for each model in the reference bank: the frequency ranking $f$ and the position/order discriminant $q$. It standardizes each score across the candidates and adds them with equal weights:

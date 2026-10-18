@@ -50,6 +50,8 @@ The ranking and the confidence come from the number fingerprint alone. In API mo
 
 If the confidence of the top candidate is below 75%, the page shows a low-confidence warning. If only one or two answers are valid, the page shows only the ranking, without confidence.
 
+If consecutive numbers change differently from the language-model replies in the reference bank, the result is "Not like a language model reply", with no ranking and no confidence. Program-generated, sorted or shuffled numbers often cause this. For the method, see the [language-model reply check](../principles/ranking.mdx#sequence-check).
+
 If the smallest valid number of a sample is 200 or more, the page marks its distribution as abnormal and the result as unreliable. The prompt causes this distribution, so resampling with the same prompt repeats it. In API mode, "New prompt and resample" generates new challenges for these samples and samples them again at once with the original settings; in manual mode, "New prompt" only replaces the prompts and clears the matching answers. The other samples stay as they are. This warning plays no part in scoring.
 
 <Callout type="warn" title="A ranking is not proof of identity">

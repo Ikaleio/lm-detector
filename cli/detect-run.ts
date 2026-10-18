@@ -78,6 +78,9 @@ function englishAnalysis(analysis: Analysis): Analysis {
   if (analysis.decision === 'unscorable') {
     label = 'Not enough valid samples'
     reason = `Received ${analysis.used_outputs}/3 valid samples. Three valid samples are required.`
+  } else if (analysis.decision === 'not_model') {
+    label = 'Not like a language model reply'
+    reason = 'Consecutive numbers change differently from the language-model replies in the reference bank. Program-generated, sorted or shuffled numbers often do this. No ranking was produced.'
   } else if (analysis.decision === 'partial') {
     label = 'Partial sample ranking'
     reason = `Ranked ${analysis.used_outputs} valid sample${analysis.used_outputs === 1 ? '' : 's'}. Confidence requires three valid samples.`
@@ -89,7 +92,8 @@ function englishAnalysis(analysis: Analysis): Analysis {
     reason = 'The confidence calibration does not match this detector. Confidence is unavailable.'
   }
   return {
-    ...analysis, prediction_name: analysis.decision === 'unscorable' ? 'Not scored' : analysis.prediction_name,
+    ...analysis, prediction_name: analysis.decision === 'unscorable' ? 'Not scored'
+      : analysis.decision === 'not_model' ? 'Not a model reply' : analysis.prediction_name,
     evidence: { ...analysis.evidence, label, reason },
   }
 }

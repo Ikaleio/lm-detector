@@ -40,7 +40,8 @@ export function ResultPanel({ result, anomalous, mode, onReplacePrompts }: { res
   const { t, percent } = useI18n()
   const [all, setAll] = useState(false)
   const { reduced } = useMotionPreset()
-  const unscorable = result.decision === 'unscorable' || result.results.length === 0
+  const notModel = result.decision === 'not_model'
+  const unscorable = notModel || result.decision === 'unscorable' || result.results.length === 0
   const top = result.results[0]
   const logo = top && brandLogos[top.family]
   const topConfidence = top?.probability ?? null
@@ -55,8 +56,8 @@ export function ResultPanel({ result, anomalous, mode, onReplacePrompts }: { res
         {unscorable ? (
           <>
             <span className="text-meta text-muted-foreground">{t('detect.result')}</span>
-            <span className="text-display">{t('detect.unscorable')}</span>
-            <span className="text-body text-muted-foreground">{t('detect.unscorableBody', { used: result.used_outputs })}</span>
+            <span className="text-display">{t(notModel ? 'detect.notModel' : 'detect.unscorable')}</span>
+            <span className="text-body text-muted-foreground">{notModel ? t(anomalous.length ? 'detect.notModelPromptBody' : 'detect.notModelBody') : t('detect.unscorableBody', { used: result.used_outputs })}</span>
             <PixelShader effect="static" className="mt-3 h-16 w-full rounded-lg text-muted-foreground/40" />
           </>
         ) : (

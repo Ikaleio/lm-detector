@@ -498,7 +498,7 @@ export default function DetectRoute() {
                 <DropdownMenuTrigger render={<Button variant="ghost" size="icon-lg" aria-label={t('detect.more')} />}><MoreVertical /></DropdownMenuTrigger>
                 <DropdownMenuContent align="end"><DropdownMenuGroup><DropdownMenuItem onClick={() => exportJson(result)}>{t('detect.exportJson')}</DropdownMenuItem></DropdownMenuGroup></DropdownMenuContent>
               </DropdownMenu>}
-              <Button variant="outline" className="h-9" onClick={saveImage}>{t('detect.saveImage')}</Button>
+              {result && result.results.length > 0 && <Button variant="outline" className="h-9" onClick={saveImage}>{t('detect.saveImage')}</Button>}
               <Button className="h-9" onClick={restartAfterResult}>{t('detect.restart')}</Button>
             </>
           ) : phase === 'sampling' ? (
