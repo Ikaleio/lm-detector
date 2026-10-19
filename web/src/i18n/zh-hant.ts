@@ -347,7 +347,7 @@ export const zhHant: Messages = {
     nearestHint: '相對距離以本模型自身樣本之間的距離為 1.00，越接近 1.00 越難區分。',
   },
   errors: {
-    invalid_base_url: '介面網址無效，請填寫以 https:// 開頭的網址',
+    invalid_base_url: '介面網址無效，請填寫 HTTPS 網址；本機回環和內網網址也支援 HTTP',
     aborted: '已停止',
     timeout: '上游回應逾時，請重試',
     network: '請求沒有收到回應。請檢查網路連線和「介面網址」。使用自架 Worker 時，請用「檢查代理」確認 Worker 可用。',

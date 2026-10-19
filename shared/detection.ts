@@ -2,6 +2,7 @@ import { completionBody, COMPLETION_TIMEOUT_MS, sendsSpeed, SPEED_BETA } from '.
 import { readCompletion } from './completion'
 import { parseNumbers } from './fingerprint-core.js'
 import { throughputMeter } from './throughput'
+import { isLocalApiUrl } from './api-url'
 import type { ApiConfig, Challenge, CodedError, CollectionProgress, ErrorCode, Output, SampleState } from './types'
 
 export type CompletionTransport = (url:string, config:ApiConfig, body:Record<string,unknown>, signal:AbortSignal) => Promise<Response>
@@ -19,7 +20,7 @@ export const directTransport:CompletionTransport = (url,config,body,signal) => {
 export function endpoint(config:ApiConfig){
   let u:URL
   try{u=new URL(config.baseUrl)}catch{throw coded('请输入有效的 Base URL','invalid_base_url')}
-  if(u.protocol!=='https:'||u.username||u.password||u.search||u.hash)throw coded('Base URL 格式不正确','invalid_base_url')
+  if(!(u.protocol==='https:'||(u.protocol==='http:'&&isLocalApiUrl(u)))||u.username||u.password||u.search||u.hash)throw coded('Base URL 格式不正确','invalid_base_url')
   const base=u.href.replace(/\/$/,'')
   if(config.format==='responses')return base.endsWith('/responses')?base:base+(base.endsWith('/v1')?'/responses':'/v1/responses')
   if(config.format==='anthropic')return base.endsWith('/messages')?base:base+(base.endsWith('/v1')?'/messages':'/v1/messages')

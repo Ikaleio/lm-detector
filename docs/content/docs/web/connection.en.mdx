@@ -6,7 +6,17 @@ icon: ShieldCheck
 
 The browser's cross-origin restriction (CORS) decides whether a web page may read the response of an API. Many relays and third-party APIs do not allow web pages to call them directly, so the requests have to go through a server. That server is the forwarding proxy. On a direct call, your API key passes through no third party. Through a proxy, your API key, the challenges, and the model's answers pass through that server on their way to the API.
 
+## Local and private network APIs
+
+The web app accepts HTTP API addresses on loopback and local networks, including custom ports. Examples include `http://127.0.0.1:3065/v1/`, `http://localhost:3065/v1/`, `http://192.168.1.10:8080/v1/`, and `http://[::1]:3065/v1/`.
+
+These addresses always use a direct browser connection, regardless of the connection mode below. Cloud relays cannot reach the user's local network, so a failed direct request does not fall back to a proxy. The API must allow cross-origin requests (CORS). If the browser asks for local network access, grant that permission. Browsers can also restrict HTTP private network requests from HTTPS pages. In that case, host the web app locally or use the CLI.
+
+Supported local addresses include `127.0.0.0/8`, `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `169.254.0.0/16`, IPv6 loopback, unique local addresses, and link-local addresses. Single-label hostnames and names under `localhost`, `.localhost`, `.local`, `.internal`, `.lan`, and `.home.arpa` are also accepted. Other addresses still require HTTPS. Custom domains that resolve to private IP addresses still require HTTPS.
+
 ## The four connection modes
+
+These modes apply to addresses other than the local targets described above.
 
 "Connection" at the bottom of the API configuration has four options, with one sentence below the selected option that explains it. It is a browser-level setting. It applies to all profiles and is not written to exported configuration files.
 

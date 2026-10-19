@@ -345,7 +345,7 @@ export const zh = {
     nearestHint: '相对距离以本模型自身样本之间的距离为 1.00，越接近 1.00 越难区分。',
   },
   errors: {
-    invalid_base_url: '接口地址无效，请填写以 https:// 开头的地址',
+    invalid_base_url: '接口地址无效，请填写 HTTPS 地址；本地回环和内网地址也支持 HTTP',
     aborted: '已停止',
     timeout: '上游响应超时，请重试',
     network: '请求没有收到响应。请检查网络连接和“接口地址”。使用自建 Worker 时，用“检查代理”确认 Worker 可用。',
@@ -723,7 +723,7 @@ export const en: Messages = {
     nearestHint: 'Relative distance, where 1.00 is the spread between this model’s own samples. Values near 1.00 are hard to tell apart.',
   },
   errors: {
-    invalid_base_url: 'Invalid base URL; it must start with https://',
+    invalid_base_url: 'Invalid base URL; use HTTPS, or HTTP for loopback and local network addresses',
     aborted: 'Stopped',
     timeout: 'Upstream timed out, please retry',
     network: 'The request got no response. Check the network connection and the Base URL. If you use your own Worker, use "Check proxy" to make sure that the Worker is available.',

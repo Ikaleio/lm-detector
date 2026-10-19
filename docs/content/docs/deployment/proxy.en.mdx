@@ -6,6 +6,8 @@ icon: Network
 
 ## Upstream addresses
 
+The web app also supports HTTP loopback and private network APIs. These addresses automatically use a direct browser connection instead of this proxy. See [Local and private network APIs](../web/connection.mdx).
+
 The proxy does not restrict provider domains. Enter a custom HTTPS API address on the website and it works, with no server environment variables to configure. The address must use a fully qualified domain name. IP literals, single-label host names, and `localhost`, `.local`, and `.internal` domains are not accepted.
 
 The proxy accepts only HTTPS on the default port 443, the three protocol endpoints, and JSON requests of at most 128 KiB. It follows no redirects and does not pass through cookies or arbitrary request headers. The client must provide its own upstream key.
