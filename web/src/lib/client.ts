@@ -1,4 +1,5 @@
 import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
+import { isLocalApiUrl } from '@fingerpoint/shared/api-url'
 import { coded, endpoint, testApi as testApiShared, type CompletionTransport } from '@fingerpoint/shared/detection'
 import { assertTokenizerBank, type TokenizerBank } from '@fingerpoint/shared/tokenizer-bank'
 import { probeTokenizer as probeTokenizerShared, tokenizerReport, type TokenizerRun } from '@fingerpoint/shared/tokenizer-probe'
@@ -90,7 +91,11 @@ const proxyTransport = (proxy:string):CompletionTransport => (url,config,body,si
  */
 const directTransport:CompletionTransport = (url,config,body,signal) =>
   fetch(url,{...directInit,method:'POST',headers:directHeaders(config,config.apiKey,Boolean(body.stream)),body:JSON.stringify(browserBody(config,body)),signal})
-    .catch(error=>{throw error instanceof TypeError?coded('The browser could not call the API directly.','direct_network'):error})
+    .catch(error => {
+      if (!(error instanceof TypeError)) throw error
+      const code = isLocalApiUrl(new URL(url)) ? 'local_direct_network' : 'direct_network'
+      throw coded('The browser could not call the API directly.', code)
+    })
 /** A proxied route names its relay, so a later settings change cannot redirect a running job. */
 export type Route = {kind:'direct'}|{kind:'proxy';endpoint:string}
 export const transportFor = (route:Route):CompletionTransport => route.kind==='direct'?directTransport:proxyTransport(route.endpoint)

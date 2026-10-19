@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { CloudUpload, FileCode2, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { isLocalApiUrl } from '@fingerpoint/shared/api-url'
 import { parseOrigins } from '../../../worker/main.js'
 import workerConfig from '../../../worker/wrangler.json'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -16,7 +17,7 @@ import { cn } from '@/lib/utils'
  * Chooses how runs reach the API: auto, direct, this site's proxy, or a Worker the user deployed from
  * `worker/main.js`. The choice is global, not part of a profile, because it describes the user's infrastructure.
  */
-export function ProxySettings({ disabled }: { disabled: boolean }) {
+export function ProxySettings({ disabled, baseUrl }: { disabled: boolean; baseUrl: string }) {
   const { t } = useI18n()
   const [setting, setSetting] = useState(connectionSetting)
   const { mode, endpoint } = setting
@@ -28,6 +29,8 @@ export function ProxySettings({ disabled }: { disabled: boolean }) {
   const invalid = touched && draft.trim() !== '' && endpoint === null
   const allowed = parseOrigins(workerConfig.vars.ALLOWED_ORIGINS)
   const outsideDefault = !allowed.includes('*') && !allowed.includes(location.origin)
+  let local = false
+  try { local = isLocalApiUrl(new URL(baseUrl)) } catch { /* The API configuration validates the address. */ }
 
   function save(next: ConnectionSetting) {
     setSetting(next)
@@ -58,14 +61,14 @@ export function ProxySettings({ disabled }: { disabled: boolean }) {
   return (
     <Field className="md:col-span-2">
       <FieldTitle>{t('proxy.setting')}</FieldTitle>
-      <Segmented label={t('proxy.setting')} value={mode} disabled={disabled} onChange={next => save({ ...setting, mode: next })} options={[
+      <Segmented label={t('proxy.setting')} value={local ? 'direct' : mode} disabled={disabled || local} onChange={next => save({ ...setting, mode: next })} options={[
         { value: 'auto', label: t('proxy.mode.auto') },
         { value: 'direct', label: t('proxy.mode.direct') },
         { value: 'site', label: t('proxy.mode.site') },
-        { value: 'worker', label: t('proxy.mode.worker'), recommended: true },
+        { value: 'worker', label: t('proxy.mode.worker'), recommended: !local },
       ]} />
-      <FieldDescription>{t(`proxy.help.${mode}`)}</FieldDescription>
-      {mode === 'worker' && <>
+      <FieldDescription>{t(local ? 'proxy.localHelp' : `proxy.help.${mode}`)}</FieldDescription>
+      {!local && mode === 'worker' && <>
         <Field data-invalid={invalid || undefined}>
           <FieldLabel htmlFor="proxy-worker-url">{t('proxy.workerUrl')}</FieldLabel>
           <div className="flex flex-wrap gap-2">

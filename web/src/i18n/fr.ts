@@ -133,6 +133,7 @@ export const fr: Messages = {
     decline: 'Même pas en rêve (masquer une semaine)',
   },
   proxy: {
+    localHelp: 'Les API locales et des réseaux privés utilisent toujours une connexion directe depuis le navigateur. Les proxys cloud ne peuvent pas y accéder. Le serveur doit autoriser CORS et les requêtes préliminaires OPTIONS sans clé API. Le réglage des API publiques reste inchangé.',
     setting: 'Connexion',
     mode: {
       auto: 'Auto',
@@ -352,6 +353,7 @@ export const fr: Messages = {
     timeout: 'Délai de réponse de l’amont dépassé, réessayez',
     network: 'La requête n’a reçu aucune réponse. Vérifiez la connexion réseau et l’« URL de base ». Avec votre propre Worker, utilisez « Vérifier le proxy » pour vous assurer qu’il est disponible.',
     direct_network: 'Le navigateur ne peut pas appeler l’API directement. L’adresse ou le réseau peut être en cause, ou l’API refuse les requêtes CORS du navigateur. Vérifiez l’« URL de base » et la connexion réseau, ou choisissez « Auto » ou un proxy dans « Connexion ».',
+    local_direct_network: 'Le navigateur ne peut pas accéder à l’API locale. Vérifiez l’adresse, le serveur, l’autorisation du réseau local et les paramètres CORS. Les requêtes préliminaires OPTIONS ne contiennent pas de clé API. Si OPTIONS renvoie 401, le serveur doit autoriser ces requêtes avant de vérifier la clé des requêtes réelles. Les proxys cloud ne peuvent pas accéder aux API locales. Vous pouvez aussi utiliser la CLI.',
     proxy_unavailable: 'Le proxy API est indisponible. Vérifiez que la fonction proxy est déployée sur le site.',
     not_json: 'L’API n’a renvoyé ni JSON ni flux',
     no_stream_body: 'L’API n’a renvoyé aucun corps de flux',

@@ -132,6 +132,7 @@ export const zh = {
   },
   proxy: {
     setting: '连接方式',
+    localHelp: '本地和内网接口始终由浏览器直连，云端代理无法访问。服务端需要允许跨域请求（CORS），并放行不带 API Key 的 OPTIONS 预检。公网接口的连接设置保持不变。',
     mode: {
       auto: '自动',
       direct: '直连',
@@ -350,6 +351,7 @@ export const zh = {
     timeout: '上游响应超时，请重试',
     network: '请求没有收到响应。请检查网络连接和“接口地址”。使用自建 Worker 时，用“检查代理”确认 Worker 可用。',
     direct_network: '浏览器无法直接调用接口。原因可能是地址或网络有问题，也可能是接口不允许浏览器跨域请求。请检查“接口地址”和网络连接，或在“连接方式”中改用“自动”或代理。',
+    local_direct_network: '浏览器无法访问本地接口。请检查地址、服务状态、本地网络权限和跨域设置（CORS）。OPTIONS 预检不带 API Key；如果它返回 401，需由服务端先放行预检，再校验正式请求的 Key。云端代理无法访问本地接口，也可改用 CLI。',
     proxy_unavailable: 'API 代理不可用，请确认站点已部署代理函数。',
     not_json: '接口返回的不是 JSON 或流式数据',
     no_stream_body: '接口未返回流式正文',
@@ -510,6 +512,7 @@ export const en: Messages = {
   },
   proxy: {
     setting: 'Connection',
+    localHelp: 'Local and private network APIs always use a direct browser connection. Cloud proxies cannot reach them. The server must allow CORS and OPTIONS preflights without an API key. Your connection setting for public APIs stays unchanged.',
     mode: {
       auto: 'Auto',
       direct: 'Direct',
@@ -728,6 +731,7 @@ export const en: Messages = {
     timeout: 'Upstream timed out, please retry',
     network: 'The request got no response. Check the network connection and the Base URL. If you use your own Worker, use "Check proxy" to make sure that the Worker is available.',
     direct_network: 'The browser could not call the API directly. The cause can be the address or the network, or the API does not allow browser CORS requests. Check the Base URL and the network connection, or select "Auto" or a proxy in Connection.',
+    local_direct_network: 'The browser could not reach the local API. Check the address, server, local network permission, and CORS settings. OPTIONS preflights contain no API key. If OPTIONS returns 401, the server must allow preflights before authenticating actual requests. Cloud proxies cannot reach local APIs. You can also use the CLI.',
     proxy_unavailable: 'The API proxy is unavailable. Check that the site includes the proxy function.',
     not_json: 'The endpoint did not return JSON or a stream',
     no_stream_body: 'The endpoint returned no stream body',

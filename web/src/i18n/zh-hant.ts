@@ -133,6 +133,7 @@ export const zhHant: Messages = {
     decline: '醜拒（一週內不再顯示）',
   },
   proxy: {
+    localHelp: '本機與內網介面一律由瀏覽器直連，雲端代理無法存取。伺服器需要允許跨來源請求（CORS），並放行不帶 API Key 的 OPTIONS 預檢。公網介面的連線設定維持不變。',
     setting: '連線方式',
     mode: {
       auto: '自動',
@@ -352,6 +353,7 @@ export const zhHant: Messages = {
     timeout: '上游回應逾時，請重試',
     network: '請求沒有收到回應。請檢查網路連線和「介面網址」。使用自架 Worker 時，請用「檢查代理」確認 Worker 可用。',
     direct_network: '瀏覽器無法直接呼叫介面。可能是網址或網路有問題，也可能是介面不允許瀏覽器跨域請求。請檢查「介面網址」和網路連線，或在「連線方式」中改用「自動」或代理。',
+    local_direct_network: '瀏覽器無法存取本機介面。請檢查網址、服務狀態、本機網路權限與跨來源設定（CORS）。OPTIONS 預檢不帶 API Key；如果它回傳 401，需由伺服器先放行預檢，再驗證正式請求的 Key。雲端代理無法存取本機介面，也可改用 CLI。',
     proxy_unavailable: 'API 代理無法使用，請確認網站已部署代理函式。',
     not_json: '介面回傳的不是 JSON 或串流資料',
     no_stream_body: '介面未回傳串流內容',

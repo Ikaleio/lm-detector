@@ -7,6 +7,6 @@ export interface Analysis {prediction:string;prediction_name:string;probability:
 export interface Output {text:string;expected_count:number}
 export interface ApiConfig {baseUrl:string;apiKey:string;model:string;effort:string;format:'openai'|'responses'|'anthropic';serviceTier?:ServiceTier;stream?:boolean;parallel?:boolean;relaxed?:boolean}
 export type SampleState='pending'|'requesting'|'streaming'|'done'|'capped'|'rejected'|'stopped'
-export type ErrorCode='invalid_base_url'|'aborted'|'timeout'|'network'|'direct_network'|'http'|'proxy_unavailable'|'not_json'|'no_stream_body'|'bad_stream_json'|'upstream_stream_error'|'refused'|'incomplete'|'insufficient_numbers'|'no_output'|'responses_incomplete'|'no_usage'|'proxy_missing'|'upstream_not_api'
+export type ErrorCode='invalid_base_url'|'aborted'|'timeout'|'network'|'direct_network'|'local_direct_network'|'http'|'proxy_unavailable'|'not_json'|'no_stream_body'|'bad_stream_json'|'upstream_stream_error'|'refused'|'incomplete'|'insufficient_numbers'|'no_output'|'responses_incomplete'|'no_usage'|'proxy_missing'|'upstream_not_api'
 export interface CodedError extends Error {code?:ErrorCode;httpStatus?:number;completionDetails?:unknown}
 export interface CollectionProgress {completed:number;total:number;accepted:number;message:string;text?:string;challengeIndex?:number;challenges?:{text:string;status:string;state?:SampleState;error?:string;errorCode?:ErrorCode;httpStatus?:number;throughput?:Throughput}[];outputs?:Output[]}

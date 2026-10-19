@@ -12,7 +12,24 @@ The web app accepts HTTP API addresses on loopback and local networks, including
 
 These addresses always use a direct browser connection, regardless of the connection mode below. Cloud relays cannot reach the user's local network, so a failed direct request does not fall back to a proxy. The API must allow cross-origin requests (CORS). If the browser asks for local network access, grant that permission. Browsers can also restrict HTTP private network requests from HTTPS pages. In that case, host the web app locally or use the CLI.
 
+For a local address, Connection shows Direct and disables the connection options. The Worker configuration is hidden. The saved connection setting for public APIs stays unchanged and reappears when you enter a public API address.
+
 Supported local addresses include `127.0.0.0/8`, `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `169.254.0.0/16`, IPv6 loopback, unique local addresses, and link-local addresses. Single-label hostnames and names under `localhost`, `.localhost`, `.local`, `.internal`, `.lan`, and `.home.arpa` are also accepted. Other addresses still require HTTPS. Custom domains that resolve to private IP addresses still require HTTPS.
+
+### OPTIONS preflight returns 401
+
+Before a cross-origin `POST` with an API key, the browser automatically sends an `OPTIONS` preflight. Its `Access-Control-Request-Headers` header lists the header names needed by the actual request, but the preflight contains no API key. Actual Chat Completions and Responses requests carry `Authorization: Bearer <API Key>`. Messages requests carry `x-api-key`.
+
+If the server requires a key on the preflight, `OPTIONS` returns 401 and the browser does not send the actual `POST`. This does not mean that the page omitted the key. Page scripts cannot add a key to the browser's preflight or bypass a failed preflight.
+
+Configure CORS in the local API server or its reverse proxy:
+
+1. Handle `OPTIONS` before API key authentication. Return 200 or 204 for allowed origins.
+2. Set `Access-Control-Allow-Origin` to allow the actual page origin, for example `https://lm.ikale.io`. For a local deployment, use the page's protocol, hostname, and port.
+3. Allow `POST` in `Access-Control-Allow-Methods`. In `Access-Control-Allow-Headers`, allow the headers listed by the preflight. Chat Completions and Responses need `authorization, content-type`. Messages also needs `x-api-key, anthropic-version, anthropic-dangerous-direct-browser-access`, plus `anthropic-beta` when a fast service tier is enabled.
+4. Keep API key authentication on actual `POST` requests. Include CORS headers that allow the page origin on both successful and error responses.
+
+If you cannot change the local server, use the [CLI](../cli/detect.mdx). CLI requests are not subject to browser CORS restrictions. Hosting the web app locally does not necessarily solve preflight failures: different ports still make the page and API cross-origin.
 
 ## The four connection modes
 
@@ -54,7 +71,7 @@ flowchart TD
 
 ## When a direct call fails
 
-When a direct request fails at the network level, the page names both possible causes: the API address or the network is wrong, or the API does not allow cross-origin calls from web pages (CORS). The browser cannot tell which one it is. Check the address and your network first; if they are fine, switch the connection to "This site's proxy" or "Own Worker". A failed direct request is not switched to a proxy automatically.
+When a direct request fails at the network level, the browser cannot identify whether the cause is the address, network, browser permission, or CORS configuration. For local APIs, the page asks you to check the server, local network permission, and CORS. It also explains that `OPTIONS` contains no key. Switching to a cloud proxy cannot solve a local API connection failure. For public APIs, check the address and your network first. If they are correct, switch to "This site's proxy" or "Own Worker". A failed direct request is not switched to a proxy automatically.
 
 ## This site's proxy and your own Worker
 

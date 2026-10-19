@@ -387,7 +387,7 @@ export function ApiConfigPanel({ open, onOpenChange, config, update, profileMana
           </FieldGroup>
           <Separator />
           <FieldGroup className="grid gap-4 md:grid-cols-2">
-            <ProxySettings disabled={disabled} />
+            <ProxySettings disabled={disabled} baseUrl={config.baseUrl} />
           </FieldGroup>
         </FieldSet>
       </CollapsibleContent>

@@ -7,6 +7,7 @@ const codeKeys: Record<ErrorCode, Parameters<I18n['t']>[0]> = {
   timeout: 'errors.timeout',
   network: 'errors.network',
   direct_network: 'errors.direct_network',
+  local_direct_network: 'errors.local_direct_network',
   http: 'errors.httpOther',
   proxy_unavailable: 'errors.proxy_unavailable',
   not_json: 'errors.not_json',

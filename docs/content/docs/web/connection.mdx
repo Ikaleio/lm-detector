@@ -12,7 +12,24 @@ icon: ShieldCheck
 
 这些地址始终由浏览器直连，不受下方连接方式设置影响。云端代理无法访问用户设备的本地网络，所以直连失败后不会改走代理。接口需要允许网页跨域访问（CORS）。如果浏览器要求本地网络访问权限，需要允许该权限。浏览器也可能限制 HTTPS 页面访问 HTTP 内网接口；遇到这种情况，可在本地部署网页或使用 CLI。
 
+填写本地地址时，“连接方式”显示为“直连”，其他连接选项不可操作，自建 Worker 的配置区也不显示。之前保存的公网连接设置不会改变；改回公网接口地址后会恢复显示。
+
 支持的本地地址包括 `127.0.0.0/8`、`10.0.0.0/8`、`172.16.0.0/12`、`192.168.0.0/16`、`169.254.0.0/16`、IPv6 回环、唯一本地地址和链路本地地址。也接受单标签主机名，以及 `localhost`、`.localhost`、`.local`、`.internal`、`.lan` 和 `.home.arpa` 名称。其他地址仍须使用 HTTPS。自定义域名即使解析到内网 IP，也需要使用 HTTPS。
+
+### OPTIONS 预检返回 401
+
+浏览器发送带 API Key 的跨域 `POST` 前，会先自动发送 `OPTIONS` 预检。预检通过 `Access-Control-Request-Headers` 声明正式请求需要的请求头名称，但不携带 API Key。Chat Completions 和 Responses 的正式请求携带 `Authorization: Bearer <API Key>`，Messages 携带 `x-api-key`。
+
+如果服务端要求预检也携带 Key，`OPTIONS` 就会返回 401，浏览器不会发送正式 `POST`。这不代表网页漏传了 Key。网页脚本无法给浏览器的预检添加 Key，也无法绕过失败的预检。
+
+在本地 API 服务或它前面的反向代理中配置 CORS：
+
+1. 在 API Key 鉴权之前处理 `OPTIONS`，对允许的来源返回 200 或 204。
+2. 用 `Access-Control-Allow-Origin` 允许实际网页来源，例如 `https://lm.ikale.io`。本地部署时填写网页实际的协议、主机和端口。
+3. 用 `Access-Control-Allow-Methods` 允许 `POST`，用 `Access-Control-Allow-Headers` 允许预检声明的请求头。Chat Completions 和 Responses 需要 `authorization, content-type`。Messages 还需要 `x-api-key, anthropic-version, anthropic-dangerous-direct-browser-access`；启用快速服务等级时还需要 `anthropic-beta`。
+4. 对正式 `POST` 继续校验 API Key，并在成功和错误响应中都返回允许该网页来源的 CORS 响应头。
+
+如果不能调整本地服务，可使用 [CLI](../cli/detect.mdx)。CLI 请求不受浏览器 CORS 限制。仅将网页部署到本地不一定解决预检问题：网页与 API 的端口不同，仍然属于跨域请求。
 
 ## 四种连接方式
 
@@ -54,7 +71,7 @@ flowchart TD
 
 ## 直连失败时
 
-直连请求在网络层失败时，页面提示两种可能：接口地址或网络有问题，或者接口不允许网页跨域访问（CORS）。浏览器无法确定是哪一种。先检查地址和网络；确认无误后，可以把连接方式改为“本站代理”或“自建 Worker”。失败的直连请求不会自动改走代理。
+直连请求在网络层失败时，浏览器无法确定是地址、网络、浏览器权限还是 CORS 配置导致的。对于本地接口，页面提示检查服务状态、本地网络权限和 CORS，并解释 `OPTIONS` 不携带 Key；切换云端代理无法解决本地接口的问题。对于公网接口，先检查地址和网络，确认无误后可以把连接方式改为“本站代理”或“自建 Worker”。失败的直连请求不会自动改走代理。
 
 ## 本站代理与自建 Worker
 
