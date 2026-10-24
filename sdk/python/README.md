@@ -8,7 +8,7 @@ Documentation: https://lm.ikale.io/docs/en/sdk
 ## Install and build
 
 ```sh
-pip install "lmfpd @ git+https://github.com/Ikaleio/lm-detector#subdirectory=sdk/python"
+pip install lmfpd
 uv build                   # from sdk/python; writes the sdist and wheel to dist/
 ```
 

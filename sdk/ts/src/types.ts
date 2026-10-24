@@ -99,3 +99,12 @@ export interface LoadOptions {
   /** Seconds after a check before the cache is refreshed in the background; 0 checks on every load. Default 86400. */
   ttl?: number
 }
+
+/**
+ * Data sources, tried in order. The mirror is JSDMirror, a jsDelivr mirror in mainland China, serving the `lmfpd-data`
+ * npm package, which has the same layout as the site's `/data/`.
+ */
+export const DEFAULT_DATA_URLS: readonly string[] = [
+  'https://lm.ikale.io/data/',
+  'https://cdn.jsdmirror.com/npm/lmfpd-data@latest/',
+]

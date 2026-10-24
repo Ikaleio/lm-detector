@@ -27,6 +27,24 @@ npm trust github lmfpd --repo Ikaleio/lm-detector \
 
 可信发布者必须允许直接 `npm publish`。配置完成后，GitHub Actions 不需要保存 npm 令牌。依赖自动发布之前，先手动触发一次工作流，确认授权可用。
 
+## SDK 发布
+
+四种 SDK 用同一个版本号。发版时先把 `sdk/rust/Cargo.toml` 和 `sdk/python/pyproject.toml` 的 `version` 改成新版本，提交后推送标签：
+
+```sh
+git tag sdk/v0.2.0 && git push origin sdk/v0.2.0
+```
+
+`.github/workflows/publish-sdk.yml` 先核对标签和两个版本号，跑 `typecheck` 和 `sdk:check`，然后分头发布：`lmfpd-sdk` 发到 npm，`lmfpd` 发到 crates.io 和 PyPI，三者都用可信发布，不保存令牌；Go 模块由工作流打上 `sdk/go/v0.2.0` 标签，并请求一次 Go 模块代理。npm 和 PyPI 发布前会在干净环境里安装刚打好的包试用一遍。已经发布的版本会被跳过，所以某个仓库失败后可以直接重跑失败的任务。
+
+首次配置：npm 和 crates.io 的可信发布要求包已经存在，所以先手动发布一次再授权；PyPI 可以在发布前添加待定发布者（pending publisher）。
+
+| 仓库 | 配置 |
+| --- | --- |
+| npm | 手动发布一次后运行 `npm trust github lmfpd-sdk --repo Ikaleio/lm-detector --file publish-sdk.yml --allow-publish --yes` |
+| crates.io | 用 API 令牌手动 `cargo publish` 一次，再在 crate 设置的 Trusted Publishing 里添加仓库 `Ikaleio/lm-detector`、工作流 `publish-sdk.yml` |
+| PyPI | 在账号的 Publishing 页面为项目 `lmfpd` 添加 GitHub 发布者：仓库 `Ikaleio/lm-detector`，工作流 `publish-sdk.yml`，环境留空 |
+
 ## SDK 数据镜像
 
 SDK 不内置参考数据，运行时先从 `https://lm.ikale.io/data/` 下载，失败再换国内镜像 `https://cdn.jsdmirror.com/npm/lmfpd-data@latest/`。镜像内容来自 npm 包 `lmfpd-data`。包里只有 `bundle.json` 和检测参数的压缩分块，目录结构和网站的 `/data/` 一样。

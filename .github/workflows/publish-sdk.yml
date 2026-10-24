@@ -1,0 +1,169 @@
+name: Publish SDKs
+
+# Push a tag sdk/vX.Y.Z after setting that version in sdk/rust/Cargo.toml and sdk/python/pyproject.toml.
+# Each registry job skips a version that is already published, so a failed run can be rerun as is.
+on:
+  push:
+    tags: ['sdk/v*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sdk-release
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+      - id: version
+        name: Check the tag against the package versions
+        shell: bash
+        run: |
+          version=${GITHUB_REF_NAME#sdk/v}
+          [[ $version =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Tag $GITHUB_REF_NAME is not sdk/vX.Y.Z."; exit 1; }
+          grep -qx "version = \"$version\"" sdk/rust/Cargo.toml || { echo "sdk/rust/Cargo.toml is not at $version."; exit 1; }
+          grep -qx "version = \"$version\"" sdk/python/pyproject.toml || { echo "sdk/python/pyproject.toml is not at $version."; exit 1; }
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: sdk/go/go.mod
+          cache-dependency-path: sdk/go/go.sum
+      - uses: astral-sh/setup-uv@v6
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun run sdk:check
+
+  npm:
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      VERSION: ${{ needs.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
+      - run: bun install --frozen-lockfile
+      - run: LMFPD_SDK_VERSION=$VERSION bun run build:sdk
+      - name: Verify a clean install under Node
+        shell: bash
+        run: |
+          (cd dist/lmfpd-sdk && npm pack --pack-destination ..)
+          smoke_dir=$(mktemp -d) data_dir=$PWD/data
+          cd "$smoke_dir"
+          printf '{"private":true,"type":"module"}\n' > package.json
+          npm install "$GITHUB_WORKSPACE"/dist/lmfpd-sdk-*.tgz typescript@5 @types/node@22
+          DATA_DIR=$data_dir node -e '
+            const { loadDetector, generateChallenges } = await import("lmfpd-sdk")
+            const detector = await loadDetector({ source: process.env.DATA_DIR })
+            const analysis = detector.analyze([{ text: "1, 2, 3", expected_count: 300 }])
+            if (!detector.builtAt || analysis.decision !== "unscorable" || generateChallenges(1).length !== 1) throw new Error("Installed SDK failed")
+          '
+          printf '%s\n' 'import { loadDetector, type Analysis } from "lmfpd-sdk"' \
+            'const analysis: Analysis = (await loadDetector()).analyze([{ text: "1", expected_count: 3 }])' 'export {}' > check.ts
+          npx tsc --noEmit --strict --module nodenext --moduleResolution nodenext --target es2022 check.ts
+      - name: Publish with npm trusted publishing
+        shell: bash
+        run: |
+          if npm view "lmfpd-sdk@$VERSION" version > /dev/null 2>&1; then echo "lmfpd-sdk@$VERSION is already on npm."; exit 0; fi
+          cd dist/lmfpd-sdk && npm publish --access public --tag latest --provenance
+
+  crates:
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      VERSION: ${{ needs.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+      - id: published
+        shell: bash
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' -A 'lmfpd release (github.com/Ikaleio/lm-detector)' "https://crates.io/api/v1/crates/lmfpd/$VERSION")
+          if [ "$code" = 200 ]; then echo "lmfpd $VERSION is already on crates.io."; echo "skip=true" >> "$GITHUB_OUTPUT"; fi
+      - if: steps.published.outputs.skip != 'true'
+        uses: rust-lang/crates-io-auth-action@v1
+        id: auth
+      - if: steps.published.outputs.skip != 'true'
+        working-directory: sdk/rust
+        run: cargo publish --locked
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
+
+  pypi:
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      VERSION: ${{ needs.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: astral-sh/setup-uv@v6
+      - working-directory: sdk/python
+        run: uv build
+      - name: Verify a clean install of the wheel
+        shell: bash
+        run: |
+          uv run --isolated --no-project --with sdk/python/dist/lmfpd-"$VERSION"-py3-none-any.whl python -c '
+          import lmfpd
+          detector = lmfpd.load("data")
+          assert detector.built_at
+          assert detector.analyze([{"text": "1, 2, 3", "expected_count": 300}])["decision"] == "unscorable"
+          assert len(lmfpd.generate_challenges(1)) == 1
+          '
+      - name: Publish with PyPI trusted publishing
+        working-directory: sdk/python
+        shell: bash
+        run: |
+          if curl -sf -o /dev/null "https://pypi.org/pypi/lmfpd/$VERSION/json"; then echo "lmfpd $VERSION is already on PyPI."; exit 0; fi
+          uv publish --trusted-publishing always
+
+  go:
+    needs: check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ needs.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: sdk/go/go.mod
+          cache: false
+      # Go reads module versions from tags prefixed with the module's directory.
+      - name: Tag the Go module
+        shell: bash
+        run: |
+          tag=sdk/go/v$VERSION
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" > /dev/null; then echo "$tag already exists."; else
+            git tag "$tag" "$GITHUB_SHA" && git push origin "refs/tags/$tag"
+          fi
+          GOPROXY=https://proxy.golang.org go list -m "github.com/Ikaleio/lm-detector/sdk/go@v$VERSION"

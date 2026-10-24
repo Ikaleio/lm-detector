@@ -21,24 +21,22 @@ SDK 不做[分词器探测](../principles/tokenizer.mdx)，也不提供多轮检
 
 ## 安装
 
-SDK 还没有发布到 npm、crates.io 和 PyPI，现在从 GitHub 仓库安装：
+TypeScript 版发布在 npm，Rust 版在 crates.io，Python 版在 PyPI，Go 版是仓库里的模块：
 
 ```sh tab="TypeScript"
-git clone https://github.com/Ikaleio/lm-detector
-cd lm-detector && bun install --frozen-lockfile && bun run build:sdk
-npm install ./dist/lmfpd-sdk   # 在你的项目里填这个目录的实际路径
+npm install lmfpd-sdk
 ```
 
 ```sh tab="Rust"
-cargo add lmfpd --git https://github.com/Ikaleio/lm-detector
+cargo add lmfpd
 ```
 
 ```sh tab="Go"
-go get github.com/Ikaleio/lm-detector/sdk/go@main
+go get github.com/Ikaleio/lm-detector/sdk/go@latest
 ```
 
 ```sh tab="Python"
-pip install "lmfpd @ git+https://github.com/Ikaleio/lm-detector#subdirectory=sdk/python"
+pip install lmfpd
 ```
 
 TypeScript 版在 Node.js 22+ 和 Bun 1.4.2+ 上运行，打包后没有依赖。Rust 版的调用都是阻塞的。Go 版要求 Go 1.23+。Python 版要求 Python 3.10+，依赖 `httpx`、`zstandard` 和 `numpy`。

@@ -1,7 +1,7 @@
 import { SERVICE_TIERS } from '@fingerpoint/shared/completion-request'
 import { requestEndpoint, type DetectionOptions } from '@fingerpoint/shared/detect-request'
 import type { ApiConfig } from '@fingerpoint/shared/types'
-import type { DetectConfig } from './types'
+import type { DetectConfig } from './types.js'
 
 const FORMATS = { responses: 'responses', chat_completions: 'openai', messages: 'anthropic' } as const
 

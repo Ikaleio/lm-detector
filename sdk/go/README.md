@@ -5,7 +5,7 @@ Go SDK for lmfpd, which identifies the language model behind a reply from the nu
 Documentation: https://lm.ikale.io/docs/en/sdk
 
 ```sh
-go get github.com/Ikaleio/lm-detector/sdk/go@main
+go get github.com/Ikaleio/lm-detector/sdk/go@latest
 ```
 
 The module needs Go 1.23 or later. Its only dependency is `github.com/klauspost/compress` (zstd).

@@ -27,6 +27,24 @@ npm trust github lmfpd --repo Ikaleio/lm-detector \
 
 The trusted publisher must allow direct `npm publish`. After setup, GitHub Actions needs no stored npm token. Dispatch the workflow manually once to verify the authorization before you rely on automatic releases.
 
+## SDK releases
+
+The four SDKs share one version. To release, set `version` in `sdk/rust/Cargo.toml` and `sdk/python/pyproject.toml`, commit, and push a tag:
+
+```sh
+git tag sdk/v0.2.0 && git push origin sdk/v0.2.0
+```
+
+`.github/workflows/publish-sdk.yml` checks the tag against both versions and runs `typecheck` and `sdk:check`. It then publishes `lmfpd-sdk` to npm and `lmfpd` to crates.io and PyPI, all with trusted publishing and no stored tokens. For Go it pushes the tag `sdk/go/v0.2.0` and asks the Go module proxy for it once. Before publishing to npm and PyPI, it installs the new package in a clean environment and tries it. Versions that are already published are skipped, so you can rerun the failed jobs after a registry fails.
+
+First-time setup: npm and crates.io allow trusted publishing only for packages that exist, so publish once by hand and then authorize the workflow. PyPI accepts a pending publisher before the first release.
+
+| Registry | Setup |
+| --- | --- |
+| npm | After one manual publish, run `npm trust github lmfpd-sdk --repo Ikaleio/lm-detector --file publish-sdk.yml --allow-publish --yes` |
+| crates.io | Run `cargo publish` once with an API token, then add the repository `Ikaleio/lm-detector` and workflow `publish-sdk.yml` under Trusted Publishing in the crate settings |
+| PyPI | On your account's Publishing page, add a GitHub publisher for the project `lmfpd`: repository `Ikaleio/lm-detector`, workflow `publish-sdk.yml`, no environment |
+
 ## SDK data mirror
 
 The SDKs contain no reference data. At runtime they download it from `https://lm.ikale.io/data/` and fall back to the mainland China mirror `https://cdn.jsdmirror.com/npm/lmfpd-data@latest/`. The mirror serves the npm package `lmfpd-data`. The package holds only `bundle.json` and the detector's compressed chunks, in the same layout as the website's `/data/`.

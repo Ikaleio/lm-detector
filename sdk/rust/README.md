@@ -5,11 +5,11 @@ detection. Native port of the TypeScript SDK; results match it within 1e-9 (see 
 
 Documentation: https://lm.ikale.io/docs/en/sdk
 
-## Build
+## Install and build
 
 ```sh
-cargo add lmfpd --git https://github.com/Ikaleio/lm-detector   # in your project
-cargo build --release                                         # in sdk/rust
+cargo add lmfpd           # in your project
+cargo build --release     # in sdk/rust
 # conformance check, from projects/
 cargo run --release --manifest-path sdk/rust/Cargo.toml --example conformance -- "$PWD/sdk/conformance" "$PWD/data"
 ```

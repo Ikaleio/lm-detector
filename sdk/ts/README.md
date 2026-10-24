@@ -9,9 +9,7 @@ The results are a closed-set ranking within the reference bank. They are not ide
 Documentation: https://lm.ikale.io/docs/en/sdk
 
 ```sh
-# Node 22+ or Bun 1.4.2+. Not yet on npm: build the package from a checkout of the repository.
-bun install --frozen-lockfile && bun run build:sdk
-npm install ./dist/lmfpd-sdk
+npm install lmfpd-sdk   # Node 22+ or Bun 1.4.2+
 ```
 
 ```ts

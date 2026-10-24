@@ -2,13 +2,13 @@ import { generateChallenges as generate } from '@fingerpoint/shared/challenge-br
 import { buildDetectRequest, requestSample as request, type Sample as CoreSample } from '@fingerpoint/shared/detect-request'
 import { runDetection } from '@fingerpoint/shared/detect-run'
 import { parseNumbers as parse } from '@fingerpoint/shared/fingerprint-core.js'
-import { analyzeOutputs, canonicalAnalysis } from './analysis'
-import { detectOptions } from './config'
-import { DEFAULT_DATA_URLS, loadData, type ReferenceData } from './data'
-import type { Analysis, Challenge, DetectConfig, DetectResult, LoadOptions, Output, Sample } from './types'
+import { analyzeOutputs, canonicalAnalysis } from './analysis.js'
+import { detectOptions } from './config.js'
+import { loadData, type ReferenceData } from './data.js'
+import type { Analysis, Challenge, DetectConfig, DetectResult, LoadOptions, Output, Sample } from './types.js'
 
-export type * from './types'
-export { DEFAULT_DATA_URLS }
+export type * from './types.js'
+export { DEFAULT_DATA_URLS } from './types.js'
 
 const canonicalSample = (sample: CoreSample): Sample => ({
   state: sample.state, text: sample.text, raw_text: sample.rawText, count: sample.count, expected_count: sample.expectedCount,

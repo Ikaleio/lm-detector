@@ -6,15 +6,8 @@ import { cacheRoot } from '@fingerpoint/shared/cache-dir'
 import { decodeDetector } from '@fingerpoint/shared/detector-codec'
 import { supportsSharedDetector, type SharedDetector } from '@fingerpoint/shared/shared-detector'
 import type { Bank } from '@fingerpoint/shared/types'
+import { DEFAULT_DATA_URLS } from './types.js'
 
-/**
- * Data sources, tried in order. The mirror is JSDMirror, a jsDelivr mirror in mainland China, serving the `lmfpd-data`
- * npm package, which has the same layout as the site's `/data/`.
- */
-export const DEFAULT_DATA_URLS: readonly string[] = [
-  'https://lm.ikale.io/data/',
-  'https://cdn.jsdmirror.com/npm/lmfpd-data@latest/',
-]
 /** Bump when the bundle layout changes; older SDKs then refuse the data instead of misreading it. */
 const DATA_SCHEMA = 'lmfpd-data-v1'
 const DETECTOR_SCHEMA = 'shared-detector-v2'

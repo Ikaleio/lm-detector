@@ -21,24 +21,22 @@ The SDKs do not run the [tokenizer probe](../principles/tokenizer.mdx) and do no
 
 ## Install
 
-The SDKs are not yet published to npm, crates.io, or PyPI. Install them from the GitHub repository:
+The TypeScript SDK is on npm, the Rust SDK on crates.io, and the Python SDK on PyPI. The Go SDK is a module in the repository:
 
 ```sh tab="TypeScript"
-git clone https://github.com/Ikaleio/lm-detector
-cd lm-detector && bun install --frozen-lockfile && bun run build:sdk
-npm install ./dist/lmfpd-sdk   # in your project, use the actual path to this folder
+npm install lmfpd-sdk
 ```
 
 ```sh tab="Rust"
-cargo add lmfpd --git https://github.com/Ikaleio/lm-detector
+cargo add lmfpd
 ```
 
 ```sh tab="Go"
-go get github.com/Ikaleio/lm-detector/sdk/go@main
+go get github.com/Ikaleio/lm-detector/sdk/go@latest
 ```
 
 ```sh tab="Python"
-pip install "lmfpd @ git+https://github.com/Ikaleio/lm-detector#subdirectory=sdk/python"
+pip install lmfpd
 ```
 
 The TypeScript SDK runs on Node.js 22+ and Bun 1.4.2+ and has no dependencies once built. Every Rust call is blocking. The Go SDK needs Go 1.23+. The Python SDK needs Python 3.10+ and depends on `httpx`, `zstandard`, and `numpy`.

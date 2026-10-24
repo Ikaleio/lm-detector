@@ -3,7 +3,7 @@ import { englishAnalysis } from '@fingerpoint/shared/detect-run'
 import { parseNumbers } from '@fingerpoint/shared/fingerprint-core.js'
 import { analyzeSharedOutputs, type SharedDetector } from '@fingerpoint/shared/shared-detector'
 import type { Analysis as CoreAnalysis, Bank } from '@fingerpoint/shared/types'
-import type { Analysis, Output } from './types'
+import type { Analysis, Output } from './types.js'
 
 export const SCORING_FAILED = 'Scoring failed. Check that the reference bank and detector files are valid.'
 

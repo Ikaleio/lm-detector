@@ -5,6 +5,11 @@ edition = "2024"
 license = "MIT"
 description = "Language-model fingerprint detection: offline scoring, challenges, and live detection"
 repository = "https://github.com/Ikaleio/lm-detector"
+homepage = "https://lm.ikale.io"
+documentation = "https://lm.ikale.io/docs/en/sdk"
+readme = "README.md"
+keywords = ["llm", "fingerprint", "model-detection"]
+categories = ["api-bindings", "text-processing"]
 
 [dependencies]
 getrandom = "0.4.3"
