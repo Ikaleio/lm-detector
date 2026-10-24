@@ -52,6 +52,15 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-24 Add gemini-3.5-flash-lite" id="2026-10-24-gemini-3-5-flash-lite">
+    Added 36 fixed-challenge answers for `gemini-3.5-flash-lite`, bringing the reference bank to 62 fingerprint identities and 2,308 samples. Collection requests `google/gemini-3.5-flash-lite` through streaming OpenRouter Chat Completions, with `reasoning_effort=minimal` and the fixed `openrouter/google-ai-studio` official provider route. Fallbacks are disabled. This model requires reasoning, so collection selects its lowest supported effort.
+
+    All 36 reference answers passed validation on their first attempt. Returned model IDs and Google AI Studio provider metadata passed checks against the raw responses. Of these answers, 33 completed naturally and three stopped at the collection limit of 500 integers. Prompts and system prompts follow the fixed suite. The previous 2,272 reference answers are unchanged. Sampling evidence and the enrollment receipt are saved in `collections/gemini-3.5-flash-lite-openrouter-google-ai-studio-minimal-20261024/`.
+
+    Fixed evaluation uses the existing two independent groups of three challenges with the same provider route and `minimal` effort. Evaluation answers are stored separately and do not enter bank construction, training, or calibration.
+
+    All six new evaluation answers also passed validation on their first attempt. After retraining, both groups ranked `gemini-3.5-flash-lite` first. Predictions on all 122 previous complete groups stayed the same, with 109 correct before and after enrollment. Evaluation covers 124 of 126 groups and 372 of 378 answers, with 111 of 124 complete groups correct. The other two groups are the existing quota-related gaps for `kimi-k2.8-preview`.
+  </Accordion>
   <Accordion title="2026-10-24 Add kimi-k3.1-pro" id="2026-10-24-kimi-k3-1-pro">
     Added 36 fixed-challenge answers for `kimi-k3.1-pro`, bringing the reference bank to 61 fingerprint identities and 2,272 samples. Collection requests `moonshotai/kimi-k3.1-pro` through streaming OpenRouter Chat Completions, with `reasoning_effort=none` and the fixed `openrouter/moonshotai/mxfp4` route. Fallbacks are disabled. Returned model IDs and Moonshot AI provider metadata passed checks against the raw responses.
 

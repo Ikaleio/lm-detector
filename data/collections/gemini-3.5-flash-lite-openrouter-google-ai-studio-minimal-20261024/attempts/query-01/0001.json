@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "efea62a218819ebf335c73b4c573db282ed511df1db97dde9f4dbbf93c9df87b",
+  "challenge_id": "query-01",
+  "attempt": 1,
+  "task": {
+    "id": "query-01",
+    "condition": "environment-01",
+    "expected_count": 218,
+    "prompt": "For each of 218 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "google/gemini-3.5-flash-lite",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For each of 218 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "minimal",
+      "provider": {
+        "only": [
+          "google-ai-studio"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-10-24T14:31:27.398Z",
+  "trace": "trace/query-01/0001",
+  "text": "[182, 47, 312, 89, 235, 14, 276, 115, 342, 63, 198, 24, 301, 156, 82, 333, 5, 219, 140, 271, 93, 318, 41, 165, 227, 12, 285, 104, 350, 71, 189, 33, 243, 111, 298, 54, 214, 150, 88, 321, 2, 175, 122, 264, 45, 309, 133, 225, 18, 347, 98, 259, 76, 192, 29, 315, 144, 209, 68, 338, 8, 239, 119, 278, 60, 169, 22, 305, 139, 250, 85, 327, 49, 196, 114, 283, 38, 221, 159, 94, 344, 15, 269, 73, 187, 127, 311, 52, 231, 101, 291, 26, 163, 211, 79, 331, 6, 202, 147, 274, 91, 353, 43, 180, 129, 247, 66, 316, 20, 256, 108, 336, 83, 217, 154, 294, 35, 171, 237, 112, 303, 58, 194, 137, 266, 86, 323, 11, 223, 152, 287, 74, 340, 48, 185, 125, 252, 62, 307, 24, 212, 105, 329, 90, 161, 229, 70, 348, 17, 207, 142, 279, 56, 313, 120, 261, 39, 199, 135, 296, 81, 335, 21, 245, 102, 272, 65, 178, 157, 289, 95, 351, 46, 215, 117, 325, 84, 190, 131, 268, 51, 302, 13, 233, 107, 281, 77, 319, 32, 167, 241, 99, 345, 69, 183, 149, 257, 25, 320, 110, 275, 59, 205, 146, 308, 92, 354, 40, 220, 126, 293, 75, 337, 19, 176, 254, 106, 310, 64, 210, 155, 284, 87, 343, 31, 197, 134, 263, 53, 324, 118, 248, 97, 300, 23, 228, 143, 290, 72, 352, 44, 181, 124, 270, 57, 317, 109, 260, 80, 334, 16, 208, 151, 288, 61, 328, 100, 238, 138, 306, 37, 213, 113, 277, 96, 341]",
+  "text_sha256": "9b5abcbb746b000cdce0140818912908b85af1c94e503efe02cf2b3ec91e0e35",
+  "parsed_count": 266,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "google/gemini-3.5-flash-lite",
+  "response_id": "gen-1792852287-bJp78wuJ5R85UwMlyTeY",
+  "usage": {
+    "prompt_tokens": 143,
+    "completion_tokens": 1242,
+    "total_tokens": 1385,
+    "cost": 0.0031479,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0031479,
+      "upstream_inference_prompt_cost": 0.0000429,
+      "upstream_inference_completions_cost": 0.003105
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Google AI Studio",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/google-ai-studio",
+  "finished_at": "2026-10-24T14:31:32.640Z"
+}
