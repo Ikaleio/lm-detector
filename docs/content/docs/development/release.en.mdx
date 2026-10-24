@@ -29,15 +29,20 @@ The trusted publisher must allow direct `npm publish`. After setup, GitHub Actio
 
 ## SDK data mirror
 
-The SDKs contain no reference data. At runtime they download it from `https://lm.ikale.io/data/` and fall back to the mainland China mirror `https://cdn.jsdmirror.com/npm/lmfpd-data@latest/`. The mirror serves the npm package `lmfpd-data`, so publish it again after every reference data update:
+The SDKs contain no reference data. At runtime they download it from `https://lm.ikale.io/data/` and fall back to the mainland China mirror `https://cdn.jsdmirror.com/npm/lmfpd-data@latest/`. The mirror serves the npm package `lmfpd-data`. The package holds only `bundle.json` and the detector's compressed chunks, in the same layout as the website's `/data/`.
+
+When the reference data, `sync-data.ts`, or the package script changes on `main`, `.github/workflows/publish-data.yml` rebuilds the package. If its `bundle.json` matches the one on npm, the workflow stops. Otherwise it loads the package through the TypeScript SDK and publishes it with trusted publishing. It then purges jsDelivr's `@latest` cache and warms the chunks on the mirror. JSDMirror caches `@latest` for a few hours; set the repository secret `JSDMIRROR_API_KEY` (issued after you register at [cache.jsdmirror.com](https://cache.jsdmirror.com/)) and the workflow purges it as well. Until the mirror updates, users who reach only the mirror get the previous data.
+
+The first-time setup matches the CLI's: publish once by hand, then authorize the workflow:
 
 ```sh
+npm login
 bun run build:data-package
 cd dist/lmfpd-data
 npm publish --access public --tag latest
+npm trust github lmfpd-data --repo Ikaleio/lm-detector \
+  --file publish-data.yml --allow-publish --yes
 ```
-
-The package holds only `bundle.json` and the detector's compressed chunks, in the same layout as the website's `/data/`. Until the package is republished, users who reach only the mirror get the previous data.
 
 ## Website and docs
 

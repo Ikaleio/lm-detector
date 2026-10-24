@@ -1,6 +1,6 @@
 // Builds dist/lmfpd-data, the npm package that JSDMirror (cdn.jsdmirror.com) mirrors for the SDKs. It holds bundle.json
-// and the detector chunks it lists, in the same layout as the site's /data/. Run from projects/ after any data change,
-// then publish it.
+// and the detector chunks it lists, in the same layout as the site's /data/. .github/workflows/publish-data.yml runs it
+// and publishes the result whenever the data changes on main.
 import { copyFile, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
@@ -30,4 +30,4 @@ await Promise.all([
     files: ['bundle.json', 'chunks', 'LICENSE'],
   }, null, 2) + '\n'),
 ])
-console.log(`Built lmfpd-data@${version} (${bundle.built_at}) in dist/lmfpd-data. Publish it so cdn.jsdmirror.com serves the new data.`)
+console.log(`Built lmfpd-data@${version} (${bundle.built_at}) in dist/lmfpd-data.`)

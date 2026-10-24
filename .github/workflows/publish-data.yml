@@ -1,0 +1,92 @@
+name: Publish SDK data mirror
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/unified_reference.jsonl'
+      - 'data/unified_bank.json'
+      - 'data/shared_detector.bin'
+      - 'web/scripts/sync-data.ts'
+      - 'sdk/scripts/build-data-package.ts'
+      - 'LICENSE'
+      - '.github/workflows/publish-data.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: npm-lmfpd-data
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
+      - run: bun install --frozen-lockfile
+      - run: bun run build:data-package
+      - name: Skip when the published bundle is identical
+        id: changed
+        shell: bash
+        run: |
+          published=$(mktemp -d)
+          if npm pack lmfpd-data@latest --pack-destination "$published" > /dev/null 2>&1 \
+            && tar -xzf "$published"/lmfpd-data-*.tgz -C "$published" package/bundle.json \
+            && cmp -s "$published/package/bundle.json" dist/lmfpd-data/bundle.json; then
+            echo "The published lmfpd-data already holds this bundle."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Load the package through the TypeScript SDK
+        if: steps.changed.outputs.publish == 'true'
+        run: |
+          bun -e '
+            import { loadDetector } from "./sdk/ts/src/index.ts"
+            const server = Bun.serve({ port: 0, fetch: request => new Response(Bun.file("dist/lmfpd-data" + new URL(request.url).pathname)) })
+            const detector = await loadDetector({ source: `http://127.0.0.1:${server.port}/`, cache: `${process.env.RUNNER_TEMP}/lmfpd-data.bin` })
+            const bundle = await Bun.file("dist/lmfpd-data/bundle.json").json()
+            if (detector.builtAt !== bundle.built_at) throw new Error("The SDK loaded a different data build.")
+            server.stop(true)
+          '
+      - name: Publish latest with npm trusted publishing
+        if: steps.changed.outputs.publish == 'true'
+        working-directory: dist/lmfpd-data
+        run: npm publish --access public --tag latest --provenance
+      # JSDMirror serves jsDelivr's copy and caches @latest for hours. Purge both so mainland users get the new data now.
+      - name: Refresh the mirror caches
+        if: steps.changed.outputs.publish == 'true'
+        continue-on-error: true
+        shell: bash
+        env:
+          JSDMIRROR_API_KEY: ${{ secrets.JSDMIRROR_API_KEY }}
+        run: |
+          version=$(node -p 'require("./dist/lmfpd-data/package.json").version')
+          for i in $(seq 1 30); do
+            [ "$(npm view lmfpd-data dist-tags.latest 2>/dev/null)" = "$version" ] && break
+            sleep 10
+          done
+          curl -sS -m 60 https://purge.jsdelivr.net/npm/lmfpd-data@latest/bundle.json; echo
+          if [ -n "$JSDMIRROR_API_KEY" ]; then
+            curl -sS -m 60 -X POST https://cache.jsdmirror.com/api/v1/purge \
+              -H 'Content-Type: application/json' -H "X-API-Key: $JSDMIRROR_API_KEY" \
+              -d '{"url":"https://cdn.jsdmirror.com/npm/lmfpd-data@latest/bundle.json","method":"invalidate"}'; echo
+          else
+            echo "JSDMIRROR_API_KEY is not set; JSDMirror refreshes @latest within a few hours."
+          fi
+          part=$(node -p 'require("./dist/lmfpd-data/bundle.json").files["shared_detector.bin"].parts[0]')
+          curl -sS -o /dev/null -m 300 -w "warmed chunk: HTTP %{http_code} in %{time_total}s\n" \
+            "https://cdn.jsdmirror.com/npm/lmfpd-data@latest/chunks/$part"

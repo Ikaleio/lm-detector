@@ -29,15 +29,20 @@ npm trust github lmfpd --repo Ikaleio/lm-detector \
 
 ## SDK 数据镜像
 
-SDK 不内置参考数据，运行时先从 `https://lm.ikale.io/data/` 下载，失败再换国内镜像 `https://cdn.jsdmirror.com/npm/lmfpd-data@latest/`。镜像内容来自 npm 包 `lmfpd-data`，所以参考数据每次更新后都要重新发布它：
+SDK 不内置参考数据，运行时先从 `https://lm.ikale.io/data/` 下载，失败再换国内镜像 `https://cdn.jsdmirror.com/npm/lmfpd-data@latest/`。镜像内容来自 npm 包 `lmfpd-data`。包里只有 `bundle.json` 和检测参数的压缩分块，目录结构和网站的 `/data/` 一样。
+
+`main` 上的参考数据、`sync-data.ts` 或打包脚本有变化时，`.github/workflows/publish-data.yml` 会重新打包。打出来的 `bundle.json` 和 npm 上的相同就跳过；不同就先用 TypeScript SDK 加载一遍，再用可信发布推到 npm。发布后工作流刷新 jsDelivr 的 `@latest` 缓存，并预热镜像上的分块。JSDMirror 会把 `@latest` 缓存几个小时；在仓库 Secrets 里设置 `JSDMIRROR_API_KEY`（在 [cache.jsdmirror.com](https://cache.jsdmirror.com/) 注册后签发）后，工作流也会立即刷新它。镜像没更新时，国内用户拿到的是上一版数据。
+
+首次配置和 CLI 一样，需要先手动发布一次，再授权工作流：
 
 ```sh
+npm login
 bun run build:data-package
 cd dist/lmfpd-data
 npm publish --access public --tag latest
+npm trust github lmfpd-data --repo Ikaleio/lm-detector \
+  --file publish-data.yml --allow-publish --yes
 ```
-
-包里只有 `bundle.json` 和检测参数的压缩分块，目录结构和网站的 `/data/` 一样。镜像没更新时，国内用户拿到的是上一版数据。
 
 ## 网站与文档
 
