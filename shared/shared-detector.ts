@@ -86,7 +86,7 @@ export function calibrateRanking(ranking:Vector,artifact:SharedDetector):Vector|
   return weights.map(value=>value/sum)
 }
 
-function rankSharedNumbers(numbers:Matrix,artifact:SharedDetector):Vector {
+export function rankSharedNumbers(numbers:Matrix,artifact:SharedDetector):Vector {
   const a=artifact.ranker,full=numbers.map(blocks)
   const ax=full.map(b=>transform(b,a.full_params))
   const lda=numbers.map(n=>{

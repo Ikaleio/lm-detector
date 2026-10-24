@@ -34,7 +34,7 @@ fpd enroll ./my-run --data-dir ./reference-data --json
 fpd retrain --data-dir ./reference-data
 ```
 
-在仓库内更新正式数据后，也可以在根目录运行 `bun run retrain --data-dir ./data`。重训需要 `uv` 和 Python；CLI 用 Bun 管理目录锁、参数和进程，数值拟合由包内的 `offline/` 模块完成。命令不请求模型 API，也不读取固定评估集。
+在仓库内更新正式数据后，也可以在根目录运行 `bun run retrain --data-dir ./data`。重训直接用 Node 或 Bun 运行。CLI 在工作线程中调用 `offline/` 的 TypeScript 模块，主线程负责目录锁续期和取消操作。数值库随 CLI 打包，无需安装 Python。命令不请求模型 API，也不读取固定评估集。
 
 重训先检查参考库与指纹库的哈希，再按固定参考环境重新拟合排名器和置信度温度。训练的计划、指标和冻结源码保存在目标目录的 `.training/`；已有参数时，同一运行目录还保存 `before-shared-detector.bin`。校准必须通过[嵌套留出验收](../principles/ranking.mdx#calibration)，才会原子替换 `shared_detector.bin`；失败时保留原参数，该参考库仍不能用于检测。`--data-dir` 必须指向已有目录，发布包自带的库仍然只读。
 

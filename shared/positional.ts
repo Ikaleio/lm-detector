@@ -1,7 +1,7 @@
 import { countNumbers, hellingerFeature, orderedBlockFeature } from './fingerprint-core.js'
 
-/** Mirrors projects/offline/positional_core.py; block order and weights must match the export. */
-const WEIGHTS = [.6, .15, .125, .125]
+/** Shared by training and inference; block order is part of the detector format. */
+export const POSITIONAL_WEIGHTS = [.6, .15, .125, .125]
 const CENTRES = Array.from({length: 24}, (_, i) => 1 + i * 354 / 23)
 const LAGS = [1, 2, 3, 5, 8, 13, 21, 34]
 
@@ -59,13 +59,17 @@ function sequenceFeatures(x: number[]): number[] {
   return out
 }
 
+export function positionalFeatures(numbers: number[]): number[][] {
+  return [hellingerFeature(countNumbers(numbers)), orderedBlockFeature(numbers), positionKernel(numbers), sequenceFeatures(numbers)]
+}
+
 /** Per-answer decision values over identities. */
 export function positionalDecision(numbers: number[], head: PositionalHead): number[] {
-  const parts = [hellingerFeature(countNumbers(numbers)), orderedBlockFeature(numbers), positionKernel(numbers), sequenceFeatures(numbers)]
+  const parts = positionalFeatures(numbers)
   const x = parts.flatMap((block, j) => {
     const p = head.params[j], scaled = block.map((v: number, i: number) => (v - p.mean[i]) / p.scale[i])
     const length = Math.max(Math.sqrt(scaled.reduce((sum: number, v: number) => sum + v * v, 0)), 1e-12)
-    return scaled.map((v: number) => v / length * Math.sqrt(WEIGHTS[j]))
+    return scaled.map((v: number) => v / length * Math.sqrt(POSITIONAL_WEIGHTS[j]))
   })
   return head.weights.map((row, k) => row.reduce((sum, w, i) => sum + w * x[i], head.bias[k]))
 }

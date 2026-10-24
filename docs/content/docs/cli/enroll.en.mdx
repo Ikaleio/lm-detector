@@ -34,7 +34,7 @@ The reference bank installed with the CLI is always read-only. Enrollment rebuil
 fpd retrain --data-dir ./reference-data
 ```
 
-After you update the official data inside the repository, you can also run `bun run retrain --data-dir ./data` from the root directory. Retraining requires `uv` and Python. The CLI uses Bun to manage the directory lock, options, and processes; the bundled `offline/` modules perform the numerical fitting. The command does not call a model API and does not read the fixed evaluation set.
+After you update the official data inside the repository, you can also run `bun run retrain --data-dir ./data` from the root directory. Retraining runs directly with Node or Bun. A worker thread runs the TypeScript modules in `offline/`, while the main thread renews the directory lock and handles cancellation. The CLI bundles the numerical library; Python is not required. The command does not call a model API and does not read the fixed evaluation set.
 
 Retraining first checks the hashes of the reference bank and the fingerprint bank, then refits the ranker and the confidence temperature over the fixed reference environments. The plan, metrics, and frozen source code of each training run are saved in `.training/` in the destination directory. If parameters already exist, the same run directory also stores `before-shared-detector.bin`. Calibration must pass the [nested holdout check](../principles/ranking.mdx#calibration) before `shared_detector.bin` is replaced atomically. On failure, the previous parameters stay in place, and the bank still cannot be used for detection. `--data-dir` must point to an existing directory. The bank bundled with the published package stays read-only.
 

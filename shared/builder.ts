@@ -3,15 +3,15 @@ import { countNumbers, hellingerFeature, orderedBlockFeature, parseNumbers, robu
 import type { Bank } from './types'
 import type { ReferenceBatch } from './reference'
 
-type Prepared = { source:string; display_name:string; family_id:string; family_name:string; channel:string; condition_id:string; challenge_id:string; numbers:number[]; counts:number[]; h:number[]; o:number[] }
+export type ReferenceRow = { row_id:string; source:string; display_name:string; family_id:string; family_name:string; channel:string; condition_id:string; challenge_id:string; reasoning_effort:string|null; numbers:number[]; counts:number[]; h:number[]; o:number[] }
 const avg = (xs:number[]) => xs.reduce((a,b)=>a+b,0)/xs.length
 const dot = (a:number[],b:number[]) => a.reduce((s,x,i)=>s+x*b[i],0)
 const unit = (a:number[]) => { const n=Math.max(Math.sqrt(dot(a,a)),1e-12);return a.map(x=>x/n) }
 const meanRows = (a:number[][]) => a[0].map((_,i)=>avg(a.map(x=>x[i])))
 const counts = (a:string[]) => {const d:Record<string,number>={};for(const x of a)d[x]=(d[x]||0)+1;return d}
-function featureFit(features:number[][], rows:Prepared[], nuisance:string[], complete:string[]) {
+function featureFit(features:number[][], rows:ReferenceRow[], nuisance:string[], complete:string[]) {
   const mean=meanRows(features)
-  const scale=mean.map((m,i)=>Math.sqrt(avg(features.map(f=>(f[i]-m)**2)))||1)
+  const scale=mean.map((m,i)=>{const s=Math.sqrt(avg(features.map(f=>(f[i]-m)**2)));return s<1e-12?1:s})
   const z=features.map(f=>f.map((x,i)=>(x-mean[i])/scale[i]))
   const offsets=nuisance.map(e=>meanRows(z.filter((_,i)=>rows[i].condition_id===e&&complete.includes(rows[i].condition_id))))
   let basis:number[][]=[]
@@ -24,7 +24,7 @@ function featureFit(features:number[][], rows:Prepared[], nuisance:string[], com
   const projected=z.map(f=>{const v=f.slice();for(const b of basis){const d=dot(f,b);for(let i=0;i<v.length;i++)v[i]-=d*b[i]}return v})
   return {mean,scale,z,projected,basis}
 }
-function fit(rows:Prepared[], models:string[]) {
+export function fitRobustBank(rows:ReferenceRow[], models:string[]) {
   const envs=[...new Set(rows.map(r=>r.condition_id))].sort()
   const complete=envs.filter(e=>new Set(rows.filter(r=>r.condition_id===e).map(r=>r.source)).size===models.length)
   const nuisance=[...new Set(rows.filter(r=>complete.includes(r.condition_id)).map(r=>r.condition_id))].sort()
@@ -46,16 +46,20 @@ function calibrate(records:{scores:number[];truth:number}[]) {
   const correct=records.filter(r=>r.scores.indexOf(Math.max(...r.scores))===r.truth).length
   return {beta,cv_accuracy:correct/records.length,cv_samples:records.length,cv_correct:correct,cv_nll:best,fallback:false}
 }
-export function buildBank(input:ReferenceBatch[],progress:(message:string)=>void=()=>{}):Bank {
+export function prepareReferenceRows(input:ReferenceBatch[]):ReferenceRow[] {
   if(!input.some(batch=>batch.samples.length))throw new Error('统一库至少需要一条有效样本')
   if(input.some(batch=>batch.purpose!=='reference'))throw new Error('测试集不能用于建库或校准')
-  const rows:Prepared[]=[]
+  const rows:ReferenceRow[]=[]
   for(const batch of input)for(const sample of batch.samples){
     const numbers=parseNumbers(sample.text),c=countNumbers(numbers)
-    rows.push({source:batch.model.id,display_name:batch.model.display_name??batch.model.id,family_id:batch.model.family,family_name:batch.model.family_name,channel:sample.actual_channel??batch.source.channel,condition_id:sample.condition,challenge_id:sample.challenge_id,numbers,counts:c,h:hellingerFeature(c),o:orderedBlockFeature(numbers)})
+    rows.push({row_id:sample.id,source:batch.model.id,display_name:batch.model.display_name??batch.model.id,family_id:batch.model.family,family_name:batch.model.family_name,channel:sample.actual_channel??batch.source.channel,condition_id:sample.condition,challenge_id:sample.challenge_id,reasoning_effort:sample.reasoning_effort??batch.request.reasoning_effort,numbers,counts:c,h:hellingerFeature(c),o:orderedBlockFeature(numbers)})
   }
+  return rows
+}
+export function buildBank(input:ReferenceBatch[],progress:(message:string)=>void=()=>{}):Bank {
+  const rows=prepareReferenceRows(input)
   const models=[...new Set(rows.map(r=>r.source))]
-  const robust=fit(rows,models)
+  const robust=fitRobustBank(rows,models)
   const calibration:Bank['calibration']={}
   for(const n of [1,2,3]){
     progress(`Fitting calibration for ${n} response${n === 1 ? '' : 's'}`)
@@ -66,7 +70,7 @@ export function buildBank(input:ReferenceBatch[],progress:(message:string)=>void
       for(const ids of combinations(challenges,n)){
         const selected=new Set(ids),train=rows.filter(r=>!selected.has(r.challenge_id))
         if(models.some(m=>!train.some(r=>r.source===m)))continue
-        const artifact=fit(train,models)
+        const artifact=fitRobustBank(train,models)
         models.forEach((model,truth)=>{
           const held=rows.filter(r=>r.source===model&&selected.has(r.challenge_id))
           if(held.length!==n)return

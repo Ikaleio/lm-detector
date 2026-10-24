@@ -6,7 +6,7 @@ icon: Boxes
 
 ## Packaging
 
-`bun run build:cli` creates `dist/fpd/`. It bundles the CLI commands, the fixed sampling challenges, the shared algorithms, the reference bank worker, and the offline fitting modules in this repository. It copies the public reference bank, detector parameters, and tokenizer bank, and pins the versions of the installed runtime dependencies. Raw sampling records are not packaged. Sampling and enrollment can run outside the repository with Node or Bun. Offline retraining additionally requires `uv` and Python.
+`bun run build:cli` creates `dist/fpd/`. It bundles the CLI commands, the fixed sampling challenges, the shared algorithms, the reference bank worker, and the offline fitting modules in this repository. It copies the public reference bank, detector parameters, and tokenizer bank, and pins the versions of the installed runtime dependencies. Raw sampling records are not packaged. Sampling, enrollment, and offline retraining can run outside the repository with Node or Bun. The CLI bundles the TypeScript training modules and numerical library.
 
 ## Automatic publishing
 

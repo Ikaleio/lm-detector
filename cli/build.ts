@@ -17,7 +17,6 @@ execFileSync('bun', ['web/scripts/sync-data.ts'], { cwd: root, stdio: 'inherit' 
 await rm(destination, { recursive: true, force: true })
 await mkdir(resolve(destination, 'bin'), { recursive: true })
 await mkdir(resolve(destination, 'data'), { recursive: true })
-await mkdir(resolve(destination, 'offline'), { recursive: true })
 
 // Keep Ink and its WASM dependency as npm packages. Bundle all local algorithm code.
 const dependencies: Record<string, string> = {}
@@ -28,7 +27,8 @@ for (const name of ['ink', 'react', 'terminal-link']) {
 // Splitting keeps the dynamically imported commands, and with them Ink and React, out of fpd.js until fpd.ts sets
 // NODE_ENV. Import declarations are hoisted, so a single-file bundle would load them first.
 execFileSync('bun', [
-  'build', resolve(root, 'cli/fpd.ts'), resolve(root, 'cli/bank-worker.ts'), '--outdir', resolve(destination, 'bin'),
+  'build', resolve(root, 'cli/fpd.ts'), resolve(root, 'cli/bank-worker.ts'), resolve(root, 'cli/retrain-worker.ts'),
+  '--outdir', resolve(destination, 'bin'),
   '--entry-naming', '[name].js', '--target', 'node', '--splitting',
   '--define', `FPD_BUILD_VERSION=${JSON.stringify(version)}`,
   ...Object.keys(dependencies).flatMap(name => ['--external', name]),
@@ -46,8 +46,6 @@ for (const name of await readdir(resolve(destination, 'bin'))) {
 }
 await chmod(executable, 0o755)
 
-const offlineFiles = (await readdir(resolve(root, 'offline'))).filter(name => name.endsWith('.py'))
-await Promise.all(offlineFiles.map(name => copyFile(resolve(root, 'offline', name), resolve(destination, 'offline', name))))
 await Promise.all([
   copyFile(resolve(root, 'web/.generated/unified_bank.json'), resolve(destination, 'data/unified_bank.json')),
   copyFile(resolve(root, 'data/shared_detector.bin'), resolve(destination, 'data/shared_detector.bin')),

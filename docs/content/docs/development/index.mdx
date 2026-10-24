@@ -26,7 +26,7 @@ icon: Code
 | `shared/` | 网页与 CLI 共用的挑战、解析、评分与分词器探测算法 |
 | `data/` | 参考数据、派生库、冻结检测器、固定挑战与分词器库，见[数据文件](../reference/data.mdx) |
 | `docs/` | 本文档（Fumadocs + React Router，全部页面预渲染） |
-| `offline/` | 离线重训与校准（Python，由 uv 运行） |
+| `offline/` | 离线重训与校准（TypeScript，在 Node 或 Bun 工作线程中运行） |
 | `worker/` | 单文件 Cloudflare Worker API 代理，也供同源代理入口复用 |
 | `functions/` | Cloudflare Pages Functions 入口 |
 | `api/` | Vercel Functions 入口 |
@@ -41,7 +41,7 @@ icon: Code
 | `completion-request.ts`、`completion.ts`、`detection.ts` | 请求体、响应解析和检测流程 |
 | `fingerprint-core.js` | 数字特征与基础评分 |
 | `shared-detector.ts` | 冻结的排名器和置信度校准 |
-| `detector-codec.ts` | 解码二进制检测器文件 `shared_detector.bin`；CLI、网站和评估器共用 |
+| `detector-codec.ts` | 编码和解码二进制检测器文件 `shared_detector.bin`；CLI、网站和评估器共用 |
 | `sample-distribution.ts` | 标记最小有效数字不低于 200 的异常样本；只用于界面提示，不参与评分 |
 | `builder.ts` | 从参考样本离线建库；拒绝带评估标记的样本 |
 | `tokenizer-bank.ts`、`tokenizer-usage.ts` | 分词器库的类型与校验，以及从 JSON 或 SSE 响应读取用量 |

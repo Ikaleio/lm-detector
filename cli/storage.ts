@@ -8,7 +8,7 @@ export const serialize = (value: unknown) => JSON.stringify(value, null, 2) + '\
 export const readJson = async <T>(path: string): Promise<T> => JSON.parse(await readFile(path, 'utf8'))
 export const missing = (error: unknown) => (error as NodeJS.ErrnoException).code === 'ENOENT'
 
-export async function atomicWrite(path: string, content: string) {
+export async function atomicWrite(path: string, content: string | Uint8Array) {
   await mkdir(dirname(path), { recursive: true })
   const temporary = `${path}.${randomUUID()}.tmp`
   try {

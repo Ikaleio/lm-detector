@@ -1,14 +1,13 @@
-import { spawn } from 'node:child_process'
+import { Worker } from 'node:worker_threads'
 import { stat } from 'node:fs/promises'
 import { resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 import { missing, withLock } from './storage'
 
 const usage = `Usage: fpd retrain --data-dir DIR
 
 Refit the ranker and closed-set confidence calibration from an enrolled
-reference bank. Requires uv and Python; does not call a model API. The original
+reference bank. Runs with Node or Bun and does not call a model API. The original
 detector is preserved if fitting or calibration validation fails.
 `
 
@@ -25,12 +24,25 @@ export async function runRetrainCommand(args: string[]): Promise<void> {
   })
   if (!info.isDirectory()) throw new Error(`Data destination is not a directory: ${directory}`)
 
-  const script = fileURLToPath(new URL('../offline/retrain.py', import.meta.url))
   await withLock(directory, () => new Promise<void>((done, reject) => {
-    const child = spawn('uv', ['run', '--no-project', '--script', script, '--data-dir', directory], { stdio: 'inherit' })
-    child.once('error', error => reject((error as NodeJS.ErrnoException).code === 'ENOENT'
-      ? new Error('Offline retraining requires uv. Install uv and rerun fpd retrain.') : error))
-    child.once('close', (code, signal) => code === 0 ? done() : reject(new Error(
-      `Offline retraining ${signal ? `was interrupted (${signal})` : `failed (exit ${code})`}. Inspect the destination before retrying.`)))
+    const entry = import.meta.url.endsWith('.ts') ? './retrain-worker.ts' : './retrain-worker.js'
+    const worker = new Worker(new URL(entry, import.meta.url), { workerData: { directory } })
+    let result: unknown, interrupted = false
+    const cancel = () => { interrupted = true; void worker.terminate() }
+    process.once('SIGINT', cancel)
+    process.once('SIGTERM', cancel)
+    worker.on('message', message => {
+      if (message.progress) process.stderr.write(message.progress + '\n')
+      if (message.result) result = message.result
+    })
+    worker.once('error', reject)
+    worker.once('exit', code => {
+      process.off('SIGINT', cancel)
+      process.off('SIGTERM', cancel)
+      if (code === 0 && result && !interrupted) {
+        process.stdout.write(JSON.stringify(result) + '\n')
+        done()
+      } else reject(new Error(`Retraining ${interrupted ? 'was interrupted' : `failed (exit ${code})`}. Evidence is in ${directory}/.training/.`))
+    })
   }))
 }

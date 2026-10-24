@@ -20,3 +20,6 @@ research/
 docs/build/
 docs/.react-router/
 docs/.source/
+# Python research tools can import historical product code.
+__pycache__/
+*.pyc

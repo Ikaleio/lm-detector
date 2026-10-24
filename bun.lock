@@ -4,6 +4,9 @@
   "workspaces": {
     "": {
       "name": "lm-fingerpoint-detector",
+      "dependencies": {
+        "ml-matrix": "6.15.0",
+      },
       "devDependencies": {
         "@fingerpoint/cli": "workspace:*",
         "@types/node": "^22.20.2",
