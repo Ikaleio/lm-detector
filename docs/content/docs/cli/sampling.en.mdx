@@ -1,6 +1,7 @@
 ---
 title: Sampling and resuming
 description: Collect a reference batch for a new model or channel with the 36 fixed challenges, resume after an interruption, and adjust single challenges or adopt truncated answers.
+icon: Pipette
 ---
 
 Maintaining reference data takes three steps: `fpd sample` collects samples, [`fpd enroll`](./enroll.mdx) enrolls them, and [`fpd retrain`](./enroll.mdx#retrain) retrains offline. All three can run outside the repository. Inside the repository, you can also use `bun run sample`, `bun run enroll`, and `bun run retrain`. The website only detects and shows the reference bank read-only.

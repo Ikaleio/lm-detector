@@ -1,6 +1,7 @@
 ---
 title: Proxy API
 description: The HTTP API of the forwarding proxy, with a health check, request forwarding, and the cross-origin preflight. This site's proxy and your own Worker share the same API.
+icon: Route
 ---
 
 Some LLM APIs do not allow web pages to call them directly (the browser's cross-origin restriction, CORS). With the connection mode set to Auto, This site's proxy, or Own Worker, the forwarding proxy forwards requests for the page to the upstream (the service behind the API address you enter). It has three methods, all on the path `/api/proxy`: `GET` runs a health check, `POST` forwards an API request, and `OPTIONS` answers the browser's cross-origin preflight.

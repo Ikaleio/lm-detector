@@ -1,6 +1,7 @@
 ---
 title: 采样与续采
 description: 用 36 道固定挑战为新模型或新渠道采集参考批次，中断后续采，并逐题微调或采用截断回答。
+icon: Pipette
 ---
 
 参考数据的维护分三步：`fpd sample` 采样，[`fpd enroll`](./enroll.mdx) 入库，[`fpd retrain`](./enroll.mdx#retrain) 离线重训。三者都可以在仓库外运行；在仓库内也可以用 `bun run sample`、`bun run enroll` 和 `bun run retrain`。网页只检测和只读查看参考库。
