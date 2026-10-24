@@ -3,7 +3,7 @@
   "version": 2,
   "framework": null,
   "installCommand": "bun install --frozen-lockfile",
-  "buildCommand": "bun run build",
+  "buildCommand": "bun run vercel-build",
   "outputDirectory": "web/dist",
   "functions": {
     "api/proxy.ts": { "maxDuration": 300, "supportsCancellation": true }

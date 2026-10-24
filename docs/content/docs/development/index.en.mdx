@@ -13,7 +13,6 @@ icon: Code
 ├── docs/
 ├── offline/
 ├── worker/
-├── functions/
 ├── api/
 ├── package.json
 └── wrangler.jsonc
@@ -28,8 +27,7 @@ icon: Code
 | `docs/` | These docs (Fumadocs + React Router, all pages prerendered) |
 | `offline/` | Offline retraining and calibration (TypeScript, in a Node or Bun worker thread) |
 | `worker/` | Single-file Cloudflare Worker API proxy, also used by the same-origin proxy entry points |
-| `functions/` | Cloudflare Pages Functions entry point |
-| `api/` | Vercel Functions entry point |
+| `api/` | Shared same-origin entry point for Vercel, Cloudflare Pages, and the proxy Worker |
 
 ## Shared algorithms [#shared]
 

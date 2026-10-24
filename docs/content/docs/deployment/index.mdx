@@ -6,13 +6,12 @@ icon: Cloud
 
 `bun run build` 同时构建检测网站和本文档：网站输出到 `web/dist/`，文档预渲染后复制到 `web/dist/docs/`。一次静态部署在 `/` 提供检测网站，在 `/docs` 提供文档。检测网站使用 HashRouter，不需要页面路由重写。
 
-连接方式选择本站代理（或自动模式不能直连）时，请求由同源 `/api/proxy` 转发；选择[自建 Worker](./worker.mdx) 时由你的 Worker 转发。三个同源入口都导入单文件 Worker `worker/main.js` 中的 `proxyRequest`：
+连接方式选择本站代理（或自动模式不能直连）时，请求由同源 `/api/proxy` 转发；选择[自建 Worker](./worker.mdx) 时由你的 Worker 转发。部署入口统一为 `api/proxy.ts`，由 Vercel、Cloudflare Pages 和代理 Worker 共用。本地 Vite 服务器也调用 `worker/main.js` 中的 `proxyRequest`：
 
 | 文件 | 运行环境 |
 | --- | --- |
 | `worker/main.js` | 代理实现，也可以单独部署为 Cloudflare Worker |
-| `functions/api/proxy.ts` | Cloudflare Pages Function |
-| `api/proxy.ts` | Vercel Function |
+| `api/proxy.ts` | Vercel Function、Cloudflare Pages Worker 和独立代理 Worker |
 | `web/scripts/vite-proxy.ts` | Vite 开发与预览服务器 |
 
 ## Cloudflare Pages
@@ -28,11 +27,11 @@ Pages 项目使用仓库根目录作为根目录，通过 Git 集成部署：
 | 输出目录 | `web/dist` |
 | 环境变量 | `BUN_VERSION=1.4.2` |
 
-`functions/api/proxy.ts` 提供同源代理；`wrangler.jsonc` 固定兼容日期并启用 `enable_request_signal`，让客户端取消能传到上游。
+构建把 `api/proxy.ts` 编译为 `web/dist/_worker.js`，供 Cloudflare Pages 的高级模式加载。仓库不再需要 `functions/` 目录。`wrangler.jsonc` 固定兼容日期并启用 `enable_request_signal`，让客户端取消能传到上游。
 
 ### 检查路由与缓存 [step]
 
-`web/public/_routes.json` 只让 `/api/proxy` 进入 Pages Function。首页、哈希路由、文档页面、JS/CSS、字体、数据清单和 zstd 分段都由 Pages 静态服务直接返回。`/api/proxy` 的响应标记为 `no-store`。
+`web/public/_routes.json` 只让 `/api/proxy` 进入 Pages Worker。首页、哈希路由、文档页面、JS/CSS、字体、数据清单和 zstd 分段都由 Pages 静态服务直接返回。`/api/proxy` 的响应标记为 `no-store`。
 
 <Callout type="warn" title="不要开启 Cache Everything">
   不要为整个自定义域添加 Cache Everything 规则，否则可能缓存 API 响应或阻碍部署更新。Pages 自带 CDN 和 Tiered Cache。哈希命名的 JS/CSS 与数据分段（`/assets/*`、`/data/chunks/*`、`/docs/assets/*`）按 `web/public/_headers` 在浏览器缓存一年并标记 `immutable`；`index.html` 与数据清单沿用 Pages 的重新验证策略。长期缓存依赖 `web/public/404.html`：有这个文件时，Pages 对不存在的文件返回 404；没有它时，Pages 会返回 `index.html` 和状态 200，部署切换期间这份 HTML 会被当作脚本缓存一年，页面白屏。（2026-10-01 曾因缺少 `404.html` 白屏，清除 Cloudflare 缓存并更换资源哈希后恢复。）不要删除 `404.html`。
@@ -42,13 +41,13 @@ Pages 项目使用仓库根目录作为根目录，通过 Git 集成部署：
 
 先在 Pages 项目中绑定 `lm.ikale.io`，再确认 Cloudflare DNS 指向该项目的 `*.pages.dev` 主机名。只有 Pages URL 的静态资源、`/api/proxy` 的 JSON/SSE 转发和自定义域都通过后，才能停止旧站点的自动部署。
 
-自定义域 `lm.ikale.io` 的 `/api/proxy` 由下文的[代理 Worker 路由](#代理-worker-路由)处理。Pages Function 只服务 `*.pages.dev` 和预览部署。
+自定义域 `lm.ikale.io` 的 `/api/proxy` 由下文的[代理 Worker 路由](#代理-worker-路由)处理。Pages Worker 只服务 `*.pages.dev` 和预览部署。
 
 ### 代理 Worker 路由 [step]
 
-`wrangler.proxy.jsonc` 把 `api/proxy.ts` 部署为 Worker `lm-fingerpoint-proxy`，并绑定路由 `lm.ikale.io/api/proxy`。Worker 路由先于 Pages 执行，所以该路径不会进入 Pages Function。
+`wrangler.proxy.jsonc` 把 `api/proxy.ts` 部署为 Worker `lm-fingerpoint-proxy`，并绑定路由 `lm.ikale.io/api/proxy`。Worker 路由先于 Pages 执行，所以该路径不会进入 Pages Worker。
 
-不在自定义域上使用 Pages Function 的原因：自定义域把 Pages 当作源站。Cloudflare 会把源站返回的 502 替换成自己的错误页，客户端因此收不到上游的错误信息。另外，自定义域等待源站响应头最多 100 秒，超时返回 524。Worker 路由由 Worker 直接生成响应，不经过这一层源站代理。
+不在自定义域上使用 Pages Worker 的原因：自定义域把 Pages 当作源站。Cloudflare 会把源站返回的 502 替换成自己的错误页，客户端因此收不到上游的错误信息。另外，自定义域等待源站响应头最多 100 秒，超时返回 524。Worker 路由由 Worker 直接生成响应，不经过这一层源站代理。
 
 修改 `worker/main.js` 后，除了推送 Pages，还要在仓库根目录运行 `bun run deploy:proxy`。API 令牌需要账户级 Workers Scripts 编辑权限和 `ikale.io` 区域的 Workers Routes 编辑权限。
 
@@ -60,7 +59,7 @@ bun run preview:pages   # http://127.0.0.1:8788
 bun run deploy:pages
 ```
 
-若创建的是直接上传项目，也可以运行 `bun run build:pages:upload`，再把生成的 `web/dist/` 上传到 Pages。这个命令会把已编译的函数放入 `_worker.js`；只上传 `bun run build` 生成的纯静态目录会丢失同源代理。直接上传项目需要在控制台设置与 `wrangler.jsonc` 一致的兼容日期和 `enable_request_signal`。
+直接上传项目可以运行 `bun run build:pages:upload`，再把生成的 `web/dist/` 上传到 Pages。普通 `bun run build` 也会生成 `_worker.js`，两种构建都包含同源代理。直接上传项目需要在控制台设置与 `wrangler.jsonc` 一致的兼容日期和 `enable_request_signal`。
 
 ## 静态数据
 
@@ -68,13 +67,13 @@ bun run deploy:pages
 
 ## GitHub Pages
 
-`.github/workflows/pages.yml` 在推送时构建并保存静态产物，手动触发时发布到 GitHub Pages。手动发布前需要在仓库设置中启用 GitHub Actions 作为 Pages 来源。项目站点位于 `/<仓库名>/` 之下，工作流会把 `DOCS_BASE` 设为 `/<仓库名>/docs`，文档的链接、搜索索引和 `llms.txt` 都随之使用这个前缀。
+`.github/workflows/pages.yml` 在推送时构建并保存静态产物，手动触发时发布到 GitHub Pages。上传前会移除 Cloudflare 专用的 `_worker.js`。手动发布前需要在仓库设置中启用 GitHub Actions 作为 Pages 来源。项目站点位于 `/<仓库名>/` 之下，工作流会把 `DOCS_BASE` 设为 `/<仓库名>/docs`，文档的链接、搜索索引和 `llms.txt` 都随之使用这个前缀。
 
 GitHub Pages 没有服务器函数，也就没有本站代理 `/api/proxy`：连接方式为“自动”或“本站代理”时，需要代理的请求会失败。允许浏览器跨域的接口可以在 API 配置的“连接方式”中选“直连”使用 API 模式（含分词器探测）；其他接口选[自建 Worker](./worker.mdx)，Worker 的 `ALLOWED_ORIGINS` 需要包含 Pages 站点的 origin。
 
 ## Vercel
 
-`vercel.json` 用 `bun run build` 构建，输出 `web/dist`，`api/proxy.ts` 作为同源代理，最长运行 300 秒并支持取消。
+`vercel.json` 用 `bun run vercel-build` 构建，输出 `web/dist`。该命令移除 Cloudflare 专用的 `_worker.js`。Vercel 直接加载 `api/proxy.ts` 作为同源代理，最长运行 300 秒并支持取消。
 
 ## 文档站
 

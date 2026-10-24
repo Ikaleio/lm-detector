@@ -29,6 +29,7 @@ jobs:
           SITE_ORIGIN: https://${{ github.repository_owner }}.github.io
       - uses: actions/configure-pages@v5
         if: github.event_name == 'workflow_dispatch'
+      - run: rm web/dist/_worker.js
       - uses: actions/upload-pages-artifact@v3
         with:
           path: web/dist

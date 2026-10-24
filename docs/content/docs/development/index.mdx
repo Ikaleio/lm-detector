@@ -13,7 +13,6 @@ icon: Code
 ├── docs/
 ├── offline/
 ├── worker/
-├── functions/
 ├── api/
 ├── package.json
 └── wrangler.jsonc
@@ -28,8 +27,7 @@ icon: Code
 | `docs/` | 本文档（Fumadocs + React Router，全部页面预渲染） |
 | `offline/` | 离线重训与校准（TypeScript，在 Node 或 Bun 工作线程中运行） |
 | `worker/` | 单文件 Cloudflare Worker API 代理，也供同源代理入口复用 |
-| `functions/` | Cloudflare Pages Functions 入口 |
-| `api/` | Vercel Functions 入口 |
+| `api/` | Vercel、Cloudflare Pages 和代理 Worker 共用的同源入口 |
 
 ## 共享算法 [#shared]
 

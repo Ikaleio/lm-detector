@@ -65,4 +65,4 @@ Clients other than the web app can call the Worker too. `GET` returns the health
 
 ## For maintainers
 
-The site's Pages Function, the Vercel function, and the Vite dev server import `main.js` too, so every deployment runs the same code. `bun run dev:worker` serves the Worker locally at `http://127.0.0.1:8787` and allows the local web app (`http://127.0.0.1:5173` and `http://127.0.0.1:4173`) besides `https://lm.ikale.io`.
+The shared site entry point `api/proxy.ts` runs on Vercel, Cloudflare Pages, and the proxy Worker. It imports `main.js`, as does the Vite dev server, so every deployment runs the same proxy code. `bun run dev:worker` serves the Worker locally at `http://127.0.0.1:8787` and allows the local web app (`http://127.0.0.1:5173` and `http://127.0.0.1:4173`) besides `https://lm.ikale.io`.

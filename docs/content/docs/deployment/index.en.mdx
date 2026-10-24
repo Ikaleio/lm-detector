@@ -6,13 +6,12 @@ icon: Cloud
 
 `bun run build` builds both the detection website and these docs. The website goes to `web/dist/`, and the docs are prerendered and then copied to `web/dist/docs/`. One static deployment serves the detection website at `/` and the docs at `/docs`. The detection website uses HashRouter, so it needs no page route rewrites.
 
-With the connection mode set to this site's proxy (or Auto when a direct call is not allowed), requests go through the same-origin `/api/proxy`; with [Own Worker](./worker.mdx), your Worker forwards them. All three same-origin entry points import `proxyRequest` from the single-file Worker `worker/main.js`:
+With the connection mode set to this site's proxy (or Auto when a direct call is not allowed), requests go through the same-origin `/api/proxy`; with [Own Worker](./worker.mdx), your Worker forwards them. Vercel, Cloudflare Pages, and the proxy Worker share `api/proxy.ts`. The local Vite server also calls `proxyRequest` from the single-file Worker `worker/main.js`:
 
 | File | Runtime |
 | --- | --- |
 | `worker/main.js` | The proxy implementation. It can also be deployed on its own as a Cloudflare Worker |
-| `functions/api/proxy.ts` | Cloudflare Pages Function |
-| `api/proxy.ts` | Vercel Function |
+| `api/proxy.ts` | Vercel Function, Cloudflare Pages Worker, and standalone proxy Worker |
 | `web/scripts/vite-proxy.ts` | Vite dev and preview servers |
 
 ## Cloudflare Pages
@@ -28,11 +27,11 @@ The Pages project uses the repository root as its root directory and deploys thr
 | Output directory | `web/dist` |
 | Environment variable | `BUN_VERSION=1.4.2` |
 
-`functions/api/proxy.ts` provides the same-origin proxy. `wrangler.jsonc` pins the compatibility date and enables `enable_request_signal`, so a client cancellation reaches the upstream.
+The build compiles `api/proxy.ts` to `web/dist/_worker.js` for Cloudflare Pages advanced mode. The repository no longer needs a `functions/` directory. `wrangler.jsonc` pins the compatibility date and enables `enable_request_signal`, so a client cancellation reaches the upstream.
 
 ### Check routing and caching [step]
 
-`web/public/_routes.json` sends only `/api/proxy` to the Pages Function. The home page, hash routes, docs pages, JS/CSS, fonts, the data manifest, and the zstd chunks are all served directly by Pages static hosting. Responses from `/api/proxy` are marked `no-store`.
+`web/public/_routes.json` sends only `/api/proxy` to the Pages Worker. The home page, hash routes, docs pages, JS/CSS, fonts, the data manifest, and the zstd chunks are all served directly by Pages static hosting. Responses from `/api/proxy` are marked `no-store`.
 
 <Callout type="warn" title="Do not turn on Cache Everything">
   Do not add a Cache Everything rule for the whole custom domain. Otherwise it may cache API responses or hold back deployment updates. Pages comes with its own CDN and Tiered Cache. Hash-named JS/CSS and data chunks (`/assets/*`, `/data/chunks/*`, `/docs/assets/*`) are cached in the browser for one year and marked `immutable` by `web/public/_headers`. `index.html` and the data manifest keep the Pages revalidation policy. The long-lived cache depends on `web/public/404.html`: with this file, Pages answers a missing file with 404. Without it, Pages answers with `index.html` and status 200, and during a deployment switch-over that HTML is cached as a script for one year, which leaves the page blank. (On 2026-10-01 a missing `404.html` left the site blank until the Cloudflare cache was purged and the asset hashes changed.) Do not delete `404.html`.
@@ -42,13 +41,13 @@ The Pages project uses the repository root as its root directory and deploys thr
 
 First bind `lm.ikale.io` in the Pages project, then confirm that Cloudflare DNS points to the `*.pages.dev` host name of the project. Stop the automatic deployment of the old site only after the static assets on the Pages URL, the JSON/SSE relay of `/api/proxy`, and the custom domain all pass.
 
-The `/api/proxy` path of the custom domain `lm.ikale.io` is served by the [proxy Worker route](#proxy-worker-route) below. The Pages Function serves only `*.pages.dev` and preview deployments.
+The `/api/proxy` path of the custom domain `lm.ikale.io` is served by the [proxy Worker route](#proxy-worker-route) below. The Pages Worker serves only `*.pages.dev` and preview deployments.
 
 ### Proxy Worker route [step]
 
-`wrangler.proxy.jsonc` deploys `api/proxy.ts` as the Worker `lm-fingerpoint-proxy` and binds the route `lm.ikale.io/api/proxy`. Worker routes run before Pages, so this path never reaches the Pages Function.
+`wrangler.proxy.jsonc` deploys `api/proxy.ts` as the Worker `lm-fingerpoint-proxy` and binds the route `lm.ikale.io/api/proxy`. Worker routes run before Pages, so this path never reaches the Pages Worker.
 
-The custom domain does not use the Pages Function because it treats Pages as an origin. Cloudflare replaces a 502 from the origin with its own error page, so the client never sees the upstream's error message. The custom domain also waits at most 100 seconds for the origin's response headers and then returns 524. A Worker route builds the response itself and skips this origin layer.
+The custom domain does not use the Pages Worker because it treats Pages as an origin. Cloudflare replaces a 502 from the origin with its own error page, so the client never sees the upstream's error message. The custom domain also waits at most 100 seconds for the origin's response headers and then returns 524. A Worker route builds the response itself and skips this origin layer.
 
 After you change `worker/main.js`, push Pages and also run `bun run deploy:proxy` from the repository root. The API token needs account-level Workers Scripts edit permission and Workers Routes edit permission on the `ikale.io` zone.
 
@@ -60,7 +59,7 @@ bun run preview:pages   # http://127.0.0.1:8788
 bun run deploy:pages
 ```
 
-If you created a Direct Upload project, you can also run `bun run build:pages:upload` and then upload the generated `web/dist/` to Pages. This command puts the compiled function into `_worker.js`. If you upload only the pure static directory that `bun run build` generates, the same-origin proxy is lost. A Direct Upload project needs the same compatibility date and `enable_request_signal` as `wrangler.jsonc`, set in the dashboard.
+For a Direct Upload project, run `bun run build:pages:upload` and upload `web/dist/` to Pages. The regular `bun run build` also generates `_worker.js`, so both builds include the same-origin proxy. Set the compatibility date and `enable_request_signal` in the dashboard to match `wrangler.jsonc`.
 
 ## Static data
 
@@ -68,13 +67,13 @@ At build time, the reference bank, the derived bank, and the binary detector are
 
 ## GitHub Pages
 
-`.github/workflows/pages.yml` builds and stores the static artifact on push, and publishes it to GitHub Pages when triggered manually. Before a manual publish, enable GitHub Actions as the Pages source in the repository settings. A project site lives under `/<repository>/`, so the workflow sets `DOCS_BASE` to `/<repository>/docs`, and the docs links, the search index, and `llms.txt` all use this prefix.
+`.github/workflows/pages.yml` builds and stores the static artifact on push, and publishes it to GitHub Pages when triggered manually. Before a manual publish, enable GitHub Actions as the Pages source in the repository settings. A project site lives under `/<repository>/`, so the workflow sets `DOCS_BASE` to `/<repository>/docs`, and the docs links, the search index, and `llms.txt` all use this prefix. The workflow removes the Cloudflare-specific `_worker.js` before uploading static assets.
 
 GitHub Pages has no server functions, so this site's proxy `/api/proxy` does not exist there: with the connection mode Auto or This site's proxy, requests that need the proxy fail. For APIs that allow cross-origin browser calls, choose Direct under Connection in the API configuration to use API mode, including the tokenizer probe. For other APIs, choose [Own Worker](./worker.mdx). The `ALLOWED_ORIGINS` of the Worker must include the origin of the Pages site.
 
 ## Vercel
 
-`vercel.json` builds with `bun run build` and outputs `web/dist`. `api/proxy.ts` serves as the same-origin proxy, runs for at most 300 seconds, and supports cancellation.
+`vercel.json` runs `bun run vercel-build` and outputs `web/dist`. This command removes the Cloudflare-specific `_worker.js`. Vercel loads `api/proxy.ts` directly as the same-origin proxy, which runs for at most 300 seconds and supports cancellation.
 
 ## Docs site
 

@@ -1,8 +1,8 @@
 // @ts-check
 /**
  * Fingerpoint API proxy: an HTTPS forwarding proxy for LLM API requests whose endpoint does not allow browser CORS.
- * This single file is a complete Cloudflare Worker (`export default { fetch }`). The Pages Function, the Vercel
- * function and the Vite dev server import `proxyRequest` from it, so every deployment runs the same code.
+ * This single file is a complete Cloudflare Worker (`export default { fetch }`). The shared site entry point
+ * `api/proxy.ts` and the Vite dev server import `proxyRequest`, so every deployment runs the same code.
  *
  * Request: POST with `Authorization: Bearer <upstream key>` and a JSON body `{ url, format, body }`, where `url` is the
  * complete upstream endpoint and `format` is `openai`, `responses` or `anthropic`. JSON and SSE responses stream back
