@@ -52,6 +52,15 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-24 Add kimi-k3.1-pro" id="2026-10-24-kimi-k3-1-pro">
+    Added 36 fixed-challenge answers for `kimi-k3.1-pro`, bringing the reference bank to 61 fingerprint identities and 2,272 samples. Collection requests `moonshotai/kimi-k3.1-pro` through streaming OpenRouter Chat Completions, with `reasoning_effort=none` and the fixed `openrouter/moonshotai/mxfp4` route. Fallbacks are disabled. Returned model IDs and Moonshot AI provider metadata passed checks against the raw responses.
+
+    Of the reference answers, 32 completed naturally and four stopped at the collection limit of 500 integers. Prompts and system prompts follow the fixed suite. All 17 failed attempts stay alongside successful answers in `collections/kimi-k3.1-pro-openrouter-moonshotai-none-20261024/`. Enrollment selects the first valid answer to each challenge. The previous 2,236 reference answers are unchanged.
+
+    Fixed evaluation uses the existing two independent groups of three challenges, pins the same provider route, and requests disabled reasoning. Evaluation answers are stored separately and do not enter bank construction, training, or calibration.
+
+    After retraining, both new groups ranked `kimi-k3.1-pro` first. Predictions on all 120 previous complete groups stayed the same, with 107 correct before and after enrollment. Evaluation covers 122 of 124 groups and 366 of 372 answers, with 109 of 122 complete groups correct. The other two groups are the existing quota-related gaps for `kimi-k2.8-preview`.
+  </Accordion>
   <Accordion title="2026-10-17 Add deepseek-v4.1-flash-1017" id="2026-10-17-deepseek-flash-1017">
     `deepseek-v4.1-flash-1017` requests `deepseek/deepseek-v4.1-flash` through the fixed `openrouter/deepseek` official provider route. Fallbacks are disabled. Collection uses streaming Chat Completions with `reasoning_effort=low`.
 

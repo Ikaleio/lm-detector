@@ -1,0 +1,41 @@
+{
+  "manifest_sha256": "818c66e0716ae5fd673b7c9f678aaea4b4f0b6734c3f1044499a6b860e3d3b93",
+  "challenge_id": "query-17",
+  "attempt": 1,
+  "task": {
+    "id": "query-17",
+    "condition": "environment-06",
+    "expected_count": 319,
+    "prompt": "Provide exactly 319 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "moonshotai/kimi-k3.1-pro",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Provide exactly 319 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "moonshotai/mxfp4"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "failed",
+  "started_at": "2026-10-24T03:26:01.719Z",
+  "trace": "trace/query-17/0001",
+  "text": "",
+  "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "parsed_count": 0,
+  "completion": "unknown",
+  "http_status": 429,
+  "error": "HTTP 429：OpenRouter could not verify available credits for this request in time. Retry shortly.",
+  "retryable": true,
+  "finished_at": "2026-10-24T03:26:03.492Z"
+}

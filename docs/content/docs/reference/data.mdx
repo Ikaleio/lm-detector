@@ -52,6 +52,15 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-24 新增 kimi-k3.1-pro" id="2026-10-24-kimi-k3-1-pro">
+    新增 `kimi-k3.1-pro` 的 36 条固定挑战回答，参考库扩展到 61 个指纹身份、2,272 条样本。请求型号为 `moonshotai/kimi-k3.1-pro`，使用 OpenRouter Chat Completions 流式输出、`reasoning_effort=none` 和固定 `openrouter/moonshotai/mxfp4` 渠道，禁止回退。返回型号和 Moonshot AI 供应商信息通过原始响应校验。
+
+    32 条参考回答自然完成，4 条在 500 个整数处按采样上限截断。提示词和系统提示沿用固定挑战集，17 条失败尝试与后续成功回答一起保存在 `collections/kimi-k3.1-pro-openrouter-moonshotai-none-20261024/`，按每题首条合格回答入库。原有 2,236 条参考回答逐条保持原样。
+
+    固定评估沿用既有的两组三条独立挑战，固定相同供应商路由，请求关闭思考。评估回答单独保存，不参与建库、训练或校准。
+
+    重训后，新增两组都将 `kimi-k3.1-pro` 排在第一。原有 120 个完整组的预测全部保持不变，入库前后都命中 107 组。全库评估覆盖 122/124 组、366/372 条有效回答，完整组命中 109/122。其余两组属于既有的 `kimi-k2.8-preview` 配额缺失。
+  </Accordion>
   <Accordion title="2026-10-17 新增 deepseek-v4.1-flash-1017" id="2026-10-17-deepseek-flash-1017">
     `deepseek-v4.1-flash-1017` 请求 `deepseek/deepseek-v4.1-flash`，固定 OpenRouter 的 `openrouter/deepseek` 官方供应商渠道，禁止回退。采样使用 Chat Completions 流式输出和 `reasoning_effort=low`。
 

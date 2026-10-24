@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "818c66e0716ae5fd673b7c9f678aaea4b4f0b6734c3f1044499a6b860e3d3b93",
+  "challenge_id": "query-17",
+  "attempt": 2,
+  "task": {
+    "id": "query-17",
+    "condition": "environment-06",
+    "expected_count": 319,
+    "prompt": "Provide exactly 319 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "moonshotai/kimi-k3.1-pro",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Provide exactly 319 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "moonshotai/mxfp4"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-10-24T03:26:04.497Z",
+  "trace": "trace/query-17/0002",
+  "text": "[319, 7, 244, 88, 151, 302, 45, 199, 12, 276, 133, 340, 61, 218, 95, 354, 27, 180, 311, 74, 236, 5, 167, 289, 103, 348, 52, 221, 16, 265, 129, 331, 84, 197, 39, 253, 118, 300, 67, 209, 143, 355, 21, 172, 286, 98, 324, 58, 231, 109, 272, 3, 186, 317, 79, 249, 135, 294, 47, 202, 161, 337, 90, 226, 14, 259, 122, 309, 71, 215, 176, 350, 33, 191, 281, 106, 240, 55, 298, 150, 327, 82, 206, 9, 268, 124, 313, 64, 229, 184, 342, 29, 159, 292, 101, 256, 43, 320, 138, 277, 86, 211, 2, 263, 117, 334, 76, 195, 169, 347, 50, 223, 307, 92, 238, 18, 284, 131, 316, 69, 201, 154, 353, 36, 188, 270, 113, 246, 59, 329, 146, 305, 81, 214, 6, 260, 121, 339, 73, 204, 177, 345, 31, 163, 296, 108, 242, 48, 322, 140, 279, 89, 217, 11, 266, 126, 333, 65, 193, 157, 351, 40, 225, 303, 94, 234, 24, 287, 136, 314, 78, 208, 171, 344, 54, 230, 291, 100, 252, 1, 326, 148, 275, 85, 213, 4, 261, 119, 338, 63, 198, 165, 349, 37, 220, 308, 96, 237, 20, 283, 132, 312, 70, 205, 179, 346, 32, 190, 274, 111, 245, 56, 328, 142, 301, 83, 216, 8, 267, 123, 335, 66, 194, 162, 352, 42, 228, 304, 93, 233, 17, 285, 130, 318, 77, 203, 174, 343, 30, 189, 293, 104, 251, 46, 323, 145, 278, 87, 212, 10, 262, 120, 336, 62, 196, 158, 341, 35, 222, 306, 97, 239, 22, 282, 127, 310, 75, 207, 173, 355, 28, 187, 295, 105, 248, 44, 321, 139, 280, 91, 210, 13, 264, 116, 332, 68, 200, 164, 350, 38, 224, 299, 99, 235, 19, 288, 134, 315, 72, 219, 178, 344, 34, 192, 273, 110, 247, 57, 330, 147, 297, 80, 227, 15, 269, 125, 337, 60, 183, 166, 348, 41, 232, 290, 102, 241, 23, 271, 137, 325, 49, 181, 170, 353, 26, 185, 257, 107, 243, 53, 254, 144, 258, 114, 250, 25, 255, 128, 153, 112, 149, 152, 155, 156, 160, 168, 175, 182, 141]",
+  "text_sha256": "d127a9707e98a05a16ac0687ba3c5042b4921b7e3b3a0904095c527e29bb8519",
+  "parsed_count": 359,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "moonshotai/kimi-k3.1-pro",
+  "response_id": "gen-1792812364-Xuf2e24hL0iMxmA0AfJc",
+  "usage": {
+    "prompt_tokens": 155,
+    "completion_tokens": 1087,
+    "total_tokens": 1242,
+    "cost": 0.01118,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.01118,
+      "upstream_inference_prompt_cost": 0.00031,
+      "upstream_inference_completions_cost": 0.01087
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Moonshot AI",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/moonshotai/mxfp4",
+  "finished_at": "2026-10-24T03:26:21.658Z"
+}

@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "818c66e0716ae5fd673b7c9f678aaea4b4f0b6734c3f1044499a6b860e3d3b93",
+  "challenge_id": "query-05",
+  "attempt": 1,
+  "task": {
+    "id": "query-05",
+    "condition": "environment-02",
+    "expected_count": 239,
+    "prompt": "Using only this model's own immediate choices, provide exactly 239 whole numbers from 1 through 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "moonshotai/kimi-k3.1-pro",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Using only this model's own immediate choices, provide exactly 239 whole numbers from 1 through 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "moonshotai/mxfp4"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-10-24T03:24:38.243Z",
+  "trace": "trace/query-05/0001",
+  "text": "[291, 7, 148, 332, 56, 204, 19, 275, 93, 341, 128, 66, 310, 2, 187, 244, 81, 355, 114, 39, 226, 167, 299, 52, 138, 320, 74, 211, 9, 263, 105, 347, 176, 28, 239, 88, 301, 154, 47, 283, 121, 196, 15, 334, 69, 218, 252, 97, 344, 131, 42, 270, 183, 5, 307, 159, 236, 61, 325, 110, 23, 288, 201, 84, 350, 143, 257, 34, 314, 172, 95, 221, 12, 279, 190, 58, 337, 126, 246, 71, 303, 165, 30, 268, 213, 101, 352, 146, 231, 78, 295, 181, 44, 317, 117, 254, 20, 285, 198, 63, 329, 136, 241, 90, 309, 157, 36, 273, 206, 108, 342, 124, 249, 54, 297, 170, 82, 323, 193, 14, 260, 224, 99, 339, 151, 234, 67, 312, 185, 49, 277, 209, 113, 348, 129, 243, 76, 305, 162, 40, 266, 215, 104, 354, 140, 228, 86, 292, 174, 25, 281, 195, 59, 335, 119, 251, 72, 300, 163, 38, 271, 202, 107, 346, 133, 238, 92, 316, 179, 46, 289, 207, 65, 327, 145, 256, 17, 311, 189, 50, 276, 220, 112, 351, 153, 233, 80, 298, 169, 33, 264, 216, 98, 343, 137, 247, 70, 304, 161, 41, 269, 208, 111, 349, 142, 250, 55, 296, 177, 27, 286, 199, 64, 331, 123, 245, 89, 308, 158, 35, 274, 212, 102, 353, 147, 229, 77, 294, 182, 45, 318, 118, 255, 21, 284, 197, 62, 330, 135, 242, 91, 306, 156, 37, 272, 205, 109, 340, 125, 248, 53, 293, 171, 83, 322, 194, 13, 261, 223, 100, 338, 152, 235, 68, 313, 186, 48, 278, 210, 116, 345, 130, 240, 75, 302, 164, 29, 267, 214, 103, 356]",
+  "text_sha256": "703d54ae83bd88490aee6f08c3a5ab2a437ead0620e31495f0bc64604da64133",
+  "parsed_count": 280,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "moonshotai/kimi-k3.1-pro",
+  "response_id": "gen-1792812278-6kqm5eAKcZnaLkP59UDN",
+  "usage": {
+    "prompt_tokens": 153,
+    "completion_tokens": 853,
+    "total_tokens": 1006,
+    "cost": 0.008836,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.008836,
+      "upstream_inference_prompt_cost": 0.000306,
+      "upstream_inference_completions_cost": 0.00853
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Moonshot AI",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/moonshotai/mxfp4",
+  "finished_at": "2026-10-24T03:24:51.790Z"
+}

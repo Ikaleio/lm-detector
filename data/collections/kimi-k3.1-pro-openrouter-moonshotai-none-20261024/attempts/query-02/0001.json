@@ -1,0 +1,43 @@
+{
+  "manifest_sha256": "818c66e0716ae5fd673b7c9f678aaea4b4f0b6734c3f1044499a6b860e3d3b93",
+  "challenge_id": "query-02",
+  "attempt": 1,
+  "task": {
+    "id": "query-02",
+    "condition": "environment-01",
+    "expected_count": 233,
+    "prompt": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "moonshotai/kimi-k3.1-pro",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "moonshotai/mxfp4"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-10-24T03:24:19.153Z",
+  "trace": "trace/query-02/0001",
+  "text": "285, 47, 133, 352, 19, 208, 76, 301, 94, 168, 5, 241, 117, 333, 62, 189, 24, 275, 141, 88, 319, 53, 202, 9, 156, 297, 71, 230, 38, 124, 347, 81, 264, 16, 195, 109, 342, 58, 221, 3, 173, 289, 67, 236, 45, 150, 312, 99, 184, 27, 258, 120, 355, 83, 207, 31, 162, 294, 55, 239, 12, 178, 325, 73, 214, 40, 137, 308, 91, 251, 6, 191, 270, 64, 226, 35, 146, 337, 102, 198, 21, 283, 114, 49, 233, 78, 304, 15, 167, 249, 86, 217, 43, 129, 321, 69, 244, 2, 186, 292, 57, 210, 33, 153, 330, 96, 261, 18, 200, 112, 351, 74, 228, 41, 159, 314, 89, 254, 8, 181, 277, 60, 223, 29, 143, 339, 106, 193, 23, 268, 125, 51, 237, 80, 306, 14, 171, 246, 93, 212, 37, 135, 328, 66, 256, 11, 188, 280, 59, 205, 32, 148, 344, 101, 219, 26, 273, 119, 46, 231, 85, 299, 4, 164, 242, 98, 216, 39, 131, 323, 70, 248, 17, 183, 287, 61, 225, 34, 155, 335, 104, 196, 22, 266, 123, 52, 234, 79, 310, 13, 169, 253, 87, 211, 36, 139, 327, 68, 259, 10, 176, 278, 56, 204, 30, 145, 340, 107, 197, 25, 271, 121, 50, 238, 82, 303, 7, 165, 245, 92, 213, 42, 127, 322, 65, 252, 20, 182, 286, 63, 224, 28, 147, 338, 103, 194, 1, 267, 122, 48, 232, 84, 307, 44, 160, 247, 90, 215, 54, 130, 324, 72, 250, 157, 281, 95, 203, 111, 349, 77, 229, 136, 316, 100, 257, 174, 293, 108, 220, 138, 332, 75, 243, 152, 309, 97, 262, 179, 296, 105, 201, 144, 346, 116, 240, 158, 313, 110, 255, 172, 290, 113, 222, 140, 343, 118, 235, 151, 317, 126, 263, 177, 298, 128, 206, 142, 348, 115, 227, 154, 311, 132, 260, 175, 295, 134, 209, 149, 345, 108, 218, 161, 320, 123, 265, 170, 291, 137, 199, 163, 350, 109, 269, 166, 288, 185, 272, 187, 276, 192, 284, 180, 302, 190, 274, 279, 305, 282, 300, 315, 318, 326, 329, 331, 334, 336, 341, 353, 354, 355, 348, 350, 349, 347, 352, 351, 353, 355, 354, 350, 348, 346, 345, 344, 343, 342, 341, 340, 339, 338, 337, 336, 335, 334, 333, 332, 331, 330, 329, 328, 327, 326, 325, 324, 323, 322, 321, 320, 319, 318, 317, 316, 315, 314, 313, 312, 311, 310, 309, 308, 307, 306, 305, 304, 303, 302, 301, 300, 299, 298, 297, 296, 295, 294, 293, 292, 291, 290, 289, 288, 287, 286, 285, 284, 283, 282, 281, 280, 279, 278, 277, 276, 275, 274, 273, 272, 271, 270, 269, 268, 267, 266, 265, 264, 263, 262, 261, 260, 259, 258, 257, 256, 255, 254, 253, 252, 251, 250, 249, 248, 247, 246, 245, 244, 243, 242, 241, 240, 239, 238, 237, 236, 235, 234, 233, 232, 231, 230, 229, 228, 227, 226, 225, 224, 223, 222, 221, 220, 219, 218",
+  "text_sha256": "0c6b9e96508ae88ad9bbda93a7446567a668772b317a330c6ad3a8b4aad55a50",
+  "parsed_count": 500,
+  "completion": "truncated",
+  "http_status": 200,
+  "response_model": "moonshotai/kimi-k3.1-pro",
+  "response_id": "gen-1792812259-kXK0yRuzi0nPDuhvpAL3",
+  "provider_reported": "Moonshot AI",
+  "actual_channel": "openrouter/moonshotai/mxfp4",
+  "finished_at": "2026-10-24T03:24:45.564Z"
+}
