@@ -6,6 +6,7 @@ import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
 import { parseReference, referenceSamples } from '@fingerpoint/shared/reference'
 import { nearestModels, supportsSharedDetector } from '@fingerpoint/shared/shared-detector'
 import { assertTokenizerBank } from '@fingerpoint/shared/tokenizer-bank'
+import type { BankModel } from '@fingerpoint/shared/types'
 
 try {
   await stat('data/.pending-enrollment')
@@ -34,7 +35,10 @@ nearestModels(detector).forEach((neighbors, i) => { publicBank.models[i].nearest
 const chunkSize = 4 * 1024 * 1024
 /** `bytes` is the compressed size, which the browser uses to report download progress. */
 const manifest: Record<string, { parts: string[]; bytes: number }> = {}
+/** SHA-256 of the uncompressed content, which SDKs check after decompression. */
+const sha256: Record<string, string> = {}
 async function publish(name: string, content: string | Uint8Array) {
+  sha256[name] = createHash('sha256').update(content).digest('hex')
   const compressed = zstdCompressSync(content, { params: { [constants.ZSTD_c_compressionLevel]: 19 } })
   const digest = createHash('sha256').update(compressed).digest('hex').slice(0, 16)
   const parts: string[] = []
@@ -53,6 +57,13 @@ await publish('unified_bank.json', JSON.stringify(publicBank))
 await publish('shared_detector.bin', detectorBytes)
 await publish('tokenizer_bank.json', tokenizerBankText)
 await writeFile('web/public/data/manifest.json', JSON.stringify(manifest))
+// The SDKs download only the detector. Scoring also needs the model names and counts, which are small enough to inline.
+const models = publicBank.models.map(({ id, display_name, family, family_name, response_count }: BankModel) =>
+  ({ id, display_name, family, family_name, response_count }))
+await writeFile('web/public/data/bundle.json', JSON.stringify({
+  schema: 'lmfpd-data-v1', detector_schema: detector.schema, built_at: bank.built_at, models,
+  files: { 'shared_detector.bin': { ...manifest['shared_detector.bin'], sha256: sha256['shared_detector.bin'] } },
+}))
 await mkdir('web/.generated', { recursive: true })
 await writeFile('web/.generated/unified_bank.json', JSON.stringify(publicBank, null, 2) + '\n')
 console.log(`Synced ${batches.length} reference batches, ${[...sampleCounts.values()].reduce((sum, count) => sum + count, 0)} samples and their derived bank.`)

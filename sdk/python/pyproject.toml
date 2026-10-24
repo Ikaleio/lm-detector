@@ -1,0 +1,21 @@
+[project]
+name = "lmfpd"
+version = "0.1.0"
+description = "Language-model fingerprint detection: offline scoring, challenges, and live detection."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx[socks]>=0.28",
+    "numpy>=1.26",
+    "zstandard>=0.23",
+]
+
+[project.urls]
+Homepage = "https://lm.ikale.io"
+Repository = "https://github.com/Ikaleio/lm-detector"
+Issues = "https://github.com/Ikaleio/lm-detector/issues"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"

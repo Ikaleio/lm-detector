@@ -1,27 +1,19 @@
 import { parseArgs } from 'node:util'
 import { SERVICE_TIERS, type ServiceTier } from '@fingerpoint/shared/completion-request'
+import type { DetectionOptions } from '@fingerpoint/shared/detect-request'
 import { TOKENIZER_MODEL } from '@fingerpoint/shared/tokenizer-posterior'
 import type { ApiConfig } from '@fingerpoint/shared/types'
 
 const TIER_ALIASES: Record<string, ServiceTier> = { f: 'fast', uf: 'ultrafast', slow: 'flex', priority: 'fast', standard: 'default' }
 
-export interface DetectOptions {
-  config: ApiConfig
+export interface DetectOptions extends DetectionOptions {
   api: 'responses' | 'chatcompletion' | 'message'
-  count: number
-  parallel: number
-  repeat: number
-  strict: boolean
-  timeoutMs: number
   input?: string
   output?: string
   bank?: string
   challenges?: string
   json: boolean
   updateCheck: boolean
-  /** Run the tokenizer probe beside the first round. Off by default; it never changes the ranking. */
-  tokenizer: boolean
-  maxProbes: number
   tokenizerBank?: string
 }
 
@@ -101,19 +93,4 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
     input: values.input, output: values.output, bank: values.bank, challenges: values.challenges,
     tokenizer: !!values.tokenizer, maxProbes, tokenizerBank: values['tokenizer-bank'],
   }
-}
-
-export function requestEndpoint(config: ApiConfig): string {
-  let url: URL
-  try { url = new URL(config.baseUrl) } catch { throw new Error('Base URL must be a valid HTTP or HTTPS URL.') }
-  if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password || url.search || url.hash) {
-    throw new Error('Base URL must use HTTP or HTTPS without credentials, a query, or a fragment.')
-  }
-  const suffix = config.format === 'responses' ? '/responses' : config.format === 'anthropic' ? '/messages' : '/chat/completions'
-  const path = url.pathname.replace(/\/+$/, '')
-  if (/\/(responses|messages|chat\/completions)$/.test(path) && !path.endsWith(suffix)) {
-    throw new Error('The endpoint in --baseurl does not match --api.')
-  }
-  url.pathname = path.endsWith(suffix) ? path : (path || '/v1') + suffix
-  return url.href
 }

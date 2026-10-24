@@ -27,6 +27,18 @@ npm trust github lmfpd --repo Ikaleio/lm-detector \
 
 The trusted publisher must allow direct `npm publish`. After setup, GitHub Actions needs no stored npm token. Dispatch the workflow manually once to verify the authorization before you rely on automatic releases.
 
+## SDK data mirror
+
+The SDKs contain no reference data. At runtime they download it from `https://lm.ikale.io/data/` and fall back to the mainland China mirror `https://cdn.jsdmirror.com/npm/lmfpd-data@latest/`. The mirror serves the npm package `lmfpd-data`, so publish it again after every reference data update:
+
+```sh
+bun run build:data-package
+cd dist/lmfpd-data
+npm publish --access public --tag latest
+```
+
+The package holds only `bundle.json` and the detector's compressed chunks, in the same layout as the website's `/data/`. Until the package is republished, users who reach only the mirror get the previous data.
+
 ## Website and docs
 
 The website and docs deploy automatically through the Git integration of Cloudflare Pages. GitHub Pages is published by a manually dispatched workflow. See [Deployment](../deployment/index.mdx).

@@ -1,0 +1,119 @@
+---
+title: Reference data
+description: The SDKs download the detector at runtime. Sources, local folders, the cache file, and background updates.
+icon: CloudDownload
+---
+
+No SDK package contains reference data. Scoring needs the detector `shared_detector.bin`, which the SDKs download at runtime: about 3.6 MB compressed and 4.5 MB uncompressed. After a model is enrolled or the detector is retrained, the SDKs pick up the new data on their own, without an upgrade.
+
+A load takes three settings: where the data comes from (`source`), where downloaded data is cached (`cache`), and how often the cache is checked for updates (`ttl`).
+
+```ts tab="TypeScript"
+await loadDetector()                                          // default sources and cache
+await loadDetector({ source: 'https://mirror.example.com/lmfpd/', cache: './lmfpd.bin', ttl: 3600 })
+await loadDetector({ source: './data' })                      // local folder, no network
+```
+
+```rust tab="Rust"
+Detector::load(&LoadOptions::default())?;
+Detector::load(&LoadOptions {
+    sources: vec!["https://mirror.example.com/lmfpd/".into()], cache: "./lmfpd.bin".into(), ttl: 3600.0,
+})?;
+Detector::load(&LoadOptions { sources: vec!["./data".into()], ..Default::default() })?;
+```
+
+```go tab="Go"
+lmfpd.Load(ctx, lmfpd.LoadOptions{})
+lmfpd.Load(ctx, lmfpd.LoadOptions{Sources: []string{"https://mirror.example.com/lmfpd/"}, Cache: "./lmfpd.bin", TTL: time.Hour})
+lmfpd.Load(ctx, lmfpd.LoadOptions{Sources: []string{"./data"}})
+```
+
+```python tab="Python"
+lmfpd.load()
+lmfpd.load("https://mirror.example.com/lmfpd/", cache="./lmfpd.bin", ttl=3600)
+lmfpd.load("./data")
+```
+
+## Sources
+
+The SDKs try two sources in order (`DEFAULT_DATA_URLS`):
+
+| Order | URL | Notes |
+| --- | --- | --- |
+| 1 | `https://lm.ikale.io/data/` | The detection website's public data, updated when the website deploys |
+| 2 | `https://cdn.jsdmirror.com/npm/lmfpd-data@latest/` | A mirror in mainland China that serves the npm package `lmfpd-data`; updated when the maintainers publish a new version |
+
+When a source fails (no connection, an HTTP error, or data that cannot be read), the SDK tries the next one. You can pass your own URL or list of URLs, such as an internal mirror. Each URL must end with `/` and serve the layout below.
+
+When you pass a single source that does not start with `http://` or `https://`, the SDK treats it as a local folder and reads its `unified_bank.json` and `shared_detector.bin`, with no network access and no cache. Usable folders are `data/` in the repository and a custom reference bank written by `fpd retrain --data-dir DIR`; see [Enrollment and retraining](../cli/enroll.mdx).
+
+## What is downloaded
+
+Each source serves a `bundle.json` and the detector's compressed chunks:
+
+```files
+data/
+├── bundle.json
+└── chunks/
+    └── shared_detector.bin.<hash>.0.zst
+```
+
+```json
+{
+  "schema": "lmfpd-data-v1",
+  "detector_schema": "shared-detector-v2",
+  "built_at": "2026-10-24T03:33:06.701294+00:00",
+  "models": [
+    { "id": "claude-haiku-4.5", "display_name": "claude-haiku-4.5", "family": "claude", "family_name": "Claude", "response_count": 36 }
+  ],
+  "files": {
+    "shared_detector.bin": { "parts": ["shared_detector.bin.9206b2293c1992fe.0.zst"], "bytes": 3586278, "sha256": "…" }
+  }
+}
+```
+
+`bundle.json` is a few KB. It carries the model names that results show, so the SDKs do not download the full reference bank `unified_bank.json`. `files` lists the detector's chunks, which the SDK downloads in order, joins, and decompresses with zstd. `sha256` serves as the data version: it changes whenever the detector changes.
+
+When `schema` or `detector_schema` is a version this SDK does not support, that source counts as failed, and the error message asks you to upgrade the SDK.
+
+## Cache and updates
+
+Downloaded data is stored in one cache file. Its default location is below; `cache` sets another:
+
+| System | Default cache file |
+| --- | --- |
+| `XDG_CACHE_HOME` is set | `$XDG_CACHE_HOME/lmfpd/data.bin` |
+| macOS | `~/Library/Caches/lmfpd/data.bin` |
+| Windows | `%LOCALAPPDATA%\lmfpd\data.bin` |
+| Linux and others | `~/.cache/lmfpd/data.bin` |
+
+The file's modification time is the last update check. A load follows these rules:
+
+1. **With a cache**, the SDK returns the cached data at once, without waiting for the network. If the last check was longer ago than `ttl` (24 hours by default), it also requests `bundle.json` in the background. An unchanged version only updates the check time; a new version is downloaded into the cache and used from the **next** load.
+2. **Without a cache** (or with a damaged cache file), the SDK downloads the data, writes the cache, and returns. It fails only when every source fails.
+
+So a normal load sends no request, and at most one background request goes out per `ttl`. After a data update, the first load still returns the old data. When the sources cannot be reached, the cache keeps working. `ttl` is in seconds in TypeScript, Rust, and Python, and 0 checks on every load. Go uses a `time.Duration`: zero means the default 24 hours and a negative value checks on every load. To use new data at once, delete the cache file.
+
+A failed background update raises no error. If the cache cannot be written, for example because the folder is read-only, the load still succeeds; the next load downloads again. In Node and Bun the process waits for a running background update before it exits. Rust, Go, and Python processes drop the update when they exit, without damaging the cache file.
+
+## Proxies
+
+Both data downloads and model requests read the standard proxy variables:
+
+| Language | Variables |
+| --- | --- |
+| TypeScript | Bun reads `HTTPS_PROXY`, `HTTP_PROXY`, and `NO_PROXY`; Node reads them only with `NODE_USE_ENV_PROXY=1` |
+| Rust | `ALL_PROXY`, `HTTPS_PROXY`, `HTTP_PROXY`, `NO_PROXY` |
+| Go | `HTTPS_PROXY`, `HTTP_PROXY`, `NO_PROXY` |
+| Python | `HTTPS_PROXY`, `HTTP_PROXY`, `ALL_PROXY` (including `socks5h://`), `NO_PROXY` |
+
+Data downloads follow redirects. Model requests do not; a 3xx response counts as an HTTP error.
+
+## Error messages
+
+| Message | Cause |
+| --- | --- |
+| `lmfpd: cannot download reference data from <source> (<cause>), …` | There is no cache and every source failed; the parentheses give each source's cause |
+| `data schema … is not supported by this SDK version. Upgrade lmfpd.` | Appears as a cause in the message above: the data format is newer than the SDK |
+| `Cannot read <path>.` | A file is missing or damaged in the local folder |
+| `The reference bank does not match its detector.` | The reference bank and the detector come from different builds |

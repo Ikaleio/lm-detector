@@ -9,6 +9,7 @@ icon: Code
 ├── cli/
 ├── web/
 ├── shared/
+├── sdk/
 ├── data/
 ├── docs/
 ├── offline/
@@ -22,7 +23,8 @@ icon: Code
 | --- | --- |
 | `cli/` | 命令行 `fpd`（Bun + Ink），发布为 npm 包 `lmfpd` |
 | `web/` | 检测网站与只读参考库（React、shadcn/ui、Tailwind CSS） |
-| `shared/` | 网页与 CLI 共用的挑战、解析、评分与分词器探测算法 |
+| `shared/` | 网页、CLI 与 TypeScript SDK 共用的挑战、解析、评分、在线采样与分词器探测算法 |
+| `sdk/` | TypeScript、Rust、Go 与 Python SDK，以及四种语言共用的一致性测试数据，见 [SDK](../sdk/index.mdx) |
 | `data/` | 参考数据、派生库、冻结检测器、固定挑战与分词器库，见[数据文件](../reference/data.mdx) |
 | `docs/` | 本文档（Fumadocs + React Router，全部页面预渲染） |
 | `offline/` | 离线重训与校准（TypeScript，在 Node 或 Bun 工作线程中运行） |
@@ -36,7 +38,9 @@ icon: Code
 | 模块 | 职责 |
 | --- | --- |
 | `challenge-browser.js` | 检测挑战生成 |
-| `completion-request.ts`、`completion.ts`、`detection.ts` | 请求体、响应解析和检测流程 |
+| `completion-request.ts`、`completion.ts`、`detection.ts` | 请求体、响应解析和网页的检测流程 |
+| `detect-request.ts`、`detect-run.ts` | CLI 与 TypeScript SDK 的在线检测：请求地址、单次采样和整轮评分 |
+| `cache-dir.ts` | `lmfpd` 缓存目录：CLI 的更新检查和 SDK 的参考数据都放在这里 |
 | `fingerprint-core.js` | 数字特征与基础评分 |
 | `shared-detector.ts` | 冻结的排名器和置信度校准 |
 | `detector-codec.ts` | 编码和解码二进制检测器文件 `shared_detector.bin`；CLI、网站和评估器共用 |

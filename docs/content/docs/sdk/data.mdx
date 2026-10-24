@@ -1,0 +1,119 @@
+---
+title: 参考数据
+description: SDK 在运行时下载检测参数：数据来源、本地目录、缓存文件和后台更新。
+icon: CloudDownload
+---
+
+SDK 安装包里不带参考数据。评分要用的检测参数 `shared_detector.bin` 在运行时下载，压缩后约 3.6 MB，解压后约 4.5 MB。参考库加入新模型或者重训以后，SDK 会自动拿到新数据，不需要升级。
+
+加载时可以指定三样东西：数据从哪里来（`source`），下载的数据缓存在哪里（`cache`），缓存多久检查一次更新（`ttl`）。
+
+```ts tab="TypeScript"
+await loadDetector()                                          // 默认来源和默认缓存
+await loadDetector({ source: 'https://mirror.example.com/lmfpd/', cache: './lmfpd.bin', ttl: 3600 })
+await loadDetector({ source: './data' })                      // 本地目录，不联网
+```
+
+```rust tab="Rust"
+Detector::load(&LoadOptions::default())?;
+Detector::load(&LoadOptions {
+    sources: vec!["https://mirror.example.com/lmfpd/".into()], cache: "./lmfpd.bin".into(), ttl: 3600.0,
+})?;
+Detector::load(&LoadOptions { sources: vec!["./data".into()], ..Default::default() })?;
+```
+
+```go tab="Go"
+lmfpd.Load(ctx, lmfpd.LoadOptions{})
+lmfpd.Load(ctx, lmfpd.LoadOptions{Sources: []string{"https://mirror.example.com/lmfpd/"}, Cache: "./lmfpd.bin", TTL: time.Hour})
+lmfpd.Load(ctx, lmfpd.LoadOptions{Sources: []string{"./data"}})
+```
+
+```python tab="Python"
+lmfpd.load()
+lmfpd.load("https://mirror.example.com/lmfpd/", cache="./lmfpd.bin", ttl=3600)
+lmfpd.load("./data")
+```
+
+## 数据来源
+
+默认按顺序尝试两个来源（`DEFAULT_DATA_URLS`）：
+
+| 顺序 | 地址 | 说明 |
+| --- | --- | --- |
+| 1 | `https://lm.ikale.io/data/` | 检测网站的公开数据，网站部署后立即更新 |
+| 2 | `https://cdn.jsdmirror.com/npm/lmfpd-data@latest/` | 国内镜像，内容来自 npm 包 `lmfpd-data`，维护者发布新版后更新 |
+
+一个来源出错（连不上、HTTP 错误或者数据读不出来），就换下一个。也可以传入自己的地址或地址列表，比如内网镜像。每个地址都要以 `/` 结尾，目录结构和下面一样。
+
+只传一个来源、而且它不是 `http://` 或 `https://` 开头时，SDK 把它当作本地目录，读取里面的 `unified_bank.json` 和 `shared_detector.bin`，不联网，也不读写缓存。可以用的目录有仓库里的 `data/`，以及 `fpd retrain --data-dir DIR` 写出的自定义参考库目录，见[入库与重训](../cli/enroll.mdx)。
+
+## 下载的内容
+
+每个来源都提供一个 `bundle.json` 和检测参数的压缩分块：
+
+```files
+data/
+├── bundle.json
+└── chunks/
+    └── shared_detector.bin.<hash>.0.zst
+```
+
+```json
+{
+  "schema": "lmfpd-data-v1",
+  "detector_schema": "shared-detector-v2",
+  "built_at": "2026-10-24T03:33:06.701294+00:00",
+  "models": [
+    { "id": "claude-haiku-4.5", "display_name": "claude-haiku-4.5", "family": "claude", "family_name": "Claude", "response_count": 36 }
+  ],
+  "files": {
+    "shared_detector.bin": { "parts": ["shared_detector.bin.9206b2293c1992fe.0.zst"], "bytes": 3586278, "sha256": "…" }
+  }
+}
+```
+
+`bundle.json` 只有几 KB，里面带着评分时显示的模型名，所以不用再下载完整的参考库 `unified_bank.json`。`files` 列出检测参数的分块，SDK 按顺序下载、拼接，再用 zstd 解压。`sha256` 用作数据的版本号：检测参数变了，它就跟着变。
+
+`schema` 或 `detector_schema` 不是当前 SDK 支持的版本时，这个来源算作失败，错误信息会提示升级 SDK。
+
+## 缓存与更新
+
+下载的数据存成一个缓存文件，默认位置如下，也可以用 `cache` 指定：
+
+| 系统 | 默认缓存文件 |
+| --- | --- |
+| 设置了 `XDG_CACHE_HOME` | `$XDG_CACHE_HOME/lmfpd/data.bin` |
+| macOS | `~/Library/Caches/lmfpd/data.bin` |
+| Windows | `%LOCALAPPDATA%\lmfpd\data.bin` |
+| Linux 等 | `~/.cache/lmfpd/data.bin` |
+
+文件的修改时间就是上次检查更新的时间。加载时按下面的规则处理：
+
+1. **有缓存**：立刻用缓存里的数据返回，不等网络。如果距上次检查已经超过 `ttl`（默认 24 小时），同时在后台请求一次 `bundle.json`：版本没变就只更新检查时间；变了就下载新的检测参数并写进缓存，**下一次加载**才会用上。
+2. **没有缓存**（或者缓存文件损坏）：当场下载，写进缓存后返回。所有来源都失败时报错。
+
+所以平时加载不发请求，每过一个 `ttl` 最多在后台发一次；数据更新后，第一次加载拿到的还是旧数据。来源连不上时，有缓存就照常工作。`ttl` 在 TypeScript、Rust 和 Python 里以秒为单位，设成 0 就是每次加载都在后台检查一次；Go 用 `time.Duration`，零值表示默认的 24 小时，负数表示每次都检查。要马上用上新数据，删掉缓存文件就行。
+
+后台更新失败不会报错。缓存写不进去（比如目录只读）也不影响这次加载，只是下次还要重新下载。在 Node 和 Bun 里，后台更新进行时进程会等它结束才退出；Rust、Go 和 Python 的进程退出时会直接放弃后台更新，缓存文件不会写坏。
+
+## 代理
+
+下载数据和请求模型都读取标准的代理环境变量：
+
+| 语言 | 读取的变量 |
+| --- | --- |
+| TypeScript | Bun 读取 `HTTPS_PROXY`、`HTTP_PROXY`、`NO_PROXY`；Node 要设置 `NODE_USE_ENV_PROXY=1` 才读取 |
+| Rust | `ALL_PROXY`、`HTTPS_PROXY`、`HTTP_PROXY`、`NO_PROXY` |
+| Go | `HTTPS_PROXY`、`HTTP_PROXY`、`NO_PROXY` |
+| Python | `HTTPS_PROXY`、`HTTP_PROXY`、`ALL_PROXY`（支持 `socks5h://`）、`NO_PROXY` |
+
+下载数据时会跟随重定向。请求模型时不跟随，3xx 响应会被当作 HTTP 错误。
+
+## 错误信息
+
+| 信息 | 原因 |
+| --- | --- |
+| `lmfpd: cannot download reference data from <来源> (<原因>), …` | 没有缓存，所有来源也都失败；括号里是每个来源的失败原因 |
+| `data schema … is not supported by this SDK version. Upgrade lmfpd.` | 出现在上一条的原因里，表示数据格式比 SDK 新，要升级 SDK |
+| `Cannot read <路径>.` | 本地目录里缺少文件或文件损坏 |
+| `The reference bank does not match its detector.` | 参考库和检测参数不是同一次构建的 |

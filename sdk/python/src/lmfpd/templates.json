@@ -1,0 +1,174 @@
+{
+  "languages": [
+    {
+      "id": "zh",
+      "space": "",
+      "openings": [
+        "这是一次独立的数值选择记录。",
+        "请完成下面的无语义整数选择任务。",
+        "执行一次第一反应取值记录。",
+        "生成一组不承载语义的整数选择。",
+        "进行一轮快速逐项取值。"
+      ],
+      "actions": [
+        "为各个位置分别凭第一反应选择",
+        "逐项选择",
+        "每次只决定当前一项，共给出",
+        "分别凭第一反应给出",
+        "逐个直接选择"
+      ],
+      "request": "{action} {count} 个 1 到 355（含端点）的整数。",
+      "rules": "每个位置都要单独选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器；也不要先编写或运行代码。",
+      "endings": [
+        "允许某个数字再次出现；每项写出后不要回头排序、去重或替换。",
+        "偶然重复是有效的；不要重新排列或修正已经写出的项目。",
+        "相同值可以再次出现；输出过程中不要整理或改写前面的项目。",
+        "重复值无需删除；不要筛选、重排或补成某种规律。",
+        "不必赋予数字任何含义；已经给出的值保持不变。"
+      ],
+      "separators": [
+        "数字之间用逗号或空格分隔均可。",
+        "使用一种一致的常见分隔符即可。",
+        "可以用逗号、空格或换行分隔。",
+        "只要每个整数边界清楚，格式可自行选择。"
+      ],
+      "start": "直接从第一个取值开始输出，不要在序列前重复数量、范围或任务说明。"
+    },
+    {
+      "id": "en",
+      "space": " ",
+      "openings": [
+        "This is an independent record of numerical choices.",
+        "Complete the following integer-choice task, which carries no semantic meaning.",
+        "Record a round of first-instinct choices.",
+        "Generate a set of integer choices that carry no meaning.",
+        "Make a quick round of item-by-item choices."
+      ],
+      "actions": [
+        "For each position, choose separately by first instinct",
+        "Choose, item by item,",
+        "Decide only the current item each time, giving a total of",
+        "Give, each by first instinct,",
+        "Choose directly, one by one,"
+      ],
+      "request": "{action} {count} integers from 1 to 355, inclusive.",
+      "rules": "Choose separately for every position; do not count up from 1, do not increase or decrease consecutively, and do not use arithmetic progressions, cycles, repeated blocks, or other systematic patterns. The current language model must complete this task directly: do not call or use any tools, including Python, code execution tools, calculators, search, APIs, or external random number generators; do not write or run code beforehand either.",
+      "endings": [
+        "A number may appear again; after writing each item, do not go back to sort, deduplicate, or replace it.",
+        "Accidental repetitions are valid; do not rearrange or correct items already written.",
+        "The same value may appear again; do not organize or rewrite earlier items while producing the output.",
+        "Repeated values do not need to be removed; do not filter, reorder, or fill the sequence into a pattern.",
+        "Do not assign meaning to the numbers; keep values already given unchanged."
+      ],
+      "separators": [
+        "Separate the numbers with commas or spaces.",
+        "Use one consistent common separator.",
+        "You may separate the numbers with commas, spaces, or line breaks.",
+        "Choose any format that clearly separates each integer."
+      ],
+      "start": "Start the output directly with the first chosen value; do not repeat the count, range, or task instructions before the sequence."
+    },
+    {
+      "id": "ja",
+      "space": "",
+      "openings": [
+        "これは独立した数値選択の記録です。",
+        "意味を持たない次の整数選択課題を完了してください。",
+        "直感で選んだ値を記録してください。",
+        "意味を持たない整数の選択を一組生成してください。",
+        "一項目ずつ素早く値を選んでください。"
+      ],
+      "actions": [
+        "各位置について個別に直感で、",
+        "一項目ずつ、",
+        "毎回その時点の一項目だけを決めて、",
+        "それぞれ直感で、",
+        "一つずつ直接、"
+      ],
+      "request": "{action}1 から 355 まで（両端を含む）の整数を {count} 個選んでください。",
+      "rules": "各位置の値は個別に選んでください。1 から順に数えたり、連続して増加または減少させたりせず、等差数列、周期、同じブロックの繰り返し、その他の規則的なパターンも使わないでください。この課題は現在の言語モデル自身が直接行ってください。Python、コード実行ツール、計算機、検索、API、外部の乱数生成器など、いかなるツールも呼び出したり利用したりしないでください。事前にコードを書いたり実行したりすることも禁止します。",
+      "endings": [
+        "同じ数字が再び現れてもかまいません。各項目を書いた後に戻って、並べ替え、重複の削除、置き換えをしないでください。",
+        "偶然の重複は有効です。すでに書いた項目を並べ替えたり修正したりしないでください。",
+        "同じ値が再び出てもかまいません。出力の途中で前の項目を整理したり書き換えたりしないでください。",
+        "重複した値を削除する必要はありません。選別、並べ替え、規則的なパターンへの補完をしないでください。",
+        "数字に意味を持たせる必要はありません。すでに出した値は変えないでください。"
+      ],
+      "separators": [
+        "数字はコンマまたは空白で区切ってください。",
+        "一般的な区切り文字を一種類、統一して使ってください。",
+        "コンマ、空白、改行のいずれかで数字を区切ってください。",
+        "各整数の区切りが明確であれば、形式は自由です。"
+      ],
+      "start": "選んだ最初の値から直接出力を始め、数列の前に個数、範囲、課題の説明を繰り返さないでください。"
+    },
+    {
+      "id": "ko",
+      "space": " ",
+      "openings": [
+        "이것은 독립적인 수치 선택 기록입니다.",
+        "다음의 의미 없는 정수 선택 과제를 완료하세요.",
+        "첫 직감에 따른 값 선택을 한 번 기록하세요.",
+        "의미를 담지 않은 정수 선택을 한 세트 생성하세요.",
+        "항목별로 빠르게 값을 고르는 라운드를 진행하세요."
+      ],
+      "actions": [
+        "각 위치마다 첫 직감으로 따로",
+        "항목별로",
+        "매번 현재 항목 하나만 정하면서",
+        "각각 첫 직감으로",
+        "하나씩 바로"
+      ],
+      "request": "{action} 1부터 355까지(양 끝 포함)의 정수 {count}개를 고르세요.",
+      "rules": "각 위치의 값은 따로 고르세요. 1부터 차례로 세지 말고, 연속으로 증가하거나 감소하지 말며, 등차수열, 순환, 반복되는 블록 또는 그 밖의 규칙적인 패턴도 사용하지 마세요. 이 과제는 현재 언어 모델이 직접 수행해야 합니다. Python, 코드 실행기, 계산기, 검색, API, 외부 난수 생성기를 포함한 어떤 도구도 호출하거나 이용하지 마세요. 미리 코드를 작성하거나 실행하지도 마세요.",
+      "endings": [
+        "같은 숫자가 다시 나와도 됩니다. 각 항목을 쓴 뒤 되돌아가서 정렬하거나 중복을 제거하거나 바꾸지 마세요.",
+        "우연한 중복도 유효합니다. 이미 쓴 항목을 다시 배열하거나 고치지 마세요.",
+        "같은 값이 다시 나와도 됩니다. 출력하는 동안 앞의 항목을 정리하거나 고쳐 쓰지 마세요.",
+        "중복된 값을 지울 필요는 없습니다. 걸러 내거나 다시 배열하거나 어떤 규칙에 맞춰 채우지 마세요.",
+        "숫자에 어떤 의미도 부여할 필요가 없습니다. 이미 제시한 값은 그대로 두세요."
+      ],
+      "separators": [
+        "숫자는 쉼표나 공백으로 구분하면 됩니다.",
+        "일반적인 구분 기호 하나를 일관되게 사용하세요.",
+        "쉼표, 공백 또는 줄바꿈으로 구분할 수 있습니다.",
+        "각 정수의 경계만 분명하면 형식은 자유롭게 정해도 됩니다."
+      ],
+      "start": "고른 첫 번째 값부터 바로 출력하고, 수열 앞에 개수, 범위 또는 과제 설명을 반복하지 마세요."
+    },
+    {
+      "id": "fr",
+      "space": " ",
+      "openings": [
+        "Ceci est un relevé indépendant de choix numériques.",
+        "Veuillez accomplir la tâche suivante de choix d’entiers sans signification sémantique.",
+        "Consignez une série de choix faits au premier réflexe.",
+        "Générez une série de choix d’entiers dépourvus de sens.",
+        "Effectuez une série rapide de choix, élément par élément."
+      ],
+      "actions": [
+        "Pour chaque position, choisissez séparément au premier réflexe",
+        "Choisissez, élément par élément,",
+        "À chaque étape, décidez uniquement de la valeur actuelle, pour donner au total",
+        "Donnez séparément au premier réflexe",
+        "Choisissez directement, un par un,"
+      ],
+      "request": "{action} {count} entiers compris entre 1 et 355, bornes incluses.",
+      "rules": "Choisissez séparément pour chaque position ; ne comptez pas à partir de 1, ne produisez pas de valeurs consécutives croissantes ou décroissantes, et ne suivez pas de progression arithmétique, de cycle, de blocs répétés ou d’autre motif systématique. Le modèle de langage actuel doit accomplir cette tâche directement : n’appelez et n’utilisez aucun outil, notamment Python, un exécuteur de code, une calculatrice, une recherche, une API ou un générateur externe de nombres aléatoires ; n’écrivez et n’exécutez pas de code au préalable.",
+      "endings": [
+        "Un nombre peut réapparaître ; après avoir écrit chaque élément, ne revenez pas en arrière pour le trier, supprimer les doublons ou le remplacer.",
+        "Les répétitions accidentelles sont valides ; ne réorganisez et ne corrigez pas les éléments déjà écrits.",
+        "Une même valeur peut réapparaître ; pendant la sortie, ne réorganisez et ne réécrivez pas les éléments précédents.",
+        "Les valeurs répétées n’ont pas besoin d’être supprimées ; ne filtrez pas, ne réordonnez pas et ne complétez pas la séquence pour former un motif.",
+        "N’attribuez aucune signification aux nombres ; gardez inchangées les valeurs déjà données."
+      ],
+      "separators": [
+        "Séparez les nombres par des virgules ou des espaces.",
+        "Utilisez un séparateur courant et cohérent.",
+        "Vous pouvez séparer les nombres par des virgules, des espaces ou des retours à la ligne.",
+        "Choisissez librement le format, pourvu que la limite de chaque entier soit claire."
+      ],
+      "start": "Commencez directement par la première valeur choisie, sans répéter le nombre d’éléments, l’intervalle ou les consignes avant la séquence."
+    }
+  ]
+}

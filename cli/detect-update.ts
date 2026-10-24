@@ -1,7 +1,7 @@
 import { mkdir, readFile, rename, writeFile } from 'node:fs/promises'
-import { homedir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { cacheRoot } from '@fingerpoint/shared/cache-dir'
 import { detectUpdateCommand, type UpdateCommand } from './update-command'
 
 declare const FPD_BUILD_VERSION: string
@@ -29,12 +29,7 @@ function newer(candidate: string, current: string) {
   return false
 }
 
-function cachePath() {
-  const home = homedir()
-  const root = process.env.XDG_CACHE_HOME || (process.platform === 'darwin' ? join(home, 'Library/Caches')
-    : process.platform === 'win32' ? process.env.LOCALAPPDATA || join(home, 'AppData/Local') : join(home, '.cache'))
-  return join(root, 'lmfpd', 'update.json')
-}
+const cachePath = () => join(cacheRoot(), 'update.json')
 
 async function registryVersion(registry: string, signal: AbortSignal): Promise<string | undefined> {
   const response = await fetch(`${registry}/lmfpd/latest`, { signal, redirect: 'error', headers: { accept: 'application/json' } })

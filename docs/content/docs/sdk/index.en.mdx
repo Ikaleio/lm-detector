@@ -1,0 +1,187 @@
+---
+title: SDK
+description: Score replies, generate challenges, or check an API channel from TypeScript, Rust, Go, and Python programs.
+icon: Package
+---
+
+import { CloudDownload, SquareFunction } from 'lucide-react'
+
+The SDKs put the detector inside your own programs. You can score replies you have already collected, generate random challenges, or send one round of challenges to an API channel and score the replies. All four languages offer the same features:
+
+- **Offline scoring** of one to three replies, with the same result as `fpd --input FILE --json`.
+- **Challenge generation** with the generator the website and command line use. Each challenge picks its language and wording at random and asks for 292–332 integers.
+- **Live detection** of one round, with the same sampling rules as command-line [detection](../cli/detect.mdx), over Responses, Chat Completions, or Messages.
+
+The SDKs do not run the [tokenizer probe](../principles/tokenizer.mdx) and do not run several rounds; for more rounds, call them in a loop.
+
+<Cards>
+  <Card icon={<CloudDownload />} title="Reference data" href="./data.mdx">Where the SDKs download data, how they cache it, and offline use.</Card>
+  <Card icon={<SquareFunction />} title="API" href="./api.mdx">Functions in each language, detection settings, result fields, and error handling.</Card>
+</Cards>
+
+## Install
+
+The SDKs are not yet published to npm, crates.io, or PyPI. Install them from the GitHub repository:
+
+```sh tab="TypeScript"
+git clone https://github.com/Ikaleio/lm-detector
+cd lm-detector && bun install --frozen-lockfile && bun run build:sdk
+npm install ./dist/lmfpd-sdk   # in your project, use the actual path to this folder
+```
+
+```sh tab="Rust"
+cargo add lmfpd --git https://github.com/Ikaleio/lm-detector
+```
+
+```sh tab="Go"
+go get github.com/Ikaleio/lm-detector/sdk/go@main
+```
+
+```sh tab="Python"
+pip install "lmfpd @ git+https://github.com/Ikaleio/lm-detector#subdirectory=sdk/python"
+```
+
+The TypeScript SDK runs on Node.js 22+ and Bun 1.4.2+ and has no dependencies once built. Every Rust call is blocking. The Go SDK needs Go 1.23+. The Python SDK needs Python 3.10+ and depends on `httpx`, `zstandard`, and `numpy`.
+
+No package contains reference data. On the first load the SDK downloads about 3.6 MB of compressed data and caches it. Later updates to the reference bank need no SDK upgrade; see [Reference data](./data.mdx).
+
+## Score replies
+
+`analyze` takes one to three replies. Each has the reply text and `expected_count`, the number of integers its challenge asked for:
+
+```ts tab="TypeScript"
+import { loadDetector } from 'lmfpd-sdk'
+
+const detector = await loadDetector()
+const analysis = detector.analyze([
+  { text: reply1, expected_count: 300 },
+  { text: reply2, expected_count: 311 },
+  { text: reply3, expected_count: 296 },
+])
+console.log(analysis.decision, analysis.prediction, analysis.probability)
+```
+
+```rust tab="Rust"
+use lmfpd::{Detector, LoadOptions, Output};
+
+let detector = Detector::load(&LoadOptions::default())?;
+let outputs = [
+    Output { text: reply1, expected_count: 300 },
+    Output { text: reply2, expected_count: 311 },
+    Output { text: reply3, expected_count: 296 },
+];
+let analysis = detector.analyze(&outputs, false)?;
+println!("{:?} {} {:?}", analysis.decision, analysis.prediction, analysis.probability);
+```
+
+```go tab="Go"
+detector, err := lmfpd.Load(ctx, lmfpd.LoadOptions{})
+if err != nil {
+	return err
+}
+analysis, err := detector.Analyze([]lmfpd.Output{
+	{Text: reply1, ExpectedCount: 300},
+	{Text: reply2, ExpectedCount: 311},
+	{Text: reply3, ExpectedCount: 296},
+}, false)
+if err != nil {
+	return err
+}
+fmt.Println(analysis.Decision, analysis.Prediction)
+```
+
+```python tab="Python"
+import lmfpd
+
+detector = lmfpd.load()
+analysis = detector.analyze([
+    {"text": reply1, "expected_count": 300},
+    {"text": reply2, "expected_count": 311},
+    {"text": reply3, "expected_count": 296},
+])
+print(analysis["decision"], analysis["prediction"], analysis["probability"])
+```
+
+Load once and score as often as you need. Loading parses about 4.5 MB of detector data and takes much longer than one score (see [Performance](#performance)), so do not reload it for every score.
+
+## Check an API channel
+
+`detect` generates challenges, sends them in parallel, checks the replies, and scores them. A failed request does not raise an error; it is recorded in that sample's `error` and in the result's `error`:
+
+```ts tab="TypeScript"
+const result = await detector.detect({
+  baseUrl: 'https://api.example.com/v1', apiKey: process.env.API_KEY!, model: 'gpt-5.6-sol', api: 'chat_completions',
+})
+console.log(result.error ?? result.analysis!.prediction)
+```
+
+```rust tab="Rust"
+use lmfpd::{Api, DetectConfig};
+
+let mut config = DetectConfig::new("https://api.example.com/v1", std::env::var("API_KEY")?, "gpt-5.6-sol");
+config.api = Api::ChatCompletions;
+let result = detector.detect(&config)?;
+if let Some(error) = &result.error {
+    println!("{error}");
+} else if let Some(analysis) = &result.analysis {
+    println!("{}", analysis.prediction);
+}
+```
+
+```go tab="Go"
+result, err := detector.Detect(ctx, lmfpd.DetectConfig{
+	BaseURL: "https://api.example.com/v1", APIKey: os.Getenv("API_KEY"), Model: "gpt-5.6-sol",
+	API: lmfpd.APIChatCompletions,
+})
+if err != nil {
+	return err
+}
+if result.Error != nil {
+	fmt.Println(*result.Error)
+} else {
+	fmt.Println(result.Analysis.Prediction)
+}
+```
+
+```python tab="Python"
+import os
+
+result = detector.detect("https://api.example.com/v1", os.environ["API_KEY"], "gpt-5.6-sol", api="chat_completions")
+print(result["error"] or result["analysis"]["prediction"])
+```
+
+`detect` raises an error only for an invalid configuration, before it sends any request. When `error` is empty, `analysis` always has a ranking. See [API](./api.mdx#detect-config) for every setting.
+
+## Reading results [#reading-results]
+
+`decision` tells you what the result contains:
+
+| `decision` | When | Result |
+| --- | --- | --- |
+| `scored` | All three replies are valid | A full ranking. When the calibration matches the detector, `probability` is the confidence of the top candidate |
+| `partial` | Only one or two replies are valid, in relaxed mode | A ranking only; `probability` is `null` |
+| `unscorable` | No reply is valid, or fewer than three in strict mode | No ranking |
+| `not_model` | The numbers do not change the way a language model's do | No ranking; see the [language-model reply check](../principles/ranking.mdx#sequence-check) |
+
+A reply is valid when it contains at least `max(80, ceil(expected_count × 0.55))` integers from 1 to 355. Relaxed mode cuts a reply down to `expected_count` integers; strict mode never cuts and needs three complete replies.
+
+<Callout type="warn" title="A ranking is not proof of identity">
+  The result is a closed-set ranking within the reference bank. A model outside the bank still gets a closest candidate, and `probability` compares only the models in the bank. To judge whether a channel is trustworthy, fix the request settings, repeat several rounds, and combine the result with other evidence.
+</Callout>
+
+## Performance [#performance]
+
+Measured on an Apple Silicon Mac. Scoring times are the median of 20 runs after a warm-up:
+
+| Language | Load the repository's `data/` | Score three replies | Score one reply |
+| --- | --- | --- | --- |
+| Rust | 24 ms | 1.7 ms | 0.5 ms |
+| Go | 31 ms | 2.3 ms | 0.7 ms |
+| TypeScript (Node or Bun) | 30 ms | 6.5 ms | 2.2 ms |
+| Python 3.13 | 37 ms | 1.9 ms | 0.65 ms |
+
+The Python SDK computes with NumPy, which sums in a different order from the other languages; scores differ by about 10⁻¹⁵. Live detection time is dominated by the model's generation and does not depend on the language.
+
+## Consistent results
+
+All four implementations are checked against the same test data: number parsing, request construction, 13 kinds of streaming and JSON responses, and 12 scoring cases. Scores must agree within a relative error of 10⁻⁹, and text and states must match exactly. In the repository, `bun run sdk:check` checks the four languages in turn.

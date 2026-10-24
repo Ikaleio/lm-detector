@@ -8,7 +8,8 @@
     "web",
     "cli",
     "shared",
-    "docs"
+    "docs",
+    "sdk/ts"
   ],
   "scripts": {
     "dev": "bun run sync-data && bun run --cwd web dev",
@@ -17,6 +18,10 @@
     "build:proxy": "bun build api/proxy.ts --outfile web/dist/_worker.js --target browser",
     "build:docs": "bun run --cwd docs build && bun docs/scripts/publish.ts",
     "build:cli": "bun cli/build.ts",
+    "build:sdk": "bun sdk/ts/build.ts",
+    "build:data-package": "bun sdk/scripts/build-data-package.ts",
+    "sdk:generate": "bun sdk/scripts/generate.ts",
+    "sdk:check": "bun sdk/scripts/check.ts",
     "typecheck": "tsc --noEmit && bun run --cwd docs typecheck",
     "preview": "bun run --cwd web preview",
     "build:pages": "bun run build",

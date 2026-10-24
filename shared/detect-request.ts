@@ -1,9 +1,36 @@
 import { stripVTControlCharacters } from 'node:util'
-import { completionBody, sendsSpeed, SPEED_BETA } from '@fingerpoint/shared/completion-request'
-import { parseNumbers } from '@fingerpoint/shared/fingerprint-core.js'
-import type { Challenge } from '@fingerpoint/shared/types'
-import { readBefore, throughputMeter, USAGE_GRACE_MS, type Throughput, type ThroughputMeter } from '@fingerpoint/shared/throughput'
-import { requestEndpoint, type DetectOptions } from './detect-options'
+import { completionBody, sendsSpeed, SPEED_BETA } from './completion-request'
+import { parseNumbers } from './fingerprint-core.js'
+import type { ApiConfig, Challenge } from './types'
+import { readBefore, throughputMeter, USAGE_GRACE_MS, type Throughput, type ThroughputMeter } from './throughput'
+
+/** Settings of a live detection, shared by the CLI and the SDK. The CLI adds its own flags on top. */
+export interface DetectionOptions {
+  config: ApiConfig
+  count: number
+  parallel: number
+  repeat: number
+  strict: boolean
+  timeoutMs: number
+  /** Run the tokenizer probe beside the first round. Off by default; it never changes the ranking. */
+  tokenizer: boolean
+  maxProbes: number
+}
+
+export function requestEndpoint(config: ApiConfig): string {
+  let url: URL
+  try { url = new URL(config.baseUrl) } catch { throw new Error('Base URL must be a valid HTTP or HTTPS URL.') }
+  if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password || url.search || url.hash) {
+    throw new Error('Base URL must use HTTP or HTTPS without credentials, a query, or a fragment.')
+  }
+  const suffix = config.format === 'responses' ? '/responses' : config.format === 'anthropic' ? '/messages' : '/chat/completions'
+  const path = url.pathname.replace(/\/+$/, '')
+  if (/\/(responses|messages|chat\/completions)$/.test(path) && !path.endsWith(suffix)) {
+    throw new Error('The endpoint in --baseurl does not match --api.')
+  }
+  url.pathname = path.endsWith(suffix) ? path : (path || '/v1') + suffix
+  return url.href
+}
 
 // Provider payloads have different shapes. Validate the fields used at this boundary.
 type Payload = Record<string, any>
@@ -35,8 +62,29 @@ const string = (value: unknown) => typeof value === 'string' ? value : ''
 const responseText = (data: Payload) => items(data.output).filter(item => item.type === 'message')
   .flatMap(item => items(item.content)).filter(part => part.type === 'output_text').map(part => string(part.text)).join('')
 
+/** The URL, headers, and body of one detection request. Throws when the base URL is invalid for the API. */
+export function buildDetectRequest(config: ApiConfig, prompt: string) {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json', Accept: config.stream ? 'text/event-stream' : 'application/json',
+  }
+  if (config.format === 'anthropic') {
+    headers['x-api-key'] = config.apiKey
+    headers['anthropic-version'] = '2023-06-01'
+    if (sendsSpeed(config)) headers['anthropic-beta'] = SPEED_BETA
+  } else headers.Authorization = `Bearer ${config.apiKey}`
+  const body = completionBody(config, prompt)
+  if (config.format === 'responses') delete body.max_output_tokens
+  else if (config.format === 'openai') {
+    delete body.max_tokens
+    // Chat Completions streams report usage only on request; usage gives exact output speed.
+    if (body.stream) body.stream_options = { include_usage: true }
+  }
+  return { url: requestEndpoint(config), headers, body }
+}
+
 export async function requestSample(
-  options: DetectOptions, challenge: Challenge, signal: AbortSignal, update: (sample: Sample) => void,
+  options: Pick<DetectionOptions, 'config' | 'strict' | 'timeoutMs'>, challenge: Challenge, signal: AbortSignal,
+  update: (sample: Sample) => void,
 ): Promise<Sample> {
   const { config } = options
   const controller = new AbortController()
@@ -128,28 +176,14 @@ export async function requestSample(
   report()
   try {
     combined.throwIfAborted()
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json', Accept: config.stream ? 'text/event-stream' : 'application/json',
-    }
-    if (config.format === 'anthropic') {
-      headers['x-api-key'] = config.apiKey
-      headers['anthropic-version'] = '2023-06-01'
-      if (sendsSpeed(config)) headers['anthropic-beta'] = SPEED_BETA
-    } else headers.Authorization = `Bearer ${config.apiKey}`
-    const body = completionBody(config, challenge.prompt)
-    if (config.format === 'responses') delete body.max_output_tokens
-    else if (config.format === 'openai') {
-      delete body.max_tokens
-      // Chat Completions streams report usage only on request; usage gives exact output speed.
-      if (body.stream) body.stream_options = { include_usage: true }
-    }
+    const { url, headers, body } = buildDetectRequest(config, challenge.prompt)
     const init = {
       method: 'POST', headers, body: JSON.stringify(body),
       signal: combined, redirect: 'error' as const,
       timeout: false, // Disable Bun's socket idle timeout; only the first-byte timer applies.
     }
     const requestStartedAt = performance.now()
-    const response = await fetch(requestEndpoint(config), init)
+    const response = await fetch(url, init)
     if (!response.ok) {
       const body = await response.text()
       let detail = body

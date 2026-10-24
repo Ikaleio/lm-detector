@@ -1,0 +1,171 @@
+---
+title: API
+description: 四种语言的函数对照、检测参数、取样规则、结果字段和错误处理。
+icon: SquareFunction
+---
+
+四种语言的函数一一对应，结果字段名也相同。TypeScript、Rust 和 Python 的字段名和 JSON 一样用 snake_case；Go 的结构体字段用 Go 的命名，序列化成 JSON 后和其他语言相同。
+
+## 函数 [#functions]
+
+```ts tab="TypeScript"
+loadDetector(options?: { source?: string | readonly string[]; cache?: string; ttl?: number }): Promise<Detector>
+detector.builtAt: string
+detector.analyze(outputs: Output[], options?: { strict?: boolean }): Analysis
+detector.detect(config: DetectConfig, signal?: AbortSignal): Promise<DetectResult>
+generateChallenges(count = 3): Challenge[]
+parseNumbers(text: string): number[]
+buildRequest(config: DetectConfig, prompt: string): { url, headers, body } | { error: string }
+requestSample(config: DetectConfig, challenge: Challenge): Promise<Sample>
+DEFAULT_DATA_URLS: readonly string[]
+```
+
+```rust tab="Rust"
+Detector::load(options: &LoadOptions) -> Result<Detector, Error>   // LoadOptions { sources: Vec<String>, cache: PathBuf, ttl: f64 }
+detector.built_at() -> &str
+detector.analyze(outputs: &[Output], strict: bool) -> Result<Analysis, Error>
+detector.detect(config: &DetectConfig) -> Result<DetectResult, Error>
+generate_challenges(count: usize) -> Result<Vec<Challenge>, Error>
+parse_numbers(text: &str) -> Vec<u32>
+build_request(config: &DetectConfig, prompt: &str) -> Result<Request, Error>
+request_sample(config: &DetectConfig, challenge: &Challenge) -> Sample
+DEFAULT_DATA_URLS: &[&str]
+```
+
+```go tab="Go"
+func Load(ctx context.Context, options LoadOptions) (*Detector, error)   // LoadOptions{Sources []string; Cache string; TTL time.Duration}
+func (d *Detector) BuiltAt() string
+func (d *Detector) Analyze(outputs []Output, strict bool) (*Analysis, error)
+func (d *Detector) Detect(ctx context.Context, config DetectConfig) (*DetectResult, error)
+func GenerateChallenges(count int) ([]Challenge, error)
+func ParseNumbers(text string) []int
+func BuildRequest(config DetectConfig, prompt string) (*Request, error)
+func RequestSample(ctx context.Context, config DetectConfig, challenge Challenge) Sample
+var DefaultDataURLs []string
+```
+
+```python tab="Python"
+load(source: str | Sequence[str] = DEFAULT_DATA_URLS, cache: str | PathLike | None = None, ttl: float = 86400.0) -> Detector
+detector.built_at: str
+detector.analyze(outputs: Sequence[Output], strict: bool = False) -> Analysis
+detector.detect(base_url, api_key, model, *, api="responses", effort="", service_tier="default",
+                stream=True, strict=False, count=3, parallel=3, timeout=120.0) -> DetectResult
+generate_challenges(count: int = 3) -> list[Challenge]
+parse_numbers(text: str) -> list[int]
+build_request(config: Mapping[str, Any], prompt: str) -> dict
+request_sample(config: Mapping[str, Any], challenge: Challenge) -> Sample
+DEFAULT_DATA_URLS: tuple[str, ...]
+```
+
+- **加载**：`source` 是数据来源的 URL 列表，或者一个本地目录；`cache` 是缓存文件，`ttl` 是缓存多久检查一次更新。行为见[参考数据](./data.mdx)。`built_at` 是参考库的生成时间，可以用来判断数据有没有更新。
+- **评分**：`analyze` 的输入是一到三条 `{ text, expected_count }`。`expected_count` 是挑战要求的整数个数，必须是正整数。
+- **生成挑战**：`count` 取 1–3，每道挑战带 `id`、`prompt` 和 `expected_count`，同一轮的 `expected_count` 各不相同。
+- **解析数字**：返回回答里最长的一段 1–355 之间的整数。字母会把数字分成不同的段，标点和空白不会。
+- **构造请求**：返回 `detect` 会发出的 URL、请求头和 JSON 请求体，不发送请求，可以用来检查参数是否正确。
+- **发送一道挑战**：只发一个请求并检查回答，不评分；失败写在返回样本的 `error` 里。
+
+## 检测参数 [#detect-config]
+
+TypeScript 用 camelCase（`baseUrl`），Go 用结构体字段（`BaseURL`），Rust 和 Python 用 snake_case（`base_url`）。
+
+| 参数 | 说明 | 默认值 |
+| --- | --- | --- |
+| `base_url` | Base URL 或完整端点。只写到主机名时补上 `/v1`；带路径时保留路径，再加上所选 API 的端点 | 必填 |
+| `api_key` | API Key，只出现在请求头里；错误信息中的 Key 会被替换成 `[REDACTED]` | 必填 |
+| `model` | 请求的模型名 | 必填 |
+| `api` | `responses`、`chat_completions` 或 `messages`。Rust 用 `Api` 枚举，Go 用 `APIResponses` 等常量 | `responses` |
+| `effort` | 推理强度，例如 `low`、`high`；Messages 下 `none` 表示关闭思考 | 空，不发送 |
+| `service_tier` | `flex`、`default`、`fast` 或 `ultrafast`。Messages 中作为 `speed` 发送，其他 API 中作为 `service_tier` 发送 | `default`，不发送 |
+| `stream` | 用 SSE 流式响应；关闭后用普通 JSON 响应。Go 用 `NoStream` 字段关闭 | 开启 |
+| `strict` | 严格模式：不截断，三条回答都完整有效才评分；要求 `count` 为 3 | 关闭 |
+| `count` | 每轮的挑战数，1–3 | 3 |
+| `parallel` | 并发请求数，1–3，不超过 `count` | 3 |
+| `timeout` | 时限，单位秒（Go 是 `time.Duration`）。SSE 只限制等第一个响应体数据的时间，开始传输后不再限时；JSON 限制整个响应 | 120 |
+
+Go 的字段零值就是默认值，比如 `Count: 0` 表示 3 道挑战。Rust 用 `DetectConfig::new(base_url, api_key, model)` 创建默认配置，再修改字段。Python 的 `detect` 用关键字参数；`build_request` 和 `request_sample` 接受同名键的字典。
+
+配置无效时，`detect` 和 `build_request` 在发出请求前报错，信息是下列之一：
+
+```text
+base_url, api_key, and model are required.
+api must be responses, chat_completions, or messages.
+service_tier must be flex, default, fast, or ultrafast.
+count must be an integer from 1 to 3.
+parallel must be an integer from 1 to 3.
+timeout must be between 0.001 and 2147483.647 seconds.
+strict requires count 3.
+Base URL must be a valid HTTP or HTTPS URL.
+Base URL must use HTTP or HTTPS without credentials, a query, or a fragment.
+The endpoint in --baseurl does not match --api.
+```
+
+## 取样规则
+
+`detect` 的取样规则和命令行[检测](../cli/detect.mdx)相同：
+
+- 宽松模式下，流式回答收到 `expected_count` 个整数后就停止读取，样本状态为 `truncated`；JSON 回答超出的部分会被截掉。
+- 回答必须正常结束：结束原因是 `stop`、`end_turn` 或 `completed`。拒答、内容过滤和未完成的回答都算失败，除非宽松模式已经截断。
+- 有效回答至少要有 `max(80, ceil(expected_count × 0.55))` 个整数。
+- 不跟随重定向，不自动重试。失败的样本留在结果里。
+
+## 结果 [#results]
+
+### Analysis
+
+`analyze` 返回的、以及 `detect` 结果里的 `analysis`：
+
+| 字段 | 说明 |
+| --- | --- |
+| `decision` | `scored`、`partial`、`unscorable` 或 `not_model`，见[读结果](./index.mdx#reading-results) |
+| `prediction`、`prediction_name` | 第一名的模型 ID 和显示名；没有排名时 ID 为空 |
+| `family_prediction`、`family_prediction_name` | 第一名所属的模型家族 |
+| `results` | 全部候选，按排名分数从高到低：`model`、`display_name`、`family`、`family_name`、`score`、`probability` |
+| `ranking_score` | 第一名的排名分数，没有排名时为 `null` |
+| `probability` | 第一名的置信度，即参考库内的封闭集合概率；只有 `scored` 且校准有效时才有值 |
+| `probability_status` | `reference_calibrated` 或 `unavailable` |
+| `probability_scope`、`calibration` | 置信度的范围和所用校准，没有置信度时为 `null` |
+| `used_outputs` | 有效回答的条数 |
+| `diagnostics` | 每条回答的解析情况：`parsed_numbers`、`minimum_numbers`、`accepted`，以及超出 1–355 的数字个数 `raw_out_of_range_count` |
+| `sequence` | 语言模型回答检查的指标：`autocorrelation`、`small_step_share`、`model_like`；没有有效回答时为 `null` |
+| `method`、`model_version` | 评分方法和检测参数的版本 |
+| `evidence` | 结果的标签 `label` 和英文说明 `reason` |
+
+### Sample
+
+`detect` 结果里的每条样本，也是 `request_sample` 的返回值：
+
+| 字段 | 说明 |
+| --- | --- |
+| `state` | `complete`、`truncated` 或 `failed`；TypeScript 和 Go 取消时为 `cancelled` |
+| `text` | 用来评分的文本；截断时只保留前 `expected_count` 个整数 |
+| `raw_text` | 收到的原始文本 |
+| `count`、`expected_count` | 解析出的整数个数和要求的个数 |
+| `response_model`、`response_id` | 接口返回的模型名和响应 ID，没有时为 `null` |
+| `error` | 失败原因，成功时为 `null` |
+
+### DetectResult
+
+`detect` 的返回值有四个字段：`challenges`（这一轮的挑战）、`samples`、`analysis` 和 `error`。`error` 为 `null` 时，`analysis` 一定有排名。`error` 不为空的情况有：
+
+| `error` | 原因 |
+| --- | --- |
+| `No valid samples. This round cannot be scored.` | 所有样本都失败 |
+| `Strict mode requires 3/3 successful samples; received N/3.` | 严格模式下有样本失败 |
+| `analysis.evidence.reason` 的内容 | 有 `analysis` 但没有排名，比如 `not_model` |
+| `Cancelled. This round was not scored.` | 检测被取消（TypeScript 和 Go） |
+| `Scoring failed. Check that the reference bank and detector files are valid.` | 数据文件损坏 |
+
+## 错误处理
+
+| 语言 | 方式 |
+| --- | --- |
+| TypeScript | 抛出 `Error`；`buildRequest` 例外，返回 `{ error }` |
+| Rust | 返回 `Result<T, lmfpd::Error>` |
+| Go | 返回 `error` |
+| Python | 抛出 `lmfpd.LmfpdError` |
+
+`analyze` 的输入不是一到三条带正整数 `expected_count` 的回答时报错：`Each input round must contain one to three outputs with text and a positive integer expected_count.` `request_sample` 不报错，配置错误和请求失败都写在样本的 `error` 里。
+
+## 取消
+
+TypeScript 的 `detect` 接受一个 `AbortSignal`，Go 的 `Detect` 和 `RequestSample` 跟随 `ctx`。取消时，进行中的请求立即中止，还没发出的挑战不再发送，样本状态为 `cancelled`，这一轮不评分。Rust 和 Python 的 `detect` 不能中途取消。

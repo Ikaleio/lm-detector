@@ -1,0 +1,1498 @@
+[
+  {
+    "name": "responses-stream-effort_empty-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true,
+      "effort": "",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "store": false
+      }
+    }
+  },
+  {
+    "name": "responses-stream-effort_empty-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true,
+      "effort": "",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "store": false,
+        "service_tier": "fast"
+      }
+    }
+  },
+  {
+    "name": "responses-stream-effort_high-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true,
+      "effort": "high",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "store": false,
+        "reasoning": {
+          "effort": "high"
+        }
+      }
+    }
+  },
+  {
+    "name": "responses-stream-effort_high-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true,
+      "effort": "high",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "store": false,
+        "reasoning": {
+          "effort": "high"
+        },
+        "service_tier": "fast"
+      }
+    }
+  },
+  {
+    "name": "responses-stream-effort_none-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true,
+      "effort": "none",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "store": false,
+        "reasoning": {
+          "effort": "none"
+        }
+      }
+    }
+  },
+  {
+    "name": "responses-stream-effort_none-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true,
+      "effort": "none",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "store": false,
+        "reasoning": {
+          "effort": "none"
+        },
+        "service_tier": "fast"
+      }
+    }
+  },
+  {
+    "name": "responses-json-effort_empty-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": false,
+      "effort": "",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": false,
+        "store": false
+      }
+    }
+  },
+  {
+    "name": "responses-json-effort_empty-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": false,
+      "effort": "",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": false,
+        "store": false,
+        "service_tier": "fast"
+      }
+    }
+  },
+  {
+    "name": "responses-json-effort_high-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": false,
+      "effort": "high",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": false,
+        "store": false,
+        "reasoning": {
+          "effort": "high"
+        }
+      }
+    }
+  },
+  {
+    "name": "responses-json-effort_high-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": false,
+      "effort": "high",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": false,
+        "store": false,
+        "reasoning": {
+          "effort": "high"
+        },
+        "service_tier": "fast"
+      }
+    }
+  },
+  {
+    "name": "responses-json-effort_none-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": false,
+      "effort": "none",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": false,
+        "store": false,
+        "reasoning": {
+          "effort": "none"
+        }
+      }
+    }
+  },
+  {
+    "name": "responses-json-effort_none-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": false,
+      "effort": "none",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": false,
+        "store": false,
+        "reasoning": {
+          "effort": "none"
+        },
+        "service_tier": "fast"
+      }
+    }
+  },
+  {
+    "name": "chat_completions-stream-effort_empty-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "chat_completions",
+      "stream": true,
+      "effort": "",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/chat/completions",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      }
+    }
+  },
+  {
+    "name": "chat_completions-stream-effort_empty-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "chat_completions",
+      "stream": true,
+      "effort": "",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/chat/completions",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "service_tier": "fast",
+        "stream_options": {
+          "include_usage": true
+        }
+      }
+    }
+  },
+  {
+    "name": "chat_completions-stream-effort_high-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "chat_completions",
+      "stream": true,
+      "effort": "high",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/chat/completions",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "reasoning_effort": "high",
+        "stream_options": {
+          "include_usage": true
+        }
+      }
+    }
+  },
+  {
+    "name": "chat_completions-stream-effort_high-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "chat_completions",
+      "stream": true,
+      "effort": "high",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/chat/completions",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "reasoning_effort": "high",
+        "service_tier": "fast",
+        "stream_options": {
+          "include_usage": true
+        }
+      }
+    }
+  },
+  {
+    "name": "chat_completions-stream-effort_none-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "chat_completions",
+      "stream": true,
+      "effort": "none",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/chat/completions",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "reasoning_effort": "none",
+        "stream_options": {
+          "include_usage": true
+        }
+      }
+    }
+  },
+  {
+    "name": "chat_completions-stream-effort_none-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "chat_completions",
+      "stream": true,
+      "effort": "none",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/chat/completions",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "reasoning_effort": "none",
+        "service_tier": "fast",
+        "stream_options": {
+          "include_usage": true
+        }
+      }
+    }
+  },
+  {
+    "name": "chat_completions-json-effort_empty-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "chat_completions",
+      "stream": false,
+      "effort": "",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/chat/completions",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": false
+      }
+    }
+  },
+  {
+    "name": "chat_completions-json-effort_empty-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "chat_completions",
+      "stream": false,
+      "effort": "",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/chat/completions",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": false,
+        "service_tier": "fast"
+      }
+    }
+  },
+  {
+    "name": "chat_completions-json-effort_high-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "chat_completions",
+      "stream": false,
+      "effort": "high",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/chat/completions",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": false,
+        "reasoning_effort": "high"
+      }
+    }
+  },
+  {
+    "name": "chat_completions-json-effort_high-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "chat_completions",
+      "stream": false,
+      "effort": "high",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/chat/completions",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": false,
+        "reasoning_effort": "high",
+        "service_tier": "fast"
+      }
+    }
+  },
+  {
+    "name": "chat_completions-json-effort_none-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "chat_completions",
+      "stream": false,
+      "effort": "none",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/chat/completions",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": false,
+        "reasoning_effort": "none"
+      }
+    }
+  },
+  {
+    "name": "chat_completions-json-effort_none-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "chat_completions",
+      "stream": false,
+      "effort": "none",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/chat/completions",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": false,
+        "reasoning_effort": "none",
+        "service_tier": "fast"
+      }
+    }
+  },
+  {
+    "name": "messages-stream-effort_empty-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": true,
+      "effort": "",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/messages",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "x-api-key": "test-key",
+        "anthropic-version": "2023-06-01"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": true
+      }
+    }
+  },
+  {
+    "name": "messages-stream-effort_empty-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": true,
+      "effort": "",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/messages",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "x-api-key": "test-key",
+        "anthropic-version": "2023-06-01",
+        "anthropic-beta": "fast-mode-2026-02-01"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": true,
+        "speed": "fast"
+      }
+    }
+  },
+  {
+    "name": "messages-stream-effort_high-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": true,
+      "effort": "high",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/messages",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "x-api-key": "test-key",
+        "anthropic-version": "2023-06-01"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": true,
+        "thinking": {
+          "type": "adaptive"
+        },
+        "output_config": {
+          "effort": "high"
+        }
+      }
+    }
+  },
+  {
+    "name": "messages-stream-effort_high-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": true,
+      "effort": "high",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/messages",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "x-api-key": "test-key",
+        "anthropic-version": "2023-06-01",
+        "anthropic-beta": "fast-mode-2026-02-01"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": true,
+        "thinking": {
+          "type": "adaptive"
+        },
+        "output_config": {
+          "effort": "high"
+        },
+        "speed": "fast"
+      }
+    }
+  },
+  {
+    "name": "messages-stream-effort_none-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": true,
+      "effort": "none",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/messages",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "x-api-key": "test-key",
+        "anthropic-version": "2023-06-01"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": true,
+        "thinking": {
+          "type": "disabled"
+        }
+      }
+    }
+  },
+  {
+    "name": "messages-stream-effort_none-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": true,
+      "effort": "none",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/messages",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "x-api-key": "test-key",
+        "anthropic-version": "2023-06-01",
+        "anthropic-beta": "fast-mode-2026-02-01"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": true,
+        "thinking": {
+          "type": "disabled"
+        },
+        "speed": "fast"
+      }
+    }
+  },
+  {
+    "name": "messages-json-effort_empty-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": false,
+      "effort": "",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/messages",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "x-api-key": "test-key",
+        "anthropic-version": "2023-06-01"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": false
+      }
+    }
+  },
+  {
+    "name": "messages-json-effort_empty-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": false,
+      "effort": "",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/messages",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "x-api-key": "test-key",
+        "anthropic-version": "2023-06-01",
+        "anthropic-beta": "fast-mode-2026-02-01"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": false,
+        "speed": "fast"
+      }
+    }
+  },
+  {
+    "name": "messages-json-effort_high-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": false,
+      "effort": "high",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/messages",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "x-api-key": "test-key",
+        "anthropic-version": "2023-06-01"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": false,
+        "thinking": {
+          "type": "adaptive"
+        },
+        "output_config": {
+          "effort": "high"
+        }
+      }
+    }
+  },
+  {
+    "name": "messages-json-effort_high-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": false,
+      "effort": "high",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/messages",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "x-api-key": "test-key",
+        "anthropic-version": "2023-06-01",
+        "anthropic-beta": "fast-mode-2026-02-01"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": false,
+        "thinking": {
+          "type": "adaptive"
+        },
+        "output_config": {
+          "effort": "high"
+        },
+        "speed": "fast"
+      }
+    }
+  },
+  {
+    "name": "messages-json-effort_none-default",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": false,
+      "effort": "none",
+      "service_tier": "default"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/messages",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "x-api-key": "test-key",
+        "anthropic-version": "2023-06-01"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": false,
+        "thinking": {
+          "type": "disabled"
+        }
+      }
+    }
+  },
+  {
+    "name": "messages-json-effort_none-fast",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": false,
+      "effort": "none",
+      "service_tier": "fast"
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/messages",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "x-api-key": "test-key",
+        "anthropic-version": "2023-06-01",
+        "anthropic-beta": "fast-mode-2026-02-01"
+      },
+      "body": {
+        "model": "test-model",
+        "messages": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "max_tokens": 8192,
+        "stream": false,
+        "thinking": {
+          "type": "disabled"
+        },
+        "speed": "fast"
+      }
+    }
+  },
+  {
+    "name": "base_url https://api.example.com",
+    "config": {
+      "base_url": "https://api.example.com",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "store": false
+      }
+    }
+  },
+  {
+    "name": "base_url https://api.example.com/",
+    "config": {
+      "base_url": "https://api.example.com/",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "store": false
+      }
+    }
+  },
+  {
+    "name": "base_url https://api.example.com/api",
+    "config": {
+      "base_url": "https://api.example.com/api",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/api/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "store": false
+      }
+    }
+  },
+  {
+    "name": "base_url https://api.example.com/v1/responses",
+    "config": {
+      "base_url": "https://api.example.com/v1/responses",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "store": false
+      }
+    }
+  },
+  {
+    "name": "base_url http://127.0.0.1:8080/v1",
+    "config": {
+      "base_url": "http://127.0.0.1:8080/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "http://127.0.0.1:8080/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "store": false
+      }
+    }
+  },
+  {
+    "name": "base_url not a url",
+    "config": {
+      "base_url": "not a url",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true
+    },
+    "prompt": "conformance",
+    "expected": {
+      "error": "Base URL must be a valid HTTP or HTTPS URL."
+    }
+  },
+  {
+    "name": "base_url ftp://api.example.com/v1",
+    "config": {
+      "base_url": "ftp://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true
+    },
+    "prompt": "conformance",
+    "expected": {
+      "error": "Base URL must use HTTP or HTTPS without credentials, a query, or a fragment."
+    }
+  },
+  {
+    "name": "base_url https://user:pw@api.example.com/v1",
+    "config": {
+      "base_url": "https://user:pw@api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true
+    },
+    "prompt": "conformance",
+    "expected": {
+      "error": "Base URL must use HTTP or HTTPS without credentials, a query, or a fragment."
+    }
+  },
+  {
+    "name": "base_url https://api.example.com/v1?x=1",
+    "config": {
+      "base_url": "https://api.example.com/v1?x=1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true
+    },
+    "prompt": "conformance",
+    "expected": {
+      "error": "Base URL must use HTTP or HTTPS without credentials, a query, or a fragment."
+    }
+  },
+  {
+    "name": "base_url https://api.example.com/v1#f",
+    "config": {
+      "base_url": "https://api.example.com/v1#f",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true
+    },
+    "prompt": "conformance",
+    "expected": {
+      "error": "Base URL must use HTTP or HTTPS without credentials, a query, or a fragment."
+    }
+  },
+  {
+    "name": "messages endpoint mismatch",
+    "config": {
+      "base_url": "https://api.example.com/v1/responses",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "messages",
+      "stream": true
+    },
+    "prompt": "conformance",
+    "expected": {
+      "error": "The endpoint in --baseurl does not match --api."
+    }
+  }
+]

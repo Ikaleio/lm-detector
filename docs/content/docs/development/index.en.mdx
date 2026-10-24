@@ -9,6 +9,7 @@ icon: Code
 ├── cli/
 ├── web/
 ├── shared/
+├── sdk/
 ├── data/
 ├── docs/
 ├── offline/
@@ -22,7 +23,8 @@ icon: Code
 | --- | --- |
 | `cli/` | `fpd` command line tool (Bun + Ink), published as the npm package `lmfpd` |
 | `web/` | Detection website and read-only reference library (React, shadcn/ui, Tailwind CSS) |
-| `shared/` | Challenge, parsing, scoring, and tokenizer probe algorithms shared by the website and the CLI |
+| `shared/` | Challenge, parsing, scoring, live sampling, and tokenizer probe algorithms shared by the website, the CLI, and the TypeScript SDK |
+| `sdk/` | TypeScript, Rust, Go, and Python SDKs and the conformance data the four share. See [SDK](../sdk/index.mdx) |
 | `data/` | Reference data, derived bank, frozen detector, fixed challenges, and tokenizer bank. See [Data files](../reference/data.mdx) |
 | `docs/` | These docs (Fumadocs + React Router, all pages prerendered) |
 | `offline/` | Offline retraining and calibration (TypeScript, in a Node or Bun worker thread) |
@@ -36,7 +38,9 @@ icon: Code
 | Module | Role |
 | --- | --- |
 | `challenge-browser.js` | Detection challenge generation |
-| `completion-request.ts`, `completion.ts`, `detection.ts` | Request bodies, response parsing, and the detection flow |
+| `completion-request.ts`, `completion.ts`, `detection.ts` | Request bodies, response parsing, and the website's detection flow |
+| `detect-request.ts`, `detect-run.ts` | Live detection for the CLI and the TypeScript SDK: request endpoints, single samples, and round scoring |
+| `cache-dir.ts` | The `lmfpd` cache directory, which holds the CLI's update check and the SDKs' reference data |
 | `fingerprint-core.js` | Number features and base scoring |
 | `shared-detector.ts` | Frozen ranker and confidence calibration |
 | `detector-codec.ts` | Encodes and decodes the binary detector file `shared_detector.bin`. Shared by the CLI, the website, and the evaluators |

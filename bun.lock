@@ -77,6 +77,14 @@
         "vite": "^8.3.0",
       },
     },
+    "sdk/ts": {
+      "name": "@fingerpoint/sdk",
+      "version": "0.1.0",
+      "dependencies": {
+        "@fingerpoint/shared": "workspace:*",
+        "fzstd": "^0.1.1",
+      },
+    },
     "shared": {
       "name": "@fingerpoint/shared",
       "version": "0.1.0",
@@ -276,6 +284,8 @@
     "@fingerpoint/cli": ["@fingerpoint/cli@workspace:cli"],
 
     "@fingerpoint/docs": ["@fingerpoint/docs@workspace:docs"],
+
+    "@fingerpoint/sdk": ["@fingerpoint/sdk@workspace:sdk/ts"],
 
     "@fingerpoint/shared": ["@fingerpoint/shared@workspace:shared"],
 

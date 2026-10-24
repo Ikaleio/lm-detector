@@ -1,0 +1,187 @@
+---
+title: SDK
+description: 在 TypeScript、Rust、Go 和 Python 程序里给回答评分、生成挑战，或检测一个 API 渠道。
+icon: Package
+---
+
+import { CloudDownload, SquareFunction } from 'lucide-react'
+
+SDK 把检测器放进你自己的程序：给已经收集的回答评分，生成随机挑战，或者向一个 API 渠道发一轮挑战再评分。四种语言提供同样的功能：
+
+- **离线评分**：给一到三条回答评分，结果和 `fpd --input FILE --json` 相同。
+- **生成挑战**：和网页、命令行用同一个生成器，每道挑战随机选语言和措辞，要求 292–332 个整数。
+- **在线检测**：发一轮挑战并评分，取样规则和命令行的[检测](../cli/detect.mdx)相同，支持 Responses、Chat Completions 和 Messages。
+
+SDK 不做[分词器探测](../principles/tokenizer.mdx)，也不提供多轮检测；需要多轮时，在自己的程序里循环调用。
+
+<Cards>
+  <Card icon={<CloudDownload />} title="参考数据" href="./data.mdx">SDK 从哪里下载数据、怎么缓存，以及离线使用。</Card>
+  <Card icon={<SquareFunction />} title="API" href="./api.mdx">各语言的函数、检测参数、结果字段和错误处理。</Card>
+</Cards>
+
+## 安装
+
+SDK 还没有发布到 npm、crates.io 和 PyPI，现在从 GitHub 仓库安装：
+
+```sh tab="TypeScript"
+git clone https://github.com/Ikaleio/lm-detector
+cd lm-detector && bun install --frozen-lockfile && bun run build:sdk
+npm install ./dist/lmfpd-sdk   # 在你的项目里填这个目录的实际路径
+```
+
+```sh tab="Rust"
+cargo add lmfpd --git https://github.com/Ikaleio/lm-detector
+```
+
+```sh tab="Go"
+go get github.com/Ikaleio/lm-detector/sdk/go@main
+```
+
+```sh tab="Python"
+pip install "lmfpd @ git+https://github.com/Ikaleio/lm-detector#subdirectory=sdk/python"
+```
+
+TypeScript 版在 Node.js 22+ 和 Bun 1.4.2+ 上运行，打包后没有依赖。Rust 版的调用都是阻塞的。Go 版要求 Go 1.23+。Python 版要求 Python 3.10+，依赖 `httpx`、`zstandard` 和 `numpy`。
+
+安装包里不带参考数据。第一次加载时，SDK 下载约 3.6 MB 的压缩数据并缓存，之后参考库更新也不需要升级 SDK，见[参考数据](./data.mdx)。
+
+## 给回答评分
+
+`analyze` 接受一到三条回答，每条带上回答文本和挑战要求的整数个数 `expected_count`：
+
+```ts tab="TypeScript"
+import { loadDetector } from 'lmfpd-sdk'
+
+const detector = await loadDetector()
+const analysis = detector.analyze([
+  { text: reply1, expected_count: 300 },
+  { text: reply2, expected_count: 311 },
+  { text: reply3, expected_count: 296 },
+])
+console.log(analysis.decision, analysis.prediction, analysis.probability)
+```
+
+```rust tab="Rust"
+use lmfpd::{Detector, LoadOptions, Output};
+
+let detector = Detector::load(&LoadOptions::default())?;
+let outputs = [
+    Output { text: reply1, expected_count: 300 },
+    Output { text: reply2, expected_count: 311 },
+    Output { text: reply3, expected_count: 296 },
+];
+let analysis = detector.analyze(&outputs, false)?;
+println!("{:?} {} {:?}", analysis.decision, analysis.prediction, analysis.probability);
+```
+
+```go tab="Go"
+detector, err := lmfpd.Load(ctx, lmfpd.LoadOptions{})
+if err != nil {
+	return err
+}
+analysis, err := detector.Analyze([]lmfpd.Output{
+	{Text: reply1, ExpectedCount: 300},
+	{Text: reply2, ExpectedCount: 311},
+	{Text: reply3, ExpectedCount: 296},
+}, false)
+if err != nil {
+	return err
+}
+fmt.Println(analysis.Decision, analysis.Prediction)
+```
+
+```python tab="Python"
+import lmfpd
+
+detector = lmfpd.load()
+analysis = detector.analyze([
+    {"text": reply1, "expected_count": 300},
+    {"text": reply2, "expected_count": 311},
+    {"text": reply3, "expected_count": 296},
+])
+print(analysis["decision"], analysis["prediction"], analysis["probability"])
+```
+
+加载一次就可以反复评分。加载要解析约 4.5 MB 的检测参数，比一次评分慢得多（见[性能](#performance)），所以不要每次评分都重新加载。
+
+## 检测一个 API 渠道
+
+`detect` 生成挑战、并发请求、检查回答再评分。请求失败不会抛出错误，而是记在每条样本和结果的 `error` 里：
+
+```ts tab="TypeScript"
+const result = await detector.detect({
+  baseUrl: 'https://api.example.com/v1', apiKey: process.env.API_KEY!, model: 'gpt-5.6-sol', api: 'chat_completions',
+})
+console.log(result.error ?? result.analysis!.prediction)
+```
+
+```rust tab="Rust"
+use lmfpd::{Api, DetectConfig};
+
+let mut config = DetectConfig::new("https://api.example.com/v1", std::env::var("API_KEY")?, "gpt-5.6-sol");
+config.api = Api::ChatCompletions;
+let result = detector.detect(&config)?;
+if let Some(error) = &result.error {
+    println!("{error}");
+} else if let Some(analysis) = &result.analysis {
+    println!("{}", analysis.prediction);
+}
+```
+
+```go tab="Go"
+result, err := detector.Detect(ctx, lmfpd.DetectConfig{
+	BaseURL: "https://api.example.com/v1", APIKey: os.Getenv("API_KEY"), Model: "gpt-5.6-sol",
+	API: lmfpd.APIChatCompletions,
+})
+if err != nil {
+	return err
+}
+if result.Error != nil {
+	fmt.Println(*result.Error)
+} else {
+	fmt.Println(result.Analysis.Prediction)
+}
+```
+
+```python tab="Python"
+import os
+
+result = detector.detect("https://api.example.com/v1", os.environ["API_KEY"], "gpt-5.6-sol", api="chat_completions")
+print(result["error"] or result["analysis"]["prediction"])
+```
+
+只有配置无效时 `detect` 才报错，这时还没有发出任何请求。`error` 为空时，`analysis` 一定有排名。全部参数见 [API](./api.mdx#detect-config)。
+
+## 读结果 [#reading-results]
+
+`decision` 说明这次给出了什么：
+
+| `decision` | 条件 | 结果 |
+| --- | --- | --- |
+| `scored` | 三条回答都有效 | 完整排名；校准和检测器匹配时，`probability` 是第一名的置信度 |
+| `partial` | 宽松模式下只有一两条有效 | 只有排名，`probability` 为 `null` |
+| `unscorable` | 没有有效回答，或严格模式下不足三条 | 没有排名 |
+| `not_model` | 数字的变化方式不像语言模型写的 | 没有排名，见[语言模型回答检查](../principles/ranking.mdx#sequence-check) |
+
+一条回答至少要有 `max(80, ceil(expected_count × 0.55))` 个 1–355 之间的整数才算有效。宽松模式下超出 `expected_count` 的部分会被截掉；严格模式不截断，要求三条完整的回答。
+
+<Callout type="warn" title="排名不是身份证明">
+  结果是参考库内的封闭集合排序。不在库里的模型也会得到一个“最像”的候选，`probability` 只在库内模型之间比较。判断渠道是否可信时，请固定请求参数、重复多轮，并结合其他证据。
+</Callout>
+
+## 性能 [#performance]
+
+在一台 Apple Silicon Mac 上测的耗时，评分取预热后 20 次的中位数：
+
+| 语言 | 加载仓库的 `data/` | 三条回答评分 | 一条回答评分 |
+| --- | --- | --- | --- |
+| Rust | 24 ms | 1.7 ms | 0.5 ms |
+| Go | 31 ms | 2.3 ms | 0.7 ms |
+| TypeScript（Node 或 Bun） | 30 ms | 6.5 ms | 2.2 ms |
+| Python 3.13 | 37 ms | 1.9 ms | 0.65 ms |
+
+Python 版用 NumPy 计算，求和顺序和其他语言不同，分数相差在 10⁻¹⁵ 左右。在线检测的耗时主要是等模型生成，和语言无关。
+
+## 结果一致性
+
+四种语言的实现都对照同一组测试数据检查：数字解析、请求构造、13 种流式和 JSON 响应的处理，以及 12 组评分结果。评分结果的相对误差不超过 10⁻⁹，文字和状态必须完全相同。在仓库里运行 `bun run sdk:check` 会依次检查四种语言。

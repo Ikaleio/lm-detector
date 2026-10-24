@@ -27,6 +27,18 @@ npm trust github lmfpd --repo Ikaleio/lm-detector \
 
 可信发布者必须允许直接 `npm publish`。配置完成后，GitHub Actions 不需要保存 npm 令牌。依赖自动发布之前，先手动触发一次工作流，确认授权可用。
 
+## SDK 数据镜像
+
+SDK 不内置参考数据，运行时先从 `https://lm.ikale.io/data/` 下载，失败再换国内镜像 `https://cdn.jsdmirror.com/npm/lmfpd-data@latest/`。镜像内容来自 npm 包 `lmfpd-data`，所以参考数据每次更新后都要重新发布它：
+
+```sh
+bun run build:data-package
+cd dist/lmfpd-data
+npm publish --access public --tag latest
+```
+
+包里只有 `bundle.json` 和检测参数的压缩分块，目录结构和网站的 `/data/` 一样。镜像没更新时，国内用户拿到的是上一版数据。
+
 ## 网站与文档
 
 网站和文档随 Cloudflare Pages 的 Git 集成自动部署，GitHub Pages 由手动触发的工作流发布，见[部署](../deployment/index.mdx)。

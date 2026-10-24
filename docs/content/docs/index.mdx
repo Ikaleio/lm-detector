@@ -4,7 +4,7 @@ description: 让模型随手写几百个整数，识别 API 背后的大语言�
 icon: ScanSearch
 ---
 
-import { FlaskConical, Globe, Rocket, Terminal } from 'lucide-react'
+import { FlaskConical, Globe, Package, Rocket, Terminal } from 'lucide-react'
 
 中转站或第三方 API 声称提供某个模型，实际接入的可能是另一个模型。LM Fingerpoint Detector 用一个与语义无关的任务核对这一点：让模型凭第一反应写出约 300 个 1–355 之间的整数。语言模型写出的“随机数”并不均匀，每个模型偏好的数值、区间和末位数字相对稳定。检测器把这组分布与参考库比对，给出最接近的候选模型。
 
@@ -12,12 +12,13 @@ import { FlaskConical, Globe, Rocket, Terminal } from 'lucide-react'
   <Card icon={<Rocket />} title="快速开始" href="./quick-start.mdx">在网页上检测，或用 `npx lmfpd` 在终端运行。</Card>
   <Card icon={<Globe />} title="网页检测" href="./web/index.mdx">手动与 API 两种模式、分词器探测，以及接口的连接方式。</Card>
   <Card icon={<Terminal />} title="命令行" href="./cli/index.mdx">`fpd` 的检测（可选分词器探测）、采样与入库。</Card>
+  <Card icon={<Package />} title="SDK" href="./sdk/index.mdx">在 TypeScript、Rust、Go 和 Python 程序里评分和检测。</Card>
   <Card icon={<FlaskConical />} title="原理" href="./principles/index.mdx">从挑战、特征到排名与置信度校准。</Card>
 </Cards>
 
 ## 功能
 
-- **两种入口**：[网页](https://lm.ikale.io)支持手动粘贴和直连 API；命令行 `fpd` 提供实时终端界面、多轮检测和 JSON 输出。
+- **三种入口**：[网页](https://lm.ikale.io)支持手动粘贴和直连 API；命令行 `fpd` 提供实时终端界面、多轮检测和 JSON 输出；[SDK](./sdk/index.mdx) 让 TypeScript、Rust、Go 和 Python 程序直接评分和检测。
 - **三种协议**：OpenAI Responses、Chat Completions 和 Anthropic Messages，默认使用 SSE 流式响应。
 - **参考库**：覆盖 GPT、Claude、Gemini、Grok、Qwen、DeepSeek 等常见模型家族。网页的参考库页面可以只读浏览和导出。
 - **分词器探测（可选，默认关闭）**：在 API 配置中打开“分词器探测”，或在命令行加上 `--tokenizer`，检测会多发约 12 个短请求，从接口返回的用量识别上游的分词器（模型把文字切成 token 的规则），并与所填模型核对。结果只作参考：排名和置信度只由数字指纹计算，也不等待探测。很多模型共用同一种分词器，所以分词器一致不能证明模型身份。

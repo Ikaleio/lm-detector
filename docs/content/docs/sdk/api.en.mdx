@@ -1,0 +1,171 @@
+---
+title: API
+description: Functions in the four languages side by side, detection settings, sampling rules, result fields, and error handling.
+icon: SquareFunction
+---
+
+The functions match one to one across the four languages, and so do the result fields. TypeScript, Rust, and Python use the same snake_case field names as the JSON. Go struct fields follow Go naming and marshal to the same JSON as the other languages.
+
+## Functions [#functions]
+
+```ts tab="TypeScript"
+loadDetector(options?: { source?: string | readonly string[]; cache?: string; ttl?: number }): Promise<Detector>
+detector.builtAt: string
+detector.analyze(outputs: Output[], options?: { strict?: boolean }): Analysis
+detector.detect(config: DetectConfig, signal?: AbortSignal): Promise<DetectResult>
+generateChallenges(count = 3): Challenge[]
+parseNumbers(text: string): number[]
+buildRequest(config: DetectConfig, prompt: string): { url, headers, body } | { error: string }
+requestSample(config: DetectConfig, challenge: Challenge): Promise<Sample>
+DEFAULT_DATA_URLS: readonly string[]
+```
+
+```rust tab="Rust"
+Detector::load(options: &LoadOptions) -> Result<Detector, Error>   // LoadOptions { sources: Vec<String>, cache: PathBuf, ttl: f64 }
+detector.built_at() -> &str
+detector.analyze(outputs: &[Output], strict: bool) -> Result<Analysis, Error>
+detector.detect(config: &DetectConfig) -> Result<DetectResult, Error>
+generate_challenges(count: usize) -> Result<Vec<Challenge>, Error>
+parse_numbers(text: &str) -> Vec<u32>
+build_request(config: &DetectConfig, prompt: &str) -> Result<Request, Error>
+request_sample(config: &DetectConfig, challenge: &Challenge) -> Sample
+DEFAULT_DATA_URLS: &[&str]
+```
+
+```go tab="Go"
+func Load(ctx context.Context, options LoadOptions) (*Detector, error)   // LoadOptions{Sources []string; Cache string; TTL time.Duration}
+func (d *Detector) BuiltAt() string
+func (d *Detector) Analyze(outputs []Output, strict bool) (*Analysis, error)
+func (d *Detector) Detect(ctx context.Context, config DetectConfig) (*DetectResult, error)
+func GenerateChallenges(count int) ([]Challenge, error)
+func ParseNumbers(text string) []int
+func BuildRequest(config DetectConfig, prompt string) (*Request, error)
+func RequestSample(ctx context.Context, config DetectConfig, challenge Challenge) Sample
+var DefaultDataURLs []string
+```
+
+```python tab="Python"
+load(source: str | Sequence[str] = DEFAULT_DATA_URLS, cache: str | PathLike | None = None, ttl: float = 86400.0) -> Detector
+detector.built_at: str
+detector.analyze(outputs: Sequence[Output], strict: bool = False) -> Analysis
+detector.detect(base_url, api_key, model, *, api="responses", effort="", service_tier="default",
+                stream=True, strict=False, count=3, parallel=3, timeout=120.0) -> DetectResult
+generate_challenges(count: int = 3) -> list[Challenge]
+parse_numbers(text: str) -> list[int]
+build_request(config: Mapping[str, Any], prompt: str) -> dict
+request_sample(config: Mapping[str, Any], challenge: Challenge) -> Sample
+DEFAULT_DATA_URLS: tuple[str, ...]
+```
+
+- **Loading**: `source` is a list of data URLs or one local folder, `cache` is the cache file, and `ttl` sets how often the cache is checked for updates; see [Reference data](./data.mdx). `built_at` is the build time of the reference bank; use it to tell whether the data has changed.
+- **Scoring**: `analyze` takes one to three `{ text, expected_count }` replies. `expected_count` is the number of integers the challenge asked for and must be a positive integer.
+- **Generating challenges**: `count` is 1–3. Each challenge has an `id`, a `prompt`, and an `expected_count`; the counts in one round all differ.
+- **Parsing numbers**: returns the longest run of integers from 1 to 355 in a reply. Letters split runs; punctuation and whitespace do not.
+- **Building a request**: returns the URL, headers, and JSON body that `detect` would send, without sending anything. Use it to check settings.
+- **Sending one challenge**: sends one request and checks the reply without scoring it. A failure is recorded in the returned sample's `error`.
+
+## Detection settings [#detect-config]
+
+TypeScript uses camelCase (`baseUrl`), Go uses struct fields (`BaseURL`), and Rust and Python use snake_case (`base_url`).
+
+| Setting | Description | Default |
+| --- | --- | --- |
+| `base_url` | Base URL or full endpoint. A bare host gets `/v1`; a URL with a path keeps the path and adds the selected API's endpoint | Required |
+| `api_key` | API key. It appears only in request headers, and error messages show `[REDACTED]` in its place | Required |
+| `model` | Requested model name | Required |
+| `api` | `responses`, `chat_completions`, or `messages`. Rust uses the `Api` enum and Go the `APIResponses` constants | `responses` |
+| `effort` | Reasoning effort, such as `low` or `high`. With Messages, `none` turns thinking off | Empty, not sent |
+| `service_tier` | `flex`, `default`, `fast`, or `ultrafast`. Sent as `speed` with Messages and as `service_tier` with the other APIs | `default`, not sent |
+| `stream` | Use SSE streaming; turn it off for plain JSON responses. Go turns it off with the `NoStream` field | On |
+| `strict` | Strict mode: no truncation, and all three replies must be complete and valid. Needs `count` 3 | Off |
+| `count` | Challenges per round, 1–3 | 3 |
+| `parallel` | Concurrent requests, 1–3, at most `count` | 3 |
+| `timeout` | Time limit in seconds (a `time.Duration` in Go). With SSE it limits only the wait for the first response body data; there is no limit once data flows. With JSON it covers the whole response | 120 |
+
+In Go a zero field means the default; for example, `Count: 0` means three challenges. In Rust, `DetectConfig::new(base_url, api_key, model)` returns the defaults, and you change fields from there. Python's `detect` takes keyword arguments; `build_request` and `request_sample` take a dict with the same keys.
+
+An invalid configuration makes `detect` and `build_request` fail before any request with one of these messages:
+
+```text
+base_url, api_key, and model are required.
+api must be responses, chat_completions, or messages.
+service_tier must be flex, default, fast, or ultrafast.
+count must be an integer from 1 to 3.
+parallel must be an integer from 1 to 3.
+timeout must be between 0.001 and 2147483.647 seconds.
+strict requires count 3.
+Base URL must be a valid HTTP or HTTPS URL.
+Base URL must use HTTP or HTTPS without credentials, a query, or a fragment.
+The endpoint in --baseurl does not match --api.
+```
+
+## Sampling rules
+
+`detect` samples like command-line [detection](../cli/detect.mdx):
+
+- In relaxed mode a streamed reply stops being read once it has `expected_count` integers, and the sample state is `truncated`. A JSON reply is cut down to `expected_count` integers.
+- A reply must end normally, with a finish reason of `stop`, `end_turn`, or `completed`. Refusals, content filtering, and unfinished replies fail unless relaxed mode has already truncated them.
+- A valid reply has at least `max(80, ceil(expected_count × 0.55))` integers.
+- Redirects are not followed and requests are not retried. Failed samples stay in the result.
+
+## Results [#results]
+
+### Analysis
+
+Returned by `analyze`, and as `analysis` in a `detect` result:
+
+| Field | Description |
+| --- | --- |
+| `decision` | `scored`, `partial`, `unscorable`, or `not_model`; see [Reading results](./index.mdx#reading-results) |
+| `prediction`, `prediction_name` | ID and display name of the top candidate. The ID is empty without a ranking |
+| `family_prediction`, `family_prediction_name` | Model family of the top candidate |
+| `results` | All candidates from the highest ranking score down: `model`, `display_name`, `family`, `family_name`, `score`, `probability` |
+| `ranking_score` | Ranking score of the top candidate, or `null` without a ranking |
+| `probability` | Confidence of the top candidate, a closed-set probability within the reference bank. Set only for `scored` with a valid calibration |
+| `probability_status` | `reference_calibrated` or `unavailable` |
+| `probability_scope`, `calibration` | Scope of the confidence and the calibration used, or `null` without a confidence |
+| `used_outputs` | Number of valid replies |
+| `diagnostics` | Parsing of each reply: `parsed_numbers`, `minimum_numbers`, `accepted`, and `raw_out_of_range_count`, the count of numbers outside 1–355 |
+| `sequence` | Measures of the language-model reply check: `autocorrelation`, `small_step_share`, `model_like`. `null` without valid replies |
+| `method`, `model_version` | Scoring method and detector version |
+| `evidence` | A `label` for the result and an English explanation in `reason` |
+
+### Sample
+
+Each sample in a `detect` result, and the return value of `request_sample`:
+
+| Field | Description |
+| --- | --- |
+| `state` | `complete`, `truncated`, or `failed`; `cancelled` after cancellation in TypeScript and Go |
+| `text` | Text used for scoring. A truncated sample keeps only the first `expected_count` integers |
+| `raw_text` | Raw text received |
+| `count`, `expected_count` | Number of integers parsed and number requested |
+| `response_model`, `response_id` | Model name and response ID returned by the API, or `null` |
+| `error` | Why the sample failed, or `null` |
+
+### DetectResult
+
+`detect` returns four fields: `challenges` (this round's challenges), `samples`, `analysis`, and `error`. When `error` is `null`, `analysis` always has a ranking. `error` is set in these cases:
+
+| `error` | Cause |
+| --- | --- |
+| `No valid samples. This round cannot be scored.` | Every sample failed |
+| `Strict mode requires 3/3 successful samples; received N/3.` | A sample failed in strict mode |
+| The text of `analysis.evidence.reason` | `analysis` is present but has no ranking, for example `not_model` |
+| `Cancelled. This round was not scored.` | Detection was cancelled (TypeScript and Go) |
+| `Scoring failed. Check that the reference bank and detector files are valid.` | A data file is damaged |
+
+## Errors
+
+| Language | How errors are reported |
+| --- | --- |
+| TypeScript | Throws `Error`, except `buildRequest`, which returns `{ error }` |
+| Rust | Returns `Result<T, lmfpd::Error>` |
+| Go | Returns an `error` |
+| Python | Raises `lmfpd.LmfpdError` |
+
+`analyze` fails when its input is not one to three replies with a positive integer `expected_count`: `Each input round must contain one to three outputs with text and a positive integer expected_count.` `request_sample` never fails; configuration errors and request failures go into the sample's `error`.
+
+## Cancellation
+
+TypeScript's `detect` takes an `AbortSignal`, and Go's `Detect` and `RequestSample` follow `ctx`. Cancelling stops requests in flight at once and sends no further challenges. Samples become `cancelled`, and the round is not scored. Rust's and Python's `detect` cannot be cancelled midway.

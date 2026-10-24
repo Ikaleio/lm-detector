@@ -1,6 +1,8 @@
 node_modules/
 .DS_Store
 dist/
+target/
+.venv/
 web/public/data/
 web/.generated/
 *.tsbuildinfo
