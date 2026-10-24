@@ -91,7 +91,7 @@ When all three samples are valid and the calibration matches the detector, the r
 
 Each round is scored from the number fingerprint alone, when its samples finish. With `--tokenizer`, the [tokenizer probe](./tokenizer.mdx) result shows in a separate block as reference only. It does not change the candidates, their order, or the confidence. With `--input`, a tokenizer probe saved in the report shows in the same block. Reading it sends no requests.
 
-If consecutive numbers change differently from the language-model replies in the reference bank, the round is marked **Not a model reply**, with no ranking and no confidence. For the method, see the [language-model reply check](../principles/ranking.mdx#sequence-check).
+If both lag-1 autocorrelation and the small-step share exceed their limits, the round is marked **Not a model reply**, without ranking or confidence. If only one limit is exceeded, ranking continues. For the method, see the [language-model reply check](../principles/ranking.mdx#sequence-check).
 
 If the smallest valid number of a sample is 200 or more, the interface warns that the sample has an abnormal distribution and the result is unreliable. The prompt causes it: with random challenges, a new run draws new prompts; with `--challenges`, replace the matching prompts in the file.
 

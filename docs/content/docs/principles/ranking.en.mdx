@@ -5,9 +5,11 @@ description: A frequency ranking and a position/order discriminant set the candi
 
 ## Language-model reply check [#sequence-check]
 
-Before ranking, the detector checks how consecutive numbers change. The language-model replies in the reference bank jump between distant values: the lag-1 autocorrelation of consecutive numbers is clearly negative, and steps of 20 or less almost never occur. Program-generated random numbers, sorted numbers and shuffled replies do not have this structure.
+Before ranking, the detector checks how consecutive numbers change. Language-model replies in the reference bank usually jump between distant values: lag-1 autocorrelation is clearly negative, and steps of 20 or less are rare. Program-generated random numbers, sorted numbers and shuffled replies usually lack both features.
 
-For each valid answer, the detector calculates the lag-1 autocorrelation and the share of consecutive differences with an absolute value of 20 or less. It takes the median of each over the valid answers. If the autocorrelation is above −0.23 or the share is above 0.05, the result is "Not like a language model reply", with no ranking and no confidence. The two limits are the 99.5% quantiles of these values over the reference bank's three-answer groups, grouped by environment. 5 of the 708 reference groups exceed them.
+For each valid answer, the detector calculates lag-1 autocorrelation and the share of consecutive differences with an absolute value of 20 or less. It takes the median of each over the valid answers. Only when autocorrelation exceeds −0.23 **and** the small-step share exceeds 0.05 does it return "Not like a language model reply", without ranking or confidence. If only one limit is exceeded, ranking continues: a model reply can have weak autocorrelation but few small steps. The two limits come from the 99.5% quantiles over the reference bank's three-answer groups, grouped by environment.
+
+This check filters sequence shapes. It cannot prove where the numbers came from, and passing it does not confirm that a language model generated the reply.
 
 ## Ranker
 
