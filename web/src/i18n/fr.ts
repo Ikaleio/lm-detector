@@ -35,6 +35,8 @@ export const fr: Messages = {
     cliDescription: 'Lancer plusieurs détections en local dans le terminal',
     cliGuide: 'Guide CLI',
     cliGuideShort: 'Guide',
+    sdkGuide: 'Docs SDK',
+    sdkDescription: 'Détecter depuis des programmes TypeScript, Rust, Go et Python',
     starRequest: 'Utile ? Mettez une Star',
     starAfterImage: 'Utile ? Mettez une Star sur GitHub pour que d’autres le découvrent.',
     restartReady: 'Nouvelles invites prêtes',

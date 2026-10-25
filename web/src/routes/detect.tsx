@@ -421,11 +421,18 @@ export default function DetectRoute() {
           <code className="fp-mono text-meta"><span>bunx</span> lmfpd@latest <span>--help</span></code>
           <Copy className="size-3.5 shrink-0" aria-hidden="true" />
         </button>
-        <a href={docsHref(i18n.locale, 'cli/detect')} target="_blank" rel="noopener noreferrer" className="fp-cli-link">
-          <span className="sm:hidden">{t('detect.cliGuideShort')}</span>
-          <span className="hidden sm:inline">{t('detect.cliGuide')}</span>
-          <ArrowUpRight className="size-3.5" aria-hidden="true" />
-        </a>
+        <span className="fp-cli-links">
+          <a href={docsHref(i18n.locale, 'cli/detect')} target="_blank" rel="noopener noreferrer" className="fp-cli-link">
+            <span className="sm:hidden">{t('detect.cliGuideShort')}</span>
+            <span className="hidden sm:inline">{t('detect.cliGuide')}</span>
+            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+          </a>
+          <a href={docsHref(i18n.locale, 'sdk')} target="_blank" rel="noopener noreferrer" className="fp-cli-link" title={t('detect.sdkDescription')}>
+            <span className="sm:hidden">SDK</span>
+            <span className="hidden sm:inline">{t('detect.sdkGuide')}</span>
+            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+          </a>
+        </span>
       </aside>
 
       <AnimatePresence initial={false}>

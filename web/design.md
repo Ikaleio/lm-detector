@@ -1,7 +1,7 @@
 ---
 name: fingerpoint-design
 description: 用于 Fingerpoint Detector 的网页工具界面（多卡片工作台、数据长列表、主从浏览）、文档站长文页、浏览器导出的结果图片和链接预览图。读者是逐条核对数字、标识符和百分比的技术用户；目标是中性灰阶表面、单一蓝色强调、像素指纹装饰和无回弹弹簧动效，中英文混排，浅色与深色主题。
-version: 2026-10-11
+version: 2026-10-25
 ---
 
 ## 1. 范围与优先级
@@ -43,7 +43,7 @@ version: 2026-10-11
 用于一次处理多份同类输入并在同一页给出结论的页面。
 
 - [SHOULD] 使用 `fp-page`。首屏自上而下：页头（唯一的 h1，右侧为 `Segmented` 模式切换）、一行紧凑提示条 `fp-cli-promo`、可选的整行配置卡片、卡片网格 `fp-grid-samples`、操作行 `fp-detect-footer`。
-- [SHOULD] 提示条只占一行高度：命令片段用 `fp-cli-command`，其中的可执行名和参数为 primary 600 字重；点击命令复制全文并用 toast 反馈；行末是 primary 文字链接。
+- [SHOULD] 提示条只占一行高度：命令片段用 `fp-cli-command`，其中的可执行名和参数为 primary 600 字重；点击命令复制全文并用 toast 反馈；行末 `fp-cli-links` 依次放 CLI 用法和 SDK 文档两个 primary 文字链接，间隔 12px。
 - [SHOULD] 卡片网格 1024px 起为三列等宽，1024px 以下为一列。
 - [SHOULD] 输入卡片 `SampleCard` 自上而下：标题行（`text-card-title` 编号标题、状态徽标、更多菜单）、参考原文（默认显示四行，可展开全文）、输入区、底部 `text-meta` 计数。
 - [SHOULD] 输入区 `fp-reply` 固定 12rem 高，保留原始换行，内容超出时在区内滚动，不随内容增高，不可拖拽改变大小；空白等待区保持同一高度。流式追加文本时滚到底部，手动编辑时跟随光标。
@@ -225,7 +225,7 @@ version: 2026-10-11
 | 字号角色 | `text-display` `text-display-number` `text-h1` `text-section-title` `text-card-title` `text-body` `text-meta` | `web/src/tokens.css` | 所有文字 | 已实现 |
 | 应用外壳 | `fp-topbar` `fp-topbar-inner` `fp-topbar-start` `fp-topbar-actions` `fp-brand` `fp-brand-mark` `fp-brand-text` `fp-brand-title` `fp-brand-byline` `fp-nav` `fp-nav-indicator` `fp-repository-link` `fp-repository-star`；`--fp-topbar-height` | `web/src/shell.css` | 工具页和文档页顶栏 | 已实现 |
 | 页面容器 | `fp-shell` `fp-page` `fp-page-wide` `fp-footer` | `web/src/index.css` | 工具页 | 已实现 |
-| 工作台布局 | `fp-grid-samples` `fp-detect-footer` `fp-actionbar` `fp-cli-promo` `fp-cli-command` `fp-cli-link` `fp-star-link`（`data-size="sm"`） | `web/src/index.css` | 多卡片工作台 | 已实现 |
+| 工作台布局 | `fp-grid-samples` `fp-detect-footer` `fp-actionbar` `fp-cli-promo` `fp-cli-command` `fp-cli-links` `fp-cli-link` `fp-star-link`（`data-size="sm"`） | `web/src/index.css` | 多卡片工作台 | 已实现 |
 | 表面与数据 | `fp-card`（`data-warning`） `fp-bar` `fp-reply` `fp-mono` `fp-caret` `fp-api-summary` `fp-result-summary` `fp-result-score` `fp-result-row`（`data-unscored`） | `web/src/index.css` | 卡片、置信度条、原文、标识符、候选行 | 已实现 |
 | 控件 | `Button` `Input` `Textarea` `Field` `FieldError` `Switch` `ToggleGroup` `Segmented`（选项 `icon` `recommended`） `Tabs` `Collapsible` | `web/src/components/ui/`、`web/src/components/segmented.tsx` | 表单与操作 | 已实现 |
 | 品牌标识 | `BrandIcon` | `web/src/components/brand-icon.tsx` | `Segmented` 选项 | 已实现 |

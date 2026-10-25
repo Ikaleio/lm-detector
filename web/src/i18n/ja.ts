@@ -35,6 +35,8 @@ export const ja: Messages = {
     cliDescription: 'ターミナルでローカルに複数回の検出を実行',
     cliGuide: '使い方を見る',
     cliGuideShort: '説明',
+    sdkGuide: 'SDK ドキュメント',
+    sdkDescription: 'TypeScript・Rust・Go・Python のプログラムから検出',
     starRequest: '役に立ちましたか？ Star をぜひ',
     starAfterImage: '役に立ったら GitHub で Star を付けて、もっと多くの人に届けてください。',
     restartReady: '新しいプロンプトに入れ替えました',

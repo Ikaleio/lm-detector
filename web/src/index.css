@@ -64,7 +64,8 @@
 .fp-cli-command code span { color: var(--primary); font-weight: 600; }
 .fp-cli-command > svg { color: var(--muted-foreground); }
 .fp-cli-command:hover > svg { color: var(--primary); }
-.fp-cli-link { display: inline-flex; align-items: center; gap: .15rem; margin-left: auto; color: var(--primary); font-weight: 500; white-space: nowrap; text-decoration: none; }
+.fp-cli-links { display: inline-flex; align-items: center; gap: .75rem; margin-left: auto; }
+.fp-cli-link { display: inline-flex; align-items: center; gap: .15rem; color: var(--primary); font-weight: 500; white-space: nowrap; text-decoration: none; }
 .fp-cli-link:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 html[data-page-direction="forward"] { --fp-page-offset: 100%; }
