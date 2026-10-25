@@ -52,6 +52,15 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-25 Add minimax-m3.1-flash" id="2026-10-25-minimax-m3-1-flash">
+    Added 36 fixed-challenge answers for `minimax-m3.1-flash`, bringing the bank to 63 fingerprint identities and 2,344 samples. Requests use `minimax/minimax-m3.1-flash` through streaming OpenRouter Chat Completions, `reasoning_effort=low`, and the pinned official provider route `openrouter/minimax`, with fallbacks disabled. Raw responses validate the returned model and Minimax provider metadata.
+
+    Of the reference answers, 22 completed naturally and 14 were capped at the collection limit of 500 integers. Prompts and system instructions match the fixed challenge suite. The first two attempts for `query-10` produced too few valid integers and are kept alongside the successful answer in `collections/minimax-m3.1-flash-openrouter-minimax-low-20261025/`. Enrollment selects the first valid answer for each challenge. All 2,308 existing reference answers remain unchanged.
+
+    The fixed evaluation uses the existing two groups of three independent challenges, with the same pinned provider and `low` reasoning effort. Evaluation answers are stored separately and excluded from bank construction, training, and calibration.
+
+    After retraining, both new groups rank `minimax-m3.1-flash` first. Predictions for all 124 existing complete groups remain unchanged, with 111 correct before and after enrollment. Evaluation covers 126/128 groups and 378/384 valid answers, with 113/126 complete groups correct. The other two groups are the existing `kimi-k2.8-preview` quota gap.
+  </Accordion>
   <Accordion title="2026-10-24 Add gemini-3.5-flash-lite" id="2026-10-24-gemini-3-5-flash-lite">
     Added 36 fixed-challenge answers for `gemini-3.5-flash-lite`, bringing the reference bank to 62 fingerprint identities and 2,308 samples. Collection requests `google/gemini-3.5-flash-lite` through streaming OpenRouter Chat Completions, with `reasoning_effort=minimal` and the fixed `openrouter/google-ai-studio` official provider route. Fallbacks are disabled. This model requires reasoning, so collection selects its lowest supported effort.
 

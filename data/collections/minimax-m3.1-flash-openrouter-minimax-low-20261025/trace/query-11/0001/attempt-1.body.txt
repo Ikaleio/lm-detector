@@ -1,0 +1,116 @@
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":"We need output","reasoning_details":[{"type":"reasoning.text","text":"We need output","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" 311 integers, random-like, within 1-355, no counting. Need just list. Must ensure exactly 311.","reasoning_details":[{"type":"reasoning.text","text":" 311 integers, random-like, within 1-355, no counting. Need just list. Must ensure exactly 311.","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" I can compose lines perhaps 10 per line and count groups manually? User says don't count from 1, but exact requirement","reasoning_details":[{"type":"reasoning.text","text":" I can compose lines perhaps 10 per line and count groups manually? User says don't count from 1, but exact requirement","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":". We need 311 entries. Could output 31 lines of 10 =310 plus one, clear","reasoning_details":[{"type":"reasoning.text","text":". We need 311 entries. Could output 31 lines of 10 =310 plus one, clear","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" separators. \"每次只决定当前一项\" but asks complete sequence no explanation. We'll generate.","reasoning_details":[{"type":"reasoning.text","text":" separators. \"每次只决定当前一项\" but asks complete sequence no explanation. We'll generate.","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" Need not semantic. Ensure range.\n\nLet's create 31 rows 10 plus one. Need maintain","reasoning_details":[{"type":"reasoning.text","text":" Need not semantic. Ensure range.\n\nLet's create 31 rows 10 plus one. Need maintain","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" 311. I can use commas, line breaks. Track rows R1..R31 mentally. This is a","reasoning_details":[{"type":"reasoning.text","text":" 311. I can use commas, line breaks. Track rows R1..R31 mentally. This is a","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" lot. Ensure all unique-ish not required. Let's produce numbers random. Need no","reasoning_details":[{"type":"reasoning.text","text":" lot. Ensure all unique-ish not required. Let's produce numbers random. Need no","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" accidental pattern.","reasoning_details":[{"type":"reasoning.text","text":" accidental pattern.","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"38, 214, 97, 302, 51, 176, 289, 133, 65, 347","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",\n219, 108, 286, 42, 331, 73, 158, 249, 196, 14,\n305","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":", 87, 271, 122, 339, 29, 204, 116, 276, 49,\n164, 323","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":", 92, 243, 180, 61, 350, 137, 78, 225,\n46, 192, 294, 109, 266","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":", 31, 340, 84, 211, 147,\n282, 55, 317, 126, 358? no.","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 358 invalid. replace 248,\nNo correction? Need avoid output invalid. Let's","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" formulate from here carefully.\n\nNeed output final only. Continue list","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" with valid numbers.\n\nLet's construct 31 lines 10 each, last one. I can count lines via","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" numbered in analysis but final no labels. Ensure all valid.\n\nLine 1: 38 214 97 302 51 176 289 133 65","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 347\n2: 219 108 286 42 331 73 158 249 196 14\n3: 305 87 271 122 339 29 204 116 276 49\n4: ","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"164 323 92 243 180 61 350 137 78 225\n5: 46 192 294 109 266 31 340 84 211 147\n6: 282 55 317 126 248 101","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 356 invalid\n-> choose 216. line6 282 55 317 126 248 101 216 173 309","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 68\n7: 24 235 145 288 83 199 354 112 262 37\n8: 320","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 76 185 241 152 295 43 268 130 351\n9: 17 227 96 306","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 58 174 253 207 115 284\n10: 72 336 138 188 263 45 327","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 106 221 13\n11: 296 81 165 237 154 344 63 278 195 8","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"\n12: 250 121 310 40 201 277 93 333 149 183\n13: 60 267","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 111 325 79 226 160 298 47 215\n14: 343 89 198","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 274 128 240 71 305 102 159\n15: 35 254 169 291 54","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 321 118 232 190 3\n16: 286 145 duplicate okay but avoid 286: 203 87","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 318 127 246 29 355 104 210 71\n17: 172 281 52 330 136 193 299","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 69 245 22\n18: 335 95 218 273 114 344 33 260 157","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 87\n19: 11 227 149 309 48 256 83 289 176 119\n20: 198 342 62","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 242 167 292 25 234 146 100\n21: 353 77 215 264 131 206","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 39 300 164 57\n22: 231 89 329 144 278 44 194 316 105 161","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"\n23: 26 269 136 341 72 183 249 98 286 55\n24: 179 324 67","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 237 112 288 43 203 135 74\n25: 312 28 225 154 346 86","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 263 150 242 20\n26: 157 298 64 213 345 120 271 52 330","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 108\n27: 187 247 90 316 41 236 161 304 70 279\n28: 116","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 332 45 259 173 228 95 293 138 32\n29: 219 102","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 347 82 181 266 123 310 49 223\n30: 58 285 135 197 338","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 99 252 156 275 15\n31: 340 107 240 164 301 61 287 129 209","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 78\n32 one: 246\n\nNeed ensure exactly 31 lines after line6 etc. Let's enumerate","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" final lines. No explanation.38, 214, 97, 302, 51, 176, 289, 133, 65, 347,\n219, 108, 286, 42, 331, 73, 158, 249, 196, 14","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",\n305, 87, 271, 122, 339, 29, 204, 116, 276, 49,\n164, 323, 92, 243, 180, 61, 350, 137, 78, 225,\n46, 192, 294, 109, 266, 31, 340, ","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"84, 211, 147,\n282, 55, 317, 126, 248, 101, 216, 173, 309, 68,\n24, 235, 145, 288, 83, 199, 354, 112, 262, 37,\n320, 76, 185, ","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"241, 152, 295, 43, 268, 130, 351,\n17, 227, 96, 306, 58, 174, 253, 207, 115, 284,\n72, 336, 138, 188, 263, 45, 327, 106, ","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"221, 13,\n296, 81, 165, 237, 154, 344, 63, 278, 195, 8,\n250, 121, 310, 40, 201, 277, 93, 333, 149, 183,\n60, 267, 111","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":", 325, 79, 226, 160, 298, 47, 215,\n343, 89, 198, 274, 128, 240, 71, 305, 102, 159,\n35, 254, 169, 291, 54, 321, 118, 232","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":", 190, 3,\n203, 87, 318, 127, 246, 29, 355, 104, 210, 71,\n172, 281, 52, 330, 136, 193, 299, 69, 245, 22,\n335,","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" 95, 218, 273, 114, 344, 33, 260, 157, 87,\n11, 227, 149, 309, 48, 256, 83, 289, 176, 119,\n198, 342, 62, 242, 167, 292, 25, 234","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":", 146, 100,\n353, 77, 215, 264, 131, 206, 39, 300, 164, 57,\n231, 89, 329, 144, 278, 44, 194, 316, 105, 161,\n26, 269, 136, 341, ","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"72, 183, 249, 98, 286, 55,\n179, 324, 67, 237, 112, 288, 43, 203, 135, 74,\n312, 28, 225, 154, 346, 86, 263, 150, 242, 20,\n","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"157, 298, 64, 213, 345, 120, 271, 52, 330, 108,\n187, 247, 90, 316, 41, 236, 161, 304, 70, 279,\n116, 332, 45, 259, 173, 228, ","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"95, 293, 138, 32,\n219, 102, 347, 82, 181, 266, 123, 310, 49, 223,\n58, 285, 135, 197, 338, 99, 252, 156, 275, 15,\n340, 107, 240","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":", 164, 301, 61, 287, 129, 209, 78,\n246","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":null},"finish_reason":"stop","native_finish_reason":"stop"}]}
+
+data: {"id":"gen-1792922465-WX1dkit3r4NquMBrbxMU","object":"chat.completion.chunk","created":1792922465,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","service_tier":null,"choices":[{"index":0,"delta":{"content":"","role":"assistant"},"finish_reason":"stop","native_finish_reason":"stop"}],"usage":{"prompt_tokens":343,"completion_tokens":2055,"total_tokens":2398,"cost":0.00125907,"is_byok":false,"prompt_tokens_details":{"cached_tokens":188,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00125907,"upstream_inference_prompt_cost":0.00002607,"upstream_inference_completions_cost":0.001233},"completion_tokens_details":{"reasoning_tokens":157,"image_tokens":0,"audio_tokens":0}}}
+
+data: [DONE]
+

@@ -52,6 +52,15 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-25 新增 minimax-m3.1-flash" id="2026-10-25-minimax-m3-1-flash">
+    新增 `minimax-m3.1-flash` 的 36 条固定挑战回答，参考库扩展到 63 个指纹身份、2,344 条样本。请求型号为 `minimax/minimax-m3.1-flash`，使用 OpenRouter Chat Completions 流式输出、`reasoning_effort=low` 和固定 `openrouter/minimax` 官方供应商渠道，禁止回退。返回型号和 Minimax 供应商信息通过原始响应校验。
+
+    22 条参考回答自然完成，14 条在 500 个整数处按采样上限截断。提示词和系统提示沿用固定挑战集，`query-10` 的前两次数字不足尝试随成功回答保存在 `collections/minimax-m3.1-flash-openrouter-minimax-low-20261025/`，按每题首条合格回答入库。原有 2,308 条参考回答逐条保持原样。
+
+    固定评估沿用既有的两组三条独立挑战，固定相同供应商路由和 `low` 推理档位。评估回答单独保存，不参与建库、训练或校准。
+
+    重训后，新增两组都将 `minimax-m3.1-flash` 排在第一。原有 124 个完整组的预测全部保持不变，入库前后都命中 111 组。全库评估覆盖 126/128 组、378/384 条有效回答，完整组命中 113/126。其余两组属于既有的 `kimi-k2.8-preview` 配额缺失。
+  </Accordion>
   <Accordion title="2026-10-24 新增 gemini-3.5-flash-lite" id="2026-10-24-gemini-3-5-flash-lite">
     新增 `gemini-3.5-flash-lite` 的 36 条固定挑战回答，参考库扩展到 62 个指纹身份、2,308 条样本。请求型号为 `google/gemini-3.5-flash-lite`，使用 OpenRouter Chat Completions 流式输出、`reasoning_effort=minimal` 和固定 `openrouter/google-ai-studio` 官方供应商渠道，禁止回退。这个型号要求开启思考，本次选择其支持的最低推理档位。
 

@@ -1,0 +1,114 @@
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":"We need produce","reasoning_details":[{"type":"reasoning.text","text":"We need produce","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" 227 ints. Must avoid apparent rule pattern. Can manually random choices. Need compact JSON only. Need ensure range","reasoning_details":[{"type":"reasoning.text","text":" 227 ints. Must avoid apparent rule pattern. Can manually random choices. Need compact JSON only. Need ensure range","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":". Need count exactly 227. Generate perhaps chunks lines? Compact JSON array means likely","reasoning_details":[{"type":"reasoning.text","text":". Need count exactly 227. Generate perhaps chunks lines? Compact JSON array means likely","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" no whitespace? One array. Need count carefully. Let's enumerate mentally with labels then remove","reasoning_details":[{"type":"reasoning.text","text":" no whitespace? One array. Need count carefully. Let's enumerate mentally with labels then remove","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":". Could create 227 random ints. Need no explanation. We can line breaks","reasoning_details":[{"type":"reasoning.text","text":". Could create 227 random ints. Need no explanation. We can line breaks","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":"? compact means single line. Need count. I'll generate groups maybe ensure via numbering mentally","reasoning_details":[{"type":"reasoning.text","text":"? compact means single line. Need count. I'll generate groups maybe ensure via numbering mentally","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":", but no labels. Count tokens/list positions. Could use deliberate random-like.","reasoning_details":[{"type":"reasoning.text","text":", but no labels. Count tokens/list positions. Could use deliberate random-like.","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" 227 entries. I'll draft in rows conceptually 10 each, 22 rows +7, then concaten","reasoning_details":[{"type":"reasoning.text","text":" 227 entries. I'll draft in rows conceptually 10 each, 22 rows +7, then concaten","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":"ate with newlines? \"one compact JSON array\" whitespace okay but compact perhaps single line. Ensure no accidental pattern. Let's produce","reasoning_details":[{"type":"reasoning.text","text":"ate with newlines? \"one compact JSON array\" whitespace okay but compact perhaps single line. Ensure no accidental pattern. Let's produce","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" 23 lines? JSON array with line breaks isn't compact. Better one line, but counting huge challenging. We can make 22","reasoning_details":[{"type":"reasoning.text","text":" 23 lines? JSON array with line breaks isn't compact. Better one line, but counting huge challenging. We can make 22","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" groups separated by spaces? Still array. Need count. I'll construct 20 groups of 10, then 27 = 227","reasoning_details":[{"type":"reasoning.text","text":" groups separated by spaces? Still array. Need count. I'll construct 20 groups of 10, then 27 = 227","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":", using visual maybe line breaks would aid count but violates compact perhaps minor. They ask","reasoning_details":[{"type":"reasoning.text","text":", using visual maybe line breaks would aid count but violates compact perhaps minor. They ask","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" one compact JSON array likely whitespace accepted, but output constraints direct. Single line and count via drafting with group separators impossible. New","reasoning_details":[{"type":"reasoning.text","text":" one compact JSON array likely whitespace accepted, but output constraints direct. Single line and count via drafting with group separators impossible. New","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":"lines are still JSON and one array, but \"compact\" suggests no. Yet exact count higher priority. Could use line breaks as group","reasoning_details":[{"type":"reasoning.text","text":"lines are still JSON and one array, but \"compact\" suggests no. Yet exact count higher priority. Could use line breaks as group","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" markers? JSON whitespace. But no explanation. I can produce array and count groups via line breaks,","reasoning_details":[{"type":"reasoning.text","text":" markers? JSON whitespace. But no explanation. I can produce array and count groups via line breaks,","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" each line 10 entries. Is that \"compact\"? Not maximally. Maybe compact JSON means only JSON vs","reasoning_details":[{"type":"reasoning.text","text":" each line 10 entries. Is that \"compact\"? Not maximally. Maybe compact JSON means only JSON vs","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" explanation. Fine.\n\nNeed no arithmetic progression/cycle. Values random. Let's create 22 lines x10","reasoning_details":[{"type":"reasoning.text","text":" explanation. Fine.\n\nNeed no arithmetic progression/cycle. Values random. Let's create 22 lines x10","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" +7. Ensure each valid.","reasoning_details":[{"type":"reasoning.text","text":" +7. Ensure each valid.","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"[173,42,309,88,251,17","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",196,334,65,128,277,203,96,351,19,147,286,73","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",230,312,54,179,265,108,338,26,194,121,299,47,159","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",241,84,327,13,213,276,102,350,61,188,284,31","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",225,116,305,70,246,137,198,329,9,271,152,219","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",78,340,44,183,258,103,295,22,166,238,57","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",311,131,287,68,201,344,35,248,89,322","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",16,275,144,206,97,333,52,225,73,168,302,41,255","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",118,347,28,191,280,63,239,149,315,10,207,264,93","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",329,50,176,228,123,298,37,267,156,337,4,245,109","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",279,82,193,321,58,239,133,290,45,213,171,304,25","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",260,110,342,67,181,246,99,327,20,218,273,143,235,86,316","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",38,169,255,125,287,7,202,294,49,228,161,348","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",30,190,268,104,335,56,213,147,308,24,251","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",115,331,71,197,278,39,253,133,289,11,224,268,96,342","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",43,182,239,120,301,62,216,174,316,35,249","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",87,322,17,205,271,129,296,47,238,159,337,76,195,284","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",28,247,109,331,54,214,166,309,14,233,275,101,348","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",36,187,263,118,329,8,221,259,144,305,46,199,247,92,341","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",22,173,230,127,289,65,211,298,32,183,255,107","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",336,18,242,277,74,201,324,41,160,286","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",98,315,12,227,269,136,350,53,195,248,82,303,27","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",218,262,115,334,38,180,232,146,291,60,210,279,104,322","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",9,239,204,153,297,48,186,270,93,345,21,226,251,138,309,31","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+: OPENROUTER PROCESSING
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",172,236,111,328,58,201,265,79,317,15,190,244,126,302,36,209,274,100","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",343,42,161,229,119,290,54,184,255,133,320,7,241,198,147,308,23","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",217,266,88,336,44,177,252,108,297,28,206,239","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",151,331,63,195,284,96,312,17,224,263,121,347,35","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",169,247,73,290,49,203,278,137,321,11,236","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",205,158,303,39,182,249,102,339,25,216","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",270,114,298,57,193,237,144,327,16,225,258,91,344,30,171,210,129","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",281,46,199,255,106,318,20,239,202,162,307,8,188,247,119","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",333,41,176,230,99,295,27,218,267,137,301,53,185,254","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",111,340,33,165,236,91,325,12,207,259,143,288,62,194,244","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",126,312,19,222,269,104,335,37,168,216,151,293,5,239,180,133,278","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",71,211,303,86,327,24,190,232,116,299,48,203,246","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",158,288,9,226,265,108,341,59,176,238,95,321,29","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922463-fFgUi1aZyGWGdRMBfQ4G","object":"chat.completion.chunk","created":1792922463,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",214,250,127,286,43,185,229,140,305,18,197,262,102,316,37,166,240,81","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+

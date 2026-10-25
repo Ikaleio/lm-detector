@@ -1,0 +1,82 @@
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":"We need produce","reasoning_details":[{"type":"reasoning.text","text":"We need produce","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" 332 random-looking integers 1-355, no explanation. Need ensure count exactly. Can craft grouped lines of maybe","reasoning_details":[{"type":"reasoning.text","text":" 332 random-looking integers 1-355, no explanation. Need ensure count exactly. Can craft grouped lines of maybe","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" 10, count 33 groups +2. Need no tool. We'll generate 332","reasoning_details":[{"type":"reasoning.text","text":" 10, count 33 groups +2. Need no tool. We'll generate 332","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":". Need not mention. Let's enumerate internally groups of 10 with labels omitted.","reasoning_details":[{"type":"reasoning.text","text":". Need not mention. Let's enumerate internally groups of 10 with labels omitted.","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":" Need count carefully via line counts. I'll produce 34 lines: 32 lines of 10 =320, last 12","reasoning_details":[{"type":"reasoning.text","text":" Need count carefully via line counts. I'll produce 34 lines: 32 lines of 10 =320, last 12","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":". Ensure each line 10. Random.\n\nLet's craft.","reasoning_details":[{"type":"reasoning.text","text":". Ensure each line 10. Random.\n\nLet's craft.","format":"unknown","index":0}]},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"47, 213, 88, 356? o","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"ops max 355. Need replace 356. Let's do 47,213,88,355,129,302,17,241,96","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",183\nline2 268,64,337,142,207,91,319","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",256,38,174\n3 121,295,53,226,184,77,348","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",109,242,162\n4 311,25,203,145,278,96,332,61","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",219,137\n5 199,84,271,310,46,158,245,302? duplicate okay","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":" but avoid within? random. 228,73,349\n6 159,286,32,117","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",238,193,67,324,105,261\n7 285,44,151,331,202,99,247,125,289,58","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"\n8 220,173,36,304,81,266,192,134,352,29\n7 285","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",44,151,331,202,99,247,125,289,58\n8 220,173,36,304,81,266,192,134,352,29\n9 148,275,112,237","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",195,63,318,167,82,246\n10 289,51,329,143,210,92","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",254,178,37,301\n11 116,263,74,342,186,25","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",231,298,109,154\n12 329? already random. 330,88","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",205,271,43,126,249,183,12,315\n13 97,239,166,294,57","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",208,281,131,177,340\n14 224,69,316,149,260,106,228,187,48,274","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"\n15 323,82,201,137,287,54,244,168,111,306\n16 193,62","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",270,144,235,93,349,176,30,257\n16 193,62,270,144,235","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",93,349,176,30,257\n17 215,104,282,158,246,71,327,198,41","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",171\n18 301,52,225,119,290,165,236,84,347,23\n19 134","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",253,97,312,180,65,278,205,145,333\n20 218,39,267","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",152,285,108,198,241,73,326\n21 97,349,62,215,171,129","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",284,236,48,308\n22 176,53,263,139,224,88,302,195,35,250\n23 319","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",74,201,281,119,165,243,292,27,346\n24 146,238","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",91,333,183,67,274,212,104,325\n25 286,39,251,156,297,86","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",206,270,132,344\n26 170,113,236,281,58,194","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",327,145,255,79\n27 298,49,226,162,269,101,310,181,43","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",337\n28 123,278,191,304,72,155,249,216,86,331\n29 210,37,272","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",144,295,115,198,260,63,318\n30 173,92,246,305,54,137","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",287,209,30,353\n31 128,234,78,322,182,105","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",263,145,44,299\n32 239,67,276,153,318,96,227,190","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":",22,341\n33 115,283,49,213,167,72,296,138,248,331","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"\n34 204,83,259,127,307,41,239,174,63,326,109,255","role":"assistant"},"finish_reason":null,"native_finish_reason":null}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","choices":[{"index":0,"delta":{"content":"","role":"assistant","reasoning":null},"finish_reason":"stop","native_finish_reason":"stop"}]}
+
+data: {"id":"gen-1792922507-4nW6BeiXyVkpg45atP70","object":"chat.completion.chunk","created":1792922507,"model":"minimax/minimax-m3.1-flash","provider":"Minimax","service_tier":null,"choices":[{"index":0,"delta":{"content":"","role":"assistant"},"finish_reason":"stop","native_finish_reason":"stop"}],"usage":{"prompt_tokens":2765,"completion_tokens":958,"total_tokens":3723,"cost":0.00096471,"is_byok":false,"prompt_tokens_details":{"cached_tokens":184,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.00096471,"upstream_inference_prompt_cost":0.00038991,"upstream_inference_completions_cost":0.0005748},"completion_tokens_details":{"reasoning_tokens":100,"image_tokens":0,"audio_tokens":0}}}
+
+data: [DONE]
+
