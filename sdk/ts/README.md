@@ -60,7 +60,7 @@ Bun reads `HTTPS_PROXY` for every request. Node reads it only with `NODE_USE_ENV
 
 `DetectConfig` takes `baseUrl`, `apiKey`, and `model`, plus `api` (`responses`, `chat_completions`, or `messages`),
 `effort`, `serviceTier`, `stream` (default true), `strict`, `count` (default 3), `parallel` (default 3), and `timeout`
-in seconds (default 120).
+in seconds (default 120, 0 disables).
 
 `Analysis.decision` is `scored`, `partial`, `unscorable`, or `not_model`. `results` lists the candidates by ranking
 score; `probability` is the closed-set probability of the top candidate and is null without three valid replies.

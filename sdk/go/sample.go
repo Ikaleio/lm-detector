@@ -455,14 +455,20 @@ func requestSample(parent context.Context, opts *options, challenge Challenge) S
 	ctx, cancel := context.WithCancel(parent)
 	defer cancel()
 	var timedOut atomic.Bool
-	timer := time.AfterFunc(opts.timeout, func() {
-		timedOut.Store(true)
-		cancel()
-	})
-	defer timer.Stop()
+	var stopTimer func() bool
+	if opts.timeout > 0 {
+		timer := time.AfterFunc(opts.timeout, func() {
+			timedOut.Store(true)
+			cancel()
+		})
+		defer timer.Stop()
+		stopTimer = timer.Stop
+	} else {
+		stopTimer = func() bool { return false }
+	}
 	err := parent.Err()
 	if err == nil {
-		err = s.run(ctx, challenge.Prompt, timer.Stop)
+		err = s.run(ctx, challenge.Prompt, stopTimer)
 	}
 	switch {
 	case err == nil:

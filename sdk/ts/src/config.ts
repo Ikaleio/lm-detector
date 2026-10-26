@@ -17,8 +17,8 @@ export function detectOptions(input: DetectConfig): DetectionOptions {
   const count = input.count ?? 3, parallel = input.parallel ?? 3, timeout = input.timeout ?? 120
   if (!Number.isSafeInteger(count) || count < 1 || count > 3) throw new Error('count must be an integer from 1 to 3.')
   if (!Number.isSafeInteger(parallel) || parallel < 1 || parallel > 3) throw new Error('parallel must be an integer from 1 to 3.')
-  if (!Number.isFinite(timeout) || timeout < 0.001 || timeout > 2_147_483.647) {
-    throw new Error('timeout must be between 0.001 and 2147483.647 seconds.')
+  if (!Number.isFinite(timeout) || (timeout !== 0 && (timeout < 0.001 || timeout > 2_147_483.647))) {
+    throw new Error('timeout must be 0 (no timeout) or between 0.001 and 2147483.647 seconds.')
   }
   const strict = input.strict ?? false
   if (strict && count !== 3) throw new Error('strict requires count 3.')

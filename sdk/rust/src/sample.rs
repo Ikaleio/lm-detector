@@ -27,14 +27,16 @@ impl Watchdog {
     fn start(agent: Agent, timeout: Duration) -> Self {
         let (cancel, cancelled) = mpsc::channel::<()>();
         let fired = Arc::new(AtomicBool::new(false));
-        let flag = Arc::clone(&fired);
-        thread::spawn(move || {
-            // Dropping the sender disconnects the channel, which ends the wait early.
-            if cancelled.recv_timeout(timeout) == Err(RecvTimeoutError::Timeout) {
-                flag.store(true, Ordering::SeqCst);
-                agent.shutdown();
-            }
-        });
+        if !timeout.is_zero() {
+            let flag = Arc::clone(&fired);
+            thread::spawn(move || {
+                // Dropping the sender disconnects the channel, which ends the wait early.
+                if cancelled.recv_timeout(timeout) == Err(RecvTimeoutError::Timeout) {
+                    flag.store(true, Ordering::SeqCst);
+                    agent.shutdown();
+                }
+            });
+        }
         Self { cancel: Some(cancel), fired }
     }
 
@@ -408,7 +410,11 @@ impl Sampler<'_> {
             builder = builder.header(name, value);
         }
         // Shutting the agent down cannot interrupt a connect in progress, so connecting keeps its own deadline.
-        let builder = builder.config().timeout_resolve(Some(timeout)).timeout_connect(Some(timeout)).build();
+        let builder = if timeout.is_zero() {
+            builder
+        } else {
+            builder.config().timeout_resolve(Some(timeout)).timeout_connect(Some(timeout)).build()
+        };
         let body = serde_json::to_vec(&request.body).map_err(|e| e.to_string())?;
         let mut response = builder.send(body.as_slice())?;
         let status = response.status();

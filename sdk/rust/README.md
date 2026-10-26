@@ -59,6 +59,6 @@ and honor `NO_PROXY`.
 - `request_sample(&DetectConfig, &Challenge) -> Sample`: sends one challenge. Failures are reported in
   `Sample::error`.
 - `DetectConfig::new(base_url, api_key, model)`: defaults are the Responses API, streaming, relaxed mode, count 3,
-  parallel 3, and a 120 s timeout.
+  parallel 3, and a 120 s timeout (0 disables).
 
 Every output type implements `Serialize` with the same snake_case JSON shape as the TS, Go, and Python SDKs.
