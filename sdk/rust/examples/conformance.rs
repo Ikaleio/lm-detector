@@ -171,7 +171,10 @@ fn main() {
             prompt: "conformance".into(),
             expected_count: item["expected_count"].as_u64().expect("expected_count"),
         };
-        let mut actual = serde_json::to_value(request_sample(&config, &challenge)).expect("serializable sample");
+        let mut sample = request_sample(&config, &challenge);
+        // Timings vary, so the fixtures record any first byte as 0.
+        sample.first_byte_ms = sample.first_byte_ms.map(|_| 0);
+        let mut actual = serde_json::to_value(sample).expect("serializable sample");
         actual.as_object_mut().expect("sample object").remove("expected_count");
         check.compare("streams.json", name, &item["expected"], &actual, "$");
     }

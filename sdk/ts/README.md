@@ -51,7 +51,7 @@ Bun reads `HTTPS_PROXY` for every request. Node reads it only with `NODE_USE_ENV
 | `loadDetector({ source?, cache?, ttl? })` | Loads the reference data from URLs through the cache file, or from a local directory. |
 | `detector.builtAt` | Build time of the reference bank. |
 | `detector.analyze(outputs, { strict? })` | Scores one to three replies. Three valid replies give a calibrated ranking; fewer give a partial ranking unless `strict`. |
-| `detector.detect(config, signal?)` | Generates `config.count` challenges, sends them to the model API, and scores the replies. |
+| `detector.detect(config, { signal?, onSample? })` | Generates `config.count` challenges, sends them to the model API, and scores the replies. |
 | `generateChallenges(count = 3)` | One to three random challenges, each asking for a distinct count from 292 to 332. |
 | `parseNumbers(text)` | The numbers 1 to 355 of the longest run in a reply. |
 | `buildRequest(config, prompt)` | The URL, headers, and body `detect` sends, or `{ error }`. |
@@ -61,6 +61,18 @@ Bun reads `HTTPS_PROXY` for every request. Node reads it only with `NODE_USE_ENV
 `DetectConfig` takes `baseUrl`, `apiKey`, and `model`, plus `api` (`responses`, `chat_completions`, or `messages`),
 `effort`, `serviceTier`, `stream` (default true), `strict`, `count` (default 3), `parallel` (default 3), and `timeout`
 in seconds (default 120, 0 disables).
+
+`onSample(index, sample)` receives a copy of a sample each time it changes: `queued` for every sample first, then
+`waiting` once its request is sent, `streaming` with a growing `count` as SSE text arrives, and finally `complete`,
+`truncated`, `failed`, or `cancelled`. `index` is the sample's position in the result. Calls never overlap, and a
+thrown error is reported as an uncaught exception without affecting the detection. `sample.first_byte_ms` is the time
+to the first SSE body data, or to the whole JSON response.
+
+```ts
+const result = await detector.detect(config, {
+  onSample: (index, sample) => console.log(index, sample.state, `${sample.count}/${sample.expected_count}`),
+})
+```
 
 `Analysis.decision` is `scored`, `partial`, `unscorable`, or `not_model`. `results` lists the candidates by ranking
 score; `probability` is the closed-set probability of the top candidate and is null without three valid replies.

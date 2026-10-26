@@ -1,18 +1,19 @@
 import { generateChallenges as generate } from '@fingerpoint/shared/challenge-browser.js'
 import { buildDetectRequest, requestSample as request, type Sample as CoreSample } from '@fingerpoint/shared/detect-request'
-import { runDetection } from '@fingerpoint/shared/detect-run'
+import { newRound, runRound } from '@fingerpoint/shared/detect-run'
 import { parseNumbers as parse } from '@fingerpoint/shared/fingerprint-core.js'
 import { analyzeOutputs, canonicalAnalysis } from './analysis.js'
 import { detectOptions } from './config.js'
 import { loadData, type ReferenceData } from './data.js'
-import type { Analysis, Challenge, DetectConfig, DetectResult, LoadOptions, Output, Sample } from './types.js'
+import type { Analysis, Challenge, DetectConfig, DetectOptions, DetectResult, LoadOptions, Output, Sample } from './types.js'
 
 export type * from './types.js'
 export { DEFAULT_DATA_URLS } from './types.js'
 
 const canonicalSample = (sample: CoreSample): Sample => ({
   state: sample.state, text: sample.text, raw_text: sample.rawText, count: sample.count, expected_count: sample.expectedCount,
-  response_model: sample.responseModel ?? null, response_id: sample.responseId ?? null, error: sample.error ?? null,
+  first_byte_ms: sample.firstByteMs ?? null, response_model: sample.responseModel ?? null,
+  response_id: sample.responseId ?? null, error: sample.error ?? null,
 })
 
 let createDetector: (data: ReferenceData) => Detector
@@ -37,12 +38,20 @@ export class Detector {
     return analyzeOutputs(outputs, this.#data.bank, this.#data.detector, options.strict ?? false)
   }
 
-  /** Sends one round of challenges to the model API and scores the replies. Throws only on an invalid config. */
-  async detect(config: DetectConfig, signal?: AbortSignal): Promise<DetectResult> {
+  /**
+   * Sends one round of challenges to the model API and scores the replies. Throws only on an invalid config.
+   * `onSample` sees every change of a sample: first `queued` for each index, then its request until the final state.
+   */
+  async detect(config: DetectConfig, { signal, onSample }: DetectOptions = {}): Promise<DetectResult> {
     const options = detectOptions(config)
-    const state = await runDetection(options, this.#data.bank, this.#data.detector, () => {}, signal ?? new AbortController().signal)
-    const round = state.rounds[0]
-    if (!round) return { challenges: [], samples: [], analysis: null, error: 'Cancelled. This round was not scored.' }
+    if (signal?.aborted) return { challenges: [], samples: [], analysis: null, error: 'Cancelled. This round was not scored.' }
+    const round = newRound(1, generate(options.count))
+    // A throwing callback must not fail the sample it reports, so its error surfaces on its own.
+    const emit = onSample ? (index: number) => {
+      try { onSample(index, canonicalSample(round.samples[index])) } catch (error) { queueMicrotask(() => { throw error }) }
+    } : () => {}
+    round.samples.forEach((_, index) => emit(index))
+    await runRound(round, options, this.#data.bank, this.#data.detector, signal ?? new AbortController().signal, emit)
     return {
       challenges: round.challenges, samples: round.samples.map(canonicalSample),
       analysis: round.analysis ? canonicalAnalysis(round.analysis) : null, error: round.error ?? null,

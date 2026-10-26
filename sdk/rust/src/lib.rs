@@ -14,6 +14,7 @@ mod request;
 mod sample;
 
 use std::path::PathBuf;
+use std::sync::Mutex;
 use std::sync::atomic::{AtomicUsize, Ordering};
 
 use serde::{Deserialize, Serialize};
@@ -68,7 +69,9 @@ pub struct DetectConfig {
     pub count: usize,
     /// Concurrent requests, 1 to 3, capped at `count`. Default 3.
     pub parallel: usize,
-    /// Seconds to wait for the first SSE byte or the whole JSON response; 0 disables the timer. Default 120.
+    /// Seconds to wait for the first SSE byte or the whole JSON response; 0 disables the timer. Default 120. This SDK
+    /// cannot cancel requests, so with 0 a server that accepts the connection but never sends its first byte (or never
+    /// finishes a JSON body) blocks `detect` and `request_sample` forever.
     pub timeout: f64,
 }
 
@@ -182,6 +185,10 @@ pub struct Analysis {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum SampleState {
+    /// In progress; only [`Detector::detect_with`] events carry `Queued`, `Waiting`, and `Streaming`.
+    Queued,
+    Waiting,
+    Streaming,
     Complete,
     Truncated,
     Failed,
@@ -195,12 +202,29 @@ pub struct Sample {
     pub raw_text: String,
     pub count: u64,
     pub expected_count: u64,
+    /// Milliseconds from the request start to the first SSE body byte or the parsed JSON body; `None` when neither
+    /// arrived.
+    pub first_byte_ms: Option<u64>,
     pub response_model: Option<String>,
     pub response_id: Option<String>,
     pub error: Option<String>,
 }
 
 impl Sample {
+    fn empty(state: SampleState, expected_count: u64) -> Self {
+        Self {
+            state,
+            text: String::new(),
+            raw_text: String::new(),
+            count: 0,
+            expected_count,
+            first_byte_ms: None,
+            response_model: None,
+            response_id: None,
+            error: None,
+        }
+    }
+
     fn accepted(&self) -> bool {
         matches!(self.state, SampleState::Complete | SampleState::Truncated)
     }
@@ -263,8 +287,24 @@ impl Detector {
 
     /// Sends one round of challenges to the model API and scores the replies. Errors only on an invalid config.
     pub fn detect(&self, config: &DetectConfig) -> Result<DetectResult, Error> {
+        self.detect_with(config, |_, _| {})
+    }
+
+    /// [`Detector::detect`] that reports each sample's progress to `on_sample` with the sample's index in
+    /// `challenges` and `samples`: first `Queued` for every index in order, then each sample's events, ending with its
+    /// settled state. Calls never overlap but run on the worker threads, so a slow callback slows sampling. A panic in
+    /// the callback propagates out of this function.
+    pub fn detect_with(
+        &self,
+        config: &DetectConfig,
+        mut on_sample: impl FnMut(usize, &Sample) + Send,
+    ) -> Result<DetectResult, Error> {
         let options = request::Options::new(config)?;
         let challenges = generate_challenges(options.count)?;
+        for (index, challenge) in challenges.iter().enumerate() {
+            on_sample(index, &Sample::empty(SampleState::Queued, challenge.expected_count));
+        }
+        let on_sample = Mutex::new(on_sample);
         let next = AtomicUsize::new(0);
         let mut slots: Vec<Option<Sample>> = vec![None; challenges.len()];
         std::thread::scope(|scope| {
@@ -275,15 +315,26 @@ impl Detector {
                         loop {
                             let index = next.fetch_add(1, Ordering::Relaxed);
                             let Some(challenge) = challenges.get(index) else { break };
-                            done.push((index, sample::sample(&options, challenge)));
+                            let sample = sample::sample(&options, challenge, &mut |sample| {
+                                // Poisoned: the callback panicked on another worker, whose panic is resumed below.
+                                if let Ok(mut on_sample) = on_sample.lock() {
+                                    on_sample(index, sample);
+                                }
+                            });
+                            done.push((index, sample));
                         }
                         done
                     })
                 })
                 .collect();
             for worker in workers {
-                for (index, sample) in worker.join().expect("sampler thread panicked") {
-                    slots[index] = Some(sample);
+                match worker.join() {
+                    Ok(done) => {
+                        for (index, sample) in done {
+                            slots[index] = Some(sample);
+                        }
+                    }
+                    Err(panic) => std::panic::resume_unwind(panic),
                 }
             }
         });

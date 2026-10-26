@@ -131,13 +131,17 @@ type Analysis struct {
 
 // Sample is one checked reply.
 type Sample struct {
-	// State is complete, truncated, failed, or cancelled once the request settles.
+	// State is queued, waiting, or streaming while the request runs, then complete, truncated, failed, or cancelled
+	// once it settles.
 	State string `json:"state"`
 	// Text holds the numbers used for scoring, capped at ExpectedCount when the reply had more.
-	Text          string  `json:"text"`
-	RawText       string  `json:"raw_text"`
-	Count         int     `json:"count"`
-	ExpectedCount int     `json:"expected_count"`
+	Text          string `json:"text"`
+	RawText       string `json:"raw_text"`
+	Count         int    `json:"count"`
+	ExpectedCount int    `json:"expected_count"`
+	// FirstByteMs is the time from the request start to the first SSE byte, or to the parsed JSON response. It is
+	// nil until then, and stays nil when the request failed earlier.
+	FirstByteMs   *int64  `json:"first_byte_ms"`
 	ResponseModel *string `json:"response_model"`
 	ResponseID    *string `json:"response_id"`
 	Error         *string `json:"error"`
@@ -204,17 +208,45 @@ func (d *Detector) Analyze(outputs []Output, strict bool) (*Analysis, error) {
 	return d.score(prepared, strict)
 }
 
+// DetectOption configures one Detect call.
+type DetectOption func(*detectSettings)
+
+type detectSettings struct {
+	onSample func(index int, sample Sample)
+}
+
+// OnSample registers a callback that receives each sample's progress: queued for every index first, then waiting,
+// streaming, and text updates, and last the settled sample, which equals result.Samples[index]. States may repeat.
+// Calls are serialized but run on the worker goroutines, so a slow callback slows sampling. A panic is not recovered.
+func OnSample(fn func(index int, sample Sample)) DetectOption {
+	return func(s *detectSettings) { s.onSample = fn }
+}
+
 // Detect sends one round of challenges to the model API and scores the replies. It returns an error only for an
 // invalid config; request failures are reported in the result.
-func (d *Detector) Detect(ctx context.Context, config DetectConfig) (*DetectResult, error) {
+func (d *Detector) Detect(ctx context.Context, config DetectConfig, options ...DetectOption) (*DetectResult, error) {
+	var settings detectSettings
+	for _, opt := range options {
+		opt(&settings)
+	}
 	opts, err := detectOptions(config)
 	if err != nil {
 		return nil, err
 	}
 	challenges := generateChallenges(opts.count)
 	samples := make([]Sample, len(challenges))
+	var mu sync.Mutex
+	emit := func(int, Sample) {}
+	if settings.onSample != nil {
+		emit = func(i int, sample Sample) {
+			mu.Lock()
+			defer mu.Unlock()
+			settings.onSample(i, sample)
+		}
+	}
 	for i, challenge := range challenges {
 		samples[i] = Sample{State: "queued", ExpectedCount: challenge.ExpectedCount}
+		emit(i, samples[i])
 	}
 	var next atomic.Int64
 	var wg sync.WaitGroup
@@ -227,7 +259,11 @@ func (d *Detector) Detect(ctx context.Context, config DetectConfig) (*DetectResu
 				if i >= len(challenges) {
 					return
 				}
-				samples[i] = requestSample(ctx, opts, challenges[i])
+				var update func(Sample)
+				if settings.onSample != nil {
+					update = func(sample Sample) { emit(i, sample) }
+				}
+				samples[i] = requestSample(ctx, opts, challenges[i], update)
 			}
 		}()
 	}
@@ -238,6 +274,7 @@ func (d *Detector) Detect(ctx context.Context, config DetectConfig) (*DetectResu
 			if samples[i].State == "queued" {
 				samples[i].State = "cancelled"
 				samples[i].Error = ptr("Cancelled before dispatch.")
+				emit(i, samples[i])
 			}
 		}
 		result.Error = ptr("Cancelled. This round was not scored.")
@@ -293,7 +330,7 @@ func RequestSample(ctx context.Context, config DetectConfig, challenge Challenge
 	if err != nil {
 		return Sample{State: "failed", ExpectedCount: challenge.ExpectedCount, Error: ptr(err.Error())}
 	}
-	return requestSample(ctx, opts, challenge)
+	return requestSample(ctx, opts, challenge, nil)
 }
 
 // BuildRequest returns the HTTP request Detect sends for one prompt, or the config error.

@@ -44,8 +44,11 @@ their `TypedDict`s. Invalid input raises `lmfpd.LmfpdError`.
 - `Detector.built_at`: the data build identifier.
 - `Detector.analyze(outputs, strict=False) -> Analysis`: score one to three `{"text", "expected_count"}` replies.
 - `Detector.detect(base_url, api_key, model, *, api="responses", effort="", service_tier="default", stream=True,
-  strict=False, count=3, parallel=3, timeout=120.0) -> DetectResult`: send `count` challenges and score the replies
-  (`timeout=0` disables the timer). `api` is `responses`, `chat_completions`, or `messages`.
+  strict=False, count=3, parallel=3, timeout=120.0, on_sample=None) -> DetectResult`: send `count` challenges and
+  score the replies. `api` is `responses`, `chat_completions`, or `messages`. `timeout` limits the wait for the first
+  SSE byte or the whole JSON reply; `timeout=0` disables the timer. This SDK cannot cancel requests, so with `0` a
+  server that connects but never sends its first byte (or never finishes a JSON reply) blocks `detect` and
+  `request_sample` forever. `on_sample` reports progress (see below).
 - `generate_challenges(count=3) -> list[Challenge]`: random challenge prompts.
 - `parse_numbers(text) -> list[int]`: the numbers 1 to 355 of the longest run in a reply.
 - `build_request(config, prompt) -> dict`: the URL, headers, and body `detect` sends for one prompt.
@@ -60,3 +63,22 @@ detector = lmfpd.load()
 result = detector.detect("https://api.openai.com/v1", "sk-...", "gpt-5")
 print(result["analysis"]["prediction"] if result["analysis"] else result["error"])
 ```
+
+### Progress
+
+`on_sample(index, sample)` receives live `Sample` snapshots; `index` is the position in `result["samples"]`.
+
+```python
+def on_sample(index: int, sample: lmfpd.Sample) -> None:
+    print(index, sample["state"], sample["count"], sample["first_byte_ms"])
+
+result = detector.detect("https://api.openai.com/v1", "sk-...", "gpt-5", on_sample=on_sample)
+```
+
+- Order: `queued` for every index (0 to `count - 1`) before any request, then per sample `waiting` when its request
+  starts, `streaming` at the first SSE byte, an event each time the accepted text changes, and last its final
+  `complete`, `truncated`, or `failed` sample, equal to `result["samples"][index]`. States may repeat.
+- `first_byte_ms` is the time from the request start to the first SSE byte, or to the parsed JSON reply; `None` when
+  not reached.
+- Calls come from worker threads but never overlap, and each gets a fresh dict. A slow callback slows sampling.
+- An exception raised by `on_sample` propagates out of `detect`; it never turns into a failed sample.

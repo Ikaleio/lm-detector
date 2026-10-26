@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import os
+import threading
 from concurrent.futures import ThreadPoolExecutor
-from typing import Any, Mapping, Sequence
+from functools import partial
+from typing import Any, Callable, Mapping, Sequence
 
 from . import _sampling
 from ._analysis import SCORING_FAILED, Scorer
@@ -35,17 +37,40 @@ class Detector:
 
     def detect(self, base_url: str, api_key: str, model: str, *, api: str = "responses", effort: str = "",
                service_tier: str = "default", stream: bool = True, strict: bool = False, count: int = 3,
-               parallel: int = 3, timeout: float = 120.0) -> DetectResult:
-        """Sends one round of challenges to the model API and scores the replies (`timeout=0` disables the timer).
-        Raises only on an invalid config; request failures are reported in the samples and `error`."""
+               parallel: int = 3, timeout: float = 120.0,
+               on_sample: Callable[[int, Sample], None] | None = None) -> DetectResult:
+        """Sends one round of challenges to the model API and scores the replies. Raises on an invalid config or when
+        `on_sample` raises; request failures are reported in the samples and `error`.
+
+        `timeout` limits the wait for the first SSE byte or the whole JSON reply; 0 disables the timer. This SDK cannot
+        cancel requests, so with 0 a server that connects but never sends its first byte (or never finishes a JSON
+        reply) blocks `detect` forever.
+
+        `on_sample(index, sample)` reports progress: first `queued` for every challenge in order, then each sample's
+        `waiting`, `streaming`, and text updates, and last its final state, equal to `result["samples"][index]`. Calls
+        come from worker threads, one at a time, each with a fresh dict; a slow callback slows sampling."""
         options = _sampling.detect_options({
             "base_url": base_url, "api_key": api_key, "model": model, "api": api, "effort": effort,
             "service_tier": service_tier, "stream": stream, "strict": strict, "count": count, "parallel": parallel,
             "timeout": timeout,
         })
         challenges = generate_challenges(options.count)
+        updates: list[Callable[[Sample], None] | None] = [None] * len(challenges)
+        if on_sample is not None:
+            lock = threading.Lock()
+
+            def emit(index: int, sample: Sample) -> None:
+                with lock:
+                    on_sample(index, sample)
+
+            updates = [partial(emit, i) for i in range(len(challenges))]
+            for i, challenge in enumerate(challenges):
+                on_sample(i, {"state": "queued", "text": "", "raw_text": "", "count": 0,
+                              "expected_count": challenge["expected_count"], "first_byte_ms": None,
+                              "response_model": None, "response_id": None, "error": None})
         with _sampling.client() as http, ThreadPoolExecutor(options.parallel) as pool:
-            samples = list(pool.map(lambda challenge: _sampling.sample(options, challenge, http), challenges))
+            samples = list(pool.map(lambda challenge, on_update: _sampling.sample(options, challenge, http, on_update),
+                                    challenges, updates))
         accepted = sum(1 for s in samples if s["state"] in ("complete", "truncated"))
         result: DetectResult = {"challenges": challenges, "samples": samples, "analysis": None, "error": None}
         if not accepted or (options.strict and accepted != 3):
@@ -82,7 +107,8 @@ def build_request(config: Mapping[str, Any], prompt: str) -> dict[str, Any]:
 
 
 def request_sample(config: Mapping[str, Any], challenge: Challenge) -> Sample:
-    """Sends one challenge and returns the checked reply. Request failures are reported in `error`."""
+    """Sends one challenge and returns the checked reply. Request failures are reported in `error`. With `timeout` 0
+    a server that connects but never sends its first byte (or never finishes a JSON reply) blocks forever."""
     options = _sampling.detect_options(config)
     with _sampling.client() as http:
         return _sampling.sample(options, challenge, http)

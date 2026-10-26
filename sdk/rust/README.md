@@ -51,6 +51,8 @@ and honor `NO_PROXY`.
 - `Detector::analyze(&self, &[Output], strict) -> Result<Analysis, Error>`: scores one to three saved replies.
 - `Detector::detect(&self, &DetectConfig) -> Result<DetectResult, Error>`: sends one round of challenges and scores
   the replies. It errors only on an invalid config.
+- `Detector::detect_with(&self, &DetectConfig, on_sample) -> Result<DetectResult, Error>`: `detect` that reports
+  live progress to `on_sample: impl FnMut(usize, &Sample) + Send`, as described below.
 - `generate_challenges(count) -> Result<Vec<Challenge>, Error>`: returns 1 to 3 random prompts asking for 292 to 332
   numbers.
 - `parse_numbers(&str) -> Vec<u32>`: returns the numbers 1 to 355 in the longest run of a reply.
@@ -61,4 +63,26 @@ and honor `NO_PROXY`.
 - `DetectConfig::new(base_url, api_key, model)`: defaults are the Responses API, streaming, relaxed mode, count 3,
   parallel 3, and a 120 s timeout (0 disables).
 
+`timeout` covers the wait for the first SSE byte or the whole JSON response. This SDK cannot cancel requests, so with
+`timeout` 0 a server that accepts the connection but never sends its first byte (or never finishes a JSON body)
+blocks `detect` and `request_sample` forever.
+
 Every output type implements `Serialize` with the same snake_case JSON shape as the TS, Go, and Python SDKs.
+`Sample::first_byte_ms` is the time from the request start to the first SSE body byte or the parsed JSON body, or
+`None` when neither arrived.
+
+## Progress
+
+```rust
+let result = detector.detect_with(&config, |index, sample| {
+    println!("{index}: {:?} {}/{}", sample.state, sample.count, sample.expected_count);
+})?;
+```
+
+`index` is the sample's position in `result.challenges` and `result.samples`. The callback first gets `Queued` for
+every index in order. Then each sample reports `Waiting` when its request starts, `Streaming` at the first SSE byte, an
+event whenever its accepted text changes, and last its settled state (`Complete`, `Truncated`, or `Failed`), equal to
+the returned sample. A state can repeat, so do not expect one event per state.
+
+Calls never overlap: they are serialized by a mutex but run on the worker threads, so a slow callback slows sampling.
+A panic in the callback is not caught; it propagates out of `detect_with` with its original payload.
