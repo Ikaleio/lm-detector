@@ -12,7 +12,7 @@ icon: SquareFunction
 loadDetector(options?: { source?: string | readonly string[]; cache?: string; ttl?: number }): Promise<Detector>
 detector.builtAt: string
 detector.analyze(outputs: Output[], options?: { strict?: boolean }): Analysis
-detector.detect(config: DetectConfig, signal?: AbortSignal): Promise<DetectResult>
+detector.detect(config: DetectConfig, options?: { signal?: AbortSignal; onSample?: (index: number, sample: Sample) => void }): Promise<DetectResult>
 generateChallenges(count = 3): Challenge[]
 parseNumbers(text: string): number[]
 buildRequest(config: DetectConfig, prompt: string): { url, headers, body } | { error: string }
@@ -25,6 +25,7 @@ Detector::load(options: &LoadOptions) -> Result<Detector, Error>   // LoadOption
 detector.built_at() -> &str
 detector.analyze(outputs: &[Output], strict: bool) -> Result<Analysis, Error>
 detector.detect(config: &DetectConfig) -> Result<DetectResult, Error>
+detector.detect_with(config: &DetectConfig, on_sample: impl FnMut(usize, &Sample) + Send) -> Result<DetectResult, Error>
 generate_challenges(count: usize) -> Result<Vec<Challenge>, Error>
 parse_numbers(text: &str) -> Vec<u32>
 build_request(config: &DetectConfig, prompt: &str) -> Result<Request, Error>
@@ -36,7 +37,8 @@ DEFAULT_DATA_URLS: &[&str]
 func Load(ctx context.Context, options LoadOptions) (*Detector, error)   // LoadOptions{Sources []string; Cache string; TTL time.Duration}
 func (d *Detector) BuiltAt() string
 func (d *Detector) Analyze(outputs []Output, strict bool) (*Analysis, error)
-func (d *Detector) Detect(ctx context.Context, config DetectConfig) (*DetectResult, error)
+func (d *Detector) Detect(ctx context.Context, config DetectConfig, opts ...DetectOption) (*DetectResult, error)
+func OnSample(fn func(index int, sample Sample)) DetectOption
 func GenerateChallenges(count int) ([]Challenge, error)
 func ParseNumbers(text string) []int
 func BuildRequest(config DetectConfig, prompt string) (*Request, error)
@@ -49,7 +51,7 @@ load(source: str | Sequence[str] = DEFAULT_DATA_URLS, cache: str | PathLike | No
 detector.built_at: str
 detector.analyze(outputs: Sequence[Output], strict: bool = False) -> Analysis
 detector.detect(base_url, api_key, model, *, api="responses", effort="", service_tier="default",
-                stream=True, strict=False, count=3, parallel=3, timeout=120.0) -> DetectResult
+                stream=True, strict=False, count=3, parallel=3, timeout=120.0, on_sample=None) -> DetectResult
 generate_challenges(count: int = 3) -> list[Challenge]
 parse_numbers(text: str) -> list[int]
 build_request(config: Mapping[str, Any], prompt: str) -> dict
@@ -80,7 +82,7 @@ TypeScript 用 camelCase（`baseUrl`），Go 用结构体字段（`BaseURL`）�
 | `strict` | 严格模式：不截断，三条回答都完整有效才评分；要求 `count` 为 3 | 关闭 |
 | `count` | 每轮的挑战数，1–3 | 3 |
 | `parallel` | 并发请求数，1–3，不超过 `count` | 3 |
-| `timeout` | 时限，单位秒（Go 是 `time.Duration`）。设为 0（Go 为负数）关闭超时。SSE 只限制等第一个响应体数据的时间，开始传输后不再限时；JSON 限制整个响应 | 120 |
+| `timeout` | 时限，单位秒（Go 是 `time.Duration`）。设为 0（Go 为负数）关闭超时。SSE 只限制等第一个响应体数据的时间，开始传输后不再限时；JSON 限制整个响应。Rust 和 Python 不能中途取消，关闭超时后，如果连接已建立但服务端一直不返回数据，`detect` 会永久阻塞 | 120 |
 
 Go 的字段零值就是默认值，比如 `Count: 0` 表示 3 道挑战。Rust 用 `DetectConfig::new(base_url, api_key, model)` 创建默认配置，再修改字段。Python 的 `detect` 用关键字参数；`build_request` 和 `request_sample` 接受同名键的字典。
 
@@ -98,6 +100,44 @@ Base URL must be a valid HTTP or HTTPS URL.
 Base URL must use HTTP or HTTPS without credentials, a query, or a fragment.
 The endpoint in --baseurl does not match --api.
 ```
+
+## 进度 [#progress]
+
+`detect` 可以传一个回调，样本每变化一次就调用一次，参数是样本在 `challenges` 和 `samples` 里的下标和当时的样本。
+
+```ts tab="TypeScript"
+const result = await detector.detect(config, {
+  onSample: (index, sample) => console.log(index, sample.state, `${sample.count}/${sample.expected_count}`),
+})
+```
+
+```rust tab="Rust"
+let result = detector.detect_with(&config, |index, sample| {
+    println!("{index} {:?} {}/{}", sample.state, sample.count, sample.expected_count);
+})?;
+```
+
+```go tab="Go"
+result, err := detector.Detect(ctx, config, lmfpd.OnSample(func(index int, sample lmfpd.Sample) {
+	fmt.Println(index, sample.State, sample.Count, "/", sample.ExpectedCount)
+}))
+```
+
+```python tab="Python"
+result = detector.detect(base_url, api_key, model,
+                         on_sample=lambda index, sample: print(index, sample["state"], sample["count"]))
+```
+
+每条样本的状态依次是：
+
+1. `queued`：发请求前，所有样本按下标各报一次。
+2. `waiting`：请求已经发出。
+3. `streaming`：收到第一个 SSE 响应体数据，`first_byte_ms` 有值了。之后每收到一段文本就再报一次，`count` 逐渐增加。JSON 响应没有这一步，状态停在 `waiting`，直到读完整个响应。
+4. 最终状态：`complete`、`truncated`、`failed` 或 `cancelled`。每条样本只报一次，和返回结果里的样本相同。
+
+同一个状态可能连续报多次。流式响应每到一段文本就回调一次，界面需要的话自己限制刷新频率。
+
+回调不会同时执行，所以不用自己加锁。Rust、Go 和 Python 的回调在 SDK 的工作线程里执行，回调慢会拖慢取样。回调出错不会让样本失败：TypeScript 中抛出的错误会作为未捕获异常单独报告，检测继续；Rust 和 Go 的 panic、Python 的异常会从 `detect` 传出来。
 
 ## 取样规则
 
@@ -136,10 +176,11 @@ The endpoint in --baseurl does not match --api.
 
 | 字段 | 说明 |
 | --- | --- |
-| `state` | `complete`、`truncated` 或 `failed`；TypeScript 和 Go 取消时为 `cancelled` |
+| `state` | `complete`、`truncated` 或 `failed`；TypeScript 和 Go 取消时为 `cancelled`。[进度回调](#progress)里还会出现 `queued`、`waiting` 和 `streaming` |
 | `text` | 用来评分的文本；截断时只保留前 `expected_count` 个整数 |
 | `raw_text` | 收到的原始文本 |
 | `count`、`expected_count` | 解析出的整数个数和要求的个数 |
+| `first_byte_ms` | 从发出请求到收到第一个 SSE 响应体数据的毫秒数；JSON 响应是到读完并解析整个响应。没收到时为 `null` |
 | `response_model`、`response_id` | 接口返回的模型名和响应 ID，没有时为 `null` |
 | `error` | 失败原因，成功时为 `null` |
 
@@ -168,4 +209,4 @@ The endpoint in --baseurl does not match --api.
 
 ## 取消
 
-TypeScript 的 `detect` 接受一个 `AbortSignal`，Go 的 `Detect` 和 `RequestSample` 跟随 `ctx`。取消时，进行中的请求立即中止，还没发出的挑战不再发送，样本状态为 `cancelled`，这一轮不评分。Rust 和 Python 的 `detect` 不能中途取消。
+TypeScript 的 `detect` 用 `options.signal` 取消，Go 的 `Detect` 和 `RequestSample` 跟随 `ctx`。取消时，进行中的请求立即中止，还没发出的挑战不再发送，样本状态为 `cancelled`，这一轮不评分。Rust 和 Python 的 `detect` 不能中途取消，只能靠 `timeout` 结束卡住的请求，所以在这两种语言里把 `timeout` 设为 0 时，一个连上后不返回数据的请求会让 `detect` 和 `request_sample` 永久阻塞。

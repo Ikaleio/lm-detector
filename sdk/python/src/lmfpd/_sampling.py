@@ -7,8 +7,9 @@ import math
 import re
 import socket
 import threading
+import time
 from dataclasses import dataclass
-from typing import Any, Mapping
+from typing import Any, Callable, Mapping
 from urllib.parse import quote, urlsplit
 
 import httpx
@@ -256,16 +257,37 @@ def _shutdown(sock: socket.socket) -> None:
 
 
 class _Sampler:
-    """The state of one request; mirrors the closures of the CLI `requestSample`."""
+    """The state of one request; mirrors the closures of the CLI `requestSample`. `on_update` receives a fresh
+    snapshot at the same points as the CLI `report()`."""
 
-    def __init__(self, options: Options, expected: int):
+    def __init__(self, options: Options, expected: int, on_update: Callable[[Sample], None] | None = None):
         self.options = options
         self.expected = expected
+        self.on_update = on_update
+        self.state = "waiting"
+        self.started = time.monotonic()
+        self.first_byte_ms: int | None = None
         self.text = self.raw_text = self.raw = self.finish = ""
         self.count = 0
         self.response_model: str | None = None
         self.response_id: str | None = None
         self.terminal = self.truncated = False
+        # Set when `on_update` raised, so `sample` re-raises instead of reporting a failed sample.
+        self.update_failed = False
+
+    def report(self) -> None:
+        if self.on_update is None:
+            return
+        try:
+            self.on_update({"state": self.state, "text": self.text, "raw_text": self.raw_text,
+                            "count": self.count, "expected_count": self.expected, "first_byte_ms": self.first_byte_ms,
+                            "response_model": self.response_model, "response_id": self.response_id, "error": None})
+        except Exception:
+            self.update_failed = True
+            raise
+
+    def mark_first_byte(self) -> None:
+        self.first_byte_ms = int((time.monotonic() - self.started) * 1000)
 
     def metadata(self, data: dict[str, Any]) -> None:
         if isinstance(data.get("model"), str):
@@ -283,6 +305,7 @@ class _Sampler:
             self.text = ", ".join(map(str, numbers[:self.expected]))
             self.count = self.expected
             self.truncated = not final or len(numbers) > self.expected
+        self.report()
 
     def append_text(self, part: str) -> None:
         self.raw += part
@@ -364,8 +387,11 @@ class _Sampler:
     def read_sse(self, response: httpx.Response, deadline: _Deadline) -> None:
         buffer = bytearray()
         for chunk in response.iter_bytes():
-            if chunk:
+            if chunk and self.first_byte_ms is None:
                 deadline.stop()
+                self.mark_first_byte()
+                self.state = "streaming"
+                self.report()
             buffer += chunk
             while not (self.terminal or self.truncated):
                 boundary = _SSE_DELIMITER.search(buffer)
@@ -387,6 +413,7 @@ class _Sampler:
             data = _record(json.loads(body.decode("utf-8", "replace")))
         except Exception:
             raise ValueError("The server did not return valid JSON or SSE.") from None
+        self.mark_first_byte()
         self.upstream_error(data)
         self.metadata(data)
         fmt = self.options.format
@@ -445,9 +472,12 @@ class _Sampler:
             raise ValueError(f"Too few valid numbers: {self.count}; need at least {minimum}.")
 
 
-def sample(options: Options, challenge: Challenge, client: httpx.Client) -> Sample:
-    """Sends one challenge and returns the checked reply. Request failures are reported in `error`."""
-    sampler = _Sampler(options, challenge["expected_count"])
+def sample(options: Options, challenge: Challenge, client: httpx.Client,
+           on_update: Callable[[Sample], None] | None = None) -> Sample:
+    """Sends one challenge and returns the checked reply. Request failures are reported in `error`; exceptions from
+    `on_update` propagate."""
+    sampler = _Sampler(options, challenge["expected_count"], on_update)
+    sampler.report()
     deadline = _Deadline(options.timeout_ms / 1000)
     state, error = "complete", None
     try:
@@ -455,6 +485,8 @@ def sample(options: Options, challenge: Challenge, client: httpx.Client) -> Samp
         if sampler.truncated:
             state = "truncated"
     except Exception as exc:
+        if sampler.update_failed:
+            raise
         state = "failed"
         if deadline.timed_out or isinstance(exc, httpx.ConnectTimeout):
             waiting = "the first SSE byte" if options.stream else "the JSON response"
@@ -463,9 +495,13 @@ def sample(options: Options, challenge: Challenge, client: httpx.Client) -> Samp
             error = clean_error(str(exc) or type(exc).__name__, options.api_key)
     finally:
         deadline.stop()
-    return {"state": state, "text": sampler.text, "raw_text": sampler.raw_text, "count": sampler.count,
-            "expected_count": sampler.expected, "response_model": sampler.response_model,
-            "response_id": sampler.response_id, "error": error}
+    result: Sample = {"state": state, "text": sampler.text, "raw_text": sampler.raw_text,
+                      "count": sampler.count, "expected_count": sampler.expected,
+                      "first_byte_ms": sampler.first_byte_ms, "response_model": sampler.response_model,
+                      "response_id": sampler.response_id, "error": error}
+    if on_update is not None:
+        on_update(result.copy())
+    return result
 
 
 def client() -> httpx.Client:

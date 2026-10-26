@@ -84,7 +84,8 @@ await write('requests.json', requestCases.map(({ name, config }) => ({
   }, 'conformance'),
 })))
 
-// streams.json: canned provider responses and the sample the TypeScript sampler makes of each.
+// streams.json: canned provider responses and the sample the TypeScript sampler makes of each. Runners compare
+// `first_byte_ms` only as present or null, so it is written as 0 when present.
 const server = await serveStreamCases(STREAM_CASES)
 const streams = []
 for (const item of STREAM_CASES) {
@@ -92,7 +93,7 @@ for (const item of STREAM_CASES) {
     baseUrl: `http://127.0.0.1:${server.port}/${item.name}`, apiKey: 'test-key', model: 'test-model',
     api: item.api, stream: item.stream, timeout: 10,
   }, { id: 'conformance', prompt: 'conformance', expected_count: item.expected_count })
-  streams.push({ ...item, expected: sample })
+  streams.push({ ...item, expected: { ...sample, first_byte_ms: sample.first_byte_ms === null ? null : 0 } })
 }
 server.close()
 await write('streams.json', { cases: streams })

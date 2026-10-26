@@ -12,7 +12,7 @@ The functions match one to one across the four languages, and so do the result f
 loadDetector(options?: { source?: string | readonly string[]; cache?: string; ttl?: number }): Promise<Detector>
 detector.builtAt: string
 detector.analyze(outputs: Output[], options?: { strict?: boolean }): Analysis
-detector.detect(config: DetectConfig, signal?: AbortSignal): Promise<DetectResult>
+detector.detect(config: DetectConfig, options?: { signal?: AbortSignal; onSample?: (index: number, sample: Sample) => void }): Promise<DetectResult>
 generateChallenges(count = 3): Challenge[]
 parseNumbers(text: string): number[]
 buildRequest(config: DetectConfig, prompt: string): { url, headers, body } | { error: string }
@@ -25,6 +25,7 @@ Detector::load(options: &LoadOptions) -> Result<Detector, Error>   // LoadOption
 detector.built_at() -> &str
 detector.analyze(outputs: &[Output], strict: bool) -> Result<Analysis, Error>
 detector.detect(config: &DetectConfig) -> Result<DetectResult, Error>
+detector.detect_with(config: &DetectConfig, on_sample: impl FnMut(usize, &Sample) + Send) -> Result<DetectResult, Error>
 generate_challenges(count: usize) -> Result<Vec<Challenge>, Error>
 parse_numbers(text: &str) -> Vec<u32>
 build_request(config: &DetectConfig, prompt: &str) -> Result<Request, Error>
@@ -36,7 +37,8 @@ DEFAULT_DATA_URLS: &[&str]
 func Load(ctx context.Context, options LoadOptions) (*Detector, error)   // LoadOptions{Sources []string; Cache string; TTL time.Duration}
 func (d *Detector) BuiltAt() string
 func (d *Detector) Analyze(outputs []Output, strict bool) (*Analysis, error)
-func (d *Detector) Detect(ctx context.Context, config DetectConfig) (*DetectResult, error)
+func (d *Detector) Detect(ctx context.Context, config DetectConfig, opts ...DetectOption) (*DetectResult, error)
+func OnSample(fn func(index int, sample Sample)) DetectOption
 func GenerateChallenges(count int) ([]Challenge, error)
 func ParseNumbers(text string) []int
 func BuildRequest(config DetectConfig, prompt string) (*Request, error)
@@ -49,7 +51,7 @@ load(source: str | Sequence[str] = DEFAULT_DATA_URLS, cache: str | PathLike | No
 detector.built_at: str
 detector.analyze(outputs: Sequence[Output], strict: bool = False) -> Analysis
 detector.detect(base_url, api_key, model, *, api="responses", effort="", service_tier="default",
-                stream=True, strict=False, count=3, parallel=3, timeout=120.0) -> DetectResult
+                stream=True, strict=False, count=3, parallel=3, timeout=120.0, on_sample=None) -> DetectResult
 generate_challenges(count: int = 3) -> list[Challenge]
 parse_numbers(text: str) -> list[int]
 build_request(config: Mapping[str, Any], prompt: str) -> dict
@@ -80,7 +82,7 @@ TypeScript uses camelCase (`baseUrl`), Go uses struct fields (`BaseURL`), and Ru
 | `strict` | Strict mode: no truncation, and all three replies must be complete and valid. Needs `count` 3 | Off |
 | `count` | Challenges per round, 1–3 | 3 |
 | `parallel` | Concurrent requests, 1–3, at most `count` | 3 |
-| `timeout` | Time limit in seconds (a `time.Duration` in Go). Set to 0 (a negative duration in Go) to disable. With SSE it limits only the wait for the first response body data; there is no limit once data flows. With JSON it covers the whole response | 120 |
+| `timeout` | Time limit in seconds (a `time.Duration` in Go). Set to 0 (a negative duration in Go) to disable. With SSE it limits only the wait for the first response body data; there is no limit once data flows. With JSON it covers the whole response. Rust and Python cannot cancel a request, so with the timeout off, a server that accepts the connection but never sends data blocks `detect` forever | 120 |
 
 In Go a zero field means the default; for example, `Count: 0` means three challenges. In Rust, `DetectConfig::new(base_url, api_key, model)` returns the defaults, and you change fields from there. Python's `detect` takes keyword arguments; `build_request` and `request_sample` take a dict with the same keys.
 
@@ -98,6 +100,44 @@ Base URL must be a valid HTTP or HTTPS URL.
 Base URL must use HTTP or HTTPS without credentials, a query, or a fragment.
 The endpoint in --baseurl does not match --api.
 ```
+
+## Progress [#progress]
+
+`detect` can take a callback that runs each time a sample changes. It receives the sample's index in `challenges` and `samples`, and the sample at that moment.
+
+```ts tab="TypeScript"
+const result = await detector.detect(config, {
+  onSample: (index, sample) => console.log(index, sample.state, `${sample.count}/${sample.expected_count}`),
+})
+```
+
+```rust tab="Rust"
+let result = detector.detect_with(&config, |index, sample| {
+    println!("{index} {:?} {}/{}", sample.state, sample.count, sample.expected_count);
+})?;
+```
+
+```go tab="Go"
+result, err := detector.Detect(ctx, config, lmfpd.OnSample(func(index int, sample lmfpd.Sample) {
+	fmt.Println(index, sample.State, sample.Count, "/", sample.ExpectedCount)
+}))
+```
+
+```python tab="Python"
+result = detector.detect(base_url, api_key, model,
+                         on_sample=lambda index, sample: print(index, sample["state"], sample["count"]))
+```
+
+Each sample goes through these states:
+
+1. `queued`: reported once for every sample, in index order, before any request.
+2. `waiting`: the request has been sent.
+3. `streaming`: the first SSE body data arrived and `first_byte_ms` is set. Each later piece of text is reported again with a growing `count`. JSON responses skip this step and stay `waiting` until the whole response is read.
+4. A final state: `complete`, `truncated`, `failed`, or `cancelled`. It is reported once and equals the sample in the result.
+
+The same state can be reported several times in a row. A streamed reply calls back for every piece of text, so throttle redraws in your UI if needed.
+
+Calls never overlap, so the callback needs no lock. In Rust, Go, and Python it runs on SDK worker threads, and a slow callback slows sampling. A failing callback never fails a sample: in TypeScript a thrown error is reported as an uncaught exception and detection continues; a panic in Rust or Go and an exception in Python propagate out of `detect`.
 
 ## Sampling rules
 
@@ -136,10 +176,11 @@ Each sample in a `detect` result, and the return value of `request_sample`:
 
 | Field | Description |
 | --- | --- |
-| `state` | `complete`, `truncated`, or `failed`; `cancelled` after cancellation in TypeScript and Go |
+| `state` | `complete`, `truncated`, or `failed`; `cancelled` after cancellation in TypeScript and Go. [Progress callbacks](#progress) also see `queued`, `waiting`, and `streaming` |
 | `text` | Text used for scoring. A truncated sample keeps only the first `expected_count` integers |
 | `raw_text` | Raw text received |
 | `count`, `expected_count` | Number of integers parsed and number requested |
+| `first_byte_ms` | Milliseconds from sending the request to the first SSE body data, or to reading and parsing the whole JSON response. `null` until then |
 | `response_model`, `response_id` | Model name and response ID returned by the API, or `null` |
 | `error` | Why the sample failed, or `null` |
 
@@ -168,4 +209,4 @@ Each sample in a `detect` result, and the return value of `request_sample`:
 
 ## Cancellation
 
-TypeScript's `detect` takes an `AbortSignal`, and Go's `Detect` and `RequestSample` follow `ctx`. Cancelling stops requests in flight at once and sends no further challenges. Samples become `cancelled`, and the round is not scored. Rust's and Python's `detect` cannot be cancelled midway.
+TypeScript's `detect` cancels through `options.signal`, and Go's `Detect` and `RequestSample` follow `ctx`. Cancelling stops requests in flight at once and sends no further challenges. Samples become `cancelled`, and the round is not scored. Rust's and Python's `detect` cannot be cancelled midway; only `timeout` ends a stuck request. With `timeout` set to 0 in these two languages, a request that connects but never receives data blocks `detect` and `request_sample` forever.

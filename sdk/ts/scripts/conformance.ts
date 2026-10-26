@@ -50,7 +50,7 @@ try {
       baseUrl: `http://127.0.0.1:${server.port}/${item.name}`, apiKey: 'test-key', model: 'test-model',
       api: item.api, stream: item.stream, strict: item.strict, timeout: 10,
     }, { id: 'conformance', prompt: 'conformance', expected_count: item.expected_count })
-    compare('streams.json', item.name, item.expected, sample)
+    compare('streams.json', item.name, item.expected, { ...sample, first_byte_ms: sample.first_byte_ms === null ? null : 0 })
   }
 } finally { server.close() }
 

@@ -87,12 +87,15 @@ class Analysis(TypedDict):
 
 
 class Sample(TypedDict):
-    state: Literal["complete", "truncated", "failed"]
+    #: `queued`, `waiting`, and `streaming` appear only in `on_sample` progress events.
+    state: Literal["queued", "waiting", "streaming", "complete", "truncated", "failed"]
     #: The numbers used for scoring; capped at `expected_count` when the reply had more.
     text: str
     raw_text: str
     count: int
     expected_count: int
+    #: Milliseconds from the request start to the first SSE body byte, or to the parsed JSON body; None if not reached.
+    first_byte_ms: Optional[int]
     response_model: Optional[str]
     response_id: Optional[str]
     error: Optional[str]

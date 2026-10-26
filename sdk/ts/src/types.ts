@@ -75,9 +75,24 @@ export interface Sample {
   raw_text: string
   count: number
   expected_count: number
+  /**
+   * Milliseconds from sending the request to the first SSE body byte, or to the whole JSON response. Null until then,
+   * and when the request failed before it.
+   */
+  first_byte_ms: number | null
   response_model: string | null
   response_id: string | null
   error: string | null
+}
+
+export interface DetectOptions {
+  /** Cancels the round; samples that have not started become `cancelled` and the round is not scored. */
+  signal?: AbortSignal
+  /**
+   * Called with a copy of a sample each time it changes. Calls never overlap. A thrown error is reported as an uncaught
+   * exception and does not affect the detection.
+   */
+  onSample?: (index: number, sample: Sample) => void
 }
 
 export interface DetectResult {

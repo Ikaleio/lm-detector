@@ -79,7 +79,7 @@
     },
     "sdk/ts": {
       "name": "@fingerpoint/sdk",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "dependencies": {
         "@fingerpoint/shared": "workspace:*",
         "fzstd": "^0.1.1",

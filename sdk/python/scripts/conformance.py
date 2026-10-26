@@ -120,6 +120,9 @@ def main() -> int:
                 "api": item["api"], "stream": item["stream"], "strict": item["strict"], "timeout": 10,
             }, {"id": "conformance", "prompt": "conformance", "expected_count": item["expected_count"]}))
             del sample["expected_count"]
+            # Timings vary between runs; the fixture records only whether the first byte was reached.
+            if sample["first_byte_ms"] is not None:
+                sample["first_byte_ms"] = 0
             compare("streams.json", item["name"], item["expected"], sample)
     finally:
         server.shutdown()

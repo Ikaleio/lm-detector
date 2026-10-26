@@ -118,6 +118,19 @@ type sampler struct {
 	// truncated is set once the reply reached expected numbers; later text cannot change the sample.
 	truncated bool
 	raw       string
+	started   time.Time
+	// update receives a copy of the sample at each progress point, or is nil.
+	update func(Sample)
+}
+
+func (s *sampler) report() {
+	if s.update != nil {
+		s.update(s.sample)
+	}
+}
+
+func (s *sampler) markFirstByte() {
+	s.sample.FirstByteMs = ptr(time.Since(s.started).Milliseconds())
 }
 
 func (s *sampler) acceptText(text string, final bool) {
@@ -135,6 +148,7 @@ func (s *sampler) acceptText(text string, final bool) {
 		s.sample.Count = s.expected
 		s.truncated = !final || len(numbers) > s.expected
 	}
+	s.report()
 }
 
 func (s *sampler) appendText(part string) {
@@ -423,11 +437,18 @@ func (s *sampler) run(ctx context.Context, prompt string, stopTimer func() bool)
 	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		return httpError(resp)
 	}
-	firstByte := func() { stopTimer() }
 	if strings.Contains(strings.ToLower(resp.Header.Get("Content-Type")), "text/event-stream") {
-		err = s.readSSE(resp.Body, firstByte)
+		err = s.readSSE(resp.Body, func() {
+			stopTimer()
+			s.markFirstByte()
+			s.sample.State = "streaming"
+			s.report()
+		})
 	} else {
-		err = s.readJSON(resp.Body, firstByte)
+		err = s.readJSON(resp.Body, func() {
+			stopTimer()
+			s.markFirstByte()
+		})
 	}
 	if err != nil {
 		return err
@@ -448,9 +469,10 @@ func (s *sampler) run(ctx context.Context, prompt string, stopTimer func() bool)
 }
 
 // requestSample ports shared/detect-request.ts requestSample. The timeout covers the wait for the first SSE byte or
-// the whole JSON response.
-func requestSample(parent context.Context, opts *options, challenge Challenge) Sample {
-	s := &sampler{opts: opts, expected: challenge.ExpectedCount,
+// the whole JSON response. update, when not nil, receives the sample at each progress point and last the settled
+// sample that is returned.
+func requestSample(parent context.Context, opts *options, challenge Challenge, update func(Sample)) Sample {
+	s := &sampler{opts: opts, expected: challenge.ExpectedCount, started: time.Now(), update: update,
 		sample: Sample{State: "waiting", ExpectedCount: challenge.ExpectedCount}}
 	ctx, cancel := context.WithCancel(parent)
 	defer cancel()
@@ -466,6 +488,7 @@ func requestSample(parent context.Context, opts *options, challenge Challenge) S
 	} else {
 		stopTimer = func() bool { return false }
 	}
+	s.report()
 	err := parent.Err()
 	if err == nil {
 		err = s.run(ctx, challenge.Prompt, stopTimer)
@@ -488,5 +511,6 @@ func requestSample(parent context.Context, opts *options, challenge Challenge) S
 	default:
 		s.sample.State, s.sample.Error = "failed", ptr(cleanError(err.Error(), opts.apiKey))
 	}
+	s.report()
 	return s.sample
 }

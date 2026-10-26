@@ -5,7 +5,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::mpsc::{self, RecvTimeoutError};
 use std::sync::{Arc, LazyLock};
 use std::thread;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use regex::Regex;
 use serde_json::Value;
@@ -157,12 +157,10 @@ fn frame_end(buffer: &[u8]) -> Option<(usize, usize)> {
 
 struct Sampler<'a> {
     options: &'a Options,
-    expected: u64,
-    text: String,
-    raw_text: String,
-    count: u64,
-    response_model: Option<String>,
-    response_id: Option<String>,
+    /// Receives the live sample at each progress point.
+    update: &'a mut dyn FnMut(&Sample),
+    sample: Sample,
+    started: Instant,
     raw: String,
     finish: String,
     terminal: bool,
@@ -170,18 +168,28 @@ struct Sampler<'a> {
 }
 
 impl Sampler<'_> {
+    fn report(&mut self) {
+        (self.update)(&self.sample);
+    }
+
+    fn first_byte(&mut self) {
+        self.sample.first_byte_ms = Some(self.started.elapsed().as_millis() as u64);
+    }
+
     fn accept_text(&mut self, text: String, last: bool) {
+        let expected = self.sample.expected_count;
         // A trailing digit can belong to an unfinished SSE token (for example, 3 -> 355).
         let numbers = parse_numbers(if last { &text } else { text.trim_end_matches(|c: char| c.is_ascii_digit()) });
-        self.count = numbers.len() as u64;
-        if !self.options.strict && self.count >= self.expected {
-            self.text = join(&numbers[..self.expected as usize]);
-            self.count = self.expected;
-            self.truncated = !last || numbers.len() as u64 > self.expected;
+        self.sample.count = numbers.len() as u64;
+        if !self.options.strict && self.sample.count >= expected {
+            self.sample.text = join(&numbers[..expected as usize]);
+            self.sample.count = expected;
+            self.truncated = !last || numbers.len() as u64 > expected;
         } else {
-            self.text = text.clone();
+            self.sample.text = text.clone();
         }
-        self.raw_text = text;
+        self.sample.raw_text = text;
+        self.report();
     }
 
     fn append_text(&mut self, part: &str) {
@@ -193,10 +201,10 @@ impl Sampler<'_> {
 
     fn metadata(&mut self, data: &Value) {
         if let Some(model) = data.get("model").and_then(Value::as_str) {
-            self.response_model = Some(model.into());
+            self.sample.response_model = Some(model.into());
         }
         if let Some(id) = data.get("id").and_then(Value::as_str) {
-            self.response_id = Some(id.into());
+            self.sample.response_id = Some(id.into());
         }
     }
 
@@ -279,10 +287,10 @@ impl Sampler<'_> {
                 if kind == "response.output_text.delta" {
                     self.append_text(text(get(&data, "delta")));
                 }
-                if kind == "response.output_text.done" && self.raw_text.is_empty() {
+                if kind == "response.output_text.done" && self.sample.raw_text.is_empty() {
                     self.accept_text(text(get(&data, "text")).into(), true);
                 }
-                if kind == "response.output_item.done" && self.raw_text.is_empty() {
+                if kind == "response.output_item.done" && self.sample.raw_text.is_empty() {
                     self.accept_text(response_text([get(&data, "item")]), true);
                 }
                 if kind == "response.refusal.delta" {
@@ -324,9 +332,12 @@ impl Sampler<'_> {
         let mut chunk = vec![0u8; 16 * 1024];
         while self.reading() {
             let n = reader.read(&mut chunk).map_err(|e| e.to_string())?;
-            if n > 0 {
+            if n > 0 && self.sample.first_byte_ms.is_none() {
                 // Only the first body byte has a deadline; a stream may then run past the timeout.
                 watchdog.disarm();
+                self.first_byte();
+                self.sample.state = SampleState::Streaming;
+                self.report();
             }
             if n == 0 {
                 let rest = String::from_utf8_lossy(&buffer);
@@ -350,6 +361,7 @@ impl Sampler<'_> {
     fn read_json(&mut self, body: &[u8]) -> Result<(), Failure> {
         let data: Value =
             serde_json::from_slice(body).map_err(|_| Failure::from("The server did not return valid JSON or SSE."))?;
+        self.first_byte();
         let data = if data.is_object() { data } else { Value::Null };
         upstream_error(&data)?;
         self.metadata(&data);
@@ -447,64 +459,54 @@ impl Sampler<'_> {
             return Err(self.incomplete());
         }
         if !self.truncated {
-            self.accept_text(self.raw_text.clone(), true);
+            self.accept_text(self.sample.raw_text.clone(), true);
         }
-        let minimum = minimum_numbers(self.expected);
-        if self.count < minimum {
-            return Err(format!("Too few valid numbers: {}; need at least {minimum}.", self.count).into());
+        let minimum = minimum_numbers(self.sample.expected_count);
+        if self.sample.count < minimum {
+            return Err(format!("Too few valid numbers: {}; need at least {minimum}.", self.sample.count).into());
         }
         Ok(if self.truncated { SampleState::Truncated } else { SampleState::Complete })
     }
 }
 
-pub(crate) fn sample(options: &Options, challenge: &Challenge) -> Sample {
+/// Sends one challenge and passes the live sample to `update` when it starts, at the first SSE byte, at each text
+/// change, and once settled. Returns the settled sample, which is also the last update.
+pub(crate) fn sample(options: &Options, challenge: &Challenge, update: &mut dyn FnMut(&Sample)) -> Sample {
     let mut sampler = Sampler {
         options,
-        expected: challenge.expected_count,
-        text: String::new(),
-        raw_text: String::new(),
-        count: 0,
-        response_model: None,
-        response_id: None,
+        update,
+        sample: Sample::empty(SampleState::Waiting, challenge.expected_count),
+        started: Instant::now(),
         raw: String::new(),
         finish: String::new(),
         terminal: false,
         truncated: false,
     };
+    sampler.report();
     let (state, error) = match sampler.run(&challenge.prompt) {
         Ok(state) => (state, None),
         Err(Failure::Timeout) => {
+            // The timer can fire just as the first byte arrives; a timed-out sample has none.
+            sampler.sample.first_byte_ms = None;
             let waiting = if options.stream { "the first SSE byte" } else { "the JSON response" };
             let seconds = options.timeout_ms as f64 / 1000.0;
             (SampleState::Failed, Some(format!("Timed out after {seconds}s waiting for {waiting}.")))
         }
         Err(Failure::Message(message)) => (SampleState::Failed, Some(clean_error(&message, &options.api_key))),
     };
-    Sample {
-        state,
-        text: sampler.text,
-        raw_text: sampler.raw_text,
-        count: sampler.count,
-        expected_count: challenge.expected_count,
-        response_model: sampler.response_model,
-        response_id: sampler.response_id,
-        error,
-    }
+    sampler.sample.state = state;
+    sampler.sample.error = error;
+    sampler.report();
+    sampler.sample
 }
 
 /// Sends one challenge and returns the checked reply. Request and config failures are reported in `error`.
 pub fn request_sample(config: &DetectConfig, challenge: &Challenge) -> Sample {
     match Options::new(config) {
-        Ok(options) => sample(&options, challenge),
+        Ok(options) => sample(&options, challenge, &mut |_| {}),
         Err(error) => Sample {
-            state: SampleState::Failed,
-            text: String::new(),
-            raw_text: String::new(),
-            count: 0,
-            expected_count: challenge.expected_count,
-            response_model: None,
-            response_id: None,
             error: Some(error.to_string()),
+            ..Sample::empty(SampleState::Failed, challenge.expected_count)
         },
     }
 }

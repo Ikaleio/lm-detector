@@ -82,6 +82,44 @@ export function scoreRound(round: Round, options: Pick<DetectionOptions, 'strict
   }
 }
 
+export function newRound(index: number, challenges: Challenge[]): Round {
+  return {
+    index, challenges, outputs: [], startedAt: Date.now(),
+    samples: challenges.map(challenge => ({ state: 'queued', text: '', rawText: '', count: 0, expectedCount: challenge.expected_count })),
+  }
+}
+
+/**
+ * Samples every challenge of the round with `options.parallel` workers, then scores it unless cancelled. Calls
+ * `onSample` each time `round.samples[index]` changes. The barrier includes failed requests and cancelled streams.
+ */
+export async function runRound(
+  round: Round, options: DetectionOptions, bank: Bank, detector: SharedDetector, signal: AbortSignal,
+  onSample: (index: number) => void,
+) {
+  let next = 0
+  const worker = async () => {
+    while (!signal.aborted && next < round.challenges.length) {
+      const index = next++
+      round.samples[index] = await requestSample(options, round.challenges[index], signal, sample => {
+        round.samples[index] = sample
+        onSample(index)
+      })
+    }
+  }
+  await Promise.all(Array.from({ length: options.parallel }, worker))
+  if (signal.aborted) {
+    round.samples.forEach((sample, index) => {
+      if (sample.state !== 'queued') return
+      round.samples[index] = { ...sample, state: 'cancelled', error: 'Cancelled before dispatch.' }
+      onSample(index)
+    })
+    round.outputs = round.samples.map(sample => ({ text: acceptedSample(sample) ? sample.text : '', expected_count: sample.expectedCount }))
+    round.error = 'Cancelled. This round was not scored.'
+  } else scoreRound(round, options, bank, detector)
+  round.finishedAt = Date.now()
+}
+
 export async function runDetection(
   options: DetectionOptions, bank: Bank, detector: SharedDetector,
   onUpdate: (state: DetectionState) => void, signal: AbortSignal, fixedChallenges?: Challenge[], tokenizerBank?: TokenizerBank,
@@ -106,35 +144,10 @@ export async function runDetection(
   report()
   for (let index = 0; index < options.repeat; index++) {
     if (signal.aborted) break
-    const challenges: Challenge[] = fixedChallenges ?? generateChallenges(options.count)
-    const round: Round = {
-      index: index + 1, challenges, outputs: [], startedAt: Date.now(),
-      samples: challenges.map(challenge => ({
-        state: 'queued', text: '', rawText: '', count: 0, expectedCount: challenge.expected_count,
-      })),
-    }
+    const round = newRound(index + 1, fixedChallenges ?? generateChallenges(options.count))
     state.rounds.push(round)
     report()
-    let next = 0
-    const worker = async () => {
-      while (!signal.aborted && next < challenges.length) {
-        const sampleIndex = next++
-        round.samples[sampleIndex] = await requestSample(options, challenges[sampleIndex], signal, sample => {
-          round.samples[sampleIndex] = sample
-          report()
-        })
-      }
-    }
-    // The barrier includes failed requests and cancelled streams before any next round.
-    await Promise.all(Array.from({ length: options.parallel }, worker))
-    if (signal.aborted) {
-      for (const sample of round.samples) {
-        if (sample.state === 'queued') { sample.state = 'cancelled'; sample.error = 'Cancelled before dispatch.' }
-      }
-      round.outputs = round.samples.map(sample => ({ text: acceptedSample(sample) ? sample.text : '', expected_count: sample.expectedCount }))
-      round.error = 'Cancelled. This round was not scored.'
-    } else scoreRound(round, options, bank, detector)
-    round.finishedAt = Date.now()
+    await runRound(round, options, bank, detector, signal, report)
     report()
   }
   state.cancelled = signal.aborted

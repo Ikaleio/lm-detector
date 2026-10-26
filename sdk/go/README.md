@@ -35,7 +35,7 @@ Every HTTP request uses `HTTPS_PROXY`, `HTTP_PROXY`, and `NO_PROXY`. Loopback ad
 - `Load(ctx, LoadOptions) (*Detector, error)`: load reference data from the sources or a local directory, using the cache file.
 - `(*Detector).BuiltAt() string`: the bank's `built_at`, which identifies the data build.
 - `(*Detector).Analyze(outputs []Output, strict bool) (*Analysis, error)`: score 1–3 saved replies. Three valid replies give a calibrated ranking. Fewer give a partial ranking unless `strict` is set.
-- `(*Detector).Detect(ctx, DetectConfig) (*DetectResult, error)`: send one round of challenges and score the replies. It returns an error only for an invalid config.
+- `(*Detector).Detect(ctx, DetectConfig, ...DetectOption) (*DetectResult, error)`: send one round of challenges and score the replies. It returns an error only for an invalid config. `OnSample` reports live progress.
 - `GenerateChallenges(count int) ([]Challenge, error)`: generate 1–3 random challenges.
 - `ParseNumbers(text string) []int`: return the numbers 1–355 from the longest run in a reply.
 - `BuildRequest(DetectConfig, prompt string) (*Request, error)`: return the URL, headers, and body that `Detect` sends.
@@ -56,6 +56,19 @@ Zero values in `DetectConfig` select the defaults:
 ```go
 res, err := d.Detect(ctx, lmfpd.DetectConfig{BaseURL: "https://api.openai.com/v1", APIKey: key, Model: "gpt-5"})
 ```
+
+## Progress
+
+```go
+res, err := d.Detect(ctx, config, lmfpd.OnSample(func(index int, sample lmfpd.Sample) {
+	fmt.Printf("sample %d: %s, %d/%d numbers\n", index, sample.State, sample.Count, sample.ExpectedCount)
+}))
+```
+
+- `index` is the position in `res.Challenges` and `res.Samples`.
+- Every sample is first reported as `queued`, in index order. Then each request reports `waiting`, `streaming` at the first SSE byte, every change to the accepted text, and last the settled sample, which equals `res.Samples[index]`. States can repeat. When `ctx` is cancelled, each sample that was never sent is reported as `cancelled`.
+- `Sample.FirstByteMs` is the time from the request start to the first SSE byte, or to the parsed JSON response, or nil when neither was reached.
+- Calls never overlap, but they run on the request goroutines, so a slow callback slows sampling. A panic in the callback is not recovered.
 
 ## Conformance
 

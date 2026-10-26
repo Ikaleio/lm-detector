@@ -202,6 +202,10 @@ func main() {
 			BaseURL: server.URL + "/" + item.Name, APIKey: "test-key", Model: "test-model",
 			API: item.API, NoStream: !item.Stream, Strict: item.Strict, Timeout: 10 * time.Second,
 		}, lmfpd.Challenge{ID: "conformance", Prompt: "conformance", ExpectedCount: item.ExpectedCount})
+		// Timings are nondeterministic; the fixture records 0 whenever a first byte was seen.
+		if sample.FirstByteMs != nil {
+			sample.FirstByteMs = new(int64)
+		}
 		actual := toJSON(sample).(map[string]any)
 		delete(actual, "expected_count")
 		compare("streams.json", item.Name, item.Expected, actual, "$")
