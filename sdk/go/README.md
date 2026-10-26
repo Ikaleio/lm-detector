@@ -49,7 +49,7 @@ Zero values in `DetectConfig` select the defaults:
 | `ServiceTier` | `default` |
 | `Count` | 3 |
 | `Parallel` | 3 |
-| `Timeout` | 120 s |
+| `Timeout` | 120 s (negative disables) |
 
 `NoStream` switches from SSE to JSON responses. All result types marshal to the canonical snake_case JSON shared by the TypeScript, Rust, and Python SDKs. Nullable fields are pointers.
 

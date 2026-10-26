@@ -43,7 +43,7 @@ const parseTexts = [
 await write('parse.json', parseTexts.map(text => ({ text, numbers: parseNumbers(text) })))
 
 // requests.json: config keys are snake_case so every runner can read them directly.
-type RequestConfig = { base_url: string; api_key: string; model: string; api: Api; stream: boolean; effort?: string; service_tier?: 'default' | 'fast' }
+type RequestConfig = { base_url: string; api_key: string; model: string; api: Api; stream: boolean; effort?: string; service_tier?: 'default' | 'fast'; timeout?: number }
 const requestCases: { name: string; config: RequestConfig }[] = []
 for (const api of ['responses', 'chat_completions', 'messages'] as const) {
   for (const stream of [true, false]) {
@@ -68,11 +68,19 @@ requestCases.push({
   name: 'messages endpoint mismatch',
   config: { base_url: 'https://api.example.com/v1/responses', api_key: 'test-key', model: 'test-model', api: 'messages', stream: true },
 })
+requestCases.push({
+  name: 'timeout zero',
+  config: { base_url: 'https://api.example.com/v1', api_key: 'test-key', model: 'test-model', api: 'responses', stream: true, timeout: 0 },
+})
+requestCases.push({
+  name: 'timeout invalid',
+  config: { base_url: 'https://api.example.com/v1', api_key: 'test-key', model: 'test-model', api: 'responses', stream: true, timeout: 2_500_000 },
+})
 await write('requests.json', requestCases.map(({ name, config }) => ({
   name, config, prompt: 'conformance',
   expected: buildRequest({
     baseUrl: config.base_url, apiKey: config.api_key, model: config.model, api: config.api, stream: config.stream,
-    effort: config.effort, serviceTier: config.service_tier,
+    effort: config.effort, serviceTier: config.service_tier, timeout: config.timeout,
   }, 'conformance'),
 })))
 

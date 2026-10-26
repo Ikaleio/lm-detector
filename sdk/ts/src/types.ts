@@ -24,7 +24,7 @@ export interface DetectConfig {
   count?: number
   /** Concurrent requests, 1 to 3, capped at `count`. Default 3. */
   parallel?: number
-  /** Seconds to wait for the first SSE byte or the whole JSON response. Default 120. */
+  /** Seconds to wait for the first SSE byte or the whole JSON response; 0 disables the timer. Default 120. */
   timeout?: number
 }
 

@@ -80,8 +80,8 @@ def detect_options(config: Mapping[str, Any]) -> Options:
     if not _int(parallel) or not 1 <= parallel <= 3:
         raise LmfpdError("parallel must be an integer from 1 to 3.")
     if (not isinstance(timeout, (int, float)) or isinstance(timeout, bool) or not math.isfinite(timeout)
-            or not 0.001 <= timeout <= 2_147_483.647):
-        raise LmfpdError("timeout must be between 0.001 and 2147483.647 seconds.")
+            or (timeout != 0 and not 0.001 <= timeout <= 2_147_483.647)):
+        raise LmfpdError("timeout must be 0 (no timeout) or between 0.001 and 2147483.647 seconds.")
     strict = bool(_option(config, "strict", False))
     if strict and count != 3:
         raise LmfpdError("strict requires count 3.")
@@ -214,13 +214,16 @@ class _Deadline:
         self._stopped = False
         self._socket: socket.socket | None = None
         self._lock = threading.Lock()
-        self._timer = threading.Timer(seconds, self._fire)
-        self._timer.daemon = True
-        self._timer.start()
+        if seconds > 0:
+            self._timer: threading.Timer | None = threading.Timer(seconds, self._fire)
+            self._timer.daemon = True
+            self._timer.start()
+        else:
+            self._timer = None
 
     def trace(self, event: str, info: dict[str, Any]) -> None:
         """httpcore trace hook: records the socket of the new connection."""
-        if not event.endswith("connect_tcp.complete"):
+        if self._timer is None or not event.endswith("connect_tcp.complete"):
             return
         sock = info["return_value"].get_extra_info("socket")
         with self._lock:
@@ -241,7 +244,8 @@ class _Deadline:
     def stop(self) -> None:
         with self._lock:
             self._stopped = True
-        self._timer.cancel()
+        if self._timer is not None:
+            self._timer.cancel()
 
 
 def _shutdown(sock: socket.socket) -> None:
@@ -412,10 +416,12 @@ class _Sampler:
     def run(self, client: httpx.Client, prompt: str, deadline: _Deadline) -> None:
         request = request_parts(self.options, prompt)
         # Only the deadline limits reads: SSE replies may pause for any time after their first byte.
+        connect_timeout = self.options.timeout_ms / 1000 if self.options.timeout_ms > 0 else None
+        extensions = {"trace": deadline.trace} if self.options.timeout_ms > 0 else {}
         with client.stream("POST", request["url"], headers=request["headers"],
                            content=json.dumps(request["body"], ensure_ascii=False).encode("utf-8"),
-                           timeout=httpx.Timeout(None, connect=self.options.timeout_ms / 1000),
-                           extensions={"trace": deadline.trace}) as response:
+                           timeout=httpx.Timeout(None, connect=connect_timeout),
+                           extensions=extensions) as response:
             if not 200 <= response.status_code < 300:
                 body = response.read().decode("utf-8", "replace")
                 try:

@@ -146,6 +146,9 @@ fn main() {
         if let Some(tier) = config["service_tier"].as_str() {
             detect.service_tier = tier.into();
         }
+        if let Some(timeout) = config["timeout"].as_f64() {
+            detect.timeout = timeout;
+        }
         let actual = match build_request(&detect, str_field(item, "prompt")) {
             Ok(request) => serde_json::to_value(request).expect("serializable request"),
             Err(error) => json!({ "error": error.to_string() }),

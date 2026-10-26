@@ -51,7 +51,8 @@ type DetectConfig struct {
 	Count int
 	// Parallel is the number of concurrent requests, 1 to 3, capped at Count. Zero means 3.
 	Parallel int
-	// Timeout bounds the wait for the first SSE byte or the whole JSON response. Zero means 120 s.
+	// Timeout bounds the wait for the first SSE byte or the whole JSON response. Zero means 120 s; a negative value
+	// disables the timer.
 	Timeout time.Duration
 }
 

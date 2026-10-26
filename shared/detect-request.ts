@@ -93,7 +93,7 @@ export async function requestSample(
     state: 'waiting', text: '', rawText: '', count: 0, expectedCount: challenge.expected_count, startedAt: Date.now(),
   }
   let timedOut = false
-  const timer = setTimeout(() => { timedOut = true; controller.abort() }, options.timeoutMs)
+  const timer = options.timeoutMs > 0 ? setTimeout(() => { timedOut = true; controller.abort() }, options.timeoutMs) : undefined
   let reader: ReadableStreamDefaultReader<Uint8Array> | undefined
   let finish = '', terminal = false, truncated = false, raw = '', usage: Payload | undefined
   let meter: ThroughputMeter | undefined

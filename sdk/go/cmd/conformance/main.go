@@ -109,6 +109,7 @@ type requestConfig struct {
 	Stream      bool      `json:"stream"`
 	Effort      string    `json:"effort"`
 	ServiceTier string    `json:"service_tier"`
+	Timeout     *float64  `json:"timeout"`
 }
 
 type streamCase struct {
@@ -162,9 +163,17 @@ func main() {
 	fixture(dir, "requests.json", &requests)
 	for _, item := range requests {
 		c := item.Config
+		timeout := time.Duration(0)
+		if c.Timeout != nil {
+			if *c.Timeout == 0 {
+				timeout = -1 * time.Second
+			} else {
+				timeout = time.Duration(*c.Timeout * float64(time.Second))
+			}
+		}
 		request, err := lmfpd.BuildRequest(lmfpd.DetectConfig{
 			BaseURL: c.BaseURL, APIKey: c.APIKey, Model: c.Model, API: c.API, NoStream: !c.Stream,
-			Effort: c.Effort, ServiceTier: c.ServiceTier,
+			Effort: c.Effort, ServiceTier: c.ServiceTier, Timeout: timeout,
 		}, item.Prompt)
 		var actual any = request
 		if err != nil {

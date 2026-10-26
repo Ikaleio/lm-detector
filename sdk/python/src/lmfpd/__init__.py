@@ -36,8 +36,8 @@ class Detector:
     def detect(self, base_url: str, api_key: str, model: str, *, api: str = "responses", effort: str = "",
                service_tier: str = "default", stream: bool = True, strict: bool = False, count: int = 3,
                parallel: int = 3, timeout: float = 120.0) -> DetectResult:
-        """Sends one round of challenges to the model API and scores the replies. Raises only on an invalid
-        config; request failures are reported in the samples and `error`."""
+        """Sends one round of challenges to the model API and scores the replies (`timeout=0` disables the timer).
+        Raises only on an invalid config; request failures are reported in the samples and `error`."""
         options = _sampling.detect_options({
             "base_url": base_url, "api_key": api_key, "model": model, "api": api, "effort": effort,
             "service_tier": service_tier, "stream": stream, "strict": strict, "count": count, "parallel": parallel,

@@ -1494,5 +1494,51 @@
     "expected": {
       "error": "The endpoint in --baseurl does not match --api."
     }
+  },
+  {
+    "name": "timeout zero",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true,
+      "timeout": 0
+    },
+    "prompt": "conformance",
+    "expected": {
+      "url": "https://api.example.com/v1/responses",
+      "headers": {
+        "Content-Type": "application/json",
+        "Accept": "text/event-stream",
+        "Authorization": "Bearer test-key"
+      },
+      "body": {
+        "model": "test-model",
+        "input": [
+          {
+            "role": "user",
+            "content": "conformance"
+          }
+        ],
+        "stream": true,
+        "store": false
+      }
+    }
+  },
+  {
+    "name": "timeout invalid",
+    "config": {
+      "base_url": "https://api.example.com/v1",
+      "api_key": "test-key",
+      "model": "test-model",
+      "api": "responses",
+      "stream": true,
+      "timeout": 2500000
+    },
+    "prompt": "conformance",
+    "expected": {
+      "error": "timeout must be 0 (no timeout) or between 0.001 and 2147483.647 seconds."
+    }
   }
 ]

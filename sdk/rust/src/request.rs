@@ -69,8 +69,8 @@ impl Options {
         if !(1..=3).contains(&config.parallel) {
             return Err(Error::new("parallel must be an integer from 1 to 3."));
         }
-        if !config.timeout.is_finite() || !(0.001..=2_147_483.647).contains(&config.timeout) {
-            return Err(Error::new("timeout must be between 0.001 and 2147483.647 seconds."));
+        if !config.timeout.is_finite() || (config.timeout != 0.0 && !(0.001..=2_147_483.647).contains(&config.timeout)) {
+            return Err(Error::new("timeout must be 0 (no timeout) or between 0.001 and 2147483.647 seconds."));
         }
         if config.strict && config.count != 3 {
             return Err(Error::new("strict requires count 3."));

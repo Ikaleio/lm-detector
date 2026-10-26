@@ -32,13 +32,13 @@ const parse: { text: string; numbers: number[] }[] = await fixture('parse.json')
 for (const [i, item] of parse.entries()) compare('parse.json', String(i), item.numbers, parseNumbers(item.text))
 
 interface RequestConfig {
-  base_url: string; api_key: string; model: string; api: Api; stream: boolean; effort?: string; service_tier?: ServiceTier
+  base_url: string; api_key: string; model: string; api: Api; stream: boolean; effort?: string; service_tier?: ServiceTier; timeout?: number
 }
 const requests: { name: string; config: RequestConfig; prompt: string; expected: unknown }[] = await fixture('requests.json')
 for (const { name, config, prompt, expected } of requests) {
   compare('requests.json', name, expected, buildRequest({
     baseUrl: config.base_url, apiKey: config.api_key, model: config.model, api: config.api, stream: config.stream,
-    effort: config.effort, serviceTier: config.service_tier,
+    effort: config.effort, serviceTier: config.service_tier, timeout: config.timeout,
   }, prompt))
 }
 

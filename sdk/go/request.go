@@ -73,9 +73,13 @@ func detectOptions(c DetectConfig) (*options, error) {
 	timeout := c.Timeout
 	if timeout == 0 {
 		timeout = 120 * time.Second
-	}
-	if timeout < time.Millisecond || timeout > 2147483647*time.Millisecond {
-		return nil, errors.New("timeout must be between 0.001 and 2147483.647 seconds.")
+	} else if timeout > 0 {
+		if timeout < time.Millisecond || timeout > 2147483647*time.Millisecond {
+			return nil, errors.New("timeout must be 0 (no timeout) or between 0.001 and 2147483.647 seconds.")
+		}
+		timeout = (timeout + time.Millisecond/2) / time.Millisecond * time.Millisecond
+	} else {
+		timeout = 0
 	}
 	if o.strict && o.count != 3 {
 		return nil, errors.New("strict requires count 3.")
@@ -84,7 +88,7 @@ func detectOptions(c DetectConfig) (*options, error) {
 		return nil, err
 	}
 	o.parallel = min(o.parallel, o.count)
-	o.timeout = (timeout + time.Millisecond/2) / time.Millisecond * time.Millisecond
+	o.timeout = timeout
 	return o, nil
 }
 

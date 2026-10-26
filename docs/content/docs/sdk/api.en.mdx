@@ -80,7 +80,7 @@ TypeScript uses camelCase (`baseUrl`), Go uses struct fields (`BaseURL`), and Ru
 | `strict` | Strict mode: no truncation, and all three replies must be complete and valid. Needs `count` 3 | Off |
 | `count` | Challenges per round, 1–3 | 3 |
 | `parallel` | Concurrent requests, 1–3, at most `count` | 3 |
-| `timeout` | Time limit in seconds (a `time.Duration` in Go). With SSE it limits only the wait for the first response body data; there is no limit once data flows. With JSON it covers the whole response | 120 |
+| `timeout` | Time limit in seconds (a `time.Duration` in Go). Set to 0 (a negative duration in Go) to disable. With SSE it limits only the wait for the first response body data; there is no limit once data flows. With JSON it covers the whole response | 120 |
 
 In Go a zero field means the default; for example, `Count: 0` means three challenges. In Rust, `DetectConfig::new(base_url, api_key, model)` returns the defaults, and you change fields from there. Python's `detect` takes keyword arguments; `build_request` and `request_sample` take a dict with the same keys.
 
@@ -92,7 +92,7 @@ api must be responses, chat_completions, or messages.
 service_tier must be flex, default, fast, or ultrafast.
 count must be an integer from 1 to 3.
 parallel must be an integer from 1 to 3.
-timeout must be between 0.001 and 2147483.647 seconds.
+timeout must be 0 (no timeout) or between 0.001 and 2147483.647 seconds.
 strict requires count 3.
 Base URL must be a valid HTTP or HTTPS URL.
 Base URL must use HTTP or HTTPS without credentials, a query, or a fragment.

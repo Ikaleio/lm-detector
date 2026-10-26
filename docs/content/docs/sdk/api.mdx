@@ -80,7 +80,7 @@ TypeScript 用 camelCase（`baseUrl`），Go 用结构体字段（`BaseURL`）�
 | `strict` | 严格模式：不截断，三条回答都完整有效才评分；要求 `count` 为 3 | 关闭 |
 | `count` | 每轮的挑战数，1–3 | 3 |
 | `parallel` | 并发请求数，1–3，不超过 `count` | 3 |
-| `timeout` | 时限，单位秒（Go 是 `time.Duration`）。SSE 只限制等第一个响应体数据的时间，开始传输后不再限时；JSON 限制整个响应 | 120 |
+| `timeout` | 时限，单位秒（Go 是 `time.Duration`）。设为 0（Go 为负数）关闭超时。SSE 只限制等第一个响应体数据的时间，开始传输后不再限时；JSON 限制整个响应 | 120 |
 
 Go 的字段零值就是默认值，比如 `Count: 0` 表示 3 道挑战。Rust 用 `DetectConfig::new(base_url, api_key, model)` 创建默认配置，再修改字段。Python 的 `detect` 用关键字参数；`build_request` 和 `request_sample` 接受同名键的字典。
 
@@ -92,7 +92,7 @@ api must be responses, chat_completions, or messages.
 service_tier must be flex, default, fast, or ultrafast.
 count must be an integer from 1 to 3.
 parallel must be an integer from 1 to 3.
-timeout must be between 0.001 and 2147483.647 seconds.
+timeout must be 0 (no timeout) or between 0.001 and 2147483.647 seconds.
 strict requires count 3.
 Base URL must be a valid HTTP or HTTPS URL.
 Base URL must use HTTP or HTTPS without credentials, a query, or a fragment.

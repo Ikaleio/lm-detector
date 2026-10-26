@@ -44,8 +44,8 @@ their `TypedDict`s. Invalid input raises `lmfpd.LmfpdError`.
 - `Detector.built_at`: the data build identifier.
 - `Detector.analyze(outputs, strict=False) -> Analysis`: score one to three `{"text", "expected_count"}` replies.
 - `Detector.detect(base_url, api_key, model, *, api="responses", effort="", service_tier="default", stream=True,
-  strict=False, count=3, parallel=3, timeout=120.0) -> DetectResult`: send `count` challenges and score the replies.
-  `api` is `responses`, `chat_completions`, or `messages`.
+  strict=False, count=3, parallel=3, timeout=120.0) -> DetectResult`: send `count` challenges and score the replies
+  (`timeout=0` disables the timer). `api` is `responses`, `chat_completions`, or `messages`.
 - `generate_challenges(count=3) -> list[Challenge]`: random challenge prompts.
 - `parse_numbers(text) -> list[int]`: the numbers 1 to 355 of the longest run in a reply.
 - `build_request(config, prompt) -> dict`: the URL, headers, and body `detect` sends for one prompt.
