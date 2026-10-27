@@ -67,7 +67,7 @@ export function Paper({ phase, motion, result }: { phase: Phase; motion: RefObje
       <meshStandardMaterial map={texture} roughness={.92} metalness={0} side={THREE.FrontSide} />
     </mesh>
     <mesh geometry={geometry} position={[0, -.003, 0]} castShadow frustumCulled={false}>
-      <meshStandardMaterial color="#f6f2e6" roughness={1} side={THREE.BackSide} />
+      <meshStandardMaterial color="#f3f4f5" roughness={1} side={THREE.BackSide} />
     </mesh>
   </group>
 }

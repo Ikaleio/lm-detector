@@ -89,10 +89,10 @@
   --input: oklch(0.27 0 0);
   --ring: oklch(0.72 0.15 255);
   /* Lights of the detect page's 3D scanner (three.js reads hex values only). */
-  --scene-ambient: .45;
-  --scene-key: 1.7;
-  --scene-fill: .9;
-  --scene-sky: #cdd2d8;
+  --scene-ambient: .7;
+  --scene-key: 2.4;
+  --scene-fill: 1.4;
+  --scene-sky: #e2e6ea;
   --scene-ground: #50555c;
   --scene-key-color: #f5f6f7;
   --scene-fill-color: #b4b9bf;

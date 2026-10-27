@@ -39,15 +39,15 @@ const AUTO_NAMES = AUTO_MODELS.map(model => model.name)
 const machineShown = (name: string) => resolveBrand(name) !== 'neutral' || !name.trim()
 interface Props { name: string; inputMode: 'manual' | 'api'; baseUrl: string; apiKey: string; filled: [boolean, boolean, boolean]; focus: number | null; phase: Phase; motion: RefObject<MotionState>; result: SceneResult | null }
 
-function Part({ at, size, color = '#51463B', radius = .05, metal = .3, roughness = .5, rotation, children }: { at: Vec3; size: Vec3; color?: string; radius?: number; metal?: number; roughness?: number; rotation?: Vec3; children?: ReactNode }) {
+function Part({ at, size, color = '#3a3e44', radius = .05, metal = .3, roughness = .5, rotation, children }: { at: Vec3; size: Vec3; color?: string; radius?: number; metal?: number; roughness?: number; rotation?: Vec3; children?: ReactNode }) {
   return <RoundedBox position={at} args={size} radius={radius} smoothness={3} bevelSegments={2} castShadow receiveShadow rotation={rotation}>
     <meshStandardMaterial color={color} roughness={roughness} metalness={metal} />{children}
   </RoundedBox>
 }
 function Screw({ at, axis = 'front' }: { at: Vec3; axis?: 'front' | 'top' }) {
   return <group position={at} rotation={axis === 'front' ? [Math.PI / 2, 0, 0] : [0, 0, 0]}>
-    <mesh castShadow><cylinderGeometry args={[.037, .037, .016, 12]} /><meshStandardMaterial color="#98a69c" metalness={.85} roughness={.34} /></mesh>
-    <mesh position={[0, .009, 0]}><boxGeometry args={[.042, .002, .009]} /><meshStandardMaterial color="#28332e" /></mesh>
+    <mesh castShadow><cylinderGeometry args={[.037, .037, .016, 12]} /><meshStandardMaterial color="#a9afb5" metalness={.85} roughness={.34} /></mesh>
+    <mesh position={[0, .009, 0]}><boxGeometry args={[.042, .002, .009]} /><meshStandardMaterial color="#2a2e33" /></mesh>
   </group>
 }
 function CameraRig({ zoom, reset, phase }: { zoom: number; reset: number; phase: Phase }) {
@@ -207,8 +207,8 @@ function Scanner({ name, inputMode, baseUrl, apiKey, filled, focus, phase, motio
   const previousCount = useRef(count)
   const leftClampGap = useRef(.2)
   const rightClampGap = useRef(.2)
-  const targetColor = useMemo(() => new THREE.Color('#E9D6B6'), [])
-  const offColor = useMemo(() => new THREE.Color('#58645a'), [])
+  const targetColor = useMemo(() => new THREE.Color('#e3ecff'), [])
+  const offColor = useMemo(() => new THREE.Color('#4a4f55'), [])
   const labelGeometry = useMemo(() => new THREE.PlaneGeometry(1.56, .72, 20, 10), [])
   useEffect(() => () => labelGeometry.dispose(), [labelGeometry])
   const frame = useRef(0)
@@ -331,40 +331,40 @@ function Scanner({ name, inputMode, baseUrl, apiKey, filled, focus, phase, motio
     <group ref={machineTop} visible={hasMachine} position={[0, -3.8, 0]}>
     {/* The chassis has real separated front panels, leaving an actual open paper aperture. */}
     {[-1.78, 1.78].flatMap(x => [-1.08, 1.08].map(z => <group key={`${x}-${z}`}>
-      <Part at={[x, .17, z]} size={[.52, .28, .49]} radius={.09} color="#2a332e" roughness={.93} metal={.08} />
-      <Part at={[x, .29, z]} size={[.46, .10, .44]} radius={.035} color="#8f9b8e" metal={.7} />
+      <Part at={[x, .17, z]} size={[.52, .28, .49]} radius={.09} color="#202326" roughness={.93} metal={.08} />
+      <Part at={[x, .29, z]} size={[.46, .10, .44]} radius={.035} color="#9aa1a8" metal={.7} />
     </group>))}
-    <Part at={[0, .72, -.195]} size={[4.6, .84, 2.86]} radius={.14} color="#51463B" />
-    <Part at={[0, 1.00, 1.39]} size={[4.6, .29, .47]} radius={.075} color="#51463B" />
-    <Part at={[0, .443, 1.40]} size={[4.6, .286, .45]} radius={.09} color="#42382F" />
-    {[-1, 1].map(sign => <Part key={sign} at={[sign * 1.87, .71, 1.415]} size={[.86, .46, .42]} radius={.065} color="#51463B" />)}
-    <Part at={[0, .72, 1.27]} size={[2.7, .24, .035]} radius={.007} color="#0b130f" roughness={1} metal={0} />
-    <Part at={[0, .836, 1.566]} size={[2.62, .045, .24]} radius={.016} color="#839183" metal={.8} roughness={.32} />
-    <Part at={[0, .601, 1.66]} size={[2.62, .055, .29]} radius={.02} color="#8c9789" metal={.8} roughness={.3} />
-    {[-1, 1].map(sign => <Part key={`guide${sign}`} at={[sign * 1.15, .672, 1.707]} size={[.115, .115, .30]} radius={.025} color="#616f63" metal={.7} />)}
+    <Part at={[0, .72, -.195]} size={[4.6, .84, 2.86]} radius={.14} color="#3a3e44" />
+    <Part at={[0, 1.00, 1.39]} size={[4.6, .29, .47]} radius={.075} color="#3a3e44" />
+    <Part at={[0, .443, 1.40]} size={[4.6, .286, .45]} radius={.09} color="#2e3237" />
+    {[-1, 1].map(sign => <Part key={sign} at={[sign * 1.87, .71, 1.415]} size={[.86, .46, .42]} radius={.065} color="#3a3e44" />)}
+    <Part at={[0, .72, 1.27]} size={[2.7, .24, .035]} radius={.007} color="#101214" roughness={1} metal={0} />
+    <Part at={[0, .836, 1.566]} size={[2.62, .045, .24]} radius={.016} color="#a7adb3" metal={.8} roughness={.32} />
+    <Part at={[0, .601, 1.66]} size={[2.62, .055, .29]} radius={.02} color="#b0b6bc" metal={.8} roughness={.3} />
+    {[-1, 1].map(sign => <Part key={`guide${sign}`} at={[sign * 1.15, .672, 1.707]} size={[.115, .115, .30]} radius={.025} color="#6b7178" metal={.7} />)}
     <group ref={roller} position={[0, .668, 1.59]}>
-      <mesh rotation={[0, 0, Math.PI / 2]} castShadow><cylinderGeometry args={[.05, .05, 2.21, 24]} /><meshStandardMaterial color="#aab4a5" roughness={.45} metalness={.7} /></mesh>
-      {[-.75, -.26, .26, .75].map(x => <mesh key={x} position={[x, 0, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[.055, .055, .19, 20]} /><meshStandardMaterial color="#202b23" roughness={.94} /></mesh>)}
+      <mesh rotation={[0, 0, Math.PI / 2]} castShadow><cylinderGeometry args={[.05, .05, 2.21, 24]} /><meshStandardMaterial color="#b9bfc5" roughness={.45} metalness={.7} /></mesh>
+      {[-.75, -.26, .26, .75].map(x => <mesh key={x} position={[x, 0, 0]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[.055, .055, .19, 20]} /><meshStandardMaterial color="#1c1f22" roughness={.94} /></mesh>)}
     </group>
     <mesh position={[.73, 1.005, 1.632]}><planeGeometry args={[1.65, .258]} /><meshStandardMaterial map={machine} roughness={.8} /></mesh>
     {filled.map((_, i) => <group key={i} position={[-1.39 + i * .31, 1.014, 1.637]}>
-      <mesh rotation={[Math.PI / 2, 0, 0]}><cylinderGeometry args={[.075, .075, .015, 24]} /><meshStandardMaterial color="#142b20" metalness={.6} roughness={.45} /></mesh>
-      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, .013]}><cylinderGeometry args={[.043, .046, .019, 24]} /><meshStandardMaterial ref={m => { ledMaterials.current[i] = m }} color="#58645a" emissive="#D9CFC7" emissiveIntensity={.02} roughness={.28} /></mesh>
+      <mesh rotation={[Math.PI / 2, 0, 0]}><cylinderGeometry args={[.075, .075, .015, 24]} /><meshStandardMaterial color="#1d2125" metalness={.6} roughness={.45} /></mesh>
+      <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, .013]}><cylinderGeometry args={[.043, .046, .019, 24]} /><meshStandardMaterial ref={m => { ledMaterials.current[i] = m }} color="#4a4f55" emissive="#dce8ff" emissiveIntensity={.02} roughness={.28} /></mesh>
     </group>)}
     {[-2.06, 2.06].map(x => <Screw key={x} at={[x, .973, 1.645]} />)}
-    <Part at={[1.83, .447, 1.633]} size={[.25, .076, .016]} radius={.01} color="#d89058" roughness={.6} metal={.2} />
+    <Part at={[1.83, .447, 1.633]} size={[.25, .076, .016]} radius={.01} color="#3b78e7" roughness={.6} metal={.2} />
     {/* Inset tray and rail supports are attached to the body, not floating above it. */}
-    <Part at={[0, 1.21, -.14]} size={[DIM.trayWidth, .14, DIM.trayDepth]} color="#202e27" radius={.10} roughness={.85} metal={.15} />
-    <Part at={[0, 1.265, -.14]} size={[3.04, .03, 2.14]} color="#56605a" radius={.055} roughness={1} metal={0} />
+    <Part at={[0, 1.21, -.14]} size={[DIM.trayWidth, .14, DIM.trayDepth]} color="#26292d" radius={.10} roughness={.85} metal={.15} />
+    <Part at={[0, 1.265, -.14]} size={[3.04, .03, 2.14]} color="#5c6268" radius={.055} roughness={1} metal={0} />
     {[-1, 1].map(sign => <group key={`rail${sign}`}>
-      <Part at={[sign * DIM.railX, 1.19, -.12]} size={[.29, .11, 3.02]} radius={.042} color="#26342b" />
-      <mesh position={[sign * DIM.railX, DIM.railY, -.12]} rotation={[Math.PI / 2, 0, 0]} castShadow><cylinderGeometry args={[.044, .044, DIM.railLength, 18]} /><meshStandardMaterial color="#bac4b4" metalness={.87} roughness={.28} /></mesh>
-      {[-1.51, 1.27].map(z => <group key={z}><Part at={[sign * DIM.railX, 1.274, z]} size={[.32, .16, .17]} radius={.038} color="#50604f" /><Screw at={[sign * DIM.railX, 1.359, z]} axis="top" /></group>)}
+      <Part at={[sign * DIM.railX, 1.19, -.12]} size={[.29, .11, 3.02]} radius={.042} color="#2c3034" />
+      <mesh position={[sign * DIM.railX, DIM.railY, -.12]} rotation={[Math.PI / 2, 0, 0]} castShadow><cylinderGeometry args={[.044, .044, DIM.railLength, 18]} /><meshStandardMaterial color="#c3c8cd" metalness={.87} roughness={.28} /></mesh>
+      {[-1.51, 1.27].map(z => <group key={z}><Part at={[sign * DIM.railX, 1.274, z]} size={[.32, .16, .17]} radius={.038} color="#555b62" /><Screw at={[sign * DIM.railX, 1.359, z]} axis="top" /></group>)}
     </group>)}
     {/* Locating pads are constrained outside the box's current side surfaces. */}
     {[-1, 1].map(sign => <group key={`clamp${sign}`} ref={sign === -1 ? leftClamp : rightClamp} position={[sign * 1.44, 0, 0]}>
-      <Part at={[0, 1.335, .21]} size={[.14, .11, .60]} radius={.027} color="#a0aa98" metal={.75} />
-      <Part at={[-sign * .03, 1.43, .21]} size={[.078, .18, .46]} radius={.022} color="#3f5142" roughness={.95} metal={0} />
+      <Part at={[0, 1.335, .21]} size={[.14, .11, .60]} radius={.027} color="#aab0b6" metal={.75} />
+      <Part at={[-sign * .03, 1.43, .21]} size={[.078, .18, .46]} radius={.022} color="#3b4046" roughness={.95} metal={0} />
     </group>)}
     </group>
     <group ref={box} position={[.045, DIM.boxHeight / 2 + .023, DIM.boxZ]} name="supported-kraft-box">
@@ -384,26 +384,26 @@ function Scanner({ name, inputMode, baseUrl, apiKey, filled, focus, phase, motio
     <group ref={machineBottom} visible={hasMachine} position={[0, 3.8, 0]}>
     <group ref={gantry} position={[0, 0, 0]} name="rail-supported-scan-gantry">
       {[-1, 1].map(sign => <group key={`arm${sign}`}>
-        <Part at={[sign * DIM.railX, 1.40, 0]} size={[.47, .24, .61]} radius={.065} color="#596260" metal={.6} />
-        <Part at={[sign * DIM.railX, 2.00, 0]} size={[.36, 1.36, .35]} radius={.065} color="#3b4141" metal={.55} />
-        <Part at={[sign * 1.748, 2.03, .005]} size={[.018, 1.02, .115]} radius={.007} color="#8a9b89" metal={.8} />
+        <Part at={[sign * DIM.railX, 1.40, 0]} size={[.47, .24, .61]} radius={.065} color="#5d6369" metal={.6} />
+        <Part at={[sign * DIM.railX, 2.00, 0]} size={[.36, 1.36, .35]} radius={.065} color="#33373c" metal={.55} />
+        <Part at={[sign * 1.748, 2.03, .005]} size={[.018, 1.02, .115]} radius={.007} color="#959ca3" metal={.8} />
         <Screw at={[sign * DIM.railX, 1.449, .313]} />
         <Screw at={[sign * DIM.railX, 2.65, .188]} />
       </group>)}
-      <Part at={[0, 2.80, 0]} size={[4.18, .34, .43]} radius={.09} color="#363c3c" metal={.5} />
-      <Part at={[0, 2.984, -.017]} size={[3.24, .039, .27]} radius={.015} color="#555d58" metal={.55} />
-      <Part at={[0, 2.615, 0]} size={[3.11, .050, .15]} radius={.015} color="#142d1f" roughness={.5} metal={.3} />
-      <mesh position={[0, 2.586, .007]}><boxGeometry args={[2.91, .014, .047]} /><meshStandardMaterial ref={emitter} color="#EFE9E3" emissive="#C9B59C" emissiveIntensity={.015} roughness={.2} /></mesh>
-      <mesh position={[0, 2.678, .221]}><boxGeometry args={[2.62, .012, .009]} /><meshStandardMaterial ref={frontEmitter} color="#324b3c" emissive="#EFE9E3" emissiveIntensity={.015} roughness={.45} /></mesh>
-      {[...Array(9)].map((_, i) => <Part key={`vent${i}`} at={[1.00 + i * .082, 2.807, .22]} size={[.033, .115, .008]} radius={.006} color="#1c2d21" metal={.15} />)}
-      <Part at={[-1.34, 2.82, .223]} size={[.35, .031, .005]} radius={.004} color="#acb49c" roughness={.7} />
+      <Part at={[0, 2.80, 0]} size={[4.18, .34, .43]} radius={.09} color="#2f3338" metal={.5} />
+      <Part at={[0, 2.984, -.017]} size={[3.24, .039, .27]} radius={.015} color="#50565c" metal={.55} />
+      <Part at={[0, 2.615, 0]} size={[3.11, .050, .15]} radius={.015} color="#1b1e22" roughness={.5} metal={.3} />
+      <mesh position={[0, 2.586, .007]}><boxGeometry args={[2.91, .014, .047]} /><meshStandardMaterial ref={emitter} color="#f2f5fa" emissive="#cfe0ff" emissiveIntensity={.015} roughness={.2} /></mesh>
+      <mesh position={[0, 2.678, .221]}><boxGeometry args={[2.62, .012, .009]} /><meshStandardMaterial ref={frontEmitter} color="#3a4048" emissive="#dce8ff" emissiveIntensity={.015} roughness={.45} /></mesh>
+      {[...Array(9)].map((_, i) => <Part key={`vent${i}`} at={[1.00 + i * .082, 2.807, .22]} size={[.033, .115, .008]} radius={.006} color="#1c1f23" metal={.15} />)}
+      <Part at={[-1.34, 2.82, .223]} size={[.35, .031, .005]} radius={.004} color="#9aa1a8" roughness={.7} />
     </group>
     <group ref={scan} visible={false}>
-      <mesh position={[0, BOX_TOP_Y + .007, 0]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[DIM.boxWidth - .055, .035]} /><meshBasicMaterial color="#D9CFC7" transparent opacity={.78} toneMapped={false} depthWrite={false} /></mesh>
-      {[-1, 1].map(sign => <mesh key={sign} position={[sign * (DIM.boxWidth / 2 + .004), BOX_CENTER_Y, 0]} rotation={[0, Math.PI / 2, 0]}><planeGeometry args={[.029, DIM.boxHeight - .04]} /><meshBasicMaterial color="#EFE9E3" side={THREE.DoubleSide} transparent opacity={.55} toneMapped={false} depthWrite={false} /></mesh>)}
-      <mesh position={[0, BOX_TOP_Y + .06, 0]}><planeGeometry args={[2.6, .11]} /><meshBasicMaterial color="#C9B59C" transparent opacity={.12} side={THREE.DoubleSide} depthWrite={false} /></mesh>
+      <mesh position={[0, BOX_TOP_Y + .007, 0]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[DIM.boxWidth - .055, .035]} /><meshBasicMaterial color="#cfe0ff" transparent opacity={.78} toneMapped={false} depthWrite={false} /></mesh>
+      {[-1, 1].map(sign => <mesh key={sign} position={[sign * (DIM.boxWidth / 2 + .004), BOX_CENTER_Y, 0]} rotation={[0, Math.PI / 2, 0]}><planeGeometry args={[.029, DIM.boxHeight - .04]} /><meshBasicMaterial color="#e6efff" side={THREE.DoubleSide} transparent opacity={.55} toneMapped={false} depthWrite={false} /></mesh>)}
+      <mesh position={[0, BOX_TOP_Y + .06, 0]}><planeGeometry args={[2.6, .11]} /><meshBasicMaterial color="#9fc0ff" transparent opacity={.12} side={THREE.DoubleSide} depthWrite={false} /></mesh>
     </group>
-    {[...Array(8)].map((_, i) => <Part key={`sidevent${i}`} at={[2.302, .755, -.65 + i * .12]} size={[.005, .22, .035]} radius={.002} color="#17271d" />)}
+    {[...Array(8)].map((_, i) => <Part key={`sidevent${i}`} at={[2.302, .755, -.65 + i * .12]} size={[.005, .22, .035]} radius={.002} color="#1a1d21" />)}
     <Paper phase={phase} motion={motion} result={result} />
     </group>
   </group>
