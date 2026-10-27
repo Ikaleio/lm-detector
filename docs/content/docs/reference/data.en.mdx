@@ -52,6 +52,15 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-10-27 Add gpt-6.1-terra" id="2026-10-27-gpt-6-1-terra">
+    Added 36 fixed-challenge answers for `gpt-6.1-terra`, bringing the reference bank to 64 fingerprint identities and 2,380 samples. Collection requests `openai/gpt-6.1-terra` through streaming OpenRouter Chat Completions, with `reasoning_effort=low` and the fixed `openrouter/openai` official provider route. Fallbacks are disabled.
+
+    All 36 reference answers completed naturally on their first attempt. Returned model IDs and OpenAI provider metadata passed checks against the raw responses. Prompts and system prompts follow the fixed suite, and the previous 2,344 reference answers are unchanged. Sampling evidence and the enrollment receipt are saved in `collections/gpt-6.1-terra-openrouter-openai-low-20261027/`.
+
+    Fixed evaluation uses the existing two independent groups of three challenges, with the same pinned provider and `low` reasoning effort. All six answers passed on their first attempt. Evaluation answers are stored separately and excluded from bank construction, training, and calibration.
+
+    After retraining, both new groups rank `gpt-6.1-terra` first. Predictions for all 126 existing complete groups remain unchanged, with 113 correct before and after enrollment. Evaluation covers 128/130 groups and 384/390 valid answers, with 115/128 complete groups correct. The other two groups are the existing `kimi-k2.8-preview` quota gap. No evaluation answers or prompts overlap the training data.
+  </Accordion>
   <Accordion title="2026-10-25 Add minimax-m3.1-flash" id="2026-10-25-minimax-m3-1-flash">
     Added 36 fixed-challenge answers for `minimax-m3.1-flash`, bringing the bank to 63 fingerprint identities and 2,344 samples. Requests use `minimax/minimax-m3.1-flash` through streaming OpenRouter Chat Completions, `reasoning_effort=low`, and the pinned official provider route `openrouter/minimax`, with fallbacks disabled. Raw responses validate the returned model and Minimax provider metadata.
 
