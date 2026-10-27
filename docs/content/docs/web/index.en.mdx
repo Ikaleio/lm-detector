@@ -6,6 +6,14 @@ icon: Globe
 
 The detection website [lm.ikale.io](https://lm.ikale.io) is a pure frontend app. Challenge generation, feature extraction, and ranking all run in the browser, and the reference bank is served as static files. The website only runs detection and browses the reference bank read-only. It never writes any reply to the reference bank. Your API key is sent only when a request goes out, to the API you enter or to a forwarding proxy, as the connection mode you choose decides; see [Connection](./connection.mdx).
 
+## Page layout
+
+The detection page has two columns, stacked on narrow screens:
+
+- **Scanner** (left): shows the detection mode or, in API mode, the model you entered, the current stage (ready, sampling, computing, done) and the state of each of the three samples. Once a result exists, its bottom row shows the top-ranked candidate and its confidence.
+- **Form** (right): the manual / API switch, the API configuration (API mode only) and the three sample cards. A sample card shows the first two lines of its prompt above the reply box. Click or drag "Show prompt" and the reply box slides down to reveal the whole prompt; click again to bring it back.
+- After scoring, the right column becomes a detection summary (mode, model, number of valid replies and the top candidate), and the sample strip and results unfold below. "Start over" returns to the form.
+
 ## Sampling modes
 
 <Tabs items={['Manual', 'API']}>
@@ -62,7 +70,7 @@ If the smallest valid number of a sample is 200 or more, the page marks its dist
 
 - **PNG image**: generated in a browser Canvas at twice the pixel density. It contains the site name, the date, the top candidate, the top five entries, the number of valid samples, and a note on the limitations, in the current language and theme. It does not contain the API key, the Base URL, the model ID you entered, or the reply text.
 - **JSON**: the candidate list and the confidence values; once the probe has ended, also the tokenizer probe report (the verdict, the check against the model you entered, and the count of every request). It contains neither the API address nor the API key.
-- **Library page**: browse reference replies by model, each with its original prompt. You can search, filter by family, and export to JSONL. Keys and authorization fields are removed before export.
+- **Library page**: browse reference replies by model, each with its original prompt. You can search, filter by family, and export to JSONL. Keys and authorization fields are removed before export. Each model name is preceded by its family's logo; families without a logo leave the space empty.
 
 ## Related pages
 

@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Empty, EmptyContent, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty'
 import { PixelShader } from '@/components/pixel-shader'
+import { FamilyIcon } from '@/components/brand-icon'
 import { Segmented } from '@/components/segmented'
 import { useLoadedBank } from '@/lib/bank-context'
 import { useI18n } from '@/i18n'
@@ -98,7 +99,8 @@ export default function LibraryRoute() {
           <ul className="fp-card overflow-hidden md:hidden">
             {models.map(m => (
               <li key={m.id} className="border-t border-border first:border-t-0">
-                <Link to={`/library/${encodeURIComponent(m.id)}`} className="flex min-h-14 items-center justify-between gap-4 px-4 py-2 hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring">
+                <Link to={`/library/${encodeURIComponent(m.id)}`} className="flex min-h-14 items-start gap-3 px-4 py-2 hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring">
+                  <FamilyIcon family={m.family} className="mt-0.5" />
                   <span className="flex min-w-0 flex-col gap-1">
                     <span className="text-body font-medium [overflow-wrap:anywhere]">{m.display_name}</span>
                     {m.display_name !== m.id && <span className="fp-mono text-meta text-muted-foreground [overflow-wrap:anywhere]">{m.id}</span>}
@@ -133,9 +135,12 @@ function ModelRow({ model }: { model: BankModel }) {
       link.current?.click()
     }}>
       <TableCell className="max-w-96 px-4 py-0 whitespace-normal">
-        <Link ref={link} to={`/library/${encodeURIComponent(model.id)}`} className="flex flex-col rounded-sm py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-          <span className="text-body font-medium [overflow-wrap:anywhere]">{model.display_name}</span>
-          {model.display_name !== model.id && <span className="fp-mono text-meta text-muted-foreground [overflow-wrap:anywhere]">{model.id}</span>}
+        <Link ref={link} to={`/library/${encodeURIComponent(model.id)}`} className="flex items-start gap-3 rounded-sm py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+          <FamilyIcon family={model.family} className="mt-0.5" />
+          <span className="flex min-w-0 flex-col">
+            <span className="text-body font-medium [overflow-wrap:anywhere]">{model.display_name}</span>
+            {model.display_name !== model.id && <span className="fp-mono text-meta text-muted-foreground [overflow-wrap:anywhere]">{model.id}</span>}
+          </span>
         </Link>
       </TableCell>
       <TableCell className="px-4 py-0 text-muted-foreground">{model.family_name}</TableCell>

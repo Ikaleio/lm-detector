@@ -187,3 +187,15 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
   }
 }
 .fp-mono { font-family: var(--font-mono); }
+
+/* Detect page: the scanner stage beside the form; the stage stays in view while the form column scrolls. */
+.fp-custom-scanner { display: grid; gap: 1.5rem; align-items: start; }
+.fp-custom-stage { height: 17rem; }
+.fp-custom-stage-specimen { width: 6rem; height: 6rem; }
+.fp-custom-drawers { display: grid; gap: 1rem; }
+@media (min-width: 1024px) {
+  .fp-custom-scanner { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  .fp-custom-stage { position: sticky; top: calc(var(--fp-topbar-height) + 1.5rem); height: 30rem; }
+  .fp-custom-stage-specimen { width: 12rem; height: 12rem; }
+}
+@media (min-width: 1280px) { .fp-custom-drawers { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

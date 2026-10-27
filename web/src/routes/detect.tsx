@@ -13,6 +13,7 @@ import { useDetectorDownload } from '@/lib/detector'
 import { Segmented } from '@/components/segmented'
 import { useLoadedBank } from '@/lib/bank-context'
 import { ResultPanel } from '@/components/result-panel'
+import { DetectSummary, ScannerStage } from '@/components/scanner-stage'
 import { SampleCard, SampleStrip, isBusyState, type Mode, type SampleUI } from '@/components/sample-card'
 import { TokenizerCard, TokenizerDetails, TokenizerStripButton } from '@/components/tokenizer-panel'
 import { useI18n } from '@/i18n'
@@ -113,6 +114,17 @@ export default function DetectRoute() {
   const canSample = configComplete(config) && !computing && !connection.checking
   const probeShown = mode === 'api' && tokenizer.session.phase !== 'idle'
   useModelMatchCelebration(result, resultModel, active && mode === 'api' && phase === 'result')
+  const resultRef = useRef<HTMLDivElement>(null)
+  // Once a new result unfolds below the workbench, bring its top into view unless it already is.
+  useEffect(() => {
+    if (phase !== 'result' || !result) return
+    const handle = setTimeout(() => {
+      const top = resultRef.current?.getBoundingClientRect().top
+      if (top === undefined || top < window.innerHeight * 0.6) return
+      window.scrollTo({ top: window.scrollY + top - window.innerHeight * 0.4, behavior: reduced ? 'auto' : 'smooth' })
+    }, reduced ? 0 : 300)
+    return () => clearTimeout(handle)
+  }, [phase === 'result', result])
 
   function replaceSamples(next: SampleUI[]) {
     samplesRef.current = next
@@ -403,12 +415,28 @@ export default function DetectRoute() {
     />
   }
 
+  const waitingDetector = detectorDownload.status === 'loading'
+  const computingStatus = phase === 'computing' && (waitingDetector ? (
+    // Scoring waits for the detector download; say so instead of showing a plain computing line.
+    <div className="flex h-12 flex-col justify-center gap-2">
+      <div className="flex items-center gap-2 text-body text-muted-foreground">
+        <PixelSpinner />
+        <span role="status">{t('detect.waitingDetector')}</span>
+        {detectorBytes && <span className="ms-auto text-meta tabular-nums">{detectorBytes}</span>}
+      </div>
+      <ProgressCells value={detectorFraction} active label={t('app.detector')} className="w-full" />
+    </div>
+  ) : (
+    <div className="flex h-12 items-center gap-2 text-body text-muted-foreground" role="status">
+      <PixelSpinner />
+      {t('detect.computing')}
+      <PixelShader effect="scan" cell={3} className="h-6 min-w-0 flex-1 text-muted-foreground/60" />
+    </div>
+  ))
+
   return (
     <div className={cn('fp-page', 'has-actionbar')}>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-h1">{t('detect.title')}</h1>
-        <Segmented label={t('detect.modeLabel')} value={mode} onChange={changeMode} disabled={locked} options={[{ value: 'manual', label: t('detect.modeManual') }, { value: 'api', label: t('detect.modeApi') }]} />
-      </div>
+      <h1 className="text-h1">{t('detect.title')}</h1>
 
       <aside className="fp-cli-promo relative isolate overflow-hidden" aria-label={t('detect.cliTitle')}>
         <PixelShader effect="rain" className="absolute inset-0 -z-10 text-muted-foreground/30 [mask-image:linear-gradient(90deg,transparent_25%,#000_70%)]" />
@@ -435,62 +463,70 @@ export default function DetectRoute() {
         </span>
       </aside>
 
+      <div className="fp-custom-scanner">
+        <ScannerStage bank={bank} mode={mode} model={phase === 'result' ? resultModel ?? config.model : config.model} samples={samples} challenges={challenges} phase={phase} waitingDetector={waitingDetector} result={result} anomalous={anomalous} />
+
+        <div className="flex min-w-0 flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <Segmented label={t('detect.modeLabel')} value={mode} onChange={changeMode} disabled={locked} options={[{ value: 'manual', label: t('detect.modeManual') }, { value: 'api', label: t('detect.modeApi') }]} />
+            <p className="text-meta text-muted-foreground">{t(mode === 'api' ? 'detect.modeApiHint' : 'detect.modeManualHint')}</p>
+          </div>
+
+          {/* After scoring, the summary takes the form's place; the samples move into the strip below. */}
+          {phase === 'result' && result ? <DetectSummary result={result} mode={mode} model={resultModel} /> : computingStatus || <>
+            <AnimatePresence initial={false}>
+              {mode === 'api' && <motion.div
+                key="api-configuration"
+                initial={{ height: 0, opacity: 0, marginBottom: -16 }}
+                animate={{ height: 'auto', opacity: 1, marginBottom: 0 }}
+                exit={{ height: 0, opacity: 0, marginBottom: -16 }}
+                transition={snappy}
+                className="shrink-0 overflow-hidden"
+              >
+                <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} profileManager={profileManager} disabled={locked} />
+              </motion.div>}
+            </AnimatePresence>
+            <section className="flex flex-col gap-4" aria-label={t('detect.samples')}>
+              <div className="fp-custom-drawers">{challenges.map((_, index) => renderSample(index))}</div>
+              {probeShown && <TokenizerCard session={tokenizer.session} onShowError={showProbeError} onRetry={() => void retryProbe()} canRetry={!locked && config.tokenizerProbe} />}
+            </section>
+          </>}
+        </div>
+      </div>
+
+      {showStrip && <section className="flex flex-col gap-4" aria-label={t('detect.samples')}>
+        <SampleStrip samples={samples} challenges={challenges} expanded={typeof expanded === 'number' ? expanded : null} anomalous={anomalous}
+          onToggle={i => setExpanded(e => (e === i ? null : i))}
+          extra={probeShown ? <TokenizerStripButton session={tokenizer.session} expanded={expanded === 'tokenizer'} onToggle={() => setExpanded(e => (e === 'tokenizer' ? null : 'tokenizer'))} /> : undefined} />
+        <AnimatePresence initial={false}>
+          {expanded !== null && <motion.div
+            key="sample-details"
+            initial={{ height: 0, opacity: 0, marginTop: -16 }}
+            animate={{ height: 'auto', opacity: 1, marginTop: 0 }}
+            exit={{ height: 0, opacity: 0, marginTop: -16 }}
+            transition={reduced ? { duration: 0 } : snappy}
+            className="overflow-hidden"
+          >
+            {expanded === 'tokenizer'
+              ? <TokenizerDetails session={tokenizer.session} onShowError={showProbeError} onCollapse={collapseProbe} onRetry={retryProbe} canRetry={!locked && config.tokenizerProbe} />
+              : renderSample(expanded, true)}
+          </motion.div>}
+        </AnimatePresence>
+      </section>}
+
       <AnimatePresence initial={false}>
-        {mode === 'api' && <motion.div
-          key="api-configuration"
-          initial={{ height: 0, opacity: 0, marginBottom: -24 }}
-          animate={{ height: 'auto', opacity: 1, marginBottom: 0 }}
-          exit={{ height: 0, opacity: 0, marginBottom: -24 }}
-          transition={snappy}
-          className="shrink-0 overflow-hidden"
+        {phase === 'result' && result && <motion.div
+          key="result"
+          ref={resultRef}
+          initial={reduced ? false : { height: 0, opacity: 0 }}
+          animate={{ height: 'auto', opacity: 1 }}
+          exit={reduced ? undefined : { height: 0, opacity: 0 }}
+          transition={smooth}
+          className="overflow-hidden"
         >
-          <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} profileManager={profileManager} disabled={locked} />
+          <ResultPanel result={result} anomalous={anomalous} mode={mode} onReplacePrompts={() => replacePrompts(anomalous)} />
         </motion.div>}
       </AnimatePresence>
-
-      <section className="flex flex-col gap-4" aria-label={t('detect.samples')}>
-        {showStrip && <SampleStrip samples={samples} challenges={challenges} expanded={typeof expanded === 'number' ? expanded : null} anomalous={anomalous}
-          onToggle={i => setExpanded(e => (e === i ? null : i))}
-          extra={probeShown ? <TokenizerStripButton session={tokenizer.session} expanded={expanded === 'tokenizer'} onToggle={() => setExpanded(e => (e === 'tokenizer' ? null : 'tokenizer'))} /> : undefined} />}
-        {showStrip ? (
-          <AnimatePresence initial={false}>
-            {expanded !== null && <motion.div
-              key="sample-details"
-              initial={{ height: 0, opacity: 0, marginTop: -16 }}
-              animate={{ height: 'auto', opacity: 1, marginTop: 0 }}
-              exit={{ height: 0, opacity: 0, marginTop: -16 }}
-              transition={reduced ? { duration: 0 } : snappy}
-              className="overflow-hidden"
-            >
-              {expanded === 'tokenizer'
-                ? <TokenizerDetails session={tokenizer.session} onShowError={showProbeError} onCollapse={collapseProbe} onRetry={retryProbe} canRetry={!locked && config.tokenizerProbe} />
-                : renderSample(expanded, true)}
-            </motion.div>}
-          </AnimatePresence>
-        ) : <>
-          <div className="fp-grid-samples">{challenges.map((_, index) => renderSample(index))}</div>
-          {probeShown && <TokenizerCard session={tokenizer.session} onShowError={showProbeError} onRetry={() => void retryProbe()} canRetry={!locked && config.tokenizerProbe} />}
-        </>}
-      </section>
-
-      {phase === 'computing' && (detectorDownload.status === 'loading' ? (
-        // Scoring waits for the detector download; say so instead of showing a plain computing line.
-        <div className="flex h-12 flex-col justify-center gap-2">
-          <div className="flex items-center gap-2 text-body text-muted-foreground">
-            <PixelSpinner />
-            <span role="status">{t('detect.waitingDetector')}</span>
-            {detectorBytes && <span className="ms-auto text-meta tabular-nums">{detectorBytes}</span>}
-          </div>
-          <ProgressCells value={detectorFraction} active label={t('app.detector')} className="w-full" />
-        </div>
-      ) : (
-        <div className="flex h-12 items-center gap-2 text-body text-muted-foreground" role="status">
-          <PixelSpinner />
-          {t('detect.computing')}
-          <PixelShader effect="scan" cell={3} className="h-6 min-w-0 flex-1 text-muted-foreground/60" />
-        </div>
-      ))}
-      {phase === 'result' && result && <ResultPanel result={result} anomalous={anomalous} mode={mode} onReplacePrompts={() => replacePrompts(anomalous)} />}
 
       <div className="fp-detect-footer">
         <a href={REPOSITORY_URL} target="_blank" rel="noopener noreferrer" className="fp-star-link" onClick={markStarVisited}>

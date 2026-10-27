@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty'
 import { PixelShader, PixelSpinner } from '@/components/pixel-shader'
+import { FamilyIcon } from '@/components/brand-icon'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useLoadedBank } from '@/lib/bank-context'
@@ -34,7 +35,10 @@ export default function LibraryModelRoute() {
         <Link to="/library" className="inline-flex w-fit items-center gap-1 rounded-sm text-meta text-muted-foreground hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"><ChevronLeft className="size-3.5" />{t('library.back')}</Link>
         {model ? (
           <>
-            <h1 className="text-h1 w-fit max-w-full [overflow-wrap:anywhere]">{model.display_name}</h1>
+            <div className="flex min-w-0 items-center gap-3">
+              <FamilyIcon family={model.family} className="size-6" />
+              <h1 className="text-h1 w-fit max-w-full min-w-0 [overflow-wrap:anywhere]">{model.display_name}</h1>
+            </div>
             {model.display_name !== model.id && <p className="fp-mono text-meta text-muted-foreground [overflow-wrap:anywhere]">{model.id}</p>}
             <p className="text-body text-muted-foreground [overflow-wrap:anywhere]">
               {model.family_name} · {t('library.samplesCount', { n: model.response_count })} · {Object.keys(model.sources).join(' / ')}
