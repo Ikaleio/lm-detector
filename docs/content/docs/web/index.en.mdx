@@ -10,9 +10,9 @@ The detection website [lm.ikale.io](https://lm.ikale.io) is a pure frontend app.
 
 The detection page has two columns, stacked on narrow screens:
 
-- **Scanner** (left): shows the detection mode or, in API mode, the model you entered, the current stage (ready, sampling, computing, done) and the state of each of the three samples. Once a result exists, its bottom row shows the top-ranked candidate and its confidence.
-- **Form** (right): the manual / API switch, the API configuration (API mode only) and the three sample cards. A sample card shows the first two lines of its prompt above the reply box. Click or drag "Show prompt" and the reply box slides down to reveal the whole prompt; click again to bring it back.
-- After scoring, the right column becomes a detection summary (mode, model, number of valid replies and the top candidate), and the sample strip and results unfold below. "Start over" returns to the form.
+- **3D scanner** (left): drag to rotate it; the button at the bottom right resets the view. The plaque shows the model name you entered and its family logo, and cycles through common families while the name is empty. The scanner follows your input: each reply you fill in lights a lamp and closes a clamp, and the gantry moves into place once all three are in. In API mode the model, endpoint and API key advance the same steps. If the browser cannot create a WebGL scene, the left column says so and the form and detection still work.
+- **Form** (right): the manual / API switch, the model name, the API configuration (API mode only) and three prompt cards. In manual mode the model name is optional; it only labels the scanner and the summary and is never sent. A prompt card shows the reply box first. Click the card title, or click or drag the handle above the reply, and the reply box slides down to reveal the whole prompt; do it again to bring it back.
+- Once sampling or detection starts, the gantry sweeps for at least 8 seconds. When the result is ready, a ticket with the top candidate prints. The right column then becomes a detection summary (model, number of valid replies and the top candidate; you can review the three inputs and, in API mode, resample each one), and the results unfold below. "Start over" returns to the form. With "reduce motion" turned on in the system, the scan and print waits are skipped.
 
 ## Sampling modes
 

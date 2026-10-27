@@ -1,20 +1,21 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useSearchParams } from 'react-router'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowUpRight, Copy, Loader2, MoreVertical, RefreshCw, Star, Terminal } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Check, Copy, Fingerprint, Loader2, RefreshCw, ShieldCheck, Star, Terminal } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { ApiConfigPanel } from '@/components/api-config-panel'
 import { PixelShader, PixelSpinner } from '@/components/pixel-shader'
 import { downloadBytes, downloadFraction, ProgressCells } from '@/components/detector-progress'
 import { useDetectorDownload } from '@/lib/detector'
-import { Segmented } from '@/components/segmented'
+import { BrandIcon } from '@/components/brand-icon'
+import { ProbeDrawer } from '@/components/scanner/ProbeDrawer'
+import { ModeSwitch, ScanSummary } from '@/components/scanner/ScannerPanels'
+import { PRINT_SECONDS, SCAN_SECONDS, resolveBrand, type MotionState, type Phase as ScenePhase, type SceneResult } from '@/components/scanner/model'
 import { useLoadedBank } from '@/lib/bank-context'
 import { ResultPanel } from '@/components/result-panel'
-import { DetectSummary, ScannerStage } from '@/components/scanner-stage'
-import { SampleCard, SampleStrip, isBusyState, type Mode, type SampleUI } from '@/components/sample-card'
+import { isBusyState, type Mode, type SampleUI } from '@/components/sample-card'
 import { TokenizerCard, TokenizerDetails, TokenizerStripButton } from '@/components/tokenizer-panel'
 import { useI18n } from '@/i18n'
 import * as client from '@/lib/client'
@@ -29,7 +30,6 @@ import { useConnectionRoute } from '@/lib/use-connection-route'
 import { docsHref } from '@/lib/docs'
 import { markStarVisited, REPOSITORY_URL, starPromptAllowed } from '@/lib/star'
 import { toastWithStar } from '@/components/star-prompt'
-import { cn } from '@/lib/utils'
 import type { Analysis, Challenge, CodedError, CollectionProgress } from '@fingerpoint/shared/types'
 import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
 import { anomalousSamples } from '@fingerpoint/shared/sample-distribution'
@@ -40,6 +40,8 @@ type Expanded = number | 'tokenizer' | null
 const idle = (): SampleUI => ({ text: '', state: 'idle' })
 const cliCommand = 'bunx lmfpd@latest --help'
 const MotionRefresh = motion.create(RefreshCw)
+// three.js loads with the detect page only, after the form is usable.
+const ScannerScene = lazy(() => import('@/components/scanner/ScannerScene'))
 
 function safeError(message: string | undefined, key: string): string | undefined {
   if (!message) return undefined
@@ -113,18 +115,66 @@ export default function DetectRoute() {
   const locked = sampling || computing || connection.checking
   const canSample = configComplete(config) && !computing && !connection.checking
   const probeShown = mode === 'api' && tokenizer.session.phase !== 'idle'
-  useModelMatchCelebration(result, resultModel, active && mode === 'api' && phase === 'result')
-  const resultRef = useRef<HTMLDivElement>(null)
-  // Once a new result unfolds below the workbench, bring its top into view unless it already is.
+
+  /** The model typed in manual mode only labels the bench and the summary; it is never sent. */
+  const [declaredModel, setDeclaredModel] = useState('')
+  /** The focused question card lights its lamp on the bench; -1 is the model field. */
+  const [focus, setFocus] = useState<number | null>(null)
+  const stageRef = useRef<HTMLElement>(null)
+  const reportRef = useRef<HTMLDivElement>(null)
+  const sceneModel = mode === 'api' ? config.model : declaredModel
+  const modelBrand = resolveBrand(sceneModel, bank)
+  const sceneFilled = samples.map(sample => Boolean(sample.text.trim())) as [boolean, boolean, boolean]
+  const sceneMotion = useRef<MotionState>({ scan: 0, print: 0, phase: 'editing' })
+  const [scenePhase, setScenePhase] = useState<ScenePhase>('editing')
+  const scanStartedAt = useRef(0)
+  function moveScene(next: ScenePhase) {
+    sceneMotion.current.phase = next
+    setScenePhase(next)
+  }
+  // The bench scans while replies arrive and scoring runs. A result prints only after the full sweep, then the report opens.
   useEffect(() => {
-    if (phase !== 'result' || !result) return
+    if (phase === 'sampling' || phase === 'computing' || (phase === 'result' && scenePhase === 'editing')) {
+      if (scenePhase === 'editing' || scenePhase === 'report') {
+        scanStartedAt.current = performance.now()
+        moveScene('scanning')
+      }
+      return
+    }
+    if (phase === 'edit') {
+      if (scenePhase !== 'editing') moveScene('editing')
+      return
+    }
+    if (scenePhase === 'scanning') {
+      const handle = setTimeout(() => moveScene('printing'), reduced ? 0 : Math.max(0, SCAN_SECONDS * 1000 - (performance.now() - scanStartedAt.current)))
+      return () => clearTimeout(handle)
+    }
+    if (scenePhase === 'printing') {
+      const handle = setTimeout(() => moveScene('report'), reduced ? 0 : PRINT_SECONDS * 1000)
+      return () => clearTimeout(handle)
+    }
+  }, [phase, scenePhase, reduced])
+  // Once the report unfolds, bring it into view below the bench.
+  useEffect(() => {
+    if (scenePhase !== 'report') return
     const handle = setTimeout(() => {
-      const top = resultRef.current?.getBoundingClientRect().top
+      const top = reportRef.current?.getBoundingClientRect().top
       if (top === undefined || top < window.innerHeight * 0.6) return
-      window.scrollTo({ top: window.scrollY + top - window.innerHeight * 0.4, behavior: reduced ? 'auto' : 'smooth' })
-    }, reduced ? 0 : 300)
+      window.scrollTo({ top: Math.max(0, window.scrollY + top - Math.min(window.innerHeight * 0.43, 380)), behavior: reduced ? 'auto' : 'smooth' })
+    }, reduced ? 0 : 700)
     return () => clearTimeout(handle)
-  }, [phase === 'result', result])
+  }, [scenePhase, reduced])
+  const sceneResult = useMemo<SceneResult | null>(() => {
+    if (!result) return null
+    const top = result.results[0]
+    const scorable = result.decision !== 'not_model' && result.decision !== 'unscorable' && top
+    return {
+      best: scorable ? { id: top.family, name: top.display_name } : { id: 'neutral', name: t(result.decision === 'not_model' ? 'detect.notModel' : 'detect.unscorable') },
+      title: t('detect.topLabel'),
+      detail: scorable && top.probability !== null ? percent(top.probability) : '',
+    }
+  }, [result, t, percent])
+  useModelMatchCelebration(result, resultModel, active && mode === 'api' && scenePhase === 'report')
 
   function replaceSamples(next: SampleUI[]) {
     samplesRef.current = next
@@ -368,12 +418,11 @@ export default function DetectRoute() {
   }
 
   const emptyIndexes = samples.map((s, i) => (s.text.trim() ? -1 : i)).filter(i => i >= 0)
-  const showStrip = phase === 'computing' || phase === 'result'
   const anomalous = phase === 'result' && result
     ? anomalousSamples(samples.map((sample, i) => result.diagnostics[i]?.accepted ? sample.text : ''))
     : []
   const showProbeError = (detail: string) => setErrorDetail(safeError(detail, tokenizer.session.config?.apiKey ?? config.apiKey) ?? '')
-  // The probe bills requests, so it can be stopped in every phase; while sampling, the action bar's Stop covers it.
+  // The probe bills requests, so it can be stopped in every phase; while sampling, Stop covers it.
   const stopProbe = tokenizer.busy && <Button variant="outline" className="h-9" onClick={tokenizer.stop}>{t('tokenizer.stop')}</Button>
 
   /** The probe belongs to API mode, so manual mode stops it and closes its details. */
@@ -386,56 +435,28 @@ export default function DetectRoute() {
     setMode(next)
   }
 
-  function collapseSample(index: number) {
-    setExpanded(null)
-    document.getElementById(`sample-trigger-${index}`)?.focus({ preventScroll: true })
-  }
-
   function collapseProbe() {
     setExpanded(null)
     document.getElementById('tokenizer-trigger')?.focus({ preventScroll: true })
   }
 
-  function renderSample(index: number, collapsible = false) {
-    // Keyed by slot, so a new prompt crossfades inside the card that stays.
-    return <SampleCard
-      key={index}
-      index={index}
-      challenge={challenges[index]}
-      sample={samples[index]}
-      mode={mode}
-      canSample={canSample}
-      locked={computing}
-      onChange={text => edit(index, text)}
-      onResample={() => sampleIndexes([index], sampled.current[index] ?? config)}
-      onStop={() => stop([index])}
-      onShowError={() => setErrorDetail(samples[index].errorText ?? null)}
-      onCollapse={collapsible ? () => collapseSample(index) : undefined}
-      anomalous={anomalous.includes(index)}
-    />
+  /** On narrow screens the bench sits above the form, so starting a run brings it into view. */
+  function showStage() {
+    if (window.innerWidth < 1024) stageRef.current?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
   }
 
   const waitingDetector = detectorDownload.status === 'loading'
-  const computingStatus = phase === 'computing' && (waitingDetector ? (
-    // Scoring waits for the detector download; say so instead of showing a plain computing line.
-    <div className="flex h-12 flex-col justify-center gap-2">
-      <div className="flex items-center gap-2 text-body text-muted-foreground">
-        <PixelSpinner />
-        <span role="status">{t('detect.waitingDetector')}</span>
-        {detectorBytes && <span className="ms-auto text-meta tabular-nums">{detectorBytes}</span>}
-      </div>
-      <ProgressCells value={detectorFraction} active label={t('app.detector')} className="w-full" />
-    </div>
-  ) : (
-    <div className="flex h-12 items-center gap-2 text-body text-muted-foreground" role="status">
-      <PixelSpinner />
-      {t('detect.computing')}
-      <PixelShader effect="scan" cell={3} className="h-6 min-w-0 flex-1 text-muted-foreground/60" />
-    </div>
-  ))
+  const sceneBusy = scenePhase === 'scanning' || scenePhase === 'printing'
+  const primary = phase === 'sampling'
+    ? { label: t('detect.sampling'), busy: true }
+    : phase === 'computing' || sceneBusy
+      ? { label: scenePhase === 'printing' ? t('detect.printing') : waitingDetector ? <>{t('detect.waitingDetectorShort')}{detectorFraction !== null && <span className="tabular-nums">{percent(detectorFraction)}</span>}</> : t('detect.computing'), busy: true }
+      : mode === 'api' && emptyIndexes.length > 0
+        ? { label: connection.checking ? t('proxy.checking') : t('detect.startSampling'), busy: connection.checking, disabled: locked, run: () => { showStage(); void sampleIndexes(emptyIndexes) } }
+        : { label: filled === 0 ? t('detect.verifyLocked') : filled < 3 ? t('detect.verifyPartial', { n: filled }) : t('detect.verify'), busy: false, disabled: filled === 0, run: () => { showStage(); void verify() } }
 
   return (
-    <div className={cn('fp-page', 'has-actionbar')}>
+    <div className="fp-page">
       <h1 className="text-h1">{t('detect.title')}</h1>
 
       <aside className="fp-cli-promo relative isolate overflow-hidden" aria-label={t('detect.cliTitle')}>
@@ -463,68 +484,156 @@ export default function DetectRoute() {
         </span>
       </aside>
 
-      <div className="fp-custom-scanner">
-        <ScannerStage bank={bank} mode={mode} model={phase === 'result' ? resultModel ?? config.model : config.model} samples={samples} challenges={challenges} phase={phase} waitingDetector={waitingDetector} result={result} anomalous={anomalous} />
+      <div className="fp-custom-workbench" data-phase={scenePhase}>
+        <section ref={stageRef} className="fp-custom-stage" aria-label={t('detect.stageLabel')}>
+          {active && <Suspense fallback={<div className="fp-custom-scene-loading">{t('detect.scene.loading')}</div>}>
+            <ScannerScene name={sceneModel} inputMode={mode} baseUrl={config.baseUrl} apiKey={config.apiKey} filled={sceneFilled} focus={focus} phase={scenePhase} motion={sceneMotion} result={sceneResult} />
+          </Suspense>}
+        </section>
 
-        <div className="flex min-w-0 flex-col gap-4">
-          <div className="flex flex-col gap-2">
-            <Segmented label={t('detect.modeLabel')} value={mode} onChange={changeMode} disabled={locked} options={[{ value: 'manual', label: t('detect.modeManual') }, { value: 'api', label: t('detect.modeApi') }]} />
-            <p className="text-meta text-muted-foreground">{t(mode === 'api' ? 'detect.modeApiHint' : 'detect.modeManualHint')}</p>
-          </div>
+        <aside className="min-w-0">
+          {scenePhase === 'report' && result ? (
+            <ScanSummary
+              result={result}
+              model={resultModel ?? (mode === 'manual' ? declaredModel : null)}
+              samples={samples}
+              challenges={challenges}
+              anomalous={anomalous}
+              mode={mode}
+              canResample={canSample && !locked}
+              onResample={index => void sampleIndexes([index], sampled.current[index] ?? config)}
+              onRestart={() => { restartAfterResult(); window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' }) }}
+              onSaveImage={saveImage}
+              onExportJson={() => exportJson(result)}
+              extra={stopProbe}
+            />
+          ) : (
+            <div className="fp-custom-form" aria-label={t('detect.samples')}>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.p key={mode} className="fp-custom-mode-note" initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={snappy}>
+                  <ShieldCheck aria-hidden="true" />{t(mode === 'api' ? 'detect.modeApiHint' : 'detect.modeManualHint')}
+                </motion.p>
+              </AnimatePresence>
+              <ModeSwitch mode={mode} onChange={changeMode} disabled={locked || sceneBusy} />
 
-          {/* After scoring, the summary takes the form's place; the samples move into the strip below. */}
-          {phase === 'result' && result ? <DetectSummary result={result} mode={mode} model={resultModel} /> : computingStatus || <>
-            <AnimatePresence initial={false}>
-              {mode === 'api' && <motion.div
-                key="api-configuration"
-                initial={{ height: 0, opacity: 0, marginBottom: -16 }}
-                animate={{ height: 'auto', opacity: 1, marginBottom: 0 }}
-                exit={{ height: 0, opacity: 0, marginBottom: -16 }}
-                transition={snappy}
-                className="shrink-0 overflow-hidden"
-              >
-                <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} profileManager={profileManager} disabled={locked} />
-              </motion.div>}
-            </AnimatePresence>
-            <section className="flex flex-col gap-4" aria-label={t('detect.samples')}>
-              <div className="fp-custom-drawers">{challenges.map((_, index) => renderSample(index))}</div>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="detect-model" className="fp-custom-model-label">{t(mode === 'api' ? 'detect.modelLabel' : 'detect.declaredLabel')}</label>
+                <div className="fp-custom-model-input">
+                  {modelBrand !== 'neutral' && sceneModel.trim() ? <BrandIcon family={modelBrand} className="size-5" /> : <Fingerprint aria-hidden="true" />}
+                  <input
+                    id="detect-model"
+                    value={sceneModel}
+                    readOnly={locked || sceneBusy}
+                    maxLength={160}
+                    autoComplete="off"
+                    spellCheck={false}
+                    placeholder={t(mode === 'api' ? 'detect.modelPlaceholder' : 'detect.declaredPlaceholder')}
+                    onChange={event => mode === 'api' ? update({ model: event.target.value }) : setDeclaredModel(event.target.value)}
+                    onFocus={() => setFocus(-1)}
+                    onBlur={() => setFocus(null)}
+                  />
+                  {sceneModel.trim() && <Check className="size-3.5 shrink-0" aria-hidden="true" />}
+                </div>
+              </div>
+
+              <AnimatePresence initial={false}>
+                {mode === 'api' && <motion.div
+                  key="api-configuration"
+                  initial={reduced ? false : { height: 0, opacity: 0, marginBottom: -18 }}
+                  animate={{ height: 'auto', opacity: 1, marginBottom: 0 }}
+                  exit={reduced ? undefined : { height: 0, opacity: 0, marginBottom: -18 }}
+                  transition={snappy}
+                  className="overflow-hidden"
+                >
+                  <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} profileManager={profileManager} disabled={locked} />
+                </motion.div>}
+              </AnimatePresence>
+
+              <div className="fp-custom-probes">
+                {challenges.map((challenge, index) => (
+                  // Keyed by slot, so a new prompt crossfades inside the card that stays.
+                  <ProbeDrawer
+                    key={index}
+                    index={index}
+                    challenge={challenge}
+                    sample={samples[index]}
+                    mode={mode}
+                    canSample={canSample}
+                    locked={computing || sceneBusy}
+                    focused={focus === index}
+                    anomalous={anomalous.includes(index)}
+                    onChange={text => edit(index, text)}
+                    onFocus={() => setFocus(index)}
+                    onBlur={() => setFocus(null)}
+                    onResample={() => sampleIndexes([index], sampled.current[index] ?? config)}
+                    onStop={() => stop([index])}
+                    onShowError={() => setErrorDetail(samples[index].errorText ?? null)}
+                  />
+                ))}
+              </div>
               {probeShown && <TokenizerCard session={tokenizer.session} onShowError={showProbeError} onRetry={() => void retryProbe()} canRetry={!locked && config.tokenizerProbe} />}
-            </section>
-          </>}
-        </div>
+
+              {phase === 'computing' && (waitingDetector ? (
+                // Scoring waits for the detector download; say so instead of showing a plain computing line.
+                <div className="flex flex-col justify-center gap-2">
+                  <div className="flex items-center gap-2 text-body text-muted-foreground">
+                    <PixelSpinner />
+                    <span role="status">{t('detect.waitingDetector')}</span>
+                    {detectorBytes && <span className="ms-auto text-meta tabular-nums">{detectorBytes}</span>}
+                  </div>
+                  <ProgressCells value={detectorFraction} active label={t('app.detector')} className="w-full" />
+                </div>
+              ) : (
+                <div className="flex h-8 items-center gap-2 text-body text-muted-foreground" role="status">
+                  <PixelSpinner />
+                  {t('detect.computing')}
+                  <PixelShader effect="scan" cell={3} className="h-6 min-w-0 flex-1 text-muted-foreground/60" />
+                </div>
+              ))}
+
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-wrap items-center justify-end gap-2 empty:hidden">
+                  {phase === 'sampling' && <Button variant="outline" className="h-9" onClick={() => stop()}>{t('detect.stop')}</Button>}
+                  {phase === 'edit' && !sceneBusy && (samples.some(s => s.text.trim() || s.draftText?.trim())
+                    ? <Button variant="ghost" className="me-auto h-9" onClick={restart}>{t('detect.restart')}</Button>
+                    : <Button variant="ghost" className="me-auto h-9" disabled={locked} onClick={rotatePrompts}>
+                        <MotionRefresh data-icon="inline-start" aria-hidden="true" initial={false} animate={{ rotate: rotations * 180 }} transition={smooth} />
+                        {t('detect.rotatePrompts')}
+                      </Button>)}
+                  {phase !== 'sampling' && stopProbe}
+                  {phase === 'edit' && !sceneBusy && mode === 'api' && emptyIndexes.length > 0 && filled > 0 && <Button variant="outline" className="h-9" onClick={() => { showStage(); void verify() }}>{t('detect.verifyPartial', { n: filled })}</Button>}
+                </div>
+                <Button className="h-[52px] w-full justify-between px-4" disabled={primary.busy || primary.disabled} onClick={primary.run}>
+                  <span className="flex items-center gap-2">{primary.label}</span>
+                  {primary.busy ? <Loader2 className="animate-spin" aria-hidden="true" /> : <ArrowRight aria-hidden="true" />}
+                </Button>
+              </div>
+            </div>
+          )}
+        </aside>
       </div>
 
-      {showStrip && <section className="flex flex-col gap-4" aria-label={t('detect.samples')}>
-        <SampleStrip samples={samples} challenges={challenges} expanded={typeof expanded === 'number' ? expanded : null} anomalous={anomalous}
-          onToggle={i => setExpanded(e => (e === i ? null : i))}
-          extra={probeShown ? <TokenizerStripButton session={tokenizer.session} expanded={expanded === 'tokenizer'} onToggle={() => setExpanded(e => (e === 'tokenizer' ? null : 'tokenizer'))} /> : undefined} />
-        <AnimatePresence initial={false}>
-          {expanded !== null && <motion.div
-            key="sample-details"
-            initial={{ height: 0, opacity: 0, marginTop: -16 }}
-            animate={{ height: 'auto', opacity: 1, marginTop: 0 }}
-            exit={{ height: 0, opacity: 0, marginTop: -16 }}
-            transition={reduced ? { duration: 0 } : snappy}
-            className="overflow-hidden"
-          >
-            {expanded === 'tokenizer'
-              ? <TokenizerDetails session={tokenizer.session} onShowError={showProbeError} onCollapse={collapseProbe} onRetry={retryProbe} canRetry={!locked && config.tokenizerProbe} />
-              : renderSample(expanded, true)}
-          </motion.div>}
-        </AnimatePresence>
-      </section>}
-
       <AnimatePresence initial={false}>
-        {phase === 'result' && result && <motion.div
-          key="result"
-          ref={resultRef}
-          initial={reduced ? false : { height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
-          exit={reduced ? undefined : { height: 0, opacity: 0 }}
+        {scenePhase === 'report' && result && <motion.div
+          key="report"
+          ref={reportRef}
+          className="flex flex-col gap-6 overflow-hidden"
+          initial={reduced ? false : { height: 0 }}
+          animate={{ height: 'auto' }}
+          exit={reduced ? undefined : { height: 0 }}
           transition={smooth}
-          className="overflow-hidden"
         >
           <ResultPanel result={result} anomalous={anomalous} mode={mode} onReplacePrompts={() => replacePrompts(anomalous)} />
+          {probeShown && <div className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 sm:max-w-xs">
+              <TokenizerStripButton session={tokenizer.session} expanded={expanded === 'tokenizer'} onToggle={() => setExpanded(e => (e === 'tokenizer' ? null : 'tokenizer'))} />
+            </div>
+            <AnimatePresence initial={false}>
+              {expanded === 'tokenizer' && <motion.div key="tokenizer-details" initial={reduced ? false : { height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={reduced ? undefined : { height: 0, opacity: 0 }} transition={snappy} className="overflow-hidden">
+                <TokenizerDetails session={tokenizer.session} onShowError={showProbeError} onCollapse={collapseProbe} onRetry={retryProbe} canRetry={!locked && config.tokenizerProbe} />
+              </motion.div>}
+            </AnimatePresence>
+          </div>}
         </motion.div>}
       </AnimatePresence>
 
@@ -533,52 +642,6 @@ export default function DetectRoute() {
           <Star className="size-4" aria-hidden="true" />
           {t('detect.starRequest')}
         </a>
-        <div className="fp-actionbar">
-          {phase === 'result' ? (
-            <>
-              {stopProbe}
-              {result && <DropdownMenu>
-                <DropdownMenuTrigger render={<Button variant="ghost" size="icon-lg" aria-label={t('detect.more')} />}><MoreVertical /></DropdownMenuTrigger>
-                <DropdownMenuContent align="end"><DropdownMenuGroup><DropdownMenuItem onClick={() => exportJson(result)}>{t('detect.exportJson')}</DropdownMenuItem></DropdownMenuGroup></DropdownMenuContent>
-              </DropdownMenu>}
-              {result && result.results.length > 0 && <Button variant="outline" className="h-9" onClick={saveImage}>{t('detect.saveImage')}</Button>}
-              <Button className="h-9" onClick={restartAfterResult}>{t('detect.restart')}</Button>
-            </>
-          ) : phase === 'sampling' ? (
-            <>
-              <Button variant="outline" className="h-9" onClick={() => stop()}>{t('detect.stop')}</Button>
-              <Button className="h-9" disabled><Loader2 data-icon="inline-start" className="animate-spin" />{t('detect.sampling')}</Button>
-            </>
-          ) : phase === 'computing' ? (
-            <>
-              {stopProbe}
-              <Button className="h-9" disabled>
-                <PixelSpinner data-icon="inline-start" />
-                {detectorDownload.status === 'loading'
-                  ? <>{t('detect.waitingDetectorShort')}{detectorFraction !== null && <span className="tabular-nums">{percent(detectorFraction)}</span>}</>
-                  : t('detect.computing')}
-              </Button>
-            </>
-          ) : (
-            <>
-              {samples.some(s => s.text.trim() || s.draftText?.trim())
-                ? <Button variant="ghost" className="h-9" onClick={restart}>{t('detect.restart')}</Button>
-                : <Button variant="ghost" className="h-9" disabled={locked} onClick={rotatePrompts}>
-                    <MotionRefresh data-icon="inline-start" aria-hidden="true" initial={false} animate={{ rotate: rotations * 180 }} transition={smooth} />
-                    {t('detect.rotatePrompts')}
-                  </Button>}
-              {stopProbe}
-              {mode === 'api' && emptyIndexes.length > 0 ? (
-                <>
-                  {filled > 0 && <Button variant="outline" className="h-9" onClick={() => verify()}>{t('detect.verifyPartial', { n: filled })}</Button>}
-                  <Button className="h-9" disabled={locked} onClick={() => sampleIndexes(emptyIndexes)}>{connection.checking ? <><Loader2 data-icon="inline-start" className="animate-spin" />{t('proxy.checking')}</> : t('detect.startSampling')}</Button>
-                </>
-              ) : (
-                <Button className="h-9" disabled={filled === 0} onClick={() => verify()}>{filled === 0 ? t('detect.verifyLocked') : filled < 3 ? t('detect.verifyPartial', { n: filled }) : t('detect.verify')}</Button>
-              )}
-            </>
-          )}
-        </div>
       </div>
 
       <Dialog open={active && errorDetail !== null} onOpenChange={open => !open && setErrorDetail(null)}>

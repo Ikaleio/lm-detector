@@ -20,7 +20,7 @@ version: 2026-10-27
 - [MUST] 像素指纹是唯一的品牌装饰：品牌标识、加载、等待和空状态使用 `PixelShader` 的像素效果，颜色取 muted-foreground。
 - [MUST] 动效是空间连续、无回弹的弹簧：卡片在原位伸缩，导航下划线和列表项平移到新位置。
 - [SHOULD] 工具页高度由内容决定，不放全屏宣传区或插画。（决策：这是工具页，不是营销页。来源：项目初版设计决策。）
-- [SHOULD] 检测台 `ScannerStage` 是承载输入和状态的数据面板，不是插画：只用 `PixelShader` 效果和文字绘制，不引入三维场景、位图或矢量插画。（决策：参照 Fingerprint Report 的三维检验台时，用像素效果重建而不加入 three.js，保留单一像素装饰和共享 WebGL 上下文。来源：2026-10-27 用户要求按 Fingerprint Report 的检测页改版。）
+- [MUST] 检测页左栏是 Fingerprint Report 的三维检测台 `ScannerScene`（three.js），是本站唯一的三维场景：它随输入和检测阶段运动，不承载数据之外的宣传内容。其他页面不放三维场景或插画。（来源：2026-10-27 用户要求检测页沿用 Fingerprint Report 的页面，保留三维模型动效。）
 - [MUST] 文案语气直接、克制：陈述结果和限制，推断性的结论写成“候选”“最接近”“排名”，不写成“已确认”。
 - [MUST] 状态同时用文字和颜色表达，不只靠颜色。
 
@@ -43,17 +43,24 @@ version: 2026-10-27
 
 用于一次处理多份同类输入并在同一页给出结论的页面。
 
-- [SHOULD] 使用 `fp-page`。首屏自上而下：页头（唯一的 h1）、一行紧凑提示条 `fp-cli-promo`、两栏工作台 `fp-custom-scanner`、操作行 `fp-detect-footer`。（来源：2026-10-27 用户要求按 Fingerprint Report 的检测页改版。）
-- [SHOULD] 两栏工作台 1024px 起为 `minmax(0,5fr) minmax(0,7fr)`、24px 列间距、顶端对齐：左栏是检测台，右栏是表单列。1024px 以下排成一列，检测台在前。
-- [SHOULD] 表单列自上而下：`Segmented` 模式切换与其下一行说明、可选的配置卡片、抽屉卡片网格 `fp-custom-drawers`、可选的分词器卡片，组间隔 16px。
-- [SHOULD] 有结果后，表单列整列换成摘要 `DetectSummary`；摘要条 `SampleStrip` 和结果区排在工作台下方，结果区用 `smooth` 高度展开。结果区顶端低于视口 60% 时，页面平滑滚动到结果区顶端约在视口 40% 处；减少动效时直接跳转。
-- [SHOULD] 摘要 `DetectSummary` 是一张 `fp-card`：标题行为 16px success 色 `CircleCheck` 加 `text-section-title` 标题；其下 `text-body` muted 一句说明；再下是定义列表，每行最小高 40px、上方 1px 分隔线，左侧 muted 标签，右侧 font-medium 右对齐取值，标识符用 `fp-mono`。
-- [SHOULD] 检测台 `ScannerStage` 是一张 `fp-card`，1024px 起高 30rem 并 `sticky` 停在顶栏下方 24px，1024px 以下高 17rem。自上而下：顶行（左侧 `text-meta` 标签加 `text-body` font-medium 取值，API 模式取值为模型标识 `fp-mono`，参考库能对上家族时前置 `FamilyIcon`；右侧阶段状态徽标）、中区（`fingerprint` 像素指纹，宽屏 12rem、窄屏 6rem，其下 24px 高的 `scan` 带只在取样和计算时出现）、底行（三等分样本格，`text-meta` 编号加按状态着色的 `text-body` font-medium 状态文字，格间 1px 分隔线，取样中的格顶边为 `march`）。
-- [SHOULD] 有结果时，检测台底行被一条同高的结果条用 `smooth` 从下方推入覆盖：左侧 `text-meta` 标签和单行省略的 `text-card-title` 名称，右侧百分比和 40px `logo` 像素标识。
+- [SHOULD] 检测页使用 `fp-page`，自上而下：页头（唯一的 h1）、一行紧凑提示条 `fp-cli-promo`、检测工作台 `fp-custom-workbench`、结果区、次要链接行 `fp-detect-footer`。（来源：2026-10-27 用户要求检测页沿用 Fingerprint Report 的页面结构。）
+- [SHOULD] 检测工作台 1280px 起为 `minmax(0,1fr) 520px`、32px 列间距；1024–1279px 为 `minmax(0,1fr) 460px`、24px 列间距；1024px 以下排成一列，检测台在前。两栏顶端对齐。
+- [SHOULD] 检测台 `fp-custom-stage` 不加表面和边框，三维画布透明地放在页面背景上；高度 1280px 起 520px、1024–1279px 460px、640–1023px 400px、640px 以下 320px。右下角放 36px ghost 复位视角按钮。
+- [SHOULD] 表单栏 `fp-custom-form` 自上而下：带 `ShieldCheck` 的 `text-meta` muted 模式说明、模式切换 `ModeSwitch`、模型名称输入、API 模式的配置卡片、三张问题卡 `fp-custom-probes`、API 模式的分词器卡片、计算状态行、操作区。组间隔 18px。
+- [SHOULD] 模式切换 `ModeSwitch` 是整宽 radiogroup：muted 底、`--radius-card` 圆角、4px 内边距；选中项下方是 card 底、1px 边框的滑块，用 `snappy` 在两项之间平移；文字前放 16px lucide 图标（手动 `PenLine`，API `Cable`）。方向键、Home、End 切换。
+- [SHOULD] 模型名称输入 `fp-custom-model-input` 高 56px、card 底：左侧 20px 图标（能识别家族时为 `BrandIcon`，否则 lucide `Fingerprint`），右侧有值时显示 `Check`。焦点样式与控件原语相同。
+- [SHOULD] 问题卡网格 640px 起为三列等宽、12px 间距，640px 以下一列。
+- [SHOULD] 问题卡 `ProbeDrawer` 固定高 296px（640px 以下 278px），提示词层在底，回复层盖在上面。头部 44px：`text-body` font-medium 编号标题、状态徽标、复制图标按钮。回复层以 40px 把手行开始（左侧标题，中间 28×3px 的 border 色握条），其下是无边框的回复输入区、错误说明和 `text-meta` 计数行（行尾为停止或重新取样的 `icon-xs` ghost 按钮与更多菜单）。（来源：2026-10-27 用户要求保留 Fingerprint Report 的问题卡。）
+- [SHOULD] 点击提示词标题、点击或拖动把手、在把手上按上下方向键，回复层用 `snappy` 下滑到只露出把手，提示词完整显示并可滚动；两层标题的不透明度随位移在 0.18 与 1 之间交换。被盖住的层设 `inert`；取样开始时回复层自动收回。
+- [SHOULD] 操作区在表单栏末尾：上行右对齐放停止、分词器停止和部分检测等次要按钮，左端是换一组提示词或重新检测的 ghost 按钮；下行是整宽 52px 的主按钮，文字在左，右侧为 `ArrowRight`，进行中改为旋转的 `Loader2`。
+- [SHOULD] 检测流程按检测台的节奏推进：取样或计算开始时进入扫描，扫描至少 8 秒；有结果后打印票据 1.8 秒，然后表单栏换成摘要 `ScanSummary`，结果区在工作台下方用 `smooth` 高度展开。结果区顶端低于视口 60% 时页面平滑滚动到它；减少动效时跳过等待并直接跳转。
+- [SHOULD] 摘要 `ScanSummary` 是 card 底、1px 边框、`--radius-card` 圆角的面板：48px 圆形描边内放 success 色 `Check`，其下 `text-meta` 眉题、`text-section-title` 标题和 `text-body` muted 说明；再下是定义列表（muted 标签、右对齐取值）、“回看本次输入”折叠项（逐条列出提示词与回复，API 模式每条带重新取样）、更多菜单与保存图片、整宽的重新检测主按钮和 `text-meta` 说明。
+- [SHOULD] 三维检测台的状态联动：手动模式未填写模型或模型能识别家族时，机身升起；每填入一条回复点亮一盏灯，第一、二条回复分别合拢两侧夹具，三条齐全时扫描架退到后方；API 模式依次按模型、接口地址和 API Key 推进同样的状态。聚焦的问题卡让对应的灯更亮。
+- [SHOULD] 三维检测台的铭牌显示模型名称和家族标识；没有名称时在常见家族之间轮换，标识之间用像素点阵过渡。打印的票据显示排名第一的库内候选、它的家族标识和置信度，并注明排名不是身份证明。
+- [MUST] 三维检测台使用 `--scene-*` token（`web/src/tokens.css`，十六进制值）设置灯光和阴影；机身、纸箱和票据的材质颜色是模型的一部分，不随主题变化。减少动效时停止自动旋转，扫描与打印不等待。
 - [SHOULD] 提示条只占一行高度：命令片段用 `fp-cli-command`，其中的可执行名和参数为 primary 600 字重；点击命令复制全文并用 toast 反馈；行末 `fp-cli-links` 依次放 CLI 用法和 SDK 文档两个 primary 文字链接，间隔 12px。
-- [SHOULD] 抽屉卡片网格 `fp-custom-drawers` 1280px 起为三列等宽，1280px 以下为一列。
-- [SHOULD] 输入卡片 `SampleCard` 是抽屉：标题行（`text-card-title` 编号标题、状态徽标、更多菜单）与分隔线之下，参考原文层在底，回复层盖在上面。参考原文层顶部是 `text-meta` 标签与复制按钮，下面露出两行原文；回复层以 32px 把手行开始（左侧“回复”，中间 28×3px 的 border 色握条，右侧 primary 的“查看提示词”加 `ChevronDown`），其下为输入区、状态说明和底部 `text-meta` 计数。（来源：2026-10-27 用户要求采用 Fingerprint Report 的提示词抽屉。）
-- [SHOULD] 点击、拖动把手或在把手上按上下方向键，回复层用 `snappy` 下滑到只剩把手，参考原文在腾出的区域内完整显示并可滚动；再次操作收回。卡片高度不变，被盖住的层设 `inert`。取样开始时回复层自动收回。
+- [SHOULD] 卡片网格 1024px 起为三列等宽，1024px 以下为一列。
+- [SHOULD] 输入卡片 `SampleCard` 自上而下：标题行（`text-card-title` 编号标题、状态徽标、更多菜单）、参考原文（默认显示四行，可展开全文）、输入区、底部 `text-meta` 计数。
 - [SHOULD] 输入区 `fp-reply` 固定 12rem 高，保留原始换行，内容超出时在区内滚动，不随内容增高，不可拖拽改变大小；空白等待区保持同一高度。流式追加文本时滚到底部，手动编辑时跟随光标。
 - [SHOULD] 操作行左侧是次要链接 `fp-star-link`，右侧是操作栏 `fp-actionbar`，两端与网格左右边缘对齐，同高 36px。
 - [SHOULD] 768px 以下操作栏固定在视口底部（最小高 64px，避开 safe-area-inset-bottom），页面底部留出同样的空间；次要链接留在内容流末尾。
@@ -173,7 +180,7 @@ version: 2026-10-27
 - [SHOULD] 只为真实的对象或数据集合设置表面；卡片里不再嵌套卡片，详情中的列表不加边框。
 - [MUST] 页面不横向溢出：长文本先换行（标识符用 `overflow-wrap:anywhere`）或在自身区域内滚动，不隐藏整页溢出。
 - [MUST] 全局预留滚动条空间（`scrollbar-gutter: stable`），内容不随滚动条出现而横移。
-- [SHOULD] 断点只用以下四个：640px（容器内边距、顶栏双行）、768px（固定操作栏、候选行两行、列表与表格切换、触控尺寸）、1024px（三列网格、文档侧栏、主从分栏、证据两列）、1280px（文档本页目录、顶栏下载进度的方格与横线切换、抽屉卡片三列）。文档站 Fumadocs 的 `md` 断点设为 1024px。
+- [SHOULD] 断点只用以下四个：640px（容器内边距、顶栏双行）、768px（固定操作栏、候选行两行、列表与表格切换、触控尺寸）、1024px（三列网格、文档侧栏、主从分栏、证据两列）、1280px（文档本页目录、顶栏下载进度的方格与横线切换、检测工作台表单栏宽度）。文档站 Fumadocs 的 `md` 断点设为 1024px。
 
 ### 控件与状态
 
@@ -214,11 +221,11 @@ version: 2026-10-27
 
 | 效果 | 使用位置 | 颜色 |
 |---|---|---|
-| `fingerprint` | 品牌标识，2px 格；预览图品牌标识的静帧；检测台中区，4px 格 | muted-foreground |
+| `fingerprint` | 品牌标识，2px 格；预览图品牌标识的静帧 | muted-foreground |
 | `rain` | 提示条背景（向左渐隐）；尚无内容的输入区；预览图底部像素带的静帧 | muted-foreground/30 |
-| `dither` | 等待开始的区域背景；检测前的检测台中区 | muted-foreground/20 |
-| `march` | 进行中卡片标题下的分隔线；取样中的检测台样本格顶边 | muted-foreground/60 |
-| `scan` | 计算状态行；取样和计算时检测台指纹下方的扫描带 | muted-foreground/60 |
+| `dither` | 等待开始的区域背景 | muted-foreground/20 |
+| `march` | 进行中卡片标题下的分隔线 | muted-foreground/60 |
+| `scan` | 计算状态行 | muted-foreground/60 |
 | `spinner` | 计算中的主按钮、计算状态行、详情载入 | currentColor |
 | `blocks` | 列表与详情的载入骨架 | muted-foreground/25 |
 | `logo` | 结论名称旁的品牌像素标识 | 品牌色；单色部分用 foreground |
@@ -241,8 +248,8 @@ version: 2026-10-27
 | 品牌标识 | `BrandIcon` `FamilyIcon` | `web/src/components/brand-icon.tsx` | `Segmented` 选项；模型条目名称前（`FamilyIcon`，无标识时留空位） | 已实现 |
 | 浮层 | `Dialog` `DropdownMenu` `Tooltip` `Sonner` `toastWithStar`（`fp-star-toast`） | `web/src/components/ui/`、`web/src/components/star-prompt.tsx` | 详情、菜单、提示、toast | 已实现 |
 | 数据反馈 | `Table` `Badge` `Empty` `Skeleton` `Alert`（`default` `warning` `destructive`） `Separator` | `web/src/components/ui/` | 表格、状态、空状态、警告 | 已实现 |
-| 工作台组件 | `SampleCard` `SampleStrip` `StateBadge` `toneClass` `ResultPanel` `ConfidenceBar` `AnimatedPercent` `ApiConfigPanel` `ProxySettings` `ScannerStage` `DetectSummary` | `web/src/components/` | 多卡片工作台 | 已实现 |
-| 检测页布局 | `fp-custom-scanner` `fp-custom-stage` `fp-custom-stage-specimen` `fp-custom-drawers` | `web/src/index.css` | 检测页两栏工作台 | 已实现 |
+| 工作台组件 | `SampleCard` `SampleStrip` `StateBadge` `toneClass` `ResultPanel` `ConfidenceBar` `AnimatedPercent` `ApiConfigPanel` `ProxySettings` | `web/src/components/` | 多卡片工作台 | 已实现 |
+| 三维检测台 | `ScannerScene` `ProbeDrawer` `ModeSwitch` `ScanSummary`；`--scene-*`；`fp-custom-workbench` `fp-custom-stage` `fp-custom-form` `fp-custom-probes` `fp-custom-probe` `fp-custom-summary` | `web/src/components/scanner/`、`web/src/tokens.css`、`web/src/index.css` | 检测页 | 已实现 |
 | 证据详情 | `TokenizerCard` `TokenizerStripButton` `TokenizerDetails` `ModelCheck`；`fp-custom-tokenizer-candidates` | `web/src/components/tokenizer-panel.tsx`、`web/src/components/tokenizer-claim.tsx`、`web/src/index.css` | 两列证据详情 | 已实现 |
 | 动效 | `spring` `useMotionPreset` `listStagger` `listItem` | `web/src/lib/motion.ts` | 所有动画 | 已实现 |
 | 推荐标记 | `RecommendMark`（`fp-recommend`） | `web/src/components/recommend-mark.tsx`、`web/src/index.css` | 推荐选项、推荐设置、推荐取值 | 已实现 |
@@ -317,9 +324,10 @@ version: 2026-10-27
 | 工具页和文档页共用的顶部条 | 顶栏 `fp-topbar` |
 | 顶栏左侧的像素指纹与两行文字 | 品牌标识 `fp-brand` |
 | 一次处理多份同类输入并给出结论的页面类型 | 多卡片工作台 |
-| 工作台里的一份输入及其参考原文 | 输入卡片 `SampleCard`（抽屉） |
-| 工作台左栏显示输入、阶段和样本状态的面板 | 检测台 `ScannerStage` |
-| 有结果后代替表单列的卡片 | 摘要 `DetectSummary` |
+| 工作台里的一份输入及其参考原文 | 输入卡片 `SampleCard` |
+| 检测页一份提示词与回复的抽屉卡片 | 问题卡 `ProbeDrawer` |
+| 检测页左栏随输入运动的三维模型 | 三维检测台 `ScannerScene` |
+| 票据打印后代替表单栏的面板 | 摘要 `ScanSummary` |
 | 结果状态下收起的卡片行 | 摘要条 `SampleStrip` |
 | 页头下方一行的命令与入口 | 提示条 `fp-cli-promo` |
 | 页面末尾的主次操作 | 操作栏 `fp-actionbar` |
