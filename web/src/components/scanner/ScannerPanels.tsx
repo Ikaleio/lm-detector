@@ -89,7 +89,7 @@ export function ApiConnectionFields({ config, update, disabled, profileName, onA
       </div>
       <div className="flex flex-col gap-2">
         <label htmlFor="detect-base-url" className="fp-custom-field-label">{t('api.baseUrl')}</label>
-        <Input id="detect-base-url" data-api-required className="fp-mono h-10" value={config.baseUrl} readOnly={disabled} placeholder={config.format === 'anthropic' ? 'https://api.anthropic.com' : 'https://api.openai.com/v1'} autoComplete="off" spellCheck={false} onChange={event => update({ baseUrl: event.target.value })} onBlur={() => update({ baseUrl: config.baseUrl.trim() })} />
+        <Input id="detect-base-url" data-api-required className="fp-mono h-10" value={config.baseUrl} readOnly={disabled} autoComplete="off" spellCheck={false} onChange={event => update({ baseUrl: event.target.value })} onBlur={() => update({ baseUrl: config.baseUrl.trim() })} />
       </div>
       <div className="flex flex-col gap-2">
         <label htmlFor="detect-api-key" className="fp-custom-field-label flex items-center justify-between gap-2">

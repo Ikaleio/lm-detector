@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion, useMotionValueEvent, useSpring } from 'framer-motion'
 import { Info, TriangleAlert } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { FamilyIcon } from '@/components/brand-icon'
 import { Button } from '@/components/ui/button'
 import { PixelShader } from '@/components/pixel-shader'
 import type { Mode } from '@/components/sample-card'
@@ -113,7 +114,10 @@ export function ResultPanel({ result, anomalous, mode, onReplacePrompts }: { res
             return (
               <motion.li key={r.model} className="fp-result-row text-body" data-unscored={!hasScores || undefined} variants={!reduced && i < VISIBLE ? listItem : undefined}>
                 <span className="text-muted-foreground">{i + 1}</span>
-                <span className="fp-result-name min-w-0 break-words font-medium">{r.display_name}</span>
+                <span className="fp-result-name flex min-w-0 items-center gap-2 font-medium">
+                  <FamilyIcon family={r.family} />
+                  <span className="min-w-0 break-words">{r.display_name}</span>
+                </span>
                 <span className="fp-result-family truncate text-muted-foreground">{r.family_name}</span>
                 {hasScores && <>
                   <ConfidenceBar value={v} />

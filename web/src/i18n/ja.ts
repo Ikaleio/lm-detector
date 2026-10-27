@@ -276,7 +276,6 @@ export const ja: Messages = {
     showKey: 'API Key を表示',
     hideKey: 'API Key を隠す',
     model: 'モデル',
-    modelPlaceholder: '例：gpt-4.1',
     format: 'API プロトコル',
     formatChat: 'Chat Completions',
     formatMessages: 'Messages',

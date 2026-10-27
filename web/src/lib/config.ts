@@ -38,6 +38,9 @@ export interface ApiProfileManager {
 }
 
 const PROFILES_STORAGE_KEY = 'fingerpoint-detect-profiles-v1'
+/** 旧版本把 OpenRouter 写进初始配置并留在本地存储里；未填写模型和密钥的这份配置按未填写处理。 */
+const LEGACY_SEED_BASE_URL = 'https://openrouter.ai/api/v1'
+const LEGACY_SEED_NAME = 'OpenRouter'
 
 export const defaultConfig: WebApiConfig = {
   baseUrl: '',
@@ -91,6 +94,11 @@ function readSnapshot(raw: unknown): ProfileSnapshot | null {
   }
 }
 
+function dropLegacySeed<T extends { baseUrl: string; apiKey: string; model: string; name: string }>(value: T): T {
+  if (value.baseUrl.trim() !== LEGACY_SEED_BASE_URL || value.apiKey.trim() || value.model.trim()) return value
+  return { ...value, baseUrl: '', name: value.name.trim() === LEGACY_SEED_NAME ? '' : value.name }
+}
+
 function isDirty(profile: ApiProfile, saved: ProfileSnapshot): boolean {
   return profile.name.trim() !== saved.name.trim() || configFields.some(field => profile[field] !== saved[field])
 }
@@ -123,7 +131,7 @@ function sanitizeProfile(raw: unknown, fallbackId: string): ApiProfile {
       if (typeof obj[field] === 'boolean') profile[field] = obj[field] as boolean
     }
   }
-  return profile
+  return dropLegacySeed(profile)
 }
 
 function readProfiles(): StoredApiProfiles | null {
@@ -143,7 +151,7 @@ function readProfiles(): StoredApiProfiles | null {
           : {}
         const savedProfiles = Object.fromEntries(sanitizedList.map((profile: ApiProfile) => [
           profile.id,
-          readSnapshot(rawSnapshots[profile.id]) ?? snapshot(profile),
+          dropLegacySeed(readSnapshot(rawSnapshots[profile.id]) ?? snapshot(profile)),
         ]))
         return { activeId, profiles: sanitizedList, savedProfiles }
       }
@@ -178,13 +186,11 @@ export function useApiConfig(onPersistError?: () => void) {
 
   useEffect(() => {
     try {
-      const stored = readProfiles()
-      if (stored) {
-        current.current = stored
-        setState(stored)
-      } else {
-        persist(current.current)
-      }
+      // Reading sanitizes the stored profiles, so writing them back drops superseded fields such as the old
+      // OpenRouter seed instead of migrating them again on every load.
+      current.current = readProfiles() ?? current.current
+      setState(current.current)
+      persist(current.current)
     } catch {
       if (!warned.current) onError.current?.()
       warned.current = true

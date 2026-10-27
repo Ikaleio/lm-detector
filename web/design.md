@@ -47,20 +47,20 @@ version: 2026-10-27
 - [SHOULD] 检测工作台 1280px 起为 `minmax(0,1fr) 520px`、32px 列间距；1024–1279px 为 `minmax(0,1fr) 460px`、24px 列间距；1024px 以下排成一列，检测台在前。两栏垂直居中对齐。（来源：2026-10-27 用户要求恢复原宽度，模型与右栏居中对齐。）
 - [SHOULD] 检测台 `fp-custom-stage` 不加表面和边框，三维画布透明地放在页面背景上；高度 1280px 起 520px、1024–1279px 460px、640–1023px 400px、640px 以下 320px。右下角放 36px ghost 复位视角按钮。
 - [SHOULD] 表单栏 `fp-custom-form` 组间隔 14px，自上而下：带 `ShieldCheck` 的 `text-meta` muted 模式说明、模式切换 `ModeSwitch`、按模式不同的输入区、API 模式的分词器卡片、计算状态行、操作行。两种模式的表单栏同高：API 模式的输入区 `fp-custom-api-fields` 最小高度等于问题卡高度（296px，640px 以下取消），切换模式时检测台和表单都不移动。（来源：2026-10-27 用户指出两种模式高度不同，切换时滑块沿弧线跳动。）
-- [SHOULD] 两种模式都先放模型名称输入：手动模式为可选的标注名称，API 模式就是当前配置的模型。手动模式其下是三张问题卡 `fp-custom-probes`；API 模式其下是 `ApiConnectionFields`：接口协议 `Segmented`、接口地址和 API Key，均带可见标签；接口地址的占位符随协议变化；底部是 outline“高级设置”按钮和 `text-meta` muted 的当前配置名，贴住输入区底边。API 模式不显示问题卡和样本列表。（来源：2026-10-27 用户要求 API 模式像 Fingerprint Report 一样在表单中直接填写必填项，不显示样本组件。）
+- [SHOULD] 两种模式都先放模型名称输入：手动模式为可选的标注名称，API 模式就是当前配置的模型。手动模式其下是三张问题卡 `fp-custom-probes`；API 模式其下是 `ApiConnectionFields`：接口协议 `Segmented`、接口地址和 API Key，均带可见标签；模型与接口地址输入不放示例值占位符，未填写时保持空白；底部是 outline“高级设置”按钮和 `text-meta` muted 的当前配置名，贴住输入区底边。API 模式不显示问题卡和样本列表。（来源：2026-10-27 用户要求 API 模式像 Fingerprint Report 一样在表单中直接填写必填项，不显示样本组件；并要求不预填默认模型和接口地址。）
 - [SHOULD] “高级设置”在 `Dialog` 中打开完整的 `ApiConfigPanel`（`sm:max-w-3xl`，超出视口时在对话框内滚动），与表单编辑同一份配置，表单中已填的内容直接出现在对话框里。缺少必填项时聚焦表单中的对应输入框；表单不在屏幕上或代理地址缺失时打开对话框并聚焦对应字段。
 - [SHOULD] 字段标签 `fp-custom-field-label` 为 14px 500 字重 muted 文字，标签与输入框间隔 8px；API Key 标签右侧放 `text-meta` 说明，输入框右端放 `icon-sm` ghost 显示/隐藏按钮。地址、模型和密钥输入使用 `fp-mono`。
 - [SHOULD] 模式切换 `ModeSwitch` 是整宽 radiogroup：muted 底、`--radius-card` 圆角、4px 内边距；选中项下方是 card 底、1px 边框的滑块，在切换内部测量选中项位置，用 `snappy` 只做水平平移，不用共享布局动画；文字前放 16px lucide 图标（手动 `PenLine`，API `Cable`）。方向键、Home、End 切换。
 - [SHOULD] 模型名称输入 `fp-custom-model-input` 高 48px、card 底，上方是可见的字段标签：左侧 20px 图标（能识别家族时为 `BrandIcon`，否则 lucide `Fingerprint`），右侧有值时显示 `Check`。焦点样式与控件原语相同。
 - [SHOULD] 问题卡网格 640px 起为三列等宽、12px 间距，640px 以下一列。
-- [SHOULD] 问题卡 `ProbeDrawer` 固定高 296px（640px 以下 278px），提示词层在底，回复层盖在上面。头部 44px：`text-body` font-medium 编号标题、状态徽标、复制图标按钮，三者不超出卡片宽度；空间不足时标题先以省略号收窄（至少 28px），再收窄状态徽标 `fp-custom-probe-badge`，完整状态写在徽标的 `title` 里。（来源：2026-10-27 用户指出“数字不足”徽标溢出并压住复制按钮。）回复层以 40px 把手行开始（左侧标题，中间 28×3px 的 border 色握条），其下是无边框的回复输入区、错误说明和 `text-meta` 计数行（行尾为停止或重新取样的 `icon-xs` ghost 按钮与更多菜单）。（来源：2026-10-27 用户要求保留 Fingerprint Report 的问题卡。）
+- [SHOULD] 问题卡 `ProbeDrawer` 固定高 296px（640px 以下 278px），提示词层在底，回复层盖在上面。头部 44px：`text-body` font-medium 编号标题和复制图标按钮，两者不超出卡片宽度；空间不足时标题以省略号收窄（至少 28px）。（来源：2026-10-27 用户指出“数字不足”徽标溢出并压住复制按钮。）回复层以 40px 把手行开始（左侧标题，中间 28×3px 的 border 色握条），其下是无边框的回复输入区、错误说明和 `text-meta` 计数行：左侧为“x 个数字”与耗时，紧接其右是状态徽标 `fp-custom-probe-badge`，行尾为停止或重新取样的 `icon-xs` ghost 按钮和一枚清空回复的 `Trash2` 图标按钮。（来源：2026-10-27 用户要求保留 Fingerprint Report 的问题卡，并要求状态徽标移到计数右侧、清空回复不再收进更多菜单。）
 - [SHOULD] 点击提示词标题、点击或拖动把手、在把手上按上下方向键，回复层用 `snappy` 下滑到只露出把手，提示词完整显示并可滚动；两层标题的不透明度随位移在 0.18 与 1 之间交换。被盖住的层设 `inert`；取样开始时回复层自动收回。
 - [SHOULD] 操作行在表单栏末尾，一行右对齐：左端是换一组提示词或重新检测的 ghost 按钮，其后依次为停止、分词器停止和部分检测等次要按钮，最右是 44px 高、至少 12rem 宽的主按钮（文字在左，右侧为 `ArrowRight`，进行中改为旋转的 `Loader2`）。640px 以下主按钮占满剩余宽度。
 - [SHOULD] 检测流程按检测台的节奏推进：取样或计算开始时进入扫描，扫描至少 8 秒；有结果后打印票据 1.8 秒，然后表单栏换成摘要 `ScanSummary`，结果区在工作台下方用 `smooth` 高度展开。结果区顶端低于视口 60% 时页面平滑滚动到它；减少动效时跳过等待并直接跳转。
 - [SHOULD] 摘要 `ScanSummary` 是 card 底、1px 边框、`--radius-card` 圆角的面板：48px 圆形描边内放 success 色 `Check`，其下 `text-meta` 眉题、`text-section-title` 标题和 `text-body` muted 说明；再下是定义列表（muted 标签、右对齐取值）、“回看本次输入”折叠项（逐条列出提示词与回复，API 模式每条带重新取样）、更多菜单与保存图片、整宽的重新检测主按钮和 `text-meta` 说明。
-- [SHOULD] 三维检测台的状态联动：没有模型名称时只显示纸箱，只填名称也一样；名称加至少一条回复时机身组装升起，两条回复时两侧夹具同时合拢，三条齐全时扫描架退到后方。每填入一条回复点亮一盏灯。API 模式在名称和接口地址都填写后组装机身，再填 API Key 时合拢夹具并让扫描架就位。开始扫描后机身总是完整组装，与是否填写名称无关。（来源：2026-10-27 用户要求按名称加回复数逐步组装。）聚焦的问题卡让对应的灯更亮。
+- [SHOULD] 三维检测台的状态联动：API 模式在名称和接口地址都填写后组装机身，再填 API Key 时合拢夹具并让扫描架就位；名称在 API 模式是请求的一部分。手动模式的名称只是可选的标注，不参与组装：任意一条回复填写后机身组装升起，两条回复时两侧夹具同时合拢，三条齐全时扫描架退到后方；一条回复都没有时只显示纸箱。每填入一条回复点亮一盏灯。开始扫描后机身总是完整组装，与是否填写名称无关。（来源：2026-10-27 用户要求按名称加回复数逐步组装；用户随后指出手动模式的名称已改为可选，回复一填写就应组装。）聚焦的问题卡让对应的灯更亮。
 - [SHOULD] 三维检测台的铭牌显示模型名称和家族标识；没有名称时在常见家族之间轮换，标识之间用像素点阵过渡。打印的票据显示排名第一的库内候选、它的家族标识和置信度，并注明排名不是身份证明。
-- [MUST] 三维检测台使用 `--scene-*` token（`web/src/tokens.css`，十六进制值）设置灯光和阴影；机身、纸箱和票据的材质颜色是模型的一部分，不随主题变化：机身与扫描架为石墨灰（主色 `#3a3e44`），导轨、夹具和滚轴为拉丝金属灰，指示灯与扫描光为冷白，铭牌和票据为中性灰墨；只有纸箱保留牛皮纸色，前面板的小标签用 primary 蓝。（来源：2026-10-27 用户认为沿用的棕绿配色不协调，要求重新调色。）减少动效时停止自动旋转，扫描与打印不等待。
+- [MUST] 三维检测台使用 `--scene-*` token（`web/src/tokens.css`，十六进制值）设置灯光和阴影；机身、纸箱和票据的材质颜色是模型的一部分，不随主题变化：机身与扫描架为石墨灰（主色 `#3a3e44`），导轨、夹具和滚轴为拉丝金属灰，指示灯与扫描光为冷白，铭牌和票据为中性灰墨；只有纸箱保留牛皮纸色，前面板的小标签用 primary 蓝。（来源：2026-10-27 用户认为沿用的棕绿配色不协调，要求重新调色。）编辑状态下的自动旋转在左右两个方位角边界之间往返：转到一侧边界后反向转回，不在边界停住；减少动效时停止自动旋转，扫描与打印不等待。（来源：2026-10-27 用户指出模型转到最右就停住，要求到边后往回。）
 - [SHOULD] 提示条只占一行高度：命令片段用 `fp-cli-command`，其中的可执行名和参数为 primary 600 字重；点击命令复制全文并用 toast 反馈；行末 `fp-cli-links` 依次放 CLI 用法和 SDK 文档两个 primary 文字链接，间隔 12px。
 - [SHOULD] 卡片网格 1024px 起为三列等宽，1024px 以下为一列。
 - [SHOULD] 输入卡片 `SampleCard` 自上而下：标题行（`text-card-title` 编号标题、状态徽标、更多菜单）、参考原文（默认显示四行，可展开全文）、输入区、底部 `text-meta` 计数。
@@ -72,7 +72,7 @@ version: 2026-10-27
 - [MUST] 计算要等检测器下载时明确说明：计算状态行改为两行，上行依次为 `PixelSpinner`、`text-body` muted 的“正在等待检测器下载完成”、行尾 `text-meta` 已下载量；下行是整行 `ProgressCells`。主按钮文字改为“等待检测器”，后接 `percent` 格式的进度。下载完成后恢复为普通计算状态行。（来源：2026-10-11 用户要求检测器阻塞计算时明确显示，检测按钮也要显示。）
 - [SHOULD] 结果区 `ResultPanel` 自上而下：`text-section-title` 区块标题、摘要卡片、整行警告、`text-body` muted 说明、候选列表、限制说明。区块间隔 24px。
 - [SHOULD] 摘要卡片分左右两栏。左栏依次为 `text-meta` 标签、`text-display` 名称（`overflow-wrap:anywhere`）、`text-body` muted 次级信息，名称旁放 `logo` 像素标识。右栏右对齐，依次为 `text-display-number` 主百分比、`text-meta` 标签和来源行，整组相对卡片垂直居中。窄屏保留两栏，名称和来源可以换行。
-- [SHOULD] 候选列表放在一张 `fp-card` 里，每行用 `fp-result-row`：24px 序号列、名称列（font-medium）、120px 次要标签列（muted，单行省略）、`ConfidenceBar`、64px 右对齐百分比列，最小行高 48px，行间 1px 分隔线。默认显示前 8 行，末行用 ghost 小按钮展开全部。
+- [SHOULD] 候选列表放在一张 `fp-card` 里，每行用 `fp-result-row`：24px 序号列、名称列（名称前放 16px 家族标识 `FamilyIcon`，与名称间隔 8px，font-medium）、120px 次要标签列（muted，单行省略）、`ConfidenceBar`、64px 右对齐百分比列，最小行高 48px，行间 1px 分隔线。默认显示前 8 行，末行用 ghost 小按钮展开全部。（来源：2026-10-27 用户要求在候选名称前显示家族标识。）
 - [SHOULD] 768px 以下候选行改为序号、名称、百分比三列，置信度条移到第二行，隐藏次要标签列。
 - [MUST] 置信度不可用时显示破折号或“不可用”，不显示 0%，也不画空置信度条（该行加 `data-unscored`）。
 - [SHOULD] 结果区操作：主操作在右，次要操作在左，低频操作收进更多菜单。
@@ -81,6 +81,7 @@ version: 2026-10-27
 - [SHOULD] 表单中的开关组之后用分隔线开始下一组。`Segmented` 下方用一行 `text-meta` muted 文字，只说明当前选中的选项。
 - [SHOULD] `Segmented` 选项可以在文字前放 16px 图标（`icon`），在文字后放推荐标记 `RecommendMark`（`recommended`，传字符串时作为标记文字）。（来源：2026-10-06 用户要求为推荐选项加标记。）
 - [SHOULD] 选项图标是协议或厂商的标识时，用 `BrandIcon` 画平面 SVG：取 `web/src/lib/brand-logos.ts` 的同一份标识，有彩色版用彩色版，单色部分用 currentColor；不做像素化。（来源：2026-10-06 用户要求用标识区分接口协议。）
+- [SHOULD] Kimi 用官方 Logomark（`KIMI-logos/Logomark`）：圆角色块取 currentColor，K 从色块上挖空（露出宿主表面），右上角为品牌蓝 `#1783FF`；这样浅色、深色、铭牌画布和像素标识四处都用同一份标识，不为它单独分支。（来源：2026-10-27 用户要求换用官方 logomark。）
 - [SHOULD] 提交时有缺项：展开缺项所在的区域，聚焦第一个缺失字段，字段下方用 `FieldError` 说明。
 - [SHOULD] 推荐标记 `RecommendMark`（`fp-recommend`）高 18px、`--radius-badge` 圆角、primary 文字和 10% primary 底色、`text-meta` 500 字重，放在推荐选项的文字后、推荐设置的标题后或推荐取值下方，文字计入该项的可访问名称或取值文本；一组选项最多一个推荐标记。标记文字默认是“推荐”，需要给出理由时换成一句短句。（来源：2026-10-06 用户要求为推荐选项和推荐设置加标记，并为 API 模式写明推荐理由。）
 - [SHOULD] 带检查动作的输入框：右侧放 outline 按钮；检查结果写在输入框下方 `role="status"` 的 `text-meta` 文字中，成功用 success 色。
@@ -106,7 +107,7 @@ version: 2026-10-27
 - [SHOULD] 768px 起用 `Table`，放在 `fp-card` 里：表头行高 44px，数据行高 48px，单元格左右内边距 16px，数值列右对齐，次要列用 muted 文字。
 - [SHOULD] 768px 以下改为 `fp-card` 里的两层信息列表：每项是一个整块链接，最小高 56px，左右内边距 16px、上下 8px，项之间 1px 分隔线，悬停为 muted 底色，焦点为内收 2px ring 轮廓。第一层是 `text-body` font-medium 名称，第二层是 `text-meta` muted 的次要信息，两层间隔 4px；长名称和标识符换行，不压缩字号。
 - [SHOULD] 名称是真实链接；桌面上整行普通点击进入详情，键盘聚焦行时整行显示 muted 底色。
-- [SHOULD] 模型条目的名称前放 16px 家族标识 `FamilyIcon`，与名称首行顶端对齐、间隔 12px；表格和两层列表相同。详情页标题前放 24px 的同一标识，与标题垂直居中。（来源：2026-10-27 用户要求样本库模型名旁显示标识。）
+- [SHOULD] 模型条目的名称前放 16px 家族标识 `FamilyIcon`，与名称首行顶端对齐、间隔 12px；表格和两层列表相同。详情页标题前放 24px 的同一标识，与标题垂直居中。结果区的候选行同样在名称前放 16px 标识，间隔 8px。（来源：2026-10-27 用户要求样本库模型名旁显示标识，随后要求候选列表也显示。）
 - [SHOULD] `web/src/lib/brand-logos.ts` 没有该家族的标识时，`FamilyIcon` 留出同样大小的空位，不画替代图形，名称仍然对齐。
 - [SHOULD] 载入时显示 `blocks` 骨架；载入失败显示 `static`（destructive/35）和重试按钮；没有数据和搜索无结果分别用 `Empty` 显示。
 
@@ -189,9 +190,10 @@ version: 2026-10-27
 ### 控件与状态
 
 - [SHOULD] 按钮 `Button`：每个操作区只有一个 `default`（primary）主按钮，放在最右；次要操作用 `outline`；工具栏和行内低优先级操作用 `ghost`；危险操作用 `destructive`。操作栏用默认尺寸（36px），行内用 `sm`，图标按钮用 `icon-*`。
-- [SHOULD] 状态徽标：`Badge` 高 22px、`--radius-badge`、`text-meta` font-medium，色调取 `toneClass` 的 muted、success、warning、destructive；进行中时在文字前加旋转的 lucide `Loader2`。
+- [SHOULD] 状态徽标：`Badge` 高 22px、`--radius-badge`、`text-meta` font-medium，色调取 `toneClass` 的 muted、success、warning、destructive；进行中时在文字前加旋转的 lucide `Loader2`。徽标内的文字和图标在 22px 底色内水平和垂直居中，不加上下内边距，行高为 1。（来源：2026-10-27 用户指出状态文字相对底色没有居中。）
 - [MUST] 进行中的徽标和按钮用 lucide `Loader2` 旋转图标，不用像素 spinner。
-- [SHOULD] 等待与载入：计算状态行用 `scan` 加 `PixelSpinner`；列表载入用 `blocks`；尚无内容的输入区用 `rain`；等待开始的区域背景用 `dither`。
+- [SHOULD] 等待与载入：计算状态行用 `scan` 加 `PixelSpinner`；列表载入用 `blocks`；尚无内容的输入区用 `rain`；等待开始的区域背景用 `dither`。计算状态行从开始计算一直显示到票据打印结束（检测台扫描和打印期间不撤下），打印阶段文字改为“正在打印票据”，排名先返回时也不消失。（来源：2026-10-27 用户指出像素闪烁条闪一下就不见了。）
+- [SHOULD] 运行中的计算状态行 `fp-custom-status` 接替主按钮的位置：最小高 44px（与主按钮同高，切换时表单栏高度不变），`--radius` 圆角，底色为 10% `--primary` 混入 `--card`，1px 边框为 28% `--primary` 混入 `--border`；图标、文字和像素条用 `--primary`（像素条 50% 透明度）。状态行出现时主按钮淡出并下移 8px 退场，状态行以高度与透明度 `snappy` 展开；缺少检测器时改为两行，上行文字与已下载量、下行为整行 `ProgressCells`。这是对“蓝色只用于主要操作”的放宽，仅限这一个进行中的状态行。（决策：2026-10-27 用户要求状态行带点蓝、蓝色验证按钮自然消失。）
 - [SHOULD] 已知总量的下载进度用 `ProgressCells`：6×6px 方格，间隔 2px，格数随宿主宽度变化，两端与宿主对齐。已下载的格用 muted-foreground，未下载的格用 22% muted-foreground，下载中的下一格按 1 秒两步闪烁到 foreground。不用 primary。它是承载数据的进度条，带 `role="progressbar"`，不属于像素装饰。（决策：方格与品牌指纹的像素颗粒一致，灰阶保持中性工具感。来源：2026-10-11 实现检测器下载进度时确定。）
 - [SHOULD] 空状态、未找到、无法评分：`Empty` 加 `static` 像素效果；载入失败时改用 destructive/35，并给出重试按钮。
 - [SHOULD] 错误：字段错误用 `FieldError`；区块级错误用 `Alert variant="destructive"`；需要注意的整行提示用 `Alert variant="warning"`；原始错误详情放在用户主动打开的 `Dialog` 里。
@@ -219,7 +221,7 @@ version: 2026-10-27
 
 - [MUST] 只用 `PixelShader` 和 `PixelSpinner`；全站共享 `web/src/lib/pixel-renderer.ts` 的一个 WebGL 上下文，不为单个装饰新建上下文。
 - [SHOULD] 宿主元素决定尺寸，画布按 `cell` 整格放大，`image-rendering: pixelated`。
-- [MUST] 颜色取宿主的 currentColor（含透明度），按下表使用 muted-foreground 及其透明度，不用蓝色或黄色粒子。例外：主按钮内的 spinner 跟随按钮文字色；载入失败用 destructive/35。
+- [MUST] 颜色取宿主的 currentColor（含透明度），按下表使用 muted-foreground 及其透明度，不用蓝色或黄色粒子。例外：主按钮内的 spinner 跟随按钮文字色；载入失败用 destructive/35；运行中的计算状态行用 primary（见“控件与状态”）。
 - [MUST] 装饰设 `aria-hidden`，不接收指针事件，不承载数据含义；背景装饰放在 `isolate` 容器的 `-z-10` 层，不遮挡文字。
 - [MUST] 只绘制进入视口的装饰，最高 24fps，时间按 0.5 倍速推进（`PLAYBACK_RATE`）；不支持 WebGL 时保持透明。
 
@@ -229,7 +231,7 @@ version: 2026-10-27
 | `rain` | 提示条背景（向左渐隐）；尚无内容的输入区；预览图底部像素带的静帧 | muted-foreground/30 |
 | `dither` | 等待开始的区域背景 | muted-foreground/20 |
 | `march` | 进行中卡片标题下的分隔线 | muted-foreground/60 |
-| `scan` | 计算状态行 | muted-foreground/60 |
+| `scan` | 计算状态行（运行中状态行走 primary） | muted-foreground/60；运行中状态行为 primary/50 |
 | `spinner` | 计算中的主按钮、计算状态行、详情载入 | currentColor |
 | `blocks` | 列表与详情的载入骨架 | muted-foreground/25 |
 | `logo` | 结论名称旁的品牌像素标识 | 品牌色；单色部分用 foreground |

@@ -453,6 +453,8 @@ export default function DetectRoute() {
 
   const waitingDetector = detectorDownload.status === 'loading'
   const sceneBusy = scenePhase === 'scanning' || scenePhase === 'printing'
+  /** The run is under way: the status row takes the primary button's place instead of showing both. */
+  const statusRow = phase === 'computing' || (phase === 'result' && sceneBusy)
   const primary = phase === 'sampling'
     ? { label: t('detect.sampling'), busy: true }
     : phase === 'computing' || sceneBusy
@@ -536,7 +538,7 @@ export default function DetectRoute() {
                     maxLength={160}
                     autoComplete="off"
                     spellCheck={false}
-                    placeholder={t(mode === 'api' ? 'api.modelPlaceholder' : 'detect.declaredPlaceholder')}
+                    placeholder={mode === 'manual' ? t('detect.declaredPlaceholder') : undefined}
                     onChange={event => mode === 'api' ? update({ model: event.target.value }) : setDeclaredModel(event.target.value)}
                     onFocus={() => setFocus(-1)}
                     onBlur={() => { setFocus(null); if (mode === 'api') update({ model: config.model.trim() }) }}
@@ -573,25 +575,40 @@ export default function DetectRoute() {
               )}
               {probeShown && <TokenizerCard session={tokenizer.session} onShowError={showProbeError} onRetry={() => void retryProbe()} canRetry={!locked && config.tokenizerProbe} />}
 
-              {phase === 'computing' && (waitingDetector ? (
-                // Scoring waits for the detector download; say so instead of showing a plain computing line.
-                <div className="flex flex-col justify-center gap-2">
-                  <div className="flex items-center gap-2 text-body text-muted-foreground">
-                    <PixelSpinner />
-                    <span role="status">{t('detect.waitingDetector')}</span>
-                    {detectorBytes && <span className="ms-auto text-meta tabular-nums">{detectorBytes}</span>}
-                  </div>
-                  <ProgressCells value={detectorFraction} active label={t('app.detector')} className="w-full" />
-                </div>
-              ) : (
-                <div className="flex h-8 items-center gap-2 text-body text-muted-foreground" role="status">
-                  <PixelSpinner />
-                  {t('detect.computing')}
-                  <PixelShader effect="scan" cell={3} className="h-6 min-w-0 flex-1 text-muted-foreground/60" />
-                </div>
-              ))}
+              {/* The ranking settles long before the bench stops sweeping and printing, so the row spans that whole
+                  sequence; unmounting it on the first result made the scan strip flash once and vanish. */}
+              <AnimatePresence initial={false}>
+                {statusRow && <motion.div
+                  key="status"
+                  className="overflow-hidden"
+                  initial={reduced ? false : { height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={reduced ? undefined : { height: 0, opacity: 0 }}
+                  transition={snappy}
+                >
+                  {waitingDetector ? (
+                    // Scoring waits for the detector download; say so instead of showing a plain computing line.
+                    <div className="fp-custom-status" role="status">
+                      <div className="fp-custom-status-row">
+                        <PixelSpinner />
+                        <span>{t('detect.waitingDetector')}</span>
+                        {detectorBytes && <span className="ms-auto text-meta tabular-nums">{detectorBytes}</span>}
+                      </div>
+                      <ProgressCells value={detectorFraction} active label={t('app.detector')} className="w-full" />
+                    </div>
+                  ) : (
+                    <div className="fp-custom-status" role="status">
+                      <div className="fp-custom-status-row">
+                        <PixelSpinner />
+                        {scenePhase === 'printing' ? t('detect.printing') : t('detect.computing')}
+                        <PixelShader effect="scan" cell={3} className="h-6 min-w-0 flex-1 text-primary/50" />
+                      </div>
+                    </div>
+                  )}
+                </motion.div>}
+              </AnimatePresence>
 
-              <div className="flex flex-wrap items-center justify-end gap-2">
+              {(!statusRow || stopProbe) && <div className="flex flex-wrap items-center justify-end gap-2">
                 {phase === 'edit' && !sceneBusy && (samples.some(s => s.text.trim() || s.draftText?.trim())
                   ? <Button variant="ghost" className="me-auto h-9" onClick={restart}>{t('detect.restart')}</Button>
                   : <Button variant="ghost" className="me-auto h-9" disabled={locked} onClick={rotatePrompts}>
@@ -601,11 +618,15 @@ export default function DetectRoute() {
                 {phase === 'sampling' && <Button variant="outline" className="h-9" onClick={() => stop()}>{t('detect.stop')}</Button>}
                 {phase !== 'sampling' && stopProbe}
                 {phase === 'edit' && !sceneBusy && mode === 'api' && emptyIndexes.length > 0 && filled > 0 && <Button variant="outline" className="h-9" onClick={() => { showStage(); void verify() }}>{t('detect.verifyPartial', { n: filled })}</Button>}
-                <Button className="fp-custom-primary h-11 justify-between gap-6 px-4" disabled={primary.busy || primary.disabled} onClick={primary.run}>
-                  <span className="flex items-center gap-2">{primary.label}</span>
-                  {primary.busy ? <Loader2 className="animate-spin" aria-hidden="true" /> : <ArrowRight aria-hidden="true" />}
-                </Button>
-              </div>
+                <AnimatePresence initial={false}>
+                  {!statusRow && <motion.div key="primary" initial={reduced ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={reduced ? undefined : { opacity: 0, y: 8 }} transition={snappy}>
+                    <Button className="fp-custom-primary h-11 justify-between gap-6 px-4" disabled={primary.busy || primary.disabled} onClick={primary.run}>
+                      <span className="flex items-center gap-2">{primary.label}</span>
+                      {primary.busy ? <Loader2 className="animate-spin" aria-hidden="true" /> : <ArrowRight aria-hidden="true" />}
+                    </Button>
+                  </motion.div>}
+                </AnimatePresence>
+              </div>}
             </div>
           )}
         </aside>

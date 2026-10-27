@@ -31,11 +31,6 @@ import { useMotionPreset } from '@/lib/motion'
 import { TOKENIZER_MODEL } from '@fingerpoint/shared/tokenizer-posterior'
 import { serviceTierField } from '@fingerpoint/shared/completion-request'
 
-const placeholders: Record<WebApiConfig['format'], string> = {
-  openai: 'https://api.openai.com/v1',
-  responses: 'https://api.openai.com/v1',
-  anthropic: 'https://api.anthropic.com',
-}
 const efforts = ['none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max']
 const MotionButton = motion.create(Button)
 
@@ -330,11 +325,11 @@ export function ApiConfigPanel({ open, onOpenChange, config, update, profileMana
           <FieldGroup className="grid gap-4 md:grid-cols-2">
             <Field>
               <FieldLabel htmlFor="api-base-url">{t('api.baseUrl')}</FieldLabel>
-              <Input id="api-base-url" data-api-required className="fp-mono h-9" value={config.baseUrl} placeholder={placeholders[config.format]} autoComplete="off" spellCheck={false} onChange={e => update({ baseUrl: e.target.value })} onBlur={() => update({ baseUrl: config.baseUrl.trim() })} />
+              <Input id="api-base-url" data-api-required className="fp-mono h-9" value={config.baseUrl} autoComplete="off" spellCheck={false} onChange={e => update({ baseUrl: e.target.value })} onBlur={() => update({ baseUrl: config.baseUrl.trim() })} />
             </Field>
             <Field>
               <FieldLabel htmlFor="api-model">{t('api.model')}</FieldLabel>
-              <Input id="api-model" data-api-required className="fp-mono h-9" value={config.model} placeholder={t('api.modelPlaceholder')} autoComplete="off" spellCheck={false} onChange={e => update({ model: e.target.value })} onBlur={() => update({ model: config.model.trim() })} />
+              <Input id="api-model" data-api-required className="fp-mono h-9" value={config.model} autoComplete="off" spellCheck={false} onChange={e => update({ model: e.target.value })} onBlur={() => update({ model: config.model.trim() })} />
             </Field>
             <Field>
               <FieldLabel htmlFor="api-key">{t('api.apiKey')}</FieldLabel>

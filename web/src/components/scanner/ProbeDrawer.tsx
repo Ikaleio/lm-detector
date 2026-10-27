@@ -1,9 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { AnimatePresence, animate, motion, useDragControls, useMotionValue, useTransform } from 'framer-motion'
-import { Check, Copy, MoreVertical, RotateCcw, Square } from 'lucide-react'
+import { Check, Copy, RotateCcw, Square, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { PixelShader } from '@/components/pixel-shader'
 import { StateBadge, badgeFor, isBusyState, minimumNumbers, type Mode, type SampleUI } from '@/components/sample-card'
 import { useI18n } from '@/i18n'
@@ -55,6 +54,8 @@ export function ProbeDrawer({ index, challenge, sample, mode, canSample, locked,
   const count = parseNumbers(visibleText).length
   const min = minimumNumbers(challenge.expected_count)
   const filled = Boolean(sample.text.trim())
+  const badge = badgeFor(sample, challenge.expected_count)
+  const stateLabel = t(`detect.state.${badge.key}`)
 
   useEffect(() => {
     const observer = new ResizeObserver(([entry]) => setTravel(entry.contentRect.height - HEADER - HANDLE + 4))
@@ -107,7 +108,6 @@ export function ProbeDrawer({ index, challenge, sample, mode, canSample, locked,
         <button type="button" className="fp-custom-probe-title" onClick={() => settle(!questionOpen)} aria-expanded={questionOpen} aria-controls={`question-${index}`}>
           <motion.span style={{ opacity: questionOpacity }}>{t('detect.question', { n: index + 1 })}</motion.span>
         </button>
-        <span className="fp-custom-probe-badge" title={t(`detect.state.${badgeFor(sample, challenge.expected_count).key}`)}><StateBadge sample={sample} expected={challenge.expected_count} /></span>
         <button type="button" className="fp-custom-probe-icon" aria-label={t('detect.copyQuestion', { n: index + 1 })} title={t('detect.copy')} onClick={() => void copy()}>
           <AnimatePresence initial={false} mode="wait">
             <motion.span key={copied ? 'copied' : 'copy'} className="grid place-items-center" {...iconMotion} transition={snappy}>
@@ -184,25 +184,22 @@ export function ProbeDrawer({ index, challenge, sample, mode, canSample, locked,
               </button>
             )}
           </motion.div>
-          {sample.state === 'rejected' && <p className="line-clamp-2 text-meta text-destructive" role="status" title={describe(i18n, sample.errorCode, sample.httpStatus)}>{describe(i18n, sample.errorCode, sample.httpStatus)}</p>}
+          {sample.state === 'rejected' && (sample.errorText
+            ? <button type="button" className="line-clamp-2 text-left text-meta text-destructive hover:underline" role="status" title={describe(i18n, sample.errorCode, sample.httpStatus)} onClick={onShowError}>{describe(i18n, sample.errorCode, sample.httpStatus)}</button>
+            : <p className="line-clamp-2 text-meta text-destructive" role="status">{describe(i18n, sample.errorCode, sample.httpStatus)}</p>)}
           <div className="fp-custom-probe-meta">
-            <span className="min-w-0 truncate" title={visibleText.trim() && count < min ? t('detect.numbersNeeded', { min }) : undefined}>
-              {t('detect.numbers', { count })}
-              {sample.elapsedMs !== undefined ? ` · ${t('detect.seconds', { s: (sample.elapsedMs / 1000).toFixed(1) })}` : ''}
+            <span className="flex min-w-0 flex-wrap items-center gap-x-1 gap-y-1">
+              <span className="shrink-0" title={visibleText.trim() && count < min ? t('detect.numbersNeeded', { min }) : undefined}>
+                {t('detect.numbers', { count })}
+                {sample.elapsedMs !== undefined ? ` · ${t('detect.seconds', { s: (sample.elapsedMs / 1000).toFixed(1) })}` : ''}
+              </span>
+              <span className="fp-custom-probe-badge" title={stateLabel}><StateBadge sample={sample} expected={challenge.expected_count} /></span>
             </span>
-            <span className="flex shrink-0 items-center">
+            <span className="ms-auto flex shrink-0 items-center">
               {busy
                 ? <Button variant="ghost" size="icon-xs" aria-label={t('detect.stop')} title={t('detect.stop')} onClick={onStop}><Square /></Button>
                 : mode === 'api' && (sample.text || sample.state === 'rejected' || sample.state === 'stopped') && <Button variant="ghost" size="icon-xs" aria-label={t('detect.resample')} title={t('detect.resample')} disabled={!canSample || locked} onClick={onResample}><RotateCcw /></Button>}
-              <DropdownMenu>
-                <DropdownMenuTrigger render={<Button variant="ghost" size="icon-xs" aria-label={t('detect.more')} />}><MoreVertical /></DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuGroup>
-                    {sample.errorText && <DropdownMenuItem onClick={onShowError}>{t('detect.viewError')}</DropdownMenuItem>}
-                    <DropdownMenuItem disabled={busy || locked || !visibleText} onClick={() => onChange('')}>{t('detect.clearReply')}</DropdownMenuItem>
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Button variant="ghost" size="icon-xs" aria-label={t('detect.clearReply')} title={t('detect.clearReply')} disabled={busy || locked || !visibleText.trim()} onClick={() => onChange('')}><Trash2 /></Button>
             </span>
           </div>
         </div>

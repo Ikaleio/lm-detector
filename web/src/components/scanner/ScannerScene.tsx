@@ -13,6 +13,10 @@ import { Paper } from './Paper'
 
 type Vec3 = [number, number, number]
 const LABEL_SETTLE_DURATION = 1.6
+/** How far the idle camera turns either way, how fast, and how close to a bound it turns around. */
+const AZIMUTH_LIMIT = 1.15
+const AZIMUTH_TURN = .08
+const AUTO_ROTATE_SPEED = .50
 const PLAQUE_CONTENT_TRANSITION_DURATION = .48
 const PLAQUE_X = -.10
 const PLAQUE_Y = -.01
@@ -26,21 +30,25 @@ const AUTO_MODELS = [
   { brand: 'claude', name: 'Claude' },
   { brand: 'mimo', name: 'MiMo' },
   { brand: 'kimi', name: 'Kimi' },
-  { brand: 'hunyuan', name: 'Hy4' },
+  { brand: 'hunyuan', name: 'Hy' },
   { brand: 'grok', name: 'Grok' },
+  { brand: 'seed', name: 'Seed' },
+  { brand: 'minimax', name: 'MiniMax' },
 ] satisfies Array<{ brand: BrandId; name: string }>
 const AUTO_BRANDS = AUTO_MODELS.map(model => model.brand)
 const AUTO_NAMES = AUTO_MODELS.map(model => model.name)
 /**
  * How far the scanner has assembled around the box: 0 leaves the box alone, 1 stands the machine up,
- * 2 closes the clamps, 3 sends the gantry back. Nothing moves until a model name is set. Manual mode then
- * counts the filled replies; API mode stands the machine up with the endpoint and completes it with the key.
- * Once a scan starts the machine is always fully assembled, named or not.
+ * 2 closes the clamps, 3 sends the gantry back. Manual mode counts the filled replies and needs no name: the name
+ * there is an optional label that only reaches the plaque. API mode needs its model, endpoint and key, because the
+ * three of them are the request. Once a scan starts the machine is always fully assembled, named or not.
  */
 const assembly = ({ name, inputMode, baseUrl, apiKey, filled, phase }: Pick<Props, 'name' | 'inputMode' | 'baseUrl' | 'apiKey' | 'filled' | 'phase'>) => {
   if (phase !== 'editing') return 3
-  if (!name.trim()) return 0
-  if (inputMode === 'api') return !baseUrl.trim() ? 0 : apiKey.trim() ? 3 : 1
+  if (inputMode === 'api') {
+    if (!name.trim()) return 0
+    return !baseUrl.trim() ? 0 : apiKey.trim() ? 3 : 1
+  }
   return filled.filter(Boolean).length
 }
 interface Props { name: string; inputMode: 'manual' | 'api'; baseUrl: string; apiKey: string; filled: [boolean, boolean, boolean]; focus: number | null; phase: Phase; motion: RefObject<MotionState>; result: SceneResult | null }
@@ -62,6 +70,8 @@ function CameraRig({ zoom, reset, phase }: { zoom: number; reset: number; phase:
   const controls = useRef<ComponentRef<typeof OrbitControls>>(null)
   const fitZoom = useRef(1)
   const resetBlend = useRef(0)
+  /** Direction of the idle rotation: it turns back at each azimuth bound instead of stopping there. */
+  const swing = useRef(1)
   useEffect(() => {
     const cam = camera as THREE.OrthographicCamera
     fitZoom.current = Math.min(size.width / 6.8, size.height / 5.2)
@@ -89,12 +99,22 @@ function CameraRig({ zoom, reset, phase }: { zoom: number; reset: number; phase:
       resetBlend.current = Math.max(0, resetBlend.current - dt * 1.6)
       invalidate()
     }
+    const orbit = controls.current
+    if (orbit && phase === 'editing' && !reduced) {
+      // OrbitControls clamps the azimuth at the bounds and would otherwise idle there forever, so the auto rotation
+      // turns around once it gets close. Damping keeps it a few hundredths short of the bound, hence the margin.
+      // A positive auto-rotate speed lowers the azimuth, so each bound turns the rotation the other way.
+      const azimuth = orbit.getAzimuthalAngle()
+      if (azimuth <= -AZIMUTH_LIMIT + AZIMUTH_TURN) swing.current = -1
+      else if (azimuth >= AZIMUTH_LIMIT - AZIMUTH_TURN) swing.current = 1
+      orbit.autoRotateSpeed = AUTO_ROTATE_SPEED * swing.current
+    }
     const next = THREE.MathUtils.damp(cam.zoom, fitZoom.current * zoom, 7, Math.min(raw, .05))
     if (Math.abs(cam.zoom - next) > .0001) { cam.zoom = next; cam.updateProjectionMatrix(); invalidate() }
     gl.domElement.dataset.cameraZoom = cam.zoom.toFixed(4)
     gl.domElement.dataset.cameraTargetZoom = (fitZoom.current * zoom).toFixed(4)
   })
-  return <OrbitControls ref={controls} makeDefault target={[0, 1.43, .38]} enablePan={false} enableZoom={false} enableDamping dampingFactor={.12} rotateSpeed={.7} autoRotate={phase === 'editing' && !reduced} autoRotateSpeed={.50} minAzimuthAngle={-1.15} maxAzimuthAngle={1.15} minPolarAngle={.35} maxPolarAngle={1.35} onChange={() => {
+  return <OrbitControls ref={controls} makeDefault target={[0, 1.43, .38]} enablePan={false} enableZoom={false} enableDamping dampingFactor={.12} rotateSpeed={.7} autoRotate={phase === 'editing' && !reduced} autoRotateSpeed={AUTO_ROTATE_SPEED * swing.current} minAzimuthAngle={-AZIMUTH_LIMIT} maxAzimuthAngle={AZIMUTH_LIMIT} minPolarAngle={.35} maxPolarAngle={1.35} onChange={() => {
     gl.domElement.dataset.cameraPosition = camera.position.toArray().join(',')
     invalidate()
   }} />

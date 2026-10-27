@@ -17,6 +17,7 @@ export const PRINT_SECONDS = 1.8
 const colors: Record<string, string> = {
   claude: '#c76d4f', gemini: '#3186ff', deepseek: '#516dda', qwen: '#6756bd', muse: '#3f7de0', gpt: '#587c70',
   glm: '#1f55d5', mimo: '#f56600', hunyuan: '#0055e9', kimi: '#302c26', grok: '#302c26', step: '#2b5fd9',
+  seed: '#3c8cff', minimax: '#e2167e',
 }
 export const brandColor = (id: BrandId) => colors[id] ?? '#8b8e87'
 
@@ -32,6 +33,8 @@ const patterns: [BrandId, RegExp][] = [
   ['hunyuan', /hunyuan|tencent|^hy\d|混元/],
   ['kimi', /kimi|moonshot/],
   ['grok', /grok|x-?ai/],
+  ['seed', /seed|bytedance|doubao|豆包|字节/],
+  ['minimax', /mini-?max|abab/],
   ['step', /^step|stepfun/],
 ]
 
@@ -49,8 +52,7 @@ export function resolveBrand(name: string, bank?: Bank): BrandId {
 export function brandImageUrl(id: BrandId): string | undefined {
   const svg = brandLogos[id]
   if (!svg) return undefined
-  // Kimi's currentColor part is the white K on its dark tile; every other one is a black mark.
-  const ink = id === 'kimi' ? '#ffffff' : '#302c26'
-  const markup = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="256" height="256">${svg.replaceAll('currentColor', ink)}</svg>`
+  // Every mark prints in ink; Kimi's tile is the ink and its K is the paper showing through the cut-out.
+  const markup = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="256" height="256">${svg.replaceAll('currentColor', '#302c26')}</svg>`
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(markup)}`
 }

@@ -228,9 +228,10 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
 .fp-custom-probe[data-warning] { border-color: color-mix(in oklab, var(--warning) 60%, transparent); }
 .fp-custom-probe-header { display: flex; align-items: center; gap: .25rem; height: 44px; padding: 0 .5rem 0 .75rem; }
 .fp-custom-probe-title { flex: 1 1 0%; min-width: 1.75rem; overflow: hidden; padding: 0; text-align: left; text-overflow: ellipsis; font-size: .875rem; font-weight: 500; white-space: nowrap; color: var(--foreground); }
-/* The state badge gives way first, so a long label such as "Too few numbers" ends in an ellipsis instead of running under the copy button. */
+/* The state badge sits right of the number count: its own line box centers text and icon in the 22px surface, and a
+   long label ends in an ellipsis instead of widening the row. */
 .fp-custom-probe-badge { display: flex; flex: 0 1 auto; min-width: 0; }
-.fp-custom-probe-badge > * { display: block; flex-shrink: 1; min-width: 0; max-width: 100%; line-height: 22px; text-overflow: ellipsis; }
+.fp-custom-probe-badge > * { display: block; flex-shrink: 1; min-width: 0; max-width: 100%; height: 22px; padding-block: 0; padding-inline: .25rem; line-height: 22px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .fp-custom-probe-badge > * > svg { display: inline-block; margin-inline-end: .25rem; vertical-align: -2px; }
 .fp-custom-probe-icon { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; flex: none; border-radius: var(--radius); color: var(--muted-foreground); }
 .fp-custom-probe-icon:hover { background: var(--muted); color: var(--foreground); }
@@ -249,7 +250,10 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
 .fp-custom-probe-waiting { position: relative; isolation: isolate; display: flex; flex: 1; align-items: center; justify-content: center; overflow: hidden; border: 1px dashed var(--input); border-radius: var(--radius); font-size: .8125rem; color: var(--muted-foreground); }
 .fp-custom-probe-waiting:hover:not(:disabled) { background: var(--muted); }
 .fp-custom-probe-waiting:disabled { cursor: not-allowed; opacity: .5; }
-.fp-custom-probe-meta { display: flex; align-items: center; justify-content: space-between; gap: .25rem; min-height: 1.5rem; font-size: .75rem; line-height: 1.4; color: var(--muted-foreground); }
+.fp-custom-probe-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .25rem; min-height: 1.5rem; font-size: .75rem; line-height: 1.4; color: var(--muted-foreground); }
+/* The running status takes the primary button's place: same height as the touch target, tinted with primary. */
+.fp-custom-status { display: flex; flex-direction: column; justify-content: center; gap: .375rem; min-height: 2.75rem; padding: .375rem .75rem; border: 1px solid color-mix(in oklab, var(--primary) 28%, var(--border)); border-radius: var(--radius); background: color-mix(in oklab, var(--primary) 10%, var(--card)); color: var(--primary); font-size: .875rem; }
+.fp-custom-status-row { display: flex; align-items: center; gap: .5rem; min-height: 1.5rem; }
 
 .fp-custom-summary { display: flex; flex-direction: column; padding: 1.75rem; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--card); }
 .fp-custom-summary-check { display: grid; place-items: center; width: 3rem; height: 3rem; margin-bottom: 1.375rem; border: 1px solid var(--border); border-radius: 50%; color: var(--success); }

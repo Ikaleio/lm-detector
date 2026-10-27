@@ -276,7 +276,6 @@ export const zhHant: Messages = {
     showKey: '顯示 API Key',
     hideKey: '隱藏 API Key',
     model: '模型',
-    modelPlaceholder: '例如 gpt-4.1',
     format: '介面協定',
     formatChat: 'Chat Completions',
     formatMessages: 'Messages',

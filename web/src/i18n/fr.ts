@@ -276,7 +276,6 @@ export const fr: Messages = {
     showKey: 'Afficher la clé API',
     hideKey: 'Masquer la clé API',
     model: 'Modèle',
-    modelPlaceholder: 'p. ex. gpt-4.1',
     format: 'Protocole',
     formatChat: 'Chat Completions',
     formatMessages: 'Messages',
