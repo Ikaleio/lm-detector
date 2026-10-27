@@ -1,9 +1,11 @@
-import { useState, type ReactNode } from 'react'
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, Cable, Check, ChevronDown, Eye, EyeOff, MoreVertical, PenLine, RotateCcw, Settings2, TriangleAlert } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
+import { BrandIcon } from '@/components/brand-icon'
+import { Segmented } from '@/components/segmented'
 import { StateBadge, type Mode, type SampleUI } from '@/components/sample-card'
 import { useI18n } from '@/i18n'
 import { useMotionPreset } from '@/lib/motion'
@@ -11,13 +13,31 @@ import type { WebApiConfig } from '@/lib/config'
 import { cn } from '@/lib/utils'
 import type { Analysis, Challenge } from '@fingerpoint/shared/types'
 
-/** The manual / API radio group with a pill that slides to the chosen option. */
+/**
+ * The manual / API radio group with a pill that slides to the chosen option. The pill is measured inside the
+ * switch, as in `Segmented`, so it only ever slides sideways even when the form around it changes height.
+ */
 export function ModeSwitch({ mode, onChange, disabled }: { mode: Mode; onChange: (mode: Mode) => void; disabled: boolean }) {
   const { t } = useI18n()
   const { snappy } = useMotionPreset()
+  const root = useRef<HTMLDivElement>(null)
+  const [pill, setPill] = useState<{ x: number; width: number } | null>(null)
+  useLayoutEffect(() => {
+    const container = root.current
+    if (!container) return
+    const measure = () => {
+      const selected = container.querySelector<HTMLElement>('[aria-checked="true"]')
+      setPill(selected ? { x: selected.offsetLeft, width: selected.offsetWidth } : null)
+    }
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [mode])
   const options = [{ value: 'manual', label: t('detect.modeManual'), icon: PenLine }, { value: 'api', label: t('detect.modeApi'), icon: Cable }] as const
   return (
-    <div className="fp-custom-mode-switch" role="radiogroup" aria-label={t('detect.modeLabel')}>
+    <div ref={root} className="fp-custom-mode-switch" role="radiogroup" aria-label={t('detect.modeLabel')}>
+      {pill && <motion.span className="fp-custom-mode-pill" aria-hidden="true" initial={false} animate={pill} transition={snappy} />}
       {options.map(({ value, label, icon: Icon }) => (
         <button
           key={value}
@@ -36,7 +56,6 @@ export function ModeSwitch({ mode, onChange, disabled }: { mode: Mode; onChange:
             event.currentTarget.parentElement?.querySelector<HTMLButtonElement>(`[data-mode="${next}"]`)?.focus()
           }}
         >
-          {mode === value && <motion.span className="fp-custom-mode-pill" layoutId="detect-mode-pill" transition={snappy} />}
           <span><Icon aria-hidden="true" />{label}</span>
         </button>
       ))}
@@ -45,8 +64,9 @@ export function ModeSwitch({ mode, onChange, disabled }: { mode: Mode; onChange:
 }
 
 /**
- * API mode's required settings in the form, as in Fingerprint Report: the endpoint and the key (the model field sits above).
- * Everything else, profiles included, lives in the advanced settings dialog, which edits the same configuration.
+ * API mode's settings in the form, as in Fingerprint Report: the protocol, which decides how the endpoint is read,
+ * then the endpoint and the key (the model field sits above). Everything else, profiles included, lives in the
+ * advanced settings dialog, which edits the same configuration.
  */
 export function ApiConnectionFields({ config, update, disabled, profileName, onAdvanced }: {
   config: WebApiConfig
@@ -58,10 +78,18 @@ export function ApiConnectionFields({ config, update, disabled, profileName, onA
   const { t } = useI18n()
   const [showKey, setShowKey] = useState(false)
   return (
-    <div className="flex flex-col gap-3">
+    <div className="fp-custom-api-fields">
+      <div className="flex flex-col gap-2">
+        <span className="fp-custom-field-label">{t('api.format')}</span>
+        <Segmented label={t('api.format')} value={config.format} disabled={disabled} onChange={format => update({ format })} options={[
+          { value: 'openai', label: t('api.formatChat'), icon: <BrandIcon family="gpt" /> },
+          { value: 'responses', label: t('api.formatResponses'), icon: <BrandIcon family="gpt" /> },
+          { value: 'anthropic', label: t('api.formatMessages'), icon: <BrandIcon family="claude" /> },
+        ]} />
+      </div>
       <div className="flex flex-col gap-2">
         <label htmlFor="detect-base-url" className="fp-custom-field-label">{t('api.baseUrl')}</label>
-        <Input id="detect-base-url" data-api-required className="fp-mono h-10" value={config.baseUrl} readOnly={disabled} placeholder="https://api.example.com/v1" autoComplete="off" spellCheck={false} onChange={event => update({ baseUrl: event.target.value })} onBlur={() => update({ baseUrl: config.baseUrl.trim() })} />
+        <Input id="detect-base-url" data-api-required className="fp-mono h-10" value={config.baseUrl} readOnly={disabled} placeholder={config.format === 'anthropic' ? 'https://api.anthropic.com' : 'https://api.openai.com/v1'} autoComplete="off" spellCheck={false} onChange={event => update({ baseUrl: event.target.value })} onBlur={() => update({ baseUrl: config.baseUrl.trim() })} />
       </div>
       <div className="flex flex-col gap-2">
         <label htmlFor="detect-api-key" className="fp-custom-field-label flex items-center justify-between gap-2">
@@ -75,7 +103,7 @@ export function ApiConnectionFields({ config, update, disabled, profileName, onA
           </Button>
         </div>
       </div>
-      <div className="flex items-center gap-3">
+      <div className="mt-auto flex items-center gap-3">
         <Button variant="outline" className="h-9" onClick={onAdvanced}><Settings2 data-icon="inline-start" />{t('detect.advancedSettings')}</Button>
         {profileName && <span className="min-w-0 truncate text-meta text-muted-foreground" title={profileName}>{t('detect.profileNote', { name: profileName })}</span>}
       </div>

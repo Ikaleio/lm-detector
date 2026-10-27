@@ -5,7 +5,7 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { PixelShader } from '@/components/pixel-shader'
-import { StateBadge, isBusyState, minimumNumbers, type Mode, type SampleUI } from '@/components/sample-card'
+import { StateBadge, badgeFor, isBusyState, minimumNumbers, type Mode, type SampleUI } from '@/components/sample-card'
 import { useI18n } from '@/i18n'
 import { parseNumbers } from '@/lib/client'
 import { describe } from '@/lib/errors'
@@ -107,7 +107,7 @@ export function ProbeDrawer({ index, challenge, sample, mode, canSample, locked,
         <button type="button" className="fp-custom-probe-title" onClick={() => settle(!questionOpen)} aria-expanded={questionOpen} aria-controls={`question-${index}`}>
           <motion.span style={{ opacity: questionOpacity }}>{t('detect.question', { n: index + 1 })}</motion.span>
         </button>
-        <StateBadge sample={sample} expected={challenge.expected_count} />
+        <span className="fp-custom-probe-badge" title={t(`detect.state.${badgeFor(sample, challenge.expected_count).key}`)}><StateBadge sample={sample} expected={challenge.expected_count} /></span>
         <button type="button" className="fp-custom-probe-icon" aria-label={t('detect.copyQuestion', { n: index + 1 })} title={t('detect.copy')} onClick={() => void copy()}>
           <AnimatePresence initial={false} mode="wait">
             <motion.span key={copied ? 'copied' : 'copy'} className="grid place-items-center" {...iconMotion} transition={snappy}>

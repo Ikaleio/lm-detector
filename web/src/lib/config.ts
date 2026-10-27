@@ -40,7 +40,7 @@ export interface ApiProfileManager {
 const PROFILES_STORAGE_KEY = 'fingerpoint-detect-profiles-v1'
 
 export const defaultConfig: WebApiConfig = {
-  baseUrl: 'https://openrouter.ai/api/v1',
+  baseUrl: '',
   apiKey: '',
   model: '',
   effort: '',
@@ -156,7 +156,7 @@ function restore(): StoredApiProfiles {
   const stored = readProfiles()
   if (stored) return stored
   const initialId = generateId()
-  const initialProfile = { ...defaultConfig, id: initialId, name: 'OpenRouter' }
+  const initialProfile = { ...defaultConfig, id: initialId, name: '' }
   return {
     activeId: initialId,
     profiles: [initialProfile],

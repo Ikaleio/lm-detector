@@ -32,11 +32,17 @@ const AUTO_MODELS = [
 const AUTO_BRANDS = AUTO_MODELS.map(model => model.brand)
 const AUTO_NAMES = AUTO_MODELS.map(model => model.name)
 /**
- * The machine stands up around the box once the plaque can name a family, and while no name is set yet,
- * so filling the replies or the API settings still drives the clamps, lamps and gantry. A name the plaque
- * cannot place leaves the box alone.
+ * How far the scanner has assembled around the box: 0 leaves the box alone, 1 stands the machine up,
+ * 2 closes the clamps, 3 sends the gantry back. Nothing moves until a model name is set. Manual mode then
+ * counts the filled replies; API mode stands the machine up with the endpoint and completes it with the key.
+ * Once a scan starts the machine is always fully assembled, named or not.
  */
-const machineShown = (name: string) => resolveBrand(name) !== 'neutral' || !name.trim()
+const assembly = ({ name, inputMode, baseUrl, apiKey, filled, phase }: Pick<Props, 'name' | 'inputMode' | 'baseUrl' | 'apiKey' | 'filled' | 'phase'>) => {
+  if (phase !== 'editing') return 3
+  if (!name.trim()) return 0
+  if (inputMode === 'api') return !baseUrl.trim() ? 0 : apiKey.trim() ? 3 : 1
+  return filled.filter(Boolean).length
+}
 interface Props { name: string; inputMode: 'manual' | 'api'; baseUrl: string; apiKey: string; filled: [boolean, boolean, boolean]; focus: number | null; phase: Phase; motion: RefObject<MotionState>; result: SceneResult | null }
 
 function Part({ at, size, color = '#3a3e44', radius = .05, metal = .3, roughness = .5, rotation, children }: { at: Vec3; size: Vec3; color?: string; radius?: number; metal?: number; roughness?: number; rotation?: Vec3; children?: ReactNode }) {
@@ -98,12 +104,7 @@ function Scanner({ name, inputMode, baseUrl, apiKey, filled, focus, phase, motio
   const invalidate = useThree(s => s.invalidate)
   useEffect(() => { invalidate() }, [phase, inputMode, name, baseUrl, apiKey, filled[0], filled[1], filled[2], focus, result?.best.id, invalidate])
   const count = filled.filter(Boolean).length
-  // Automatic evaluation should reveal the scanner only after the model name
-  // maps to a known provider, matching the manual mode's prefix recognition.
-  const autoModelReady = inputMode === 'api' && resolveBrand(name) !== 'neutral'
-  const autoBaseReady = autoModelReady && baseUrl.trim().length > 0
-  const autoKeyReady = autoBaseReady && apiKey.trim().length > 0
-  const activeStageCount = inputMode === 'manual' ? count : autoKeyReady ? 3 : autoBaseReady ? 2 : autoModelReady ? 1 : 0
+  const activeStageCount = assembly({ name, inputMode, baseUrl, apiKey, filled, phase })
   const [cycle, setCycle] = useState(0)
   const [incomingCycle, setIncomingCycle] = useState<number | null>(null)
   const [displayed, setDisplayed] = useState<{ brand: BrandId; name: string }>({ brand: AUTO_BRANDS[0], name: AUTO_NAMES[0] })
@@ -154,7 +155,7 @@ function Scanner({ name, inputMode, baseUrl, apiKey, filled, focus, phase, motio
   const displayName = hasDeclaredName ? name.trim() : displayed.name
   const incomingBrand = declaredTarget?.brand ?? (incomingCycle === null ? null : AUTO_BRANDS[incomingCycle])
   const incomingName = declaredTarget ? null : (incomingCycle === null ? null : AUTO_NAMES[incomingCycle])
-  const hasMachine = machineShown(name)
+  const hasMachine = activeStageCount >= 1
   const kraft = useMemo(kraftTexture, [])
   const machine = useMemo(machineLabel, [])
   const stamp = useMemo(topStamp, [])
@@ -272,14 +273,13 @@ function Scanner({ name, inputMode, baseUrl, apiKey, filled, focus, phase, motio
     const targetX = activeCount > 0 ? 0 : .045
     if (box.current) box.current.position.x = THREE.MathUtils.damp(box.current.position.x, targetX, 6, dt)
     if (box.current) box.current.position.y = boxY
-    const leftClampTarget = inputMode === 'api' ? (autoBaseReady ? .013 : .2) : activeCount >= 1 ? .013 : .2
-    const rightClampTarget = inputMode === 'api' ? (autoBaseReady ? .013 : .2) : activeCount >= 2 ? .013 : .2
-    leftClampGap.current = THREE.MathUtils.damp(leftClampGap.current, leftClampTarget, 9, dt)
-    rightClampGap.current = THREE.MathUtils.damp(rightClampGap.current, rightClampTarget, 9, dt)
+    const clampTarget = activeCount >= 2 ? .013 : .2
+    leftClampGap.current = THREE.MathUtils.damp(leftClampGap.current, clampTarget, 9, dt)
+    rightClampGap.current = THREE.MathUtils.damp(rightClampGap.current, clampTarget, 9, dt)
     const bx = box.current?.position.x ?? 0
     if (leftClamp.current) leftClamp.current.position.x = bx - DIM.boxWidth / 2 - .075 - leftClampGap.current
     if (rightClamp.current) rightClamp.current.position.x = bx + DIM.boxWidth / 2 + .075 + rightClampGap.current
-    let railTarget = inputMode === 'api' ? (autoKeyReady ? DIM.gantryBack : 0) : activeCount >= 3 ? DIM.gantryBack : 0
+    let railTarget = activeCount >= 3 ? DIM.gantryBack : 0
     let sweep = false
     if (activePhase === 'scanning') {
       const t = Math.max(live.scan, scanProgress)
@@ -288,7 +288,7 @@ function Scanner({ name, inputMode, baseUrl, apiKey, filled, focus, phase, motio
     }
     if (gantry.current) gantry.current.position.z = THREE.MathUtils.damp(gantry.current.position.z, railTarget, 10, dt)
     const railZ = gantry.current?.position.z ?? railTarget
-    const lightTarget = sweep ? 1.8 : inputMode === 'api' ? (autoBaseReady ? .7 : .015) : activeCount >= 2 ? .7 : .015
+    const lightTarget = sweep ? 1.8 : activeCount >= 2 ? .7 : .015
     if (emitter.current) emitter.current.emissiveIntensity = THREE.MathUtils.damp(emitter.current.emissiveIntensity, lightTarget, 5, dt)
     if (frontEmitter.current) frontEmitter.current.emissiveIntensity = emitter.current?.emissiveIntensity ?? 0
     if (scan.current) {
@@ -319,7 +319,7 @@ function Scanner({ name, inputMode, baseUrl, apiKey, filled, focus, phase, motio
       positions.needsUpdate = true; labelGeometry.computeVertexNormals()
     }
     frame.current++
-    const moving = plaqueMoving || locked && activePhase !== 'report' || Math.abs(bx - targetX) > .0003 || Math.abs(leftClampGap.current - leftClampTarget) > .0003 || Math.abs(rightClampGap.current - rightClampTarget) > .0003 || Math.abs(railZ - railTarget) > .001 || Math.abs((emitter.current?.emissiveIntensity ?? 0) - lightTarget) > .01 || ledMaterials.current.some((m, i) => Math.abs((m?.emissiveIntensity ?? 0) - (locked || filled[i] ? (focus === i ? 1.6 : .95) : .02)) > .01) || (labelSettleElapsed.current < LABEL_SETTLE_DURATION)
+    const moving = plaqueMoving || locked && activePhase !== 'report' || Math.abs(bx - targetX) > .0003 || Math.abs(leftClampGap.current - clampTarget) > .0003 || Math.abs(rightClampGap.current - clampTarget) > .0003 || Math.abs(railZ - railTarget) > .001 || Math.abs((emitter.current?.emissiveIntensity ?? 0) - lightTarget) > .01 || ledMaterials.current.some((m, i) => Math.abs((m?.emissiveIntensity ?? 0) - (locked || filled[i] ? (focus === i ? 1.6 : .95) : .02)) > .01) || (labelSettleElapsed.current < LABEL_SETTLE_DURATION)
     if (moving) state.invalidate()
     if (frame.current === 1 || !moving || state.clock.elapsedTime - lastInfo.current > .12) {
       lastInfo.current = state.clock.elapsedTime
@@ -473,7 +473,7 @@ export default function ScannerScene(props: Props) {
       }} fallback={<Fallback />}>
       <CameraRig zoom={zoom} reset={reset} phase={props.phase} />
         <Suspense fallback={null}>
-          {!machineShown(props.name)
+          {assembly(props) < 1
             ? <ThemeLighting scale={3.25} blur={1.65} far={2.1} position={[.045, .023, DIM.boxZ]}/>
             : <ThemeLighting scale={12}/>}
           <Scanner {...props}/>

@@ -92,7 +92,7 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
 .fp-grid-samples { display: grid; gap: 1rem; align-items: stretch; }
 @media (min-width: 1024px) { .fp-grid-samples { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
-.fp-detect-footer { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
+.fp-detect-footer { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; padding-bottom: 1.5rem; }
 .fp-detect-footer > .fp-actionbar { margin-left: auto; }
 .fp-star-link { display: inline-flex; align-items: center; gap: .375rem; height: 2.25rem; padding: 0 .75rem; border: 1px solid color-mix(in oklab, var(--star) 35%, var(--border)); border-radius: var(--radius); background: color-mix(in oklab, var(--star) 8%, var(--card)); color: var(--star); font-size: .875rem; font-weight: 500; white-space: nowrap; text-decoration: none; outline: none; transition: background-color .15s, border-color .15s; }
 .fp-star-link:hover { background: color-mix(in oklab, var(--star) 14%, var(--card)); border-color: color-mix(in oklab, var(--star) 55%, var(--border)); }
@@ -205,13 +205,13 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
 .fp-custom-form { display: grid; grid-template-columns: minmax(0, 1fr); gap: .875rem; }
 .fp-custom-mode-note { display: flex; align-items: center; gap: .375rem; font-size: .75rem; line-height: 1.4; color: var(--muted-foreground); }
 .fp-custom-mode-note svg { width: .875rem; height: .875rem; flex-shrink: 0; }
-.fp-custom-mode-switch { display: flex; gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--muted); }
+.fp-custom-mode-switch { position: relative; display: flex; gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--muted); }
 .fp-custom-mode-switch > button { position: relative; flex: 1; min-width: 0; padding: .5rem .375rem; border-radius: var(--radius); color: var(--muted-foreground); font-size: .875rem; transition: color .2s; }
 .fp-custom-mode-switch > button[aria-checked="true"] { color: var(--foreground); }
 .fp-custom-mode-switch > button:disabled { cursor: not-allowed; opacity: .5; }
 .fp-custom-mode-switch > button > span:last-child { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: .5rem; }
 .fp-custom-mode-switch svg { width: 1rem; height: 1rem; }
-.fp-custom-mode-pill { position: absolute; inset: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
+.fp-custom-mode-pill { position: absolute; top: 4px; bottom: 4px; left: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
 
 .fp-custom-field-label { font-size: .875rem; font-weight: 500; color: var(--muted-foreground); }
 .fp-custom-model-input { display: flex; align-items: center; gap: .625rem; height: 3rem; padding: 0 .875rem; border: 1px solid var(--input); border-radius: var(--radius); background: var(--card); color: var(--muted-foreground); transition: border-color .15s, box-shadow .15s; }
@@ -220,12 +220,18 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
 .fp-custom-model-input input::placeholder { color: var(--muted-foreground); }
 .fp-custom-model-input > svg { width: 1.25rem; height: 1.25rem; flex-shrink: 0; }
 
+/* API mode's fields take the question cards' height, so switching modes leaves the form the same height and the stage centred. */
+.fp-custom-api-fields { display: flex; flex-direction: column; gap: .75rem; min-height: 296px; }
 .fp-custom-probes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
 .fp-custom-probe { position: relative; isolation: isolate; height: 296px; min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--card); transition: border-color .2s, box-shadow .2s; }
 .fp-custom-probe[data-focused] { border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 30%, transparent); }
 .fp-custom-probe[data-warning] { border-color: color-mix(in oklab, var(--warning) 60%, transparent); }
 .fp-custom-probe-header { display: flex; align-items: center; gap: .25rem; height: 44px; padding: 0 .5rem 0 .75rem; }
-.fp-custom-probe-title { flex: 1; min-width: 0; padding: 0; text-align: left; font-size: .875rem; font-weight: 500; white-space: nowrap; color: var(--foreground); }
+.fp-custom-probe-title { flex: 1 1 0%; min-width: 1.75rem; overflow: hidden; padding: 0; text-align: left; text-overflow: ellipsis; font-size: .875rem; font-weight: 500; white-space: nowrap; color: var(--foreground); }
+/* The state badge gives way first, so a long label such as "Too few numbers" ends in an ellipsis instead of running under the copy button. */
+.fp-custom-probe-badge { display: flex; flex: 0 1 auto; min-width: 0; }
+.fp-custom-probe-badge > * { display: block; flex-shrink: 1; min-width: 0; max-width: 100%; line-height: 22px; text-overflow: ellipsis; }
+.fp-custom-probe-badge > * > svg { display: inline-block; margin-inline-end: .25rem; vertical-align: -2px; }
 .fp-custom-probe-icon { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; flex: none; border-radius: var(--radius); color: var(--muted-foreground); }
 .fp-custom-probe-icon:hover { background: var(--muted); color: var(--foreground); }
 .fp-custom-probe-question { position: absolute; inset: 44px 0 40px; overflow: auto; padding: .25rem .75rem .75rem; scrollbar-width: thin; }
@@ -263,6 +269,7 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
   .fp-custom-stage { height: 320px; }
   .fp-custom-probes { grid-template-columns: minmax(0, 1fr); }
   .fp-custom-probe { height: 278px; }
+  .fp-custom-api-fields { min-height: 0; }
   .fp-custom-primary { flex: 1; }
   .fp-custom-summary { padding: 1.25rem; }
 }
