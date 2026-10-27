@@ -32,10 +32,11 @@ const AUTO_MODELS = [
 const AUTO_BRANDS = AUTO_MODELS.map(model => model.brand)
 const AUTO_NAMES = AUTO_MODELS.map(model => model.name)
 /**
- * The machine stands up around the box once the plaque can name a family. With no name yet in manual mode it
- * stands up too, so filling the replies still drives the clamps, lamps and gantry; a custom name leaves the box alone.
+ * The machine stands up around the box once the plaque can name a family, and while no name is set yet,
+ * so filling the replies or the API settings still drives the clamps, lamps and gantry. A name the plaque
+ * cannot place leaves the box alone.
  */
-const machineShown = (name: string, inputMode: 'manual' | 'api') => resolveBrand(name) !== 'neutral' || (inputMode === 'manual' && !name.trim())
+const machineShown = (name: string) => resolveBrand(name) !== 'neutral' || !name.trim()
 interface Props { name: string; inputMode: 'manual' | 'api'; baseUrl: string; apiKey: string; filled: [boolean, boolean, boolean]; focus: number | null; phase: Phase; motion: RefObject<MotionState>; result: SceneResult | null }
 
 function Part({ at, size, color = '#51463B', radius = .05, metal = .3, roughness = .5, rotation, children }: { at: Vec3; size: Vec3; color?: string; radius?: number; metal?: number; roughness?: number; rotation?: Vec3; children?: ReactNode }) {
@@ -153,7 +154,7 @@ function Scanner({ name, inputMode, baseUrl, apiKey, filled, focus, phase, motio
   const displayName = hasDeclaredName ? name.trim() : displayed.name
   const incomingBrand = declaredTarget?.brand ?? (incomingCycle === null ? null : AUTO_BRANDS[incomingCycle])
   const incomingName = declaredTarget ? null : (incomingCycle === null ? null : AUTO_NAMES[incomingCycle])
-  const hasMachine = machineShown(name, inputMode)
+  const hasMachine = machineShown(name)
   const kraft = useMemo(kraftTexture, [])
   const machine = useMemo(machineLabel, [])
   const stamp = useMemo(topStamp, [])
@@ -472,7 +473,7 @@ export default function ScannerScene(props: Props) {
       }} fallback={<Fallback />}>
       <CameraRig zoom={zoom} reset={reset} phase={props.phase} />
         <Suspense fallback={null}>
-          {!machineShown(props.name, props.inputMode)
+          {!machineShown(props.name)
             ? <ThemeLighting scale={3.25} blur={1.65} far={2.1} position={[.045, .023, DIM.boxZ]}/>
             : <ThemeLighting scale={12}/>}
           <Scanner {...props}/>

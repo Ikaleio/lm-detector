@@ -1,9 +1,12 @@
 import { useState, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, Cable, Check, ChevronDown, MoreVertical, PenLine, RotateCcw, TriangleAlert } from 'lucide-react'
+import { ArrowRight, Cable, Check, ChevronDown, MoreVertical, PenLine, RotateCcw, Square, TriangleAlert } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { StateBadge, type Mode, type SampleUI } from '@/components/sample-card'
+import { PixelShader } from '@/components/pixel-shader'
+import { StateBadge, isBusyState, type Mode, type SampleUI } from '@/components/sample-card'
+import { parseNumbers } from '@/lib/client'
+import { describe } from '@/lib/errors'
 import { useI18n } from '@/i18n'
 import { useMotionPreset } from '@/lib/motion'
 import { cn } from '@/lib/utils'
@@ -39,6 +42,54 @@ export function ModeSwitch({ mode, onChange, disabled }: { mode: Mode; onChange:
         </button>
       ))}
     </div>
+  )
+}
+
+/**
+ * API mode's three samples as one compact list instead of question cards: the bench shows the scan,
+ * each row its state, count and timing, with stop, resample and error details at the row's end.
+ */
+export function ApiSampleList({ samples, challenges, anomalous, canSample, locked, onResample, onStop, onShowError }: {
+  samples: SampleUI[]
+  challenges: Challenge[]
+  anomalous: number[]
+  canSample: boolean
+  locked: boolean
+  onResample: (index: number) => void
+  onStop: (index: number) => void
+  onShowError: (index: number) => void
+}) {
+  const i18n = useI18n()
+  const { t } = i18n
+  return (
+    <ol className="fp-card flex flex-col" aria-label={t('detect.samples')}>
+      {samples.map((sample, i) => {
+        const busy = isBusyState(sample.state)
+        const text = sample.draftText ?? sample.text
+        return (
+          <li key={challenges[i].id} className="relative flex min-h-12 flex-col justify-center gap-0.5 border-t border-border px-4 py-2 first:border-t-0">
+            {busy && <PixelShader effect="march" cell={2} className="absolute inset-x-0 top-0 h-1 text-muted-foreground/60" />}
+            <div className="flex items-center gap-2">
+              <span className="text-body font-medium">{t('detect.sample', { n: i + 1 })}</span>
+              {anomalous.includes(i) && <TriangleAlert className="size-4 text-warning" aria-label={t('detect.anomalousShort')} />}
+              <StateBadge sample={sample} expected={challenges[i].expected_count} />
+              <span className="ms-auto truncate text-meta text-muted-foreground">
+                {t('detect.numbers', { count: parseNumbers(text).length })}
+                {sample.elapsedMs !== undefined ? ` · ${t('detect.seconds', { s: (sample.elapsedMs / 1000).toFixed(1) })}` : ''}
+              </span>
+              {busy
+                ? <Button variant="ghost" size="icon-sm" aria-label={t('detect.stop')} title={t('detect.stop')} onClick={() => onStop(i)}><Square /></Button>
+                : <Button variant="ghost" size="icon-sm" aria-label={t('detect.resample')} title={t('detect.resample')} disabled={!canSample || locked} onClick={() => onResample(i)}><RotateCcw /></Button>}
+              {sample.errorText && <DropdownMenu>
+                <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" aria-label={t('detect.more')} />}><MoreVertical /></DropdownMenuTrigger>
+                <DropdownMenuContent align="end"><DropdownMenuGroup><DropdownMenuItem onClick={() => onShowError(i)}>{t('detect.viewError')}</DropdownMenuItem></DropdownMenuGroup></DropdownMenuContent>
+              </DropdownMenu>}
+            </div>
+            {sample.state === 'rejected' && <p className="line-clamp-2 text-meta text-destructive" role="status">{describe(i18n, sample.errorCode, sample.httpStatus)}</p>}
+          </li>
+        )
+      })}
+    </ol>
   )
 }
 

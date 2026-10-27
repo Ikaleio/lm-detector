@@ -68,10 +68,8 @@ export const zhHant: Messages = {
     reviewInputs: '回看本次輸入',
     anomalousShort: '分佈異常',
     printing: '正在列印結果',
-    modelLabel: '模型名稱',
-    modelPlaceholder: '填寫介面要求的模型 ID，例如 gpt-5.5',
     declaredLabel: '模型名稱（選填）',
-    declaredPlaceholder: '只用於標註檢測台，不會送出',
+    declaredPlaceholder: '模型名稱（選填），只用於標註檢測台，不會送出',
     scene: {
       loading: '正在準備三維檢測台…',
       unavailable: '三維效果暫不可用',

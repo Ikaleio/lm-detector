@@ -44,18 +44,21 @@ version: 2026-10-27
 用于一次处理多份同类输入并在同一页给出结论的页面。
 
 - [SHOULD] 检测页使用 `fp-page`，自上而下：页头（唯一的 h1）、一行紧凑提示条 `fp-cli-promo`、检测工作台 `fp-custom-workbench`、结果区、次要链接行 `fp-detect-footer`。（来源：2026-10-27 用户要求检测页沿用 Fingerprint Report 的页面结构。）
-- [SHOULD] 检测工作台 1280px 起为 `minmax(0,1fr) 520px`、32px 列间距；1024–1279px 为 `minmax(0,1fr) 460px`、24px 列间距；1024px 以下排成一列，检测台在前。两栏顶端对齐。
-- [SHOULD] 检测台 `fp-custom-stage` 不加表面和边框，三维画布透明地放在页面背景上；高度 1280px 起 520px、1024–1279px 460px、640–1023px 400px、640px 以下 320px。右下角放 36px ghost 复位视角按钮。
-- [SHOULD] 表单栏 `fp-custom-form` 自上而下：带 `ShieldCheck` 的 `text-meta` muted 模式说明、模式切换 `ModeSwitch`、模型名称输入、API 模式的配置卡片、三张问题卡 `fp-custom-probes`、API 模式的分词器卡片、计算状态行、操作区。组间隔 18px。
+- [SHOULD] 检测工作台 1024px 起为 `minmax(0,5fr) minmax(0,6fr)`（1280px 起 32px 列间距，1024–1279px 24px），两栏垂直居中对齐；1024px 以下排成一列，检测台在前。表单栏高度不明显超出检测台。（来源：2026-10-27 用户要求加宽右栏、缩小模型，并让模型与右栏居中对齐。）
+- [SHOULD] 检测台 `fp-custom-stage` 不加表面和边框，三维画布透明地放在页面背景上；高度 1280px 起 480px、1024–1279px 420px、640–1023px 400px、640px 以下 320px。右下角放 36px ghost 复位视角按钮。
+- [SHOULD] 表单栏 `fp-custom-form` 组间隔 14px，自上而下：带 `ShieldCheck` 的 `text-meta` muted 模式说明、模式切换 `ModeSwitch`、按模式不同的输入区、API 模式的分词器卡片、计算状态行、操作行。
+- [SHOULD] 手动模式的输入区：可选的模型名称输入，其下三张问题卡 `fp-custom-probes`。API 模式的输入区：配置卡片的一行摘要，其下样本列表 `ApiSampleList`；不显示问题卡，也不再单独提供模型名称输入，模型取自当前配置。（来源：2026-10-27 用户要求 API 模式不展示问题、不重复填写模型名称。）
+- [SHOULD] API 模式的配置卡片在表单栏中保持收起的摘要行；展开、新建或编辑配置时在 `Dialog` 中打开完整的 `ApiConfigPanel`（`sm:max-w-3xl`，超出视口时在对话框内滚动）。缺项或代理地址缺失时打开该对话框并聚焦对应字段。（来源：2026-10-27 用户要求 API 配置改为弹出窗口详细配置。）
+- [SHOULD] 样本列表 `ApiSampleList` 是一张 `fp-card`，每个样本一行，最小高 48px、左右内边距 16px、行间 1px 分隔线：`text-body` font-medium 编号、分布异常时的 warning 色 `TriangleAlert`、状态徽标、右对齐的 `text-meta` muted 计数与耗时、`icon-sm` ghost 停止或重新取样按钮，有错误时再加更多菜单；取样中的行顶边为 `march`，失败时下方加两行以内的 destructive 说明。
 - [SHOULD] 模式切换 `ModeSwitch` 是整宽 radiogroup：muted 底、`--radius-card` 圆角、4px 内边距；选中项下方是 card 底、1px 边框的滑块，用 `snappy` 在两项之间平移；文字前放 16px lucide 图标（手动 `PenLine`，API `Cable`）。方向键、Home、End 切换。
-- [SHOULD] 模型名称输入 `fp-custom-model-input` 高 56px、card 底：左侧 20px 图标（能识别家族时为 `BrandIcon`，否则 lucide `Fingerprint`），右侧有值时显示 `Check`。焦点样式与控件原语相同。
+- [SHOULD] 模型名称输入 `fp-custom-model-input` 高 48px、card 底，标签只供读屏（`sr-only`），说明写在占位文字里：左侧 20px 图标（能识别家族时为 `BrandIcon`，否则 lucide `Fingerprint`），右侧有值时显示 `Check`。焦点样式与控件原语相同。
 - [SHOULD] 问题卡网格 640px 起为三列等宽、12px 间距，640px 以下一列。
-- [SHOULD] 问题卡 `ProbeDrawer` 固定高 296px（640px 以下 278px），提示词层在底，回复层盖在上面。头部 44px：`text-body` font-medium 编号标题、状态徽标、复制图标按钮。回复层以 40px 把手行开始（左侧标题，中间 28×3px 的 border 色握条），其下是无边框的回复输入区、错误说明和 `text-meta` 计数行（行尾为停止或重新取样的 `icon-xs` ghost 按钮与更多菜单）。（来源：2026-10-27 用户要求保留 Fingerprint Report 的问题卡。）
+- [SHOULD] 问题卡 `ProbeDrawer` 固定高 248px，提示词层在底，回复层盖在上面。头部 44px：`text-body` font-medium 编号标题、状态徽标、复制图标按钮。回复层以 40px 把手行开始（左侧标题，中间 28×3px 的 border 色握条），其下是无边框的回复输入区、错误说明和 `text-meta` 计数行（行尾为停止或重新取样的 `icon-xs` ghost 按钮与更多菜单）。（来源：2026-10-27 用户要求保留 Fingerprint Report 的问题卡。）
 - [SHOULD] 点击提示词标题、点击或拖动把手、在把手上按上下方向键，回复层用 `snappy` 下滑到只露出把手，提示词完整显示并可滚动；两层标题的不透明度随位移在 0.18 与 1 之间交换。被盖住的层设 `inert`；取样开始时回复层自动收回。
-- [SHOULD] 操作区在表单栏末尾：上行右对齐放停止、分词器停止和部分检测等次要按钮，左端是换一组提示词或重新检测的 ghost 按钮；下行是整宽 52px 的主按钮，文字在左，右侧为 `ArrowRight`，进行中改为旋转的 `Loader2`。
+- [SHOULD] 操作行在表单栏末尾，一行右对齐：左端是换一组提示词或重新检测的 ghost 按钮，其后依次为停止、分词器停止和部分检测等次要按钮，最右是 44px 高、至少 12rem 宽的主按钮（文字在左，右侧为 `ArrowRight`，进行中改为旋转的 `Loader2`）。640px 以下主按钮占满剩余宽度。
 - [SHOULD] 检测流程按检测台的节奏推进：取样或计算开始时进入扫描，扫描至少 8 秒；有结果后打印票据 1.8 秒，然后表单栏换成摘要 `ScanSummary`，结果区在工作台下方用 `smooth` 高度展开。结果区顶端低于视口 60% 时页面平滑滚动到它；减少动效时跳过等待并直接跳转。
 - [SHOULD] 摘要 `ScanSummary` 是 card 底、1px 边框、`--radius-card` 圆角的面板：48px 圆形描边内放 success 色 `Check`，其下 `text-meta` 眉题、`text-section-title` 标题和 `text-body` muted 说明；再下是定义列表（muted 标签、右对齐取值）、“回看本次输入”折叠项（逐条列出提示词与回复，API 模式每条带重新取样）、更多菜单与保存图片、整宽的重新检测主按钮和 `text-meta` 说明。
-- [SHOULD] 三维检测台的状态联动：手动模式未填写模型或模型能识别家族时，机身升起；每填入一条回复点亮一盏灯，第一、二条回复分别合拢两侧夹具，三条齐全时扫描架退到后方；API 模式依次按模型、接口地址和 API Key 推进同样的状态。聚焦的问题卡让对应的灯更亮。
+- [SHOULD] 三维检测台的状态联动：尚未填写模型或模型能识别家族时，机身升起，无法识别的自定义名称只留纸箱；每填入一条回复点亮一盏灯，第一、二条回复分别合拢两侧夹具，三条齐全时扫描架退到后方；API 模式依次按模型、接口地址和 API Key 推进同样的状态。聚焦的问题卡让对应的灯更亮。
 - [SHOULD] 三维检测台的铭牌显示模型名称和家族标识；没有名称时在常见家族之间轮换，标识之间用像素点阵过渡。打印的票据显示排名第一的库内候选、它的家族标识和置信度，并注明排名不是身份证明。
 - [MUST] 三维检测台使用 `--scene-*` token（`web/src/tokens.css`，十六进制值）设置灯光和阴影；机身、纸箱和票据的材质颜色是模型的一部分，不随主题变化。减少动效时停止自动旋转，扫描与打印不等待。
 - [SHOULD] 提示条只占一行高度：命令片段用 `fp-cli-command`，其中的可执行名和参数为 primary 600 字重；点击命令复制全文并用 toast 反馈；行末 `fp-cli-links` 依次放 CLI 用法和 SDK 文档两个 primary 文字链接，间隔 12px。
@@ -249,7 +252,7 @@ version: 2026-10-27
 | 浮层 | `Dialog` `DropdownMenu` `Tooltip` `Sonner` `toastWithStar`（`fp-star-toast`） | `web/src/components/ui/`、`web/src/components/star-prompt.tsx` | 详情、菜单、提示、toast | 已实现 |
 | 数据反馈 | `Table` `Badge` `Empty` `Skeleton` `Alert`（`default` `warning` `destructive`） `Separator` | `web/src/components/ui/` | 表格、状态、空状态、警告 | 已实现 |
 | 工作台组件 | `SampleCard` `SampleStrip` `StateBadge` `toneClass` `ResultPanel` `ConfidenceBar` `AnimatedPercent` `ApiConfigPanel` `ProxySettings` | `web/src/components/` | 多卡片工作台 | 已实现 |
-| 三维检测台 | `ScannerScene` `ProbeDrawer` `ModeSwitch` `ScanSummary`；`--scene-*`；`fp-custom-workbench` `fp-custom-stage` `fp-custom-form` `fp-custom-probes` `fp-custom-probe` `fp-custom-summary` | `web/src/components/scanner/`、`web/src/tokens.css`、`web/src/index.css` | 检测页 | 已实现 |
+| 三维检测台 | `ScannerScene` `ProbeDrawer` `ModeSwitch` `ApiSampleList` `ScanSummary`；`--scene-*`；`fp-custom-workbench` `fp-custom-stage` `fp-custom-form` `fp-custom-probes` `fp-custom-probe` `fp-custom-primary` `fp-custom-summary` | `web/src/components/scanner/`、`web/src/tokens.css`、`web/src/index.css` | 检测页 | 已实现 |
 | 证据详情 | `TokenizerCard` `TokenizerStripButton` `TokenizerDetails` `ModelCheck`；`fp-custom-tokenizer-candidates` | `web/src/components/tokenizer-panel.tsx`、`web/src/components/tokenizer-claim.tsx`、`web/src/index.css` | 两列证据详情 | 已实现 |
 | 动效 | `spring` `useMotionPreset` `listStagger` `listItem` | `web/src/lib/motion.ts` | 所有动画 | 已实现 |
 | 推荐标记 | `RecommendMark`（`fp-recommend`） | `web/src/components/recommend-mark.tsx`、`web/src/index.css` | 推荐选项、推荐设置、推荐取值 | 已实现 |

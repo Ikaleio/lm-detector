@@ -68,10 +68,8 @@ export const fr: Messages = {
     reviewInputs: 'Revoir les entrées de cette analyse',
     anomalousShort: 'Distribution anormale',
     printing: 'Impression du résultat',
-    modelLabel: 'Nom du modèle',
-    modelPlaceholder: 'L’ID de modèle attendu par votre point de terminaison, p. ex. gpt-5.5',
     declaredLabel: 'Nom du modèle (facultatif)',
-    declaredPlaceholder: 'Sert uniquement d’étiquette au banc, jamais envoyé',
+    declaredPlaceholder: 'Nom du modèle (facultatif), sert uniquement d’étiquette au banc, jamais envoyé',
     scene: {
       loading: 'Préparation du banc 3D…',
       unavailable: 'Vue 3D indisponible',

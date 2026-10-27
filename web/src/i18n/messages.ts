@@ -66,10 +66,8 @@ export const zh = {
     reviewInputs: '回看本次输入',
     anomalousShort: '分布异常',
     printing: '正在打印结果',
-    modelLabel: '模型名称',
-    modelPlaceholder: '填写接口要求的模型 ID，例如 gpt-5.5',
     declaredLabel: '模型名称（可选）',
-    declaredPlaceholder: '只用于标注检测台，不会发送',
+    declaredPlaceholder: '模型名称（可选），只用于标注检测台，不会发送',
     scene: {
       loading: '正在准备三维检测台…',
       unavailable: '三维效果暂不可用',
@@ -477,10 +475,8 @@ export const en: Messages = {
     reviewInputs: 'Review this run’s inputs',
     anomalousShort: 'Abnormal distribution',
     printing: 'Printing the result',
-    modelLabel: 'Model name',
-    modelPlaceholder: 'The model ID your endpoint expects, e.g. gpt-5.5',
     declaredLabel: 'Model name (optional)',
-    declaredPlaceholder: 'Only labels the scanner; never sent',
+    declaredPlaceholder: 'Model name (optional), only labels the scanner and is never sent',
     scene: {
       loading: 'Preparing the 3D scanner…',
       unavailable: '3D view unavailable',

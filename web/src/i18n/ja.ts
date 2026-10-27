@@ -68,10 +68,8 @@ export const ja: Messages = {
     reviewInputs: '今回の入力を見返す',
     anomalousShort: '分布の異常',
     printing: '結果を印刷中',
-    modelLabel: 'モデル名',
-    modelPlaceholder: 'エンドポイントが求めるモデル ID（例：gpt-5.5）',
     declaredLabel: 'モデル名（任意）',
-    declaredPlaceholder: '検出台の表示にのみ使い、送信しません',
+    declaredPlaceholder: 'モデル名（任意）。検出台の表示にのみ使い、送信しません',
     scene: {
       loading: '3D 検出台を準備中…',
       unavailable: '3D 表示は利用できません',

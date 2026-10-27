@@ -11,7 +11,7 @@ import { downloadBytes, downloadFraction, ProgressCells } from '@/components/det
 import { useDetectorDownload } from '@/lib/detector'
 import { BrandIcon } from '@/components/brand-icon'
 import { ProbeDrawer } from '@/components/scanner/ProbeDrawer'
-import { ModeSwitch, ScanSummary } from '@/components/scanner/ScannerPanels'
+import { ApiSampleList, ModeSwitch, ScanSummary } from '@/components/scanner/ScannerPanels'
 import { PRINT_SECONDS, SCAN_SECONDS, resolveBrand, type MotionState, type Phase as ScenePhase, type SceneResult } from '@/components/scanner/model'
 import { useLoadedBank } from '@/lib/bank-context'
 import { ResultPanel } from '@/components/result-panel'
@@ -83,7 +83,8 @@ export default function DetectRoute() {
   const askedStar = useRef(false)
   const [config, update, profileManager] = useApiConfig(() => toast.error(t('errors.unknown')))
   const previousProfileId = useRef(profileManager.activeId)
-  const [apiConfigOpen, setApiConfigOpen] = useState(() => !configComplete(config))
+  /** The full API configuration opens in a dialog; the form keeps its one-line summary. */
+  const [apiConfigOpen, setApiConfigOpen] = useState(false)
   const apiConfigRef = useRef<HTMLDivElement>(null)
   /** One controller per running sample, so each card starts and stops on its own. */
   const runs = useRef(new Map<number, AbortController>())
@@ -221,10 +222,11 @@ export default function DetectRoute() {
   function requireConfig(requestConfig: WebApiConfig) {
     if (configComplete(requestConfig)) return true
     setApiConfigOpen(true)
-    requestAnimationFrame(() => {
+    // The dialog mounts its fields on the next frames.
+    setTimeout(() => {
       const inputs = apiConfigRef.current?.querySelectorAll<HTMLInputElement>('[data-api-required]')
       Array.from(inputs ?? []).find(input => !input.value.trim())?.focus()
-    })
+    }, 80)
     toast.error(t('api.incomplete'))
     return false
   }
@@ -237,7 +239,7 @@ export default function DetectRoute() {
       toast.error(describeError(i18n, error))
       if ((error as CodedError).code === 'proxy_missing') {
         setApiConfigOpen(true)
-        requestAnimationFrame(() => apiConfigRef.current?.querySelector<HTMLInputElement>('#proxy-worker-url')?.focus())
+        setTimeout(() => apiConfigRef.current?.querySelector<HTMLInputElement>('#proxy-worker-url')?.focus(), 80)
       }
       return null
     }
@@ -516,38 +518,39 @@ export default function DetectRoute() {
               </AnimatePresence>
               <ModeSwitch mode={mode} onChange={changeMode} disabled={locked || sceneBusy} />
 
-              <div className="flex flex-col gap-2">
-                <label htmlFor="detect-model" className="fp-custom-model-label">{t(mode === 'api' ? 'detect.modelLabel' : 'detect.declaredLabel')}</label>
+              {mode === 'api' ? <>
+                {/* The summary row stays in the form; expanding it opens the full configuration in a dialog. The model comes from the profile, so there is no second model field. */}
+                <ApiConfigPanel containerRef={null} open={false} onOpenChange={open => open && setApiConfigOpen(true)} config={config} update={update} profileManager={profileManager} disabled={locked} />
+                <ApiSampleList
+                  samples={samples}
+                  challenges={challenges}
+                  anomalous={anomalous}
+                  canSample={canSample}
+                  locked={computing || sceneBusy}
+                  onResample={index => sampleIndexes([index], sampled.current[index] ?? config)}
+                  onStop={index => stop([index])}
+                  onShowError={index => setErrorDetail(samples[index].errorText ?? null)}
+                />
+              </> : <>
+              <div className="flex flex-col">
+                <label htmlFor="detect-model" className="sr-only">{t('detect.declaredLabel')}</label>
                 <div className="fp-custom-model-input">
                   {modelBrand !== 'neutral' && sceneModel.trim() ? <BrandIcon family={modelBrand} className="size-5" /> : <Fingerprint aria-hidden="true" />}
                   <input
                     id="detect-model"
-                    value={sceneModel}
+                    value={declaredModel}
                     readOnly={locked || sceneBusy}
                     maxLength={160}
                     autoComplete="off"
                     spellCheck={false}
-                    placeholder={t(mode === 'api' ? 'detect.modelPlaceholder' : 'detect.declaredPlaceholder')}
-                    onChange={event => mode === 'api' ? update({ model: event.target.value }) : setDeclaredModel(event.target.value)}
+                    placeholder={t('detect.declaredPlaceholder')}
+                    onChange={event => setDeclaredModel(event.target.value)}
                     onFocus={() => setFocus(-1)}
                     onBlur={() => setFocus(null)}
                   />
-                  {sceneModel.trim() && <Check className="size-3.5 shrink-0" aria-hidden="true" />}
+                  {declaredModel.trim() && <Check className="size-3.5 shrink-0" aria-hidden="true" />}
                 </div>
               </div>
-
-              <AnimatePresence initial={false}>
-                {mode === 'api' && <motion.div
-                  key="api-configuration"
-                  initial={reduced ? false : { height: 0, opacity: 0, marginBottom: -18 }}
-                  animate={{ height: 'auto', opacity: 1, marginBottom: 0 }}
-                  exit={reduced ? undefined : { height: 0, opacity: 0, marginBottom: -18 }}
-                  transition={snappy}
-                  className="overflow-hidden"
-                >
-                  <ApiConfigPanel containerRef={apiConfigRef} open={apiConfigOpen} onOpenChange={setApiConfigOpen} config={config} update={update} profileManager={profileManager} disabled={locked} />
-                </motion.div>}
-              </AnimatePresence>
 
               <div className="fp-custom-probes">
                 {challenges.map((challenge, index) => (
@@ -571,6 +574,7 @@ export default function DetectRoute() {
                   />
                 ))}
               </div>
+              </>}
               {probeShown && <TokenizerCard session={tokenizer.session} onShowError={showProbeError} onRetry={() => void retryProbe()} canRetry={!locked && config.tokenizerProbe} />}
 
               {phase === 'computing' && (waitingDetector ? (
@@ -591,19 +595,17 @@ export default function DetectRoute() {
                 </div>
               ))}
 
-              <div className="flex flex-col gap-2">
-                <div className="flex flex-wrap items-center justify-end gap-2 empty:hidden">
-                  {phase === 'sampling' && <Button variant="outline" className="h-9" onClick={() => stop()}>{t('detect.stop')}</Button>}
-                  {phase === 'edit' && !sceneBusy && (samples.some(s => s.text.trim() || s.draftText?.trim())
-                    ? <Button variant="ghost" className="me-auto h-9" onClick={restart}>{t('detect.restart')}</Button>
-                    : <Button variant="ghost" className="me-auto h-9" disabled={locked} onClick={rotatePrompts}>
-                        <MotionRefresh data-icon="inline-start" aria-hidden="true" initial={false} animate={{ rotate: rotations * 180 }} transition={smooth} />
-                        {t('detect.rotatePrompts')}
-                      </Button>)}
-                  {phase !== 'sampling' && stopProbe}
-                  {phase === 'edit' && !sceneBusy && mode === 'api' && emptyIndexes.length > 0 && filled > 0 && <Button variant="outline" className="h-9" onClick={() => { showStage(); void verify() }}>{t('detect.verifyPartial', { n: filled })}</Button>}
-                </div>
-                <Button className="h-[52px] w-full justify-between px-4" disabled={primary.busy || primary.disabled} onClick={primary.run}>
+              <div className="flex flex-wrap items-center justify-end gap-2">
+                {phase === 'edit' && !sceneBusy && (samples.some(s => s.text.trim() || s.draftText?.trim())
+                  ? <Button variant="ghost" className="me-auto h-9" onClick={restart}>{t('detect.restart')}</Button>
+                  : <Button variant="ghost" className="me-auto h-9" disabled={locked} onClick={rotatePrompts}>
+                      <MotionRefresh data-icon="inline-start" aria-hidden="true" initial={false} animate={{ rotate: rotations * 180 }} transition={smooth} />
+                      {t('detect.rotatePrompts')}
+                    </Button>)}
+                {phase === 'sampling' && <Button variant="outline" className="h-9" onClick={() => stop()}>{t('detect.stop')}</Button>}
+                {phase !== 'sampling' && stopProbe}
+                {phase === 'edit' && !sceneBusy && mode === 'api' && emptyIndexes.length > 0 && filled > 0 && <Button variant="outline" className="h-9" onClick={() => { showStage(); void verify() }}>{t('detect.verifyPartial', { n: filled })}</Button>}
+                <Button className="fp-custom-primary h-11 justify-between gap-6 px-4" disabled={primary.busy || primary.disabled} onClick={primary.run}>
                   <span className="flex items-center gap-2">{primary.label}</span>
                   {primary.busy ? <Loader2 className="animate-spin" aria-hidden="true" /> : <ArrowRight aria-hidden="true" />}
                 </Button>
@@ -643,6 +645,16 @@ export default function DetectRoute() {
           {t('detect.starRequest')}
         </a>
       </div>
+
+      <Dialog open={active && mode === 'api' && apiConfigOpen} onOpenChange={setApiConfigOpen}>
+        <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-3xl">
+          <DialogHeader>
+            <DialogTitle>{t('api.title')}</DialogTitle>
+            <DialogDescription className="sr-only">{t('api.title')}</DialogDescription>
+          </DialogHeader>
+          <ApiConfigPanel containerRef={apiConfigRef} open onOpenChange={open => !open && setApiConfigOpen(false)} config={config} update={update} profileManager={profileManager} disabled={locked} />
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={active && errorDetail !== null} onOpenChange={open => !open && setErrorDetail(null)}>
         <DialogContent>
