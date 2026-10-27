@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, type RefObject } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
-import { type MotionState, type Phase, type SceneResult } from './model'
+import { PRINT_SECONDS, type MotionState, type Phase, type SceneResult } from './model'
 import { DIM, ease } from './dimensions'
 import { ticketTexture } from './textures'
 
@@ -37,7 +37,7 @@ export function Paper({ phase, motion, result }: { phase: Phase; motion: RefObje
       last.current = -1
     }
     const elapsed = Math.max(0, (performance.now() - phaseStartedAt.current) / 1000)
-    const localPrint = activePhase === 'printing' ? THREE.MathUtils.clamp(elapsed / 1.8, 0, 1) : activePhase === 'report' ? 1 : 0
+    const localPrint = activePhase === 'printing' ? THREE.MathUtils.clamp(elapsed / PRINT_SECONDS, 0, 1) : activePhase === 'report' ? 1 : 0
     const print = Math.max(motion.current.print, localPrint)
     if (group.current) group.current.visible = activePhase === 'printing' || activePhase === 'report'
     if (last.current === print) return

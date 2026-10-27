@@ -6,7 +6,7 @@ import { RotateCcw } from 'lucide-react'
 import * as THREE from 'three'
 import { useI18n } from '@/i18n'
 import { useMotionPreset } from '@/lib/motion'
-import { type BrandId, type MotionState, type Phase, type SceneResult, resolveBrand } from './model'
+import { PRINT_SECONDS, SCAN_SECONDS, type BrandId, type MotionState, type Phase, type SceneResult, resolveBrand } from './model'
 import { BOX_CENTER_Y, BOX_TOP_Y, DIM, ease } from './dimensions'
 import { kraftTexture, loadBrand, machineLabel, plaqueBaseTexture, plaqueLogoMorphTexture, plaqueLogoTexture, plaqueNameMorphTexture, plaqueNameTexture, topStamp } from './textures'
 import { Paper } from './Paper'
@@ -250,8 +250,8 @@ function Scanner({ name, inputMode, baseUrl, apiKey, filled, focus, phase, motio
       phaseStartedAt.current = performance.now()
     }
     const elapsed = Math.max(0, (performance.now() - phaseStartedAt.current) / 1000)
-    const scanProgress = activePhase === 'scanning' ? THREE.MathUtils.clamp(elapsed / 8, 0, 1) : activePhase === 'printing' || activePhase === 'report' ? 1 : 0
-    const printProgress = activePhase === 'printing' ? THREE.MathUtils.clamp(elapsed / 1.8, 0, 1) : activePhase === 'report' ? 1 : 0
+    const scanProgress = activePhase === 'scanning' ? THREE.MathUtils.clamp(elapsed / SCAN_SECONDS, 0, 1) : activePhase === 'printing' || activePhase === 'report' ? 1 : 0
+    const printProgress = activePhase === 'printing' ? THREE.MathUtils.clamp(elapsed / PRINT_SECONDS, 0, 1) : activePhase === 'report' ? 1 : 0
     const locked = activePhase !== 'editing'
     const activeCount = locked ? 3 : activeStageCount
     let plaqueMoving = plaqueTransition.current === 'active' && morphReady && incomingBrand !== null && logoMorph !== null

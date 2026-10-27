@@ -10,8 +10,8 @@ export interface MotionState { scan: number; print: number; phase: Phase }
 export interface SceneResult { best: { id: BrandId; name: string }; title: string; detail: string }
 
 /** Seconds the gantry sweeps before the ticket may print, and seconds the ticket takes to feed out. */
-export const SCAN_SECONDS = 8
-export const PRINT_SECONDS = 1.8
+export const SCAN_SECONDS = 2.25
+export const PRINT_SECONDS = .7
 
 /** Plaque colours used while one logo morphs into the next. */
 const colors: Record<string, string> = {
