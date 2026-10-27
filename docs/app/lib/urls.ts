@@ -29,9 +29,12 @@ export function switchLocale(pathname: string, base: string, target: string) {
   return localizedUrl(base)(rest, target)
 }
 
-/** Splits a content file name such as `cli/index.en.mdx` into its slugs path and locale. */
+/**
+ * Splits a content file name such as `cli/index.en.mdx` into its slugs path and locale. `node:fs` globs hand back
+ * platform separators, so Windows paths are normalized first and the slugs stay `/`-joined on every machine.
+ */
 export function parseContentFile(file: string): { path: string; locale: Locale } {
-  const match = /^(.*?)(?:\.([a-z]{2}))?\.mdx$/.exec(file)
+  const match = /^(.*?)(?:\.([a-z]{2}))?\.mdx$/.exec(file.replace(/\\/g, '/'))
   if (!match) throw new Error(`Not an MDX content file: ${file}`)
   const locale = i18n.languages.find(language => language === match[2]) ?? i18n.defaultLanguage
   if (match[2] && locale !== match[2]) throw new Error(`Unknown locale "${match[2]}" in ${file}`)
