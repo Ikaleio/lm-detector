@@ -70,6 +70,9 @@ export const ja: Messages = {
     printing: '結果を印刷中',
     declaredLabel: 'モデル名（任意）',
     declaredPlaceholder: 'モデル名（任意）。検出台の表示にのみ使い、送信しません',
+    keyNote: 'このブラウザーに保存',
+    advancedSettings: '詳細設定',
+    profileNote: 'プロファイル：{name}',
     scene: {
       loading: '3D 検出台を準備中…',
       unavailable: '3D 表示は利用できません',

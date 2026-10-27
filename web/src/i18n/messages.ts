@@ -68,6 +68,9 @@ export const zh = {
     printing: '正在打印结果',
     declaredLabel: '模型名称（可选）',
     declaredPlaceholder: '模型名称（可选），只用于标注检测台，不会发送',
+    keyNote: '保存在本浏览器',
+    advancedSettings: '高级设置',
+    profileNote: '当前配置：{name}',
     scene: {
       loading: '正在准备三维检测台…',
       unavailable: '三维效果暂不可用',
@@ -477,6 +480,9 @@ export const en: Messages = {
     printing: 'Printing the result',
     declaredLabel: 'Model name (optional)',
     declaredPlaceholder: 'Model name (optional), only labels the scanner and is never sent',
+    keyNote: 'Saved in this browser',
+    advancedSettings: 'Advanced settings',
+    profileNote: 'Profile: {name}',
     scene: {
       loading: 'Preparing the 3D scanner…',
       unavailable: '3D view unavailable',

@@ -70,6 +70,9 @@ export const zhHant: Messages = {
     printing: '正在列印結果',
     declaredLabel: '模型名稱（選填）',
     declaredPlaceholder: '模型名稱（選填），只用於標註檢測台，不會送出',
+    keyNote: '儲存在本瀏覽器',
+    advancedSettings: '進階設定',
+    profileNote: '目前設定：{name}',
     scene: {
       loading: '正在準備三維檢測台…',
       unavailable: '三維效果暫不可用',

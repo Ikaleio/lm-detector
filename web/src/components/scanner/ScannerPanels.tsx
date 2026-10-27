@@ -1,14 +1,13 @@
 import { useState, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, Cable, Check, ChevronDown, MoreVertical, PenLine, RotateCcw, Square, TriangleAlert } from 'lucide-react'
+import { ArrowRight, Cable, Check, ChevronDown, Eye, EyeOff, MoreVertical, PenLine, RotateCcw, Settings2, TriangleAlert } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { PixelShader } from '@/components/pixel-shader'
-import { StateBadge, isBusyState, type Mode, type SampleUI } from '@/components/sample-card'
-import { parseNumbers } from '@/lib/client'
-import { describe } from '@/lib/errors'
+import { Input } from '@/components/ui/input'
+import { StateBadge, type Mode, type SampleUI } from '@/components/sample-card'
 import { useI18n } from '@/i18n'
 import { useMotionPreset } from '@/lib/motion'
+import type { WebApiConfig } from '@/lib/config'
 import { cn } from '@/lib/utils'
 import type { Analysis, Challenge } from '@fingerpoint/shared/types'
 
@@ -46,50 +45,41 @@ export function ModeSwitch({ mode, onChange, disabled }: { mode: Mode; onChange:
 }
 
 /**
- * API mode's three samples as one compact list instead of question cards: the bench shows the scan,
- * each row its state, count and timing, with stop, resample and error details at the row's end.
+ * API mode's required settings in the form, as in Fingerprint Report: the endpoint and the key (the model field sits above).
+ * Everything else, profiles included, lives in the advanced settings dialog, which edits the same configuration.
  */
-export function ApiSampleList({ samples, challenges, anomalous, canSample, locked, onResample, onStop, onShowError }: {
-  samples: SampleUI[]
-  challenges: Challenge[]
-  anomalous: number[]
-  canSample: boolean
-  locked: boolean
-  onResample: (index: number) => void
-  onStop: (index: number) => void
-  onShowError: (index: number) => void
+export function ApiConnectionFields({ config, update, disabled, profileName, onAdvanced }: {
+  config: WebApiConfig
+  update: (changes: Partial<WebApiConfig>) => void
+  disabled: boolean
+  profileName?: string
+  onAdvanced: () => void
 }) {
-  const i18n = useI18n()
-  const { t } = i18n
+  const { t } = useI18n()
+  const [showKey, setShowKey] = useState(false)
   return (
-    <ol className="fp-card flex flex-col" aria-label={t('detect.samples')}>
-      {samples.map((sample, i) => {
-        const busy = isBusyState(sample.state)
-        const text = sample.draftText ?? sample.text
-        return (
-          <li key={challenges[i].id} className="relative flex min-h-12 flex-col justify-center gap-0.5 border-t border-border px-4 py-2 first:border-t-0">
-            {busy && <PixelShader effect="march" cell={2} className="absolute inset-x-0 top-0 h-1 text-muted-foreground/60" />}
-            <div className="flex items-center gap-2">
-              <span className="text-body font-medium">{t('detect.sample', { n: i + 1 })}</span>
-              {anomalous.includes(i) && <TriangleAlert className="size-4 text-warning" aria-label={t('detect.anomalousShort')} />}
-              <StateBadge sample={sample} expected={challenges[i].expected_count} />
-              <span className="ms-auto truncate text-meta text-muted-foreground">
-                {t('detect.numbers', { count: parseNumbers(text).length })}
-                {sample.elapsedMs !== undefined ? ` · ${t('detect.seconds', { s: (sample.elapsedMs / 1000).toFixed(1) })}` : ''}
-              </span>
-              {busy
-                ? <Button variant="ghost" size="icon-sm" aria-label={t('detect.stop')} title={t('detect.stop')} onClick={() => onStop(i)}><Square /></Button>
-                : <Button variant="ghost" size="icon-sm" aria-label={t('detect.resample')} title={t('detect.resample')} disabled={!canSample || locked} onClick={() => onResample(i)}><RotateCcw /></Button>}
-              {sample.errorText && <DropdownMenu>
-                <DropdownMenuTrigger render={<Button variant="ghost" size="icon-sm" aria-label={t('detect.more')} />}><MoreVertical /></DropdownMenuTrigger>
-                <DropdownMenuContent align="end"><DropdownMenuGroup><DropdownMenuItem onClick={() => onShowError(i)}>{t('detect.viewError')}</DropdownMenuItem></DropdownMenuGroup></DropdownMenuContent>
-              </DropdownMenu>}
-            </div>
-            {sample.state === 'rejected' && <p className="line-clamp-2 text-meta text-destructive" role="status">{describe(i18n, sample.errorCode, sample.httpStatus)}</p>}
-          </li>
-        )
-      })}
-    </ol>
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2">
+        <label htmlFor="detect-base-url" className="fp-custom-field-label">{t('api.baseUrl')}</label>
+        <Input id="detect-base-url" data-api-required className="fp-mono h-10" value={config.baseUrl} readOnly={disabled} placeholder="https://api.example.com/v1" autoComplete="off" spellCheck={false} onChange={event => update({ baseUrl: event.target.value })} onBlur={() => update({ baseUrl: config.baseUrl.trim() })} />
+      </div>
+      <div className="flex flex-col gap-2">
+        <label htmlFor="detect-api-key" className="fp-custom-field-label flex items-center justify-between gap-2">
+          {t('api.apiKey')}
+          <small className="text-meta font-normal">{t('detect.keyNote')}</small>
+        </label>
+        <div className="relative">
+          <Input id="detect-api-key" data-api-required className="fp-mono h-10 pe-11" type={showKey ? 'text' : 'password'} value={config.apiKey} readOnly={disabled} autoComplete="off" spellCheck={false} onChange={event => update({ apiKey: event.target.value })} />
+          <Button variant="ghost" size="icon-sm" className="absolute end-1 top-1/2 -translate-y-1/2" aria-label={t(showKey ? 'api.hideKey' : 'api.showKey')} aria-pressed={showKey} onClick={() => setShowKey(v => !v)}>
+            {showKey ? <EyeOff /> : <Eye />}
+          </Button>
+        </div>
+      </div>
+      <div className="flex items-center gap-3">
+        <Button variant="outline" className="h-9" onClick={onAdvanced}><Settings2 data-icon="inline-start" />{t('detect.advancedSettings')}</Button>
+        {profileName && <span className="min-w-0 truncate text-meta text-muted-foreground" title={profileName}>{t('detect.profileNote', { name: profileName })}</span>}
+      </div>
+    </div>
   )
 }
 

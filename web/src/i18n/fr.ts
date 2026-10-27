@@ -70,6 +70,9 @@ export const fr: Messages = {
     printing: 'Impression du résultat',
     declaredLabel: 'Nom du modèle (facultatif)',
     declaredPlaceholder: 'Nom du modèle (facultatif), sert uniquement d’étiquette au banc, jamais envoyé',
+    keyNote: 'Enregistrée dans ce navigateur',
+    advancedSettings: 'Paramètres avancés',
+    profileNote: 'Profil : {name}',
     scene: {
       loading: 'Préparation du banc 3D…',
       unavailable: 'Vue 3D indisponible',

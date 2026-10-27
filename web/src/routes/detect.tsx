@@ -11,7 +11,7 @@ import { downloadBytes, downloadFraction, ProgressCells } from '@/components/det
 import { useDetectorDownload } from '@/lib/detector'
 import { BrandIcon } from '@/components/brand-icon'
 import { ProbeDrawer } from '@/components/scanner/ProbeDrawer'
-import { ApiSampleList, ModeSwitch, ScanSummary } from '@/components/scanner/ScannerPanels'
+import { ApiConnectionFields, ModeSwitch, ScanSummary } from '@/components/scanner/ScannerPanels'
 import { PRINT_SECONDS, SCAN_SECONDS, resolveBrand, type MotionState, type Phase as ScenePhase, type SceneResult } from '@/components/scanner/model'
 import { useLoadedBank } from '@/lib/bank-context'
 import { ResultPanel } from '@/components/result-panel'
@@ -30,6 +30,7 @@ import { useConnectionRoute } from '@/lib/use-connection-route'
 import { docsHref } from '@/lib/docs'
 import { markStarVisited, REPOSITORY_URL, starPromptAllowed } from '@/lib/star'
 import { toastWithStar } from '@/components/star-prompt'
+import { cn } from '@/lib/utils'
 import type { Analysis, Challenge, CodedError, CollectionProgress } from '@fingerpoint/shared/types'
 import { redactPrivateMetadata } from '@fingerpoint/shared/privacy'
 import { anomalousSamples } from '@fingerpoint/shared/sample-distribution'
@@ -123,6 +124,7 @@ export default function DetectRoute() {
   const [focus, setFocus] = useState<number | null>(null)
   const stageRef = useRef<HTMLElement>(null)
   const reportRef = useRef<HTMLDivElement>(null)
+  const formRef = useRef<HTMLDivElement>(null)
   const sceneModel = mode === 'api' ? config.model : declaredModel
   const modelBrand = resolveBrand(sceneModel, bank)
   const sceneFilled = samples.map(sample => Boolean(sample.text.trim())) as [boolean, boolean, boolean]
@@ -218,15 +220,17 @@ export default function DetectRoute() {
     }
   }, [active])
 
-  /** Opens the API configuration and focuses the first missing field. Returns whether the configuration is usable. */
+  /** Focuses the first missing required field: in the form when it is on screen, otherwise in the advanced settings dialog. Returns whether the configuration is usable. */
   function requireConfig(requestConfig: WebApiConfig) {
     if (configComplete(requestConfig)) return true
-    setApiConfigOpen(true)
-    // The dialog mounts its fields on the next frames.
-    setTimeout(() => {
-      const inputs = apiConfigRef.current?.querySelectorAll<HTMLInputElement>('[data-api-required]')
-      Array.from(inputs ?? []).find(input => !input.value.trim())?.focus()
-    }, 80)
+    const missing = (root: ParentNode | null | undefined) => Array.from(root?.querySelectorAll<HTMLInputElement>('[data-api-required]') ?? []).find(input => !input.value.trim())
+    const inline = missing(formRef.current)
+    if (inline) inline.focus()
+    else {
+      setApiConfigOpen(true)
+      // The dialog mounts its fields on the next frames.
+      setTimeout(() => missing(apiConfigRef.current)?.focus(), 80)
+    }
     toast.error(t('api.incomplete'))
     return false
   }
@@ -510,7 +514,7 @@ export default function DetectRoute() {
               extra={stopProbe}
             />
           ) : (
-            <div className="fp-custom-form" aria-label={t('detect.samples')}>
+            <div ref={formRef} className="fp-custom-form" aria-label={t('detect.samples')}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.p key={mode} className="fp-custom-mode-note" initial={reduced ? false : { opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={snappy}>
                   <ShieldCheck aria-hidden="true" />{t(mode === 'api' ? 'detect.modeApiHint' : 'detect.modeManualHint')}
@@ -518,40 +522,32 @@ export default function DetectRoute() {
               </AnimatePresence>
               <ModeSwitch mode={mode} onChange={changeMode} disabled={locked || sceneBusy} />
 
-              {mode === 'api' ? <>
-                {/* The summary row stays in the form; expanding it opens the full configuration in a dialog. The model comes from the profile, so there is no second model field. */}
-                <ApiConfigPanel containerRef={null} open={false} onOpenChange={open => open && setApiConfigOpen(true)} config={config} update={update} profileManager={profileManager} disabled={locked} />
-                <ApiSampleList
-                  samples={samples}
-                  challenges={challenges}
-                  anomalous={anomalous}
-                  canSample={canSample}
-                  locked={computing || sceneBusy}
-                  onResample={index => sampleIndexes([index], sampled.current[index] ?? config)}
-                  onStop={index => stop([index])}
-                  onShowError={index => setErrorDetail(samples[index].errorText ?? null)}
-                />
-              </> : <>
-              <div className="flex flex-col">
-                <label htmlFor="detect-model" className="sr-only">{t('detect.declaredLabel')}</label>
+              <div className="flex flex-col gap-2">
+                <label htmlFor="detect-model" className="fp-custom-field-label">{t(mode === 'api' ? 'api.model' : 'detect.declaredLabel')}</label>
                 <div className="fp-custom-model-input">
                   {modelBrand !== 'neutral' && sceneModel.trim() ? <BrandIcon family={modelBrand} className="size-5" /> : <Fingerprint aria-hidden="true" />}
+                  {/* In API mode this is the profile's model, the same value the advanced settings edit. */}
                   <input
                     id="detect-model"
-                    value={declaredModel}
+                    data-api-required={mode === 'api' || undefined}
+                    className={cn(mode === 'api' && 'fp-mono')}
+                    value={sceneModel}
                     readOnly={locked || sceneBusy}
                     maxLength={160}
                     autoComplete="off"
                     spellCheck={false}
-                    placeholder={t('detect.declaredPlaceholder')}
-                    onChange={event => setDeclaredModel(event.target.value)}
+                    placeholder={t(mode === 'api' ? 'api.modelPlaceholder' : 'detect.declaredPlaceholder')}
+                    onChange={event => mode === 'api' ? update({ model: event.target.value }) : setDeclaredModel(event.target.value)}
                     onFocus={() => setFocus(-1)}
-                    onBlur={() => setFocus(null)}
+                    onBlur={() => { setFocus(null); if (mode === 'api') update({ model: config.model.trim() }) }}
                   />
-                  {declaredModel.trim() && <Check className="size-3.5 shrink-0" aria-hidden="true" />}
+                  {sceneModel.trim() && <Check className="size-3.5 shrink-0" aria-hidden="true" />}
                 </div>
               </div>
 
+              {mode === 'api' ? (
+                <ApiConnectionFields config={config} update={update} disabled={locked || sceneBusy} profileName={profileManager.profiles.find(profile => profile.id === profileManager.activeId)?.name} onAdvanced={() => setApiConfigOpen(true)} />
+              ) : (
               <div className="fp-custom-probes">
                 {challenges.map((challenge, index) => (
                   // Keyed by slot, so a new prompt crossfades inside the card that stays.
@@ -574,7 +570,7 @@ export default function DetectRoute() {
                   />
                 ))}
               </div>
-              </>}
+              )}
               {probeShown && <TokenizerCard session={tokenizer.session} onShowError={showProbeError} onRetry={() => void retryProbe()} canRetry={!locked && config.tokenizerProbe} />}
 
               {phase === 'computing' && (waitingDetector ? (
@@ -649,7 +645,7 @@ export default function DetectRoute() {
       <Dialog open={active && mode === 'api' && apiConfigOpen} onOpenChange={setApiConfigOpen}>
         <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-3xl">
           <DialogHeader>
-            <DialogTitle>{t('api.title')}</DialogTitle>
+            <DialogTitle>{t('detect.advancedSettings')}</DialogTitle>
             <DialogDescription className="sr-only">{t('api.title')}</DialogDescription>
           </DialogHeader>
           <ApiConfigPanel containerRef={apiConfigRef} open onOpenChange={open => !open && setApiConfigOpen(false)} config={config} update={update} profileManager={profileManager} disabled={locked} />

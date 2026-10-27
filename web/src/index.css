@@ -189,8 +189,8 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
 .fp-mono { font-family: var(--font-mono); }
 
 /* Detect page, after Fingerprint Report's scanner: the 3D bench on the left, the form shell on the right. */
-.fp-custom-workbench { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 2rem; align-items: center; }
-.fp-custom-stage { position: relative; height: 480px; isolation: isolate; overflow: hidden; scroll-margin-top: calc(var(--fp-topbar-height) + 1rem); }
+.fp-custom-workbench { display: grid; grid-template-columns: minmax(0, 1fr) 520px; gap: 2rem; align-items: center; }
+.fp-custom-stage { position: relative; height: 520px; isolation: isolate; overflow: hidden; scroll-margin-top: calc(var(--fp-topbar-height) + 1rem); }
 .fp-custom-scene { position: absolute; inset: 0; }
 .fp-custom-scene canvas { display: block; touch-action: none; cursor: grab; }
 .fp-custom-scene canvas:active { cursor: grabbing; }
@@ -213,6 +213,7 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
 .fp-custom-mode-switch svg { width: 1rem; height: 1rem; }
 .fp-custom-mode-pill { position: absolute; inset: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--card); }
 
+.fp-custom-field-label { font-size: .875rem; font-weight: 500; color: var(--muted-foreground); }
 .fp-custom-model-input { display: flex; align-items: center; gap: .625rem; height: 3rem; padding: 0 .875rem; border: 1px solid var(--input); border-radius: var(--radius); background: var(--card); color: var(--muted-foreground); transition: border-color .15s, box-shadow .15s; }
 .fp-custom-model-input:focus-within { border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent); }
 .fp-custom-model-input input { flex: 1; width: 0; min-width: 0; height: 100%; border: 0; outline: none; background: none; color: var(--foreground); font-size: .875rem; }
@@ -220,7 +221,7 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
 .fp-custom-model-input > svg { width: 1.25rem; height: 1.25rem; flex-shrink: 0; }
 
 .fp-custom-probes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
-.fp-custom-probe { position: relative; isolation: isolate; height: 248px; min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--card); transition: border-color .2s, box-shadow .2s; }
+.fp-custom-probe { position: relative; isolation: isolate; height: 296px; min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--card); transition: border-color .2s, box-shadow .2s; }
 .fp-custom-probe[data-focused] { border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 30%, transparent); }
 .fp-custom-probe[data-warning] { border-color: color-mix(in oklab, var(--warning) 60%, transparent); }
 .fp-custom-probe-header { display: flex; align-items: center; gap: .25rem; height: 44px; padding: 0 .5rem 0 .75rem; }
@@ -254,14 +255,14 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
 .fp-custom-snapshot > div { display: flex; flex-direction: column; gap: .375rem; padding: .75rem 0; border-bottom: 1px solid var(--border); }
 .fp-custom-snapshot pre { max-height: 10rem; margin: 0; padding: .5rem; overflow: auto; border-radius: var(--radius); background: var(--muted); font: inherit; font-size: .75rem; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--muted-foreground); }
 
-@media (min-width: 1024px) and (max-width: 1279px) { .fp-custom-workbench { gap: 1.5rem; } .fp-custom-stage { height: 420px; } }
+@media (min-width: 1024px) and (max-width: 1279px) { .fp-custom-workbench { grid-template-columns: minmax(0, 1fr) 460px; gap: 1.5rem; } .fp-custom-stage { height: 460px; } }
 .fp-custom-primary { min-width: 12rem; }
 @media (max-width: 1023px) { .fp-custom-workbench { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; } .fp-custom-stage { height: 400px; } }
 @media (max-width: 767px) { .fp-custom-scene canvas { touch-action: pan-y; } .fp-custom-model-input input { font-size: 1rem; } }
 @media (max-width: 639px) {
   .fp-custom-stage { height: 320px; }
   .fp-custom-probes { grid-template-columns: minmax(0, 1fr); }
-  .fp-custom-probe { height: 248px; }
+  .fp-custom-probe { height: 278px; }
   .fp-custom-primary { flex: 1; }
   .fp-custom-summary { padding: 1.25rem; }
 }
