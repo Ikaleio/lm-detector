@@ -12,7 +12,7 @@
 [![PyPI](https://img.shields.io/pypi/v/lmfpd?logo=pypi&logoColor=white&label=PyPI)](https://pypi.org/project/lmfpd/)
 [![Web](https://img.shields.io/badge/Web-lm.ikale.io-0ea5e9)](https://lm.ikale.io)
 [![Docs](https://img.shields.io/badge/Docs-lm.ikale.io%2Fdocs-6366f1)](https://lm.ikale.io/docs/en)
-[![Bun](https://img.shields.io/badge/Bun-1.4.2-000?logo=bun)](https://bun.sh)
+[![Bun](https://img.shields.io/badge/Bun-1.4.4-000?logo=bun)](https://bun.sh)
 [![License](https://img.shields.io/badge/license-MIT-22c55e)](./LICENSE)
 
 [Web detector](https://lm.ikale.io) · [Docs](https://lm.ikale.io/docs/en) · [Quick start](#quick-start) · [Command line](https://lm.ikale.io/docs/en/cli) · [SDK](https://lm.ikale.io/docs/en/sdk) · [How it works](https://lm.ikale.io/docs/en/principles)
@@ -45,14 +45,14 @@ An API relay or a third-party provider can claim to serve one model and actually
 # Node.js 22 or later
 npx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra
 
-# Bun 1.4.2 or later
+# Bun 1.4.4 or later
 bunx --bun lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra
 ```
 
 **SDK**: score replies or run a detection from your own program. All four languages offer the same features:
 
 ```sh
-npm install lmfpd-sdk                                  # TypeScript (Node.js 22+ or Bun 1.4.2+)
+npm install lmfpd-sdk                                  # TypeScript (Node.js 22+ or Bun 1.4.4+)
 cargo add lmfpd                                        # Rust
 go get github.com/Ikaleio/lm-detector/sdk/go@latest    # Go 1.23+
 pip install lmfpd                                      # Python 3.10+

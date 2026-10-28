@@ -25,7 +25,7 @@ Pages 项目使用仓库根目录作为根目录，通过 Git 集成部署：
 | 生产分支 | `main` |
 | 构建命令 | `bun run build` |
 | 输出目录 | `web/dist` |
-| 环境变量 | `BUN_VERSION=1.4.2` |
+| 环境变量 | `BUN_VERSION=1.4.4` |
 
 构建把 `api/proxy.ts` 编译为 `web/dist/_worker.js`，供 Cloudflare Pages 的高级模式加载。仓库不再需要 `functions/` 目录。`wrangler.jsonc` 固定兼容日期并启用 `enable_request_signal`，让客户端取消能传到上游。
 

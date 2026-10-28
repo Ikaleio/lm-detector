@@ -25,7 +25,7 @@ The Pages project uses the repository root as its root directory and deploys thr
 | Production branch | `main` |
 | Build command | `bun run build` |
 | Output directory | `web/dist` |
-| Environment variable | `BUN_VERSION=1.4.2` |
+| Environment variable | `BUN_VERSION=1.4.4` |
 
 The build compiles `api/proxy.ts` to `web/dist/_worker.js` for Cloudflare Pages advanced mode. The repository no longer needs a `functions/` directory. `wrangler.jsonc` pins the compatibility date and enables `enable_request_signal`, so a client cancellation reaches the upstream.
 

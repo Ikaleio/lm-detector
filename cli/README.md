@@ -1,6 +1,6 @@
 # FPD CLI
 
-FPD uses Ink for live detection, reference collection, and enrollment. The published package runs with Node.js 22+ or Bun 1.4.2+ and does not require a repository checkout. Detection shows candidate rankings and repeated results; collection shows setup, request progress, saved evidence, and enrollment previews. Compatible terminals display `lm.ikale.io` as a clickable link in the detection header.
+FPD uses Ink for live detection, reference collection, and enrollment. The published package runs with Node.js 22+ or Bun 1.4.4+ and does not require a repository checkout. Detection shows candidate rankings and repeated results; collection shows setup, request progress, saved evidence, and enrollment previews. Compatible terminals display `lm.ikale.io` as a clickable link in the detection header.
 
 The full documentation, in English and Chinese, is at [lm.ikale.io/docs/en/cli](https://lm.ikale.io/docs/en/cli).
 

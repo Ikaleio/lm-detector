@@ -39,7 +39,7 @@ go get github.com/Ikaleio/lm-detector/sdk/go@latest
 pip install lmfpd
 ```
 
-TypeScript 版在 Node.js 22+ 和 Bun 1.4.2+ 上运行，打包后没有依赖。Rust 版的调用都是阻塞的。Go 版要求 Go 1.23+。Python 版要求 Python 3.10+，依赖 `httpx`、`zstandard` 和 `numpy`。
+TypeScript 版在 Node.js 22+ 和 Bun 1.4.4+ 上运行，打包后没有依赖。Rust 版的调用都是阻塞的。Go 版要求 Go 1.23+。Python 版要求 Python 3.10+，依赖 `httpx`、`zstandard` 和 `numpy`。
 
 安装包里不带参考数据。第一次加载时，SDK 下载约 3.6 MB 的压缩数据并缓存，之后参考库更新也不需要升级 SDK，见[参考数据](./data.mdx)。
 

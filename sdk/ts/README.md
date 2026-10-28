@@ -9,7 +9,7 @@ The results are a closed-set ranking within the reference bank. They are not ide
 Documentation: https://lm.ikale.io/docs/en/sdk
 
 ```sh
-npm install lmfpd-sdk   # Node 22+ or Bun 1.4.2+
+npm install lmfpd-sdk   # Node 22+ or Bun 1.4.4+
 ```
 
 ```ts
