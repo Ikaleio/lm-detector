@@ -20,7 +20,7 @@
   "files": ["index.js", "types", "README.md", "LICENSE"],
   "engines": {
     "node": ">=22",
-    "bun": ">=1.4.2"
+    "bun": ">=1.4.4"
   },
   "keywords": ["llm", "fingerprint", "model-detection", "sdk"]
 }

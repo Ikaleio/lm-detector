@@ -39,7 +39,7 @@ go get github.com/Ikaleio/lm-detector/sdk/go@latest
 pip install lmfpd
 ```
 
-The TypeScript SDK runs on Node.js 22+ and Bun 1.4.2+ and has no dependencies once built. Every Rust call is blocking. The Go SDK needs Go 1.23+. The Python SDK needs Python 3.10+ and depends on `httpx`, `zstandard`, and `numpy`.
+The TypeScript SDK runs on Node.js 22+ and Bun 1.4.4+ and has no dependencies once built. Every Rust call is blocking. The Go SDK needs Go 1.23+. The Python SDK needs Python 3.10+ and depends on `httpx`, `zstandard`, and `numpy`.
 
 No package contains reference data. On the first load the SDK downloads about 3.6 MB of compressed data and caches it. Later updates to the reference bank need no SDK upgrade; see [Reference data](./data.mdx).
 
