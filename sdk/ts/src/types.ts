@@ -3,7 +3,7 @@ export interface Output { text: string; expected_count: number }
 
 export interface Challenge { id: string; expected_count: number; prompt: string }
 
-export type Api = 'responses' | 'chat_completions' | 'messages'
+export type Api = 'responses' | 'chat_completions' | 'messages' | 'gemini'
 export type ServiceTier = 'flex' | 'default' | 'fast' | 'ultrafast'
 
 export interface DetectConfig {
@@ -12,9 +12,9 @@ export interface DetectConfig {
   model: string
   /** Default `responses`. */
   api?: Api
-  /** Reasoning effort sent to the model. Empty sends none; `none` disables thinking on Messages. */
+  /** Reasoning effort sent to the model. Empty sends none; `none` disables thinking on Messages. Gemini accepts only empty or `default` and uses provider-default thinking. */
   effort?: string
-  /** Default `default`, which sends no tier field. */
+  /** Default `default`, which sends no tier field. Gemini accepts only `default`. */
   serviceTier?: ServiceTier
   /** Default true. */
   stream?: boolean

@@ -84,6 +84,7 @@ function failure(error: unknown, signal: AbortSignal | undefined, timeout: Abort
  * partial run with `error` set.
  */
 export async function probeTokenizer(config: ApiConfig, bank: TokenizerBank, options: ProbeOptions): Promise<TokenizerRun> {
+  if (config.format === 'gemini') throw new Error('The tokenizer probe does not support Gemini.')
   const concurrency = Math.max(1, options.concurrency ?? 4)
   const maximum = options.maximumProbes ?? TOKENIZER_MODEL.maximumProbes
   const run: TokenizerRun = { steps: [], observations: [], posterior: null, verdict: null, baselineDrift: false }
