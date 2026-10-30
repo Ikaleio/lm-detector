@@ -1,6 +1,6 @@
-import { useRef, useState, type Ref } from 'react'
+import { useCallback, useEffect, useRef, useState, type Ref } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronDown, Copy, Download, Eye, EyeOff, FolderOpen, Pencil, Plus, Save, Settings2, Trash2 } from 'lucide-react'
+import { ChevronDown, Copy, Download, Eye, EyeOff, FolderOpen, Pencil, Play, Plus, RefreshCw, Save, Search, Settings2, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
@@ -30,6 +30,7 @@ import { cn } from '@/lib/utils'
 import { useMotionPreset } from '@/lib/motion'
 import { TOKENIZER_MODEL } from '@fingerpoint/shared/tokenizer-posterior'
 import { serviceTierField } from '@fingerpoint/shared/completion-request'
+import { listModels } from '@/lib/client'
 
 const placeholders: Record<WebApiConfig['format'], string> = {
   openai: 'https://api.openai.com/v1',
@@ -59,14 +60,21 @@ interface Props {
   profileManager: ApiProfileManager
   disabled: boolean
   containerRef: Ref<HTMLDivElement>
+  onStartSampling?: () => void
 }
 
-export function ApiConfigPanel({ open, onOpenChange, config, update, profileManager, disabled, containerRef }: Props) {
+export function ApiConfigPanel({ open, onOpenChange, config, update, profileManager, disabled, containerRef, onStartSampling }: Props) {
   const { t } = useI18n()
   const { reduced, snappy } = useMotionPreset()
   const [showKey, setShowKey] = useState(false)
   const profileNameRef = useRef<HTMLInputElement>(null)
   const profileFileRef = useRef<HTMLInputElement>(null)
+  const [models, setModels] = useState<string[] | null>(null)
+  const [modelsLoading, setModelsLoading] = useState(false)
+  const [modelsError, setModelsError] = useState(false)
+  const [modelMenuOpen, setModelMenuOpen] = useState(false)
+  const modelsFetchSeq = useRef(0)
+  const modelFieldRef = useRef<HTMLDivElement>(null)
   const baseUrl = config.baseUrl.trim() || t('api.baseUrlMissing')
   const model = config.model.trim() || t('api.modelMissing')
   const activeProfileName = config.name.trim() || config.model.trim() || t('api.defaultProfileName')
@@ -88,6 +96,44 @@ export function ApiConfigPanel({ open, onOpenChange, config, update, profileMana
     profileManager.markSaved(config)
     toast.success(t('api.profileSaved'))
   }
+
+  const fetchModels = useCallback(async () => {
+    if (disabled) return
+    const seq = ++modelsFetchSeq.current
+    setModelsLoading(true)
+    setModelsError(false)
+    try {
+      const found = await listModels(config)
+      if (seq !== modelsFetchSeq.current) return
+      setModels(found)
+    } catch {
+      if (seq !== modelsFetchSeq.current) return
+      setModelsError(true)
+      setModels(null)
+    } finally {
+      if (seq === modelsFetchSeq.current) setModelsLoading(false)
+    }
+  }, [config, disabled])
+
+  // Automatically fetch the model list once the base URL and key are present, and again when either changes.
+  const canFetch = Boolean(config.baseUrl.trim() && config.apiKey.trim())
+  useEffect(() => {
+    if (!canFetch) { setModels(null); setModelsError(false); return }
+    const timer = setTimeout(() => { void fetchModels() }, 400)
+    return () => clearTimeout(timer)
+  }, [config.baseUrl, config.apiKey, config.format, canFetch, fetchModels])
+
+  // Close the model menu on outside click.
+  useEffect(() => {
+    if (!modelMenuOpen) return
+    const onDown = (event: MouseEvent) => {
+      if (modelFieldRef.current && !modelFieldRef.current.contains(event.target as Node)) setModelMenuOpen(false)
+    }
+    document.addEventListener('mousedown', onDown)
+    return () => document.removeEventListener('mousedown', onDown)
+  }, [modelMenuOpen])
+
+  const filteredModels = (models ?? []).filter(name => name.toLowerCase().includes(config.model.trim().toLowerCase()))
 
   async function exportProfile() {
     try {
@@ -334,7 +380,61 @@ export function ApiConfigPanel({ open, onOpenChange, config, update, profileMana
             </Field>
             <Field>
               <FieldLabel htmlFor="api-model">{t('api.model')}</FieldLabel>
-              <Input id="api-model" data-api-required className="fp-mono h-9" value={config.model} placeholder={t('api.modelPlaceholder')} autoComplete="off" spellCheck={false} onChange={e => update({ model: e.target.value })} onBlur={() => update({ model: config.model.trim() })} />
+              <div ref={modelFieldRef} className="relative">
+                <div className="flex gap-2">
+                  <Input id="api-model" data-api-required className="fp-mono h-9 min-w-0 flex-1" value={config.model} placeholder={t('api.modelPlaceholder')} autoComplete="off" spellCheck={false} onChange={e => update({ model: e.target.value })} onFocus={() => setModelMenuOpen(true)} onBlur={() => update({ model: config.model.trim() })} />
+                  <Tooltip>
+                    <TooltipTrigger render={<Button type="button" variant="outline" size="icon-lg" className="h-9 w-9 shrink-0" disabled={disabled || !canFetch} onClick={() => void fetchModels()} aria-label={t('api.modelsRefresh')}><RefreshCw className={cn('size-4', modelsLoading && 'animate-spin')} aria-hidden="true" /></Button>} />
+                    <TooltipContent>{t('api.modelsRefresh')}</TooltipContent>
+                  </Tooltip>
+                  {onStartSampling && (
+                    <Button type="button" className="h-9 shrink-0 gap-1.5" disabled={disabled || !config.model.trim()} onClick={onStartSampling}>
+                      <Play className="size-3.5" aria-hidden="true" />
+                      <span>{t('detect.startSampling')}</span>
+                    </Button>
+                  )}
+                </div>
+                {modelMenuOpen && (
+                  <div className="fp-model-menu absolute left-0 right-0 top-[calc(100%+4px)] z-30 overflow-hidden rounded-lg border border-border bg-popover shadow-lg">
+                    {modelsLoading ? (
+                      <div className="flex items-center gap-2 px-3 py-2.5 text-sm text-muted-foreground">
+                        <RefreshCw className="size-3.5 animate-spin" aria-hidden="true" />
+                        {t('api.modelsFetching')}
+                      </div>
+                    ) : modelsError ? (
+                      <div className="flex items-center justify-between gap-2 px-3 py-2.5 text-sm text-muted-foreground">
+                        <span>{t('api.modelsFailed')}</span>
+                        <Button type="button" variant="ghost" size="sm" className="h-7" onClick={() => void fetchModels()}>{t('app.retry')}</Button>
+                      </div>
+                    ) : filteredModels.length === 0 ? (
+                      <div className="px-3 py-2.5 text-sm text-muted-foreground">{t('api.modelsEmpty')}</div>
+                    ) : (
+                      <>
+                        <div className="max-h-64 overflow-y-auto p-1" role="listbox" aria-label={t('api.model')}>
+                          {filteredModels.slice(0, 100).map(name => (
+                            <button
+                              key={name}
+                              type="button"
+                              role="option"
+                              aria-selected={name === config.model.trim()}
+                              className={cn('flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-left text-sm transition-colors hover:bg-muted', name === config.model.trim() && 'text-primary')}
+                              onMouseDown={e => e.preventDefault()}
+                              onClick={() => { update({ model: name }); setModelMenuOpen(false) }}
+                            >
+                              <span className="fp-mono min-w-0 flex-1 truncate" title={name}>{name}</span>
+                            </button>
+                          ))}
+                        </div>
+                        {(models?.length ?? 0) > 100 && (
+                          <div className="border-t border-border/70 px-3 py-1.5 text-xs text-muted-foreground">
+                            {t('api.modelsCount', { n: models?.length ?? 0 })} · {t('api.modelsSearch')}
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
             </Field>
             <Field>
               <FieldLabel htmlFor="api-key">{t('api.apiKey')}</FieldLabel>
