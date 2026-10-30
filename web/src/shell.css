@@ -6,7 +6,7 @@
 /* Brand and the detector download progress share the left cell of the web top bar. */
 .fp-topbar-start { display: flex; align-items: center; gap: 1rem; min-width: 0; justify-self: start; }
 .fp-brand-text { display: flex; flex-direction: column; }
-.fp-brand-mark { flex-shrink: 0; width: 32px; height: 32px; color: var(--muted-foreground); }
+.fp-brand-mark { flex-shrink: 0; width: 32px; height: 32px; object-fit: contain; }
 .fp-brand-title { font-family: var(--font-brand-title); font-size: .875rem; line-height: 1.25; font-weight: 500; white-space: nowrap; }
 .fp-brand-byline { font-family: var(--font-brand-byline); font-size: .75rem; line-height: 1rem; font-weight: 400; color: color-mix(in oklab, var(--foreground) 70%, transparent); }
 .fp-repository-link { display: inline-flex; align-items: center; gap: .4rem; padding: .5rem; border-radius: var(--radius); color: var(--muted-foreground); font-size: .75rem; white-space: nowrap; text-decoration: none; }

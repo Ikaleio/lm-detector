@@ -8,6 +8,9 @@ import { NotFound } from '@/components/not-found'
 import { translations } from '@/lib/layout.shared'
 import { docsBase } from '@/lib/shared'
 import { localeOf, switchLocale } from '@/lib/urls'
+import favicon from '../../web/src/assets/branding/favicon.png'
+import faviconIco from '../../web/src/assets/branding/favicon.ico'
+import appleTouchIcon from '../../web/src/assets/branding/apple-touch-icon.png'
 import './app.css'
 
 export function Layout({ children }: { children: ReactNode }) {
@@ -22,6 +25,9 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="color-scheme" content="light dark" />
+        <link rel="icon" href={faviconIco} sizes="16x16 32x32 48x48 64x64" />
+        <link rel="icon" type="image/png" href={favicon} sizes="256x256" />
+        <link rel="apple-touch-icon" href={appleTouchIcon} sizes="180x180" />
         <Meta />
         <Links />
       </head>

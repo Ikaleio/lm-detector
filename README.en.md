@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="./web/public/branding/logo.png" alt="LM Fingerpoint Detector" width="512" height="512" />
+
 # LM Fingerpoint Detector
 
 **Identify the large language model behind an API from a few hundred first-instinct integers**

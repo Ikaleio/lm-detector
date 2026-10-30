@@ -11,6 +11,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { Toaster } from '@/components/ui/sonner'
 import { PixelShader } from '@/components/pixel-shader'
 import { DetectorProgress } from '@/components/detector-progress'
+import brandLogo from '@/assets/branding/logo.webp'
 import { LOCALES, useI18n, type Locale } from '@/i18n'
 import { useMotionPreset } from '@/lib/motion'
 import { BankContext } from '@/lib/bank-context'
@@ -156,7 +157,7 @@ export function AppShell({ detect }: { detect: ReactNode }) {
         <div className="fp-topbar-inner">
           <div className="fp-topbar-start">
             <NavLink to="/" onClick={event => navigatePage(event, '/')} className="fp-brand">
-              <PixelShader effect="fingerprint" cell={2} className="fp-brand-mark" />
+              <img src={brandLogo} alt="" width={32} height={32} className="fp-brand-mark" />
               <span className="fp-brand-text">
                 <span className="fp-brand-title">{t('app.name')}</span>
                 <span className="fp-brand-byline">by Ikaleio</span>

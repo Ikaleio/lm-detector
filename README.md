@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="./web/public/branding/logo.png" alt="LM Fingerpoint Detector" width="512" height="512" />
+
 # LM Fingerpoint Detector
 
 **让模型随手写几百个整数，识别 API 背后的大语言模型**

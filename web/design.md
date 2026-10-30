@@ -1,7 +1,7 @@
 ---
 name: fingerpoint-design
 description: 用于 Fingerpoint Detector 的网页工具界面（多卡片工作台、数据长列表、主从浏览）、文档站长文页、浏览器导出的结果图片和链接预览图。读者是逐条核对数字、标识符和百分比的技术用户；目标是中性灰阶表面、单一蓝色强调、像素指纹装饰和无回弹弹簧动效，中英文混排，浅色与深色主题。
-version: 2026-10-25
+version: 2026-10-30
 ---
 
 ## 1. 范围与优先级
@@ -17,7 +17,8 @@ version: 2026-10-25
 读者在桌面上连续比较数字、模型标识符和百分比，也会在手机上查看结论；熟悉 API 术语；界面会出现中英文混排的标识符和原文。
 
 - [SHOULD] 中性工具感：表面、文字和边框只用零彩度灰阶 token；`--primary` 蓝色只出现在主要操作、焦点环、当前导航下划线、链接和置信度条上。（决策：突出检测任务，不复制已有产品界面。来源：项目初版设计决策。）
-- [MUST] 像素指纹是唯一的品牌装饰：品牌标识、加载、等待和空状态使用 `PixelShader` 的像素效果，颜色取 muted-foreground。
+- [MUST] 网站图标和顶栏品牌标识使用用户提供的透明底圆形侦探插画，保留原图构图和原色，不像素化。2048×2048px 透明主图放在 `web/public/branding/logo.png`；顶栏使用 `web/src/assets/branding/logo.webp`，显示为 32×32px，保留透明区域，不加底色或裁切。检测站和文档站使用同一份资源。（来源：2026-10-30 用户提供插画，要求透明底、网页图标和 README 居中大图。）
+- [MUST] 加载、等待和空状态继续使用 `PixelShader` 的像素效果，颜色取 muted-foreground。
 - [MUST] 动效是空间连续、无回弹的弹簧：卡片在原位伸缩，导航下划线和列表项平移到新位置。
 - [SHOULD] 工具页高度由内容决定，不放全屏宣传区或插画。（决策：这是工具页，不是营销页。来源：项目初版设计决策。）
 - [MUST] 文案语气直接、克制：陈述结果和限制，推断性的结论写成“候选”“最接近”“排名”，不写成“已确认”。
@@ -204,7 +205,7 @@ version: 2026-10-25
 
 | 效果 | 使用位置 | 颜色 |
 |---|---|---|
-| `fingerprint` | 品牌标识，2px 格；预览图品牌标识的静帧 | muted-foreground |
+| `fingerprint` | 链接预览图中的像素指纹静帧 | muted-foreground |
 | `rain` | 提示条背景（向左渐隐）；尚无内容的输入区；预览图底部像素带的静帧 | muted-foreground/30 |
 | `dither` | 等待开始的区域背景 | muted-foreground/20 |
 | `march` | 进行中卡片标题下的分隔线 | muted-foreground/60 |
@@ -229,6 +230,7 @@ version: 2026-10-25
 | 表面与数据 | `fp-card`（`data-warning`） `fp-bar` `fp-reply` `fp-mono` `fp-caret` `fp-api-summary` `fp-result-summary` `fp-result-score` `fp-result-row`（`data-unscored`） | `web/src/index.css` | 卡片、置信度条、原文、标识符、候选行 | 已实现 |
 | 控件 | `Button` `Input` `Textarea` `Field` `FieldError` `Switch` `ToggleGroup` `Segmented`（选项 `icon` `recommended`） `Tabs` `Collapsible` | `web/src/components/ui/`、`web/src/components/segmented.tsx` | 表单与操作 | 已实现 |
 | 品牌标识 | `BrandIcon` | `web/src/components/brand-icon.tsx` | `Segmented` 选项 | 已实现 |
+| 网站标识 | 透明插画、`fp-brand-mark` | `web/public/branding/logo.png`、`web/src/assets/branding/` | 网站图标、工具页和文档页顶栏 | 已实现 |
 | 浮层 | `Dialog` `DropdownMenu` `Tooltip` `Sonner` `toastWithStar`（`fp-star-toast`） | `web/src/components/ui/`、`web/src/components/star-prompt.tsx` | 详情、菜单、提示、toast | 已实现 |
 | 数据反馈 | `Table` `Badge` `Empty` `Skeleton` `Alert`（`default` `warning` `destructive`） `Separator` | `web/src/components/ui/` | 表格、状态、空状态、警告 | 已实现 |
 | 工作台组件 | `SampleCard` `SampleStrip` `StateBadge` `toneClass` `ResultPanel` `ConfidenceBar` `AnimatedPercent` `ApiConfigPanel` `ProxySettings` | `web/src/components/` | 多卡片工作台 | 已实现 |
@@ -236,7 +238,7 @@ version: 2026-10-25
 | 动效 | `spring` `useMotionPreset` `listStagger` `listItem` | `web/src/lib/motion.ts` | 所有动画 | 已实现 |
 | 推荐标记 | `RecommendMark`（`fp-recommend`） | `web/src/components/recommend-mark.tsx`、`web/src/index.css` | 推荐选项、推荐设置、推荐取值 | 已实现 |
 | 下载进度 | `DetectorProgress` `ProgressCells`（`value` `active` `label`） `downloadFraction` `downloadBytes`；`fp-progress-cells` `fp-detector-progress` | `web/src/components/detector-progress.tsx`、`web/src/index.css` | 顶栏检测器下载、计算等待下载 | 已实现 |
-| 像素装饰 | `PixelShader`（`effect` `cell` `image`） `PixelSpinner` `fp-pixel` | `web/src/components/pixel-shader.tsx`、`web/src/lib/pixel-effects.ts`、`web/src/lib/pixel-renderer.ts`、`web/src/shell.css` | 品牌、加载、等待、空状态 | 已实现 |
+| 像素装饰 | `PixelShader`（`effect` `cell` `image`） `PixelSpinner` `fp-pixel` | `web/src/components/pixel-shader.tsx`、`web/src/lib/pixel-effects.ts`、`web/src/lib/pixel-renderer.ts`、`web/src/shell.css` | 链接预览图、加载、等待、空状态 | 已实现 |
 | 文档组件 | `SiteHeader` `DocsBar` `Card` `Callout` `Mermaid` `TokenizerClasses` | `docs/app/components/` | 文档站 | 已实现 |
 | 预览图 | `OgImage` `ogResponse` `ogRenderer` `ogFontFamilies` | `docs/app/lib/og-image.tsx`、`docs/app/lib/og-response.ts`、`docs/app/lib/og.server.ts` | 链接预览图 | 已实现 |
 | 图标 | lucide-react | `web/package.json`、`docs/package.json` | 所有图标 | 已实现 |
@@ -304,7 +306,7 @@ version: 2026-10-25
 | 概念 | 名称 |
 |---|---|
 | 工具页和文档页共用的顶部条 | 顶栏 `fp-topbar` |
-| 顶栏左侧的像素指纹与两行文字 | 品牌标识 `fp-brand` |
+| 顶栏左侧的透明插画与两行文字 | 品牌标识 `fp-brand` |
 | 一次处理多份同类输入并给出结论的页面类型 | 多卡片工作台 |
 | 工作台里的一份输入及其参考原文 | 输入卡片 `SampleCard` |
 | 结果状态下收起的卡片行 | 摘要条 `SampleStrip` |

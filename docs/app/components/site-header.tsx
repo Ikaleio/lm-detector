@@ -1,16 +1,14 @@
-import { lazy, Suspense, useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react'
+import { useLayoutEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { Link, useLocation } from 'react-router'
 import { Menu } from '@base-ui/react/menu'
 import { Check, GitBranch, Languages, Monitor, Moon, Star, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { markStarVisited } from '../../../web/src/lib/star'
+import brandLogo from '../../../web/src/assets/branding/logo.webp'
 import type { Locale } from '@/lib/i18n'
 import { siteText } from '@/lib/layout.shared'
 import { appUrl, docsBase, repositoryUrl } from '@/lib/shared'
 import { localizedUrl, switchLocale } from '@/lib/urls'
-
-// The detector's pixel renderer touches the DOM when it loads, so it only loads in the browser.
-const PixelShader = lazy(() => import('../../../web/src/components/pixel-shader').then(module => ({ default: module.PixelShader })))
 
 const homeUrl = localizedUrl(docsBase)
 const noop = () => () => {}
@@ -18,16 +16,6 @@ const noop = () => () => {}
 /** The detector's ghost icon button (`Button variant="ghost" size="icon-lg"`) in Fumadocs' colour names. */
 export const iconButton =
   'inline-flex size-9 shrink-0 items-center justify-center rounded-lg border border-transparent outline-none transition-[color,background-color,border-color,box-shadow] hover:bg-fd-muted dark:hover:bg-fd-muted/50 aria-expanded:bg-fd-muted focus-visible:border-fd-ring focus-visible:ring-3 focus-visible:ring-fd-ring/50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0'
-
-function BrandMark() {
-  const placeholder = <span aria-hidden="true" className="fp-pixel fp-brand-mark" />
-  if (!useSyncExternalStore(noop, () => true, () => false)) return placeholder
-  return (
-    <Suspense fallback={placeholder}>
-      <PixelShader effect="fingerprint" cell={2} className="fp-brand-mark" />
-    </Suspense>
-  )
-}
 
 function ThemeMenu({ locale }: { locale: Locale }) {
   const text = siteText[locale]
@@ -99,7 +87,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
     <header className="fp-topbar">
       <div className="fp-topbar-inner">
         <Link to={home} className="fp-brand">
-          <BrandMark />
+          <img src={brandLogo} alt="" width={32} height={32} className="fp-brand-mark" />
           <span className="fp-brand-text">
             <span className="fp-brand-title">Fingerpoint Detector</span>
             <span className="fp-brand-byline">{text.brandLine}</span>
