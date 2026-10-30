@@ -1,6 +1,7 @@
 import { stripVTControlCharacters } from 'node:util'
 import { completionBody, sendsSpeed, SPEED_BETA } from './completion-request'
 import { parseNumbers } from './fingerprint-core.js'
+import { geminiEndpoint, geminiResponse } from './gemini'
 import type { ApiConfig, Challenge } from './types'
 import { readBefore, throughputMeter, USAGE_GRACE_MS, type Throughput, type ThroughputMeter } from './throughput'
 
@@ -18,6 +19,7 @@ export interface DetectionOptions {
 }
 
 export function requestEndpoint(config: ApiConfig): string {
+  if (config.format === 'gemini') return geminiEndpoint(config)
   let url: URL
   try { url = new URL(config.baseUrl) } catch { throw new Error('Base URL must be a valid HTTP or HTTPS URL.') }
   if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password || url.search || url.hash) {
@@ -71,7 +73,8 @@ export function buildDetectRequest(config: ApiConfig, prompt: string) {
     headers['x-api-key'] = config.apiKey
     headers['anthropic-version'] = '2023-06-01'
     if (sendsSpeed(config)) headers['anthropic-beta'] = SPEED_BETA
-  } else headers.Authorization = `Bearer ${config.apiKey}`
+  } else if (config.format === 'gemini') headers['x-goog-api-key'] = config.apiKey
+  else headers.Authorization = `Bearer ${config.apiKey}`
   const body = completionBody(config, prompt)
   if (config.format === 'responses') delete body.max_output_tokens
   else if (config.format === 'openai') {
@@ -99,6 +102,11 @@ export async function requestSample(
   let meter: ThroughputMeter | undefined
   const report = () => update({ ...sample })
   const metadata = (data: Payload) => {
+    if (config.format === 'gemini') {
+      if (typeof data.modelVersion === 'string') sample.responseModel = data.modelVersion
+      if (typeof data.responseId === 'string') sample.responseId = data.responseId
+      if (data.usageMetadata) usage = { ...usage, ...record(data.usageMetadata) }
+    }
     if (typeof data.model === 'string') sample.responseModel = data.model
     if (typeof data.id === 'string') sample.responseId = data.id
     // Messages streams split usage between message_start and message_delta.
@@ -137,7 +145,12 @@ export async function requestSample(
     try { data = record(JSON.parse(payload)) } catch { throw new Error('The SSE response contains invalid JSON.') }
     upstreamError(data)
     metadata(data)
-    if (config.format === 'openai') {
+    if (config.format === 'gemini') {
+      const result = geminiResponse(data)
+      if (result.reasoning) meter?.reasoning()
+      if (result.text) appendText(result.text)
+      if (result.finish) { finish = result.finish; terminal = true }
+    } else if (config.format === 'openai') {
       const choice = items(data.choices).find(choice => choice.index === 0) ?? items(data.choices)[0]
       if (choice?.delta?.refusal) throw new Error('The model refused the request.')
       if (choice?.delta?.reasoning_content || choice?.delta?.reasoning) meter?.reasoning()
@@ -230,7 +243,10 @@ export async function requestSample(
       upstreamError(data)
       metadata(data)
       let text: string
-      if (config.format === 'responses') {
+      if (config.format === 'gemini') {
+        const result = geminiResponse(data)
+        text = result.text; finish = result.finish; terminal = Boolean(finish)
+      } else if (config.format === 'responses') {
         text = responseText(data); finish = string(data.status); terminal = finish === 'completed'
       } else if (config.format === 'anthropic') {
         text = items(data.content).filter(part => part.type === 'text').map(part => string(part.text)).join('')
