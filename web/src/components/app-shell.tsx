@@ -11,6 +11,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { Toaster } from '@/components/ui/sonner'
 import { PixelShader } from '@/components/pixel-shader'
 import { DetectorProgress } from '@/components/detector-progress'
+import { DisclaimerDialog } from '@/components/disclaimer-dialog'
 import brandLogo from '@/assets/branding/logo.webp'
 import { LOCALES, useI18n, type Locale } from '@/i18n'
 import { useMotionPreset } from '@/lib/motion'
@@ -198,7 +199,10 @@ export function AppShell({ detect }: { detect: ReactNode }) {
         </BankBoundary>
       </main>
       <footer className="fp-footer text-meta text-muted-foreground">
-        <p>{t('app.footer')}</p>
+        <p>
+          {t('app.footer')}{' '}
+          <a href={docsHref(locale, 'disclaimer')} className="underline underline-offset-2 hover:text-foreground">{t('app.disclaimer')}</a>
+        </p>
         <p className="fp-mono mt-1">
           BUILD{commit && <> <a href={`${REPOSITORY_URL}/commit/${commit}`} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">{commit}</a></>}
           {' ('}
@@ -208,6 +212,7 @@ export function AppShell({ detect }: { detect: ReactNode }) {
         </p>
       </footer>
       <Toaster position="bottom-right" offset={toastOffset} mobileOffset={toastMobileOffset} />
+      <DisclaimerDialog />
     </div>
   )
 }

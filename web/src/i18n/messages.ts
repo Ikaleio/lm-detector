@@ -17,6 +17,7 @@ export const zh = {
     repository: 'GitHub 仓库：Ikaleio/lm-detector',
     star: '在 GitHub 上为 Ikaleio/lm-detector 点 Star',
     footer: '指纹分析在本浏览器中完成。API 请求按“连接方式”直接发往接口，或经代理转发。本站代理不保存 Key。',
+    disclaimer: '免责声明',
     notFound: '这个页面不存在',
     backHome: '返回检测',
     bankLoading: '正在读取样本库…',
@@ -131,6 +132,15 @@ export const zh = {
   star: {
     dismiss: '忽略一次',
     decline: '丑拒 (忽略一周)',
+  },
+  disclaimer: {
+    title: '使用须知',
+    intro: '本站是作者自用的个人研究项目，公开仅供研究和参考。继续使用即表示你接受以下说明。',
+    reference: '检测结果是样本库内的统计排序，可能出错，不能证明或否定任何 API 或模型的真伪。',
+    providers: '本站不评价任何中转站或服务商。检测由你自行发起，请勿把结果作为指控、投诉或索赔的唯一依据。',
+    liability: '作者不对检测结果，以及任何人对结果的使用和传播承担责任。',
+    full: '阅读完整声明',
+    accept: '我知道了',
   },
   proxy: {
     setting: '连接方式',
@@ -399,6 +409,7 @@ export const en: Messages = {
     repository: 'GitHub repository: Ikaleio/lm-detector',
     star: 'Star Ikaleio/lm-detector on GitHub',
     footer: "The fingerprint analysis runs in this browser. API requests go to the API directly or through a proxy, as set in Connection. This site's proxy does not store keys.",
+    disclaimer: 'Disclaimer',
     notFound: 'This page does not exist',
     backHome: 'Back to detection',
     bankLoading: 'Loading reference library…',
@@ -513,6 +524,15 @@ export const en: Messages = {
   star: {
     dismiss: 'Skip once',
     decline: 'Nope (hide for a week)',
+  },
+  disclaimer: {
+    title: 'Usage notice',
+    intro: "This site is the author's personal research project, public for research and reference only. By continuing, you accept the terms below.",
+    reference: 'A result is a statistical ranking within the reference library. It can be wrong and cannot prove or disprove that any API or model is genuine.',
+    providers: 'This site does not assess any relay or provider. You start each detection yourself. Do not use a result as the only basis for an accusation, complaint, or claim.',
+    liability: 'The author takes no responsibility for results or for how anyone uses or shares them.',
+    full: 'Read the full disclaimer',
+    accept: 'I understand',
   },
   proxy: {
     setting: 'Connection',

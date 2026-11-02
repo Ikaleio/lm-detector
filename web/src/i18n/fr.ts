@@ -19,6 +19,7 @@ export const fr: Messages = {
     repository: 'Dépôt GitHub : Ikaleio/lm-detector',
     star: 'Mettre une Star à Ikaleio/lm-detector sur GitHub',
     footer: 'L’analyse d’empreinte s’effectue dans ce navigateur. Les requêtes API partent directement vers l’API ou via un proxy, selon le réglage « Connexion ». Le proxy du site ne conserve pas les clés.',
+    disclaimer: 'Avertissement',
     notFound: 'Cette page n’existe pas',
     backHome: 'Retour à la détection',
     bankLoading: 'Chargement de la bibliothèque de référence…',
@@ -133,6 +134,15 @@ export const fr: Messages = {
   star: {
     dismiss: 'Ignorer une fois',
     decline: 'Même pas en rêve (masquer une semaine)',
+  },
+  disclaimer: {
+    title: 'Avis d’utilisation',
+    intro: 'Ce site est un projet de recherche personnel de l’auteur, rendu public à titre de recherche et d’information uniquement. En continuant, vous acceptez les conditions ci-dessous.',
+    reference: 'Un résultat est un classement statistique au sein de la bibliothèque de référence. Il peut être erroné et ne peut ni prouver ni réfuter l’authenticité d’une API ou d’un modèle.',
+    providers: 'Ce site n’évalue aucun relais ni fournisseur. Vous lancez chaque détection vous-même. N’utilisez pas un résultat comme seul fondement d’une accusation, d’une plainte ou d’une réclamation.',
+    liability: 'L’auteur décline toute responsabilité quant aux résultats et à leur utilisation ou diffusion par quiconque.',
+    full: 'Lire l’avertissement complet',
+    accept: 'J’ai compris',
   },
   proxy: {
     localHelp: 'Les API locales et des réseaux privés utilisent toujours une connexion directe depuis le navigateur. Les proxys cloud ne peuvent pas y accéder. Le serveur doit autoriser CORS et les requêtes préliminaires OPTIONS sans clé API. Le réglage des API publiques reste inchangé.',

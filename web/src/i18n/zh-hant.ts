@@ -19,6 +19,7 @@ export const zhHant: Messages = {
     repository: 'GitHub 儲存庫：Ikaleio/lm-detector',
     star: '在 GitHub 上為 Ikaleio/lm-detector 按 Star',
     footer: '指紋分析在本瀏覽器中完成。API 請求依「連線方式」直接送往介面，或經代理轉送。本站代理不會儲存 Key。',
+    disclaimer: '免責聲明',
     notFound: '這個頁面不存在',
     backHome: '返回檢測',
     bankLoading: '正在讀取樣本庫…',
@@ -133,6 +134,15 @@ export const zhHant: Messages = {
   star: {
     dismiss: '略過一次',
     decline: '醜拒（一週內不再顯示）',
+  },
+  disclaimer: {
+    title: '使用須知',
+    intro: '本站是作者自用的個人研究專案，公開僅供研究和參考。繼續使用即表示你接受以下說明。',
+    reference: '檢測結果是樣本庫內的統計排序，可能出錯，不能證明或否定任何 API 或模型的真偽。',
+    providers: '本站不評價任何中轉站或服務商。檢測由你自行發起，請勿把結果作為指控、投訴或求償的唯一依據。',
+    liability: '作者不對檢測結果，以及任何人對結果的使用和傳播承擔責任。',
+    full: '閱讀完整聲明',
+    accept: '我知道了',
   },
   proxy: {
     localHelp: '本機與內網介面一律由瀏覽器直連，雲端代理無法存取。伺服器需要允許跨來源請求（CORS），並放行不帶 API Key 的 OPTIONS 預檢。公網介面的連線設定維持不變。',
