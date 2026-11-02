@@ -179,7 +179,8 @@ version: 2026-11-02
 - [SHOULD] 禁用：50% 不透明度、`not-allowed` 光标；运行中被锁定的区域整体禁用，不隐藏。
 - [SHOULD] 复制、保存等即时操作用 `Sonner` toast 反馈结果。
 - [SHOULD] 请求读者行动的 toast 用 `toastWithStar` 的 `fp-star-toast`：外观与 Sonner 默认 toast 相同（`popover` 表面、1px 边框、`--radius`、13px 文字，成功时标题前加 `CircleCheck`）；文字下方右对齐一行操作，依次为 muted ghost `sm` 的拒绝、ghost `sm` 的忽略，最右为 `fp-star-link[data-size="sm"]`。拒绝和忽略的文案写明各自的隐藏时长（一周、一次）。读者点过 Star 入口后，同一操作只显示普通 toast；拒绝后一周内也是如此。（来源：2026-10-06 用户要求 Star 请求带忽略和拒绝按钮，并给出两者的文案。）
-- [SHOULD] 首次访问须知用 `DisclaimerDialog`：`Dialog` 宽 `sm:max-w-md`，不显示右上角关闭按钮，点击遮罩不关闭，Esc 和确认按钮可以关闭；标题下一句 muted 说明，正文为前景色 `text-body` 要点列表；`DialogFooter` 内次要操作为在新标签页打开完整声明的 `outline` 链接，primary 确认按钮在最右，打开时焦点在确认按钮。（来源：2026-11-02 用户要求首次访问显示免责弹窗，且不降低使用体验。）
+- [SHOULD] 须知弹窗用 `DisclaimerDialog`：短说明宽 `sm:max-w-md`，带确认题的长表单宽 `sm:max-w-xl`，不显示右上角关闭按钮。标题下一句 muted 说明，正文为前景色 `text-body` 要点列表。弹窗高度最多为视口动态高度减 32px，正文独立滚动，标题和底部操作区保持可见。`DialogFooter` 的次要操作用 `outline` 链接，primary 确认按钮在最右；短说明初始焦点放确认按钮，长表单放标题。（来源：2026-11-02 用户要求首次访问免责提示和简体中文加强阅读确认。）
+- [SHOULD] 确认题使用原生 `fieldset`、`legend` 和单选框，按一列排列；选项整行可点击，点击区域至少高 44px，单选框使用 primary 强调色。错误提示在对应题目下方用 destructive 正文，进度放在底部操作区上方，用 `text-meta` muted 文字和可访问的状态提示。（来源：2026-11-02 确认表单实现决策，兼顾鼠标、触屏和键盘操作。）
 - [SHOULD] toast 停在右下角：600px 以上右缘与 1440px 内容栏的右缘对齐（离视口右边至少等于页面左右内边距），离底边 32px；600px 及以下左右各 16px、离底边 16px。768px 以下的检测页再抬高 64px，停在固定操作栏上方。（来源：2026-10-06 用户要求 toast 离右下角留出更多距离。）
 - [MUST] 每个可聚焦元素有可见的焦点样式：控件原语用 3px `ring-ring/50` 加 `border-ring`；链接和其他元素用全局 2px `--ring` outline、偏移 2px；第三方控件去掉 outline 时补 2px ring。可滚动区域可以用键盘聚焦。
 

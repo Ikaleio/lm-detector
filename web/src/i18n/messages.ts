@@ -1,3 +1,32 @@
+/** This confirmation flow is offered only in the Simplified Chinese interface. */
+export const zhDisclaimerCheck = {
+  title: '阅读确认',
+  help: '请阅读上方三条声明，再回答以下问题。全部答对后才能确认继续。',
+  progress: '已答对 {count}/3 项',
+  retry: '这个答案与声明不符，请重新阅读上方对应条款。',
+  accept: '我已理解以上三点，继续使用',
+  questions: [
+    {
+      id: 'identity',
+      prompt: '1. 仅凭检测结果，能否证明或否定 API 或模型的真伪？',
+      options: ['能，只要置信度足够高', '不能，结果只是参考库内的统计排序'],
+      answer: 1,
+    },
+    {
+      id: 'evidence',
+      prompt: '2. 指控、投诉或索赔时，应如何使用检测结果？',
+      options: ['结合其他证据，不能把结果作为唯一依据', '只要多测几次，就可以作为唯一依据'],
+      answer: 0,
+    },
+    {
+      id: 'responsibility',
+      prompt: '3. 按照本声明，作者是否对检测结果及其使用和传播承担责任？',
+      options: ['承担责任，有争议时由作者负责', '不承担责任'],
+      answer: 1,
+    },
+  ],
+} as const
+
 export const zh = {
   app: {
     name: 'Fingerpoint Detector',
