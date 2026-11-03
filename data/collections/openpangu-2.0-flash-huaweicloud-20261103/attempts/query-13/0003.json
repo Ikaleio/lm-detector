@@ -1,0 +1,47 @@
+{
+  "manifest_sha256": "b3d4ac7a5ddd0ca1b2f8ef1a62d9ba38b3b9199e2cb45a1c4a8145d059f83a15",
+  "challenge_id": "query-13",
+  "attempt": 3,
+  "task": {
+    "id": "query-13",
+    "condition": "environment-05",
+    "expected_count": 297,
+    "prompt": "For each of 297 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "openpangu-2.0-flash",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For each of 297 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-03T11:57:47.854Z",
+  "trace": "trace/query-13/0003",
+  "text": "142 89 256 3 199 77 311 22 144 50 203 178 92 305 67 288 111 44 233 160 299 12 187 340 75 201 134 266 99 352 15 219 88 302 41 177 244 66 321 108 195 27 268 143 310 56 222 9 289 167 355 123 200 78 333 45 190 112 255 68 308 21 176 139 247 80 322 101 188 34 265 152 298 70 209 133 277 96 350 59 214 127 192 25 337 84 261 148 304 73 220 105 179 312 48 286 162 354 65 208 119 235 150 272 87 341 13 194 267 100 323 52 218 141 290 76 351 110 183 245 38 307 129 202 63 278 155 334 91 216 137 259 18 346 82 197 270 103 324 55 221 146 293 79 353 113 186 248 42 313 124 205 69 281 158 336 85 211 130 262 21 349 94 191 273 106 325 58 224 149 296 81 354 116 189 251 47 316 127 208 72 284 161 339 88 213 136 269 24 348 97 194 276 109 326 61 227 152 299 83 352 119 182 254 50 319 130 203 74 287 164 342 90 197 271 112 327 64 230 155 302 86 215 138 272 27 351 102 185 249 53 314 126 206 71 289 167 345 93 196 274 115 328 67 233 158 305 89 218 141 275 30 350 105 188 252 56 321 133 209 76 292 170 344 96 199 278 118 331 70 236 161 308 92 221 144 281 43 355 108 191 264 125 337 79 223 154 295 87 352 113 186 247 60 324 136 200",
+  "text_sha256": "690545cb9f939026f16e7dd42c3c4cb497c1fd2fcaccea13ebc79dd82b33b7e4",
+  "parsed_count": 297,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "openpangu-2.0-flash",
+  "response_id": "7cce724502c7648bfecdc32c740a372e",
+  "usage": {
+    "prompt_tokens": 158,
+    "total_tokens": 4537,
+    "completion_tokens": 4379,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 3270
+    }
+  },
+  "finish_reason": "stop",
+  "actual_channel": "huaweicloud",
+  "finished_at": "2026-11-03T11:58:46.002Z"
+}

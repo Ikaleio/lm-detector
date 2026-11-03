@@ -29,6 +29,8 @@ fpd sample \
 
 Replace the model ID, the allowed response model ID, and the channel with real values. Repeat `--response-model` to specify several aliases. Connection settings can also come from `API_KEY`, `MODEL`, and `BASE_URL`.
 
+For Huawei Cloud MaaS `openpangu-*` models, `--api cc --effort none` sends the official `chat_template_kwargs: {thinking: false}` parameter to disable deep thinking. `--effort default` follows the provider default. The actual parameters are saved in the batch requests and raw evidence.
+
 | Common option | Description |
 | --- | --- |
 | `--count N` | Number of fixed challenges, 1–36, default 36 |

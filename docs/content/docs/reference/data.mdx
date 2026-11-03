@@ -52,6 +52,17 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-03 新增 openPangu-2.0-Pro 和 Flash" id="2026-11-03-openpangu">
+    新增 `openpangu-2.0-pro` 和 `openpangu-2.0-flash`，两款模型各自的两组独立固定评估都将正确型号排在第一。参考库扩展到 66 个指纹身份、2,452 条样本。
+
+    每款模型入库 36 条固定挑战回答，直接调用华为云 MaaS 的 OpenAI 兼容流式接口，渠道标记为 `huaweicloud`。`--effort none` 对应官方参数 `chat_template_kwargs: {thinking: false}`，输出上限为 8,192 tokens。原有 2,380 条参考回答逐条保持原样。
+
+    Pro 的 7 条参考回答自然完成，29 条在 500 个整数处截断。Flash 的 3 条自然完成，33 条按同一上限截断。每题采用首条合格回答，五条失败尝试和此前默认思考模式的采集历史都随原始证据保存。
+
+    独立评估沿用原固定挑战，每款模型另采两组三条回答，使用相同官方渠道和关闭思考的参数，按既有策略在题目要求的整数数量处结束读取。评估回答独立存放，不参与建库、训练或校准。重训后，相同的 128 个旧完整组命中数为 115→114；全库完成 132/134 组、396/402 条回答，完整组命中 118/132。两组既有采集缺口属于 `kimi-k2.8-preview`。
+
+    新增两款模型的四组评估全部命中。采样和入库证据保存在 `collections/openpangu-2.0-pro-huaweicloud-none-20261103/` 和 `collections/openpangu-2.0-flash-huaweicloud-none-20261103/`。
+  </Accordion>
   <Accordion title="2026-10-27 新增 gpt-6.1-terra" id="2026-10-27-gpt-6-1-terra">
     新增 `gpt-6.1-terra` 的 36 条固定挑战回答，参考库扩展到 64 个指纹身份、2,380 条样本。请求型号为 `openai/gpt-6.1-terra`，使用 OpenRouter Chat Completions 流式输出、`reasoning_effort=low` 和固定 `openrouter/openai` 官方供应商渠道，禁止回退。
 

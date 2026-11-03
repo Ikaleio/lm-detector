@@ -1,0 +1,37 @@
+{
+  "manifest_sha256": "d1b86d0ff02d4c2e919e1fd70f9883f116ce0cf77017c21cf7dc4c8028fe22e8",
+  "challenge_id": "query-04",
+  "attempt": 4,
+  "task": {
+    "id": "query-04",
+    "condition": "environment-02",
+    "expected_count": 223,
+    "prompt": "Give exactly 223 separate first-response integer choices in 1..355. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "openpangu-2.0-pro",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Give exactly 223 separate first-response integer choices in 1..355. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true
+    }
+  },
+  "status": "interrupted",
+  "started_at": "2026-11-03T11:57:47.860Z",
+  "trace": "trace/query-04/0004",
+  "text": "",
+  "text_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "parsed_count": 0,
+  "completion": "unknown",
+  "http_status": 200,
+  "response_model": "openpangu-2.0-pro",
+  "response_id": "5dfdab80e77cbb00cda0215df693726c",
+  "actual_channel": "huaweicloud",
+  "error": "Collection cancelled.",
+  "retryable": true,
+  "finished_at": "2026-11-03T11:59:45.736Z"
+}

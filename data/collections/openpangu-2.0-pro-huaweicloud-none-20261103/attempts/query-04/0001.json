@@ -1,0 +1,38 @@
+{
+  "manifest_sha256": "4acfe6ab8081a1b48508a2aa35c368e537e3768c6a3c6eb203092fd3cb0a2e90",
+  "challenge_id": "query-04",
+  "attempt": 1,
+  "task": {
+    "id": "query-04",
+    "condition": "environment-02",
+    "expected_count": 223,
+    "prompt": "Give exactly 223 separate first-response integer choices in 1..355. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "openpangu-2.0-pro",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Give exactly 223 separate first-response integer choices in 1..355. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "chat_template_kwargs": {
+        "thinking": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-03T12:00:14.784Z",
+  "trace": "trace/query-04/0001",
+  "text": "34, 189, 267, 52, 301, 78, 155, 219, 93, 288, 11, 243, 67, 312, 84, 176, 229, 45, 299, 133, 19, 262, 74, 321, 97, 150, 208, 36, 275, 59, 332, 112, 194, 248, 28, 305, 82, 161, 223, 49, 292, 141, 23, 266, 71, 318, 103, 158, 214, 42, 281, 63, 339, 119, 199, 252, 31, 308, 86, 165, 227, 53, 296, 145, 27, 270, 75, 325, 107, 162, 218, 46, 285, 67, 343, 123, 203, 256, 34, 312, 90, 169, 231, 57, 300, 149, 31, 274, 79, 329, 111, 166, 222, 50, 289, 142, 24, 268, 72, 320, 100, 159, 215, 43, 282, 64, 340, 120, 200, 253, 32, 309, 87, 166, 228, 54, 297, 146, 28, 271, 76, 326, 108, 163, 219, 47, 286, 68, 344, 124, 204, 257, 35, 313, 91, 170, 232, 58, 301, 150, 32, 275, 80, 330, 112, 167, 223, 51, 290, 143, 25, 269, 73, 321, 101, 160, 216, 44, 283, 65, 341, 121, 201, 254, 33, 310, 88, 167, 229, 55, 298, 147, 29, 272, 77, 327, 109, 164, 220, 48, 287, 69, 345, 125, 205, 258, 36, 314, 92, 171, 233, 59, 302, 151, 33, 276, 81, 331, 113, 168, 224, 52, 291, 144, 26, 270, 74, 322, 102, 161, 217, 45, 284, 66, 342, 122, 202, 255, 34, 311, 89, 168, 230, 56, 299, 148, 30, 273, 78, 328, 110, 165, 221, 49, 288, 70, 346, 126, 206, 259, 37, 315, 93, 172, 234, 60, 303, 152, 35, 277, 82, 332, 114, 169, 225, 53, 292, 145, 27, 271, 75, 323, 103, 162, 218, 46, 285, 67, 343, 123, 203, 256, 35, 312, 90, 169, 231, 57, 300, 149, 31, 274, 79, 329, 111, 166, 222, 50, 289, 142, 24, 268, 72, 320, 100, 159, 215, 43, 282, 64, 340, 120, 200, 253, 32, 309, 87, 166, 228, 54, 297, 146, 28, 271, 76, 326, 108, 163, 219, 47, 286, 68, 344, 124, 204, 257, 34, 313, 91, 170, 232, 58, 301, 150, 32, 275, 80, 330, 112, 167, 223, 51, 290, 143, 25, 269, 73, 321, 101, 160, 216, 44, 283, 65, 341, 121, 201, 254, 33, 310, 88, 167, 229, 55, 298, 147, 29, 272, 77, 327, 109, 164, 220, 48, 287, 69, 345, 125, 205, 258, 36, 314, 92, 171, 233, 59, 302, 151, 33, 276, 81, 331, 113, 168, 224, 52, 291, 144, 26, 270, 74, 322, 102, 161, 217, 45, 284, 66, 342, 122, 202, 255, 34, 311, 89, 168, 230, 56, 299, 148, 30, 273, 78, 328, 110, 165, 221, 49, 288, 70, 346, 126, 206, 259, 37, 315, 93, 172, 234, 60, 303, 152, 35, 277, 82, 332, 114, 169, 225, 53, 292, 145, 27, 271, 75, 323, 103, 162, 218, 46, 285, 67, 343, 123, 203, 256, 35, 312, 90, 169, 231, 57, 300, 149, 31, 274, 79, 329, 111, 166, 222, 50, 289, 142, 24, 268, 72, 320, 100, 159, 215, 43, 282, 64, 340, 120, 200, 253, 32, 309",
+  "text_sha256": "e147831c96cc7cc8ab74c296d02896109bada95d6519839b3438d96034fe97b3",
+  "parsed_count": 500,
+  "completion": "truncated",
+  "http_status": 200,
+  "response_model": "openpangu-2.0-pro",
+  "response_id": "639cec0d71028add24b87cf95438f795",
+  "actual_channel": "huaweicloud",
+  "finished_at": "2026-11-03T12:00:50.211Z"
+}

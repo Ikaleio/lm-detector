@@ -1,0 +1,212 @@
+{
+  "schema_version": 1,
+  "purpose": "reference",
+  "id": "f50c5c89-4877-42df-9af5-04b2a4761eb1",
+  "created_at": "2026-11-03T11:54:31.724Z",
+  "model": {
+    "id": "openpangu-2.0-flash",
+    "family": "openpangu",
+    "family_name": "openPangu"
+  },
+  "source": {
+    "channel": "huaweicloud",
+    "endpoint": "https://api.modelarts-maas.com/openai/v1/chat/completions"
+  },
+  "request": {
+    "model": "openpangu-2.0-flash",
+    "format": "chat_completions",
+    "stream": true,
+    "reasoning_effort": "",
+    "response_models": [
+      "openpangu-2.0-flash"
+    ]
+  },
+  "plan": {
+    "suite_sha256": "5f0a58d4658db62d5249de25310b3ce796320db4d42b9f491c392abfa3ce5546",
+    "challenge_ids": [
+      "query-01",
+      "query-02",
+      "query-03",
+      "query-04",
+      "query-05",
+      "query-06",
+      "query-07",
+      "query-08",
+      "query-09",
+      "query-10",
+      "query-11",
+      "query-12",
+      "query-13",
+      "query-14",
+      "query-15",
+      "query-16",
+      "query-17",
+      "query-18",
+      "query-19",
+      "query-20",
+      "query-21",
+      "query-22",
+      "query-23",
+      "query-24",
+      "query-25",
+      "query-26",
+      "query-27",
+      "query-28",
+      "query-29",
+      "query-30",
+      "query-31",
+      "query-32",
+      "query-33",
+      "query-34",
+      "query-35",
+      "query-36"
+    ]
+  },
+  "samples": [
+    {
+      "id": "f50c5c89-4877-42df-9af5-04b2a4761eb1:query-01",
+      "challenge_id": "query-01",
+      "condition": "environment-01",
+      "expected_count": 218,
+      "system_prompt": "",
+      "prompt": "For each of 218 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+      "attempt": 1,
+      "started_at": "2026-11-03T11:54:31.728Z",
+      "finished_at": "2026-11-03T11:56:44.501Z",
+      "actual_channel": "huaweicloud",
+      "provider_reported": null,
+      "response_model": "openpangu-2.0-flash",
+      "response_id": "e367f9724b1b8885df0f91ea724cebb1",
+      "text": "[42,17,89,355,1,234,128,67,201,150,33,278,199,56,310,77,142,267,99,300,11,245,188,44,321,66,155,289,78,212,333,9,167,299,123,45,276,200,55,340,88,177,250,101,354,101,222,133,288,76,199,311,42,156,278,89,200,12,345,67,189,301,55,177,299,100,234,56,167,288,77,200,321,44,155,267,88,212,333,99,123,245,66,178,300,11,134,256,78,199,310,45,167,289,100,222,345,56,178,300,12,234,67,189,311,44,156,278,89,201,322,55,167,289,100,222,345,66,178,300,11,134,256,77,199,310,45,167,288,99,212,333,10,123,245,67,189,311,44,155,267,88,200,321,56,167,289,100,222,345,66,178,300,12,134,256,78,199,310,45,167,288,99,212,333,10,123,245,67,189,311,44,156,278,89,201,322,55,167,289,100,222,345,66,178,300,11,134,256,77,199,310,45,167,288,99,212,333,10,123,245,67,189,311,44,155,267,88,200,321,56,167,289,100,222,345,66,178,300]",
+      "completion": "complete",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 153,
+        "total_tokens": 11637,
+        "completion_tokens": 11484,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 10676
+        }
+      },
+      "note": null,
+      "evidence_path": "trace/query-01/0001"
+    },
+    {
+      "id": "f50c5c89-4877-42df-9af5-04b2a4761eb1:query-02",
+      "challenge_id": "query-02",
+      "condition": "environment-01",
+      "expected_count": 233,
+      "system_prompt": "",
+      "prompt": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+      "attempt": 1,
+      "started_at": "2026-11-03T11:54:31.728Z",
+      "finished_at": "2026-11-03T11:56:11.068Z",
+      "actual_channel": "huaweicloud",
+      "provider_reported": null,
+      "response_model": "openpangu-2.0-flash",
+      "response_id": "9c5079efaeb5af618da50cdf2a731860",
+      "text": "[127,89,304,211,56,178,342,99,233,145,67,298,190,312,78,256,103,321,45,167,289,333,112,244,278,134,201,50,189,302,76,222,345,101,267,154,334,88,219,309,65,198,311,123,255,245,177,300,90,212,332,144,266,77,188,310,111,234,355,166,288,100,221,343,133,255,176,301,89,211,333,145,267,342,78,190,304,56,178,99,233,127,345,101,222,312,67,298,190,302,76,219,309,65,198,311,123,255,245,177,300,90,212,332,144,266,77,188,310,111,234,355,166,288,100,221,343,133,255,176,301,89,211,333,145,267,342,78,190,304,56,178,99,233,127,345,101,222,312,67,298,190,302,76,219,309,65,198,311,123,255,245,177,300,90,212,332,144,266,77,188,310,111,234,355,166,288,100,221,343,133,255,176,301,89,211,333,145,267,342]",
+      "completion": "complete",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 153,
+        "total_tokens": 8818,
+        "completion_tokens": 8665,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 7973
+        }
+      },
+      "note": null,
+      "evidence_path": "trace/query-02/0001"
+    },
+    {
+      "id": "f50c5c89-4877-42df-9af5-04b2a4761eb1:query-05",
+      "challenge_id": "query-05",
+      "condition": "environment-02",
+      "expected_count": 239,
+      "system_prompt": "",
+      "prompt": "Using only this model's own immediate choices, provide exactly 239 whole numbers from 1 through 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+      "attempt": 3,
+      "started_at": "2026-11-03T11:57:46.816Z",
+      "finished_at": "2026-11-03T11:58:44.181Z",
+      "actual_channel": "huaweicloud",
+      "provider_reported": null,
+      "response_model": "openpangu-2.0-flash",
+      "response_id": "e04761bcf19b0ac22ceff72e08a080af",
+      "text": "[42,189,77,301,56,233,12,288,99,150,200,345,67,111,250,88,199,312,44,177,266,90,333,101,222,55,144,277,66,188,309,72,195,244,100,355,11,221,133,255,88,176,299,41,166,288,99,210,340,50,123,234,67,189,310,77,200,111,222,333,44,155,266,77,188,309,100,211,322,43,154,265,76,187,308,99,210,321,42,153,264,75,186,307,98,209,320,41,152,263,74,185,306,97,208,319,40,151,262,73,184,305,96,207,318,39,150,261,72,183,304,95,206,317,38,149,260,71,182,303,94,205,316,37,148,259,70,181,302,93,204,315,36,147,258,69,180,301,92,203,314,35,146,257,68,179,300,91,202,313,34,145,256,67,178,299,90,201,312,33,144,255,66,177,298,89,200,311,32,143,254,65,176,297,88,199,310,31,142,253,64,175,296,87,198,309,30,141,252,63,174,295,86,197,308,29,140,251,62,173,294,85,196,307,28,139,250,61,172,293,84,195,306,27,138,249,60,171,292,83,194,305,26,137,248,59,170,291,82,193,304,25,136,247,58,169,290,81,192]",
+      "completion": "complete",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 151,
+        "total_tokens": 4785,
+        "completion_tokens": 4634,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 3753
+        }
+      },
+      "note": null,
+      "evidence_path": "trace/query-05/0003"
+    },
+    {
+      "id": "f50c5c89-4877-42df-9af5-04b2a4761eb1:query-10",
+      "challenge_id": "query-10",
+      "condition": "environment-04",
+      "expected_count": 294,
+      "system_prompt": "",
+      "prompt": "这是一次无语义数值选择。请为 294 个位置分别凭第一反应选择一个 1 到 355（含端点）的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+      "attempt": 2,
+      "started_at": "2026-11-03T11:57:46.819Z",
+      "finished_at": "2026-11-03T11:59:04.641Z",
+      "actual_channel": "huaweicloud",
+      "provider_reported": null,
+      "response_model": "openpangu-2.0-flash",
+      "response_id": "013db3bd734ae4b1d9e3472bc323b857",
+      "text": "142, 87, 233, 5, 199, 312, 78, 256, 111, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44, 266, 133, 344, 200, 99, 167, 289, 33, 201, 145, 300, 66, 222, 178, 45, 290, 123, 355, 189, 77, 254, 101, 322, 154, 277, 88, 199, 311, 44",
+      "completion": "truncated",
+      "finish_reason": null,
+      "usage": null,
+      "note": null,
+      "evidence_path": "trace/query-10/0002"
+    },
+    {
+      "id": "f50c5c89-4877-42df-9af5-04b2a4761eb1:query-13",
+      "challenge_id": "query-13",
+      "condition": "environment-05",
+      "expected_count": 297,
+      "system_prompt": "",
+      "prompt": "For each of 297 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+      "attempt": 3,
+      "started_at": "2026-11-03T11:57:47.854Z",
+      "finished_at": "2026-11-03T11:58:46.002Z",
+      "actual_channel": "huaweicloud",
+      "provider_reported": null,
+      "response_model": "openpangu-2.0-flash",
+      "response_id": "7cce724502c7648bfecdc32c740a372e",
+      "text": "142 89 256 3 199 77 311 22 144 50 203 178 92 305 67 288 111 44 233 160 299 12 187 340 75 201 134 266 99 352 15 219 88 302 41 177 244 66 321 108 195 27 268 143 310 56 222 9 289 167 355 123 200 78 333 45 190 112 255 68 308 21 176 139 247 80 322 101 188 34 265 152 298 70 209 133 277 96 350 59 214 127 192 25 337 84 261 148 304 73 220 105 179 312 48 286 162 354 65 208 119 235 150 272 87 341 13 194 267 100 323 52 218 141 290 76 351 110 183 245 38 307 129 202 63 278 155 334 91 216 137 259 18 346 82 197 270 103 324 55 221 146 293 79 353 113 186 248 42 313 124 205 69 281 158 336 85 211 130 262 21 349 94 191 273 106 325 58 224 149 296 81 354 116 189 251 47 316 127 208 72 284 161 339 88 213 136 269 24 348 97 194 276 109 326 61 227 152 299 83 352 119 182 254 50 319 130 203 74 287 164 342 90 197 271 112 327 64 230 155 302 86 215 138 272 27 351 102 185 249 53 314 126 206 71 289 167 345 93 196 274 115 328 67 233 158 305 89 218 141 275 30 350 105 188 252 56 321 133 209 76 292 170 344 96 199 278 118 331 70 236 161 308 92 221 144 281 43 355 108 191 264 125 337 79 223 154 295 87 352 113 186 247 60 324 136 200",
+      "completion": "complete",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 158,
+        "total_tokens": 4537,
+        "completion_tokens": 4379,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 3270
+        }
+      },
+      "note": null,
+      "evidence_path": "trace/query-13/0003"
+    }
+  ]
+}

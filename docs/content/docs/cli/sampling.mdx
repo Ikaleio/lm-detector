@@ -29,6 +29,8 @@ fpd sample \
 
 模型 ID、允许的返回模型 ID 和渠道需要替换为实际值。`--response-model` 可以重复指定多个别名。连接信息也可以来自 `API_KEY`、`MODEL`、`BASE_URL`。
 
+对于华为云 MaaS 的 `openpangu-*` 型号，`--api cc --effort none` 会发送官方的 `chat_template_kwargs: {thinking: false}`，关闭深度思考。`--effort default` 沿用上游默认模式。实际参数保存在批次请求和原始证据中。
+
 | 常用参数 | 说明 |
 | --- | --- |
 | `--count N` | 固定挑战数量，1–36，默认 36 |

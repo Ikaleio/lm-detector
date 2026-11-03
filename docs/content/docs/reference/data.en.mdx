@@ -52,6 +52,17 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-03 Add openPangu-2.0-Pro and Flash" id="2026-11-03-openpangu">
+    Added `openpangu-2.0-pro` and `openpangu-2.0-flash`. Both independent fixed evaluation groups for each model ranked the correct model first. The bank now contains 66 fingerprint identities and 2,452 reference answers.
+
+    Each model contributes 36 fixed-challenge answers collected directly through the Huawei Cloud MaaS streaming OpenAI-compatible endpoint, with channel `huaweicloud`. `--effort none` sends the official `chat_template_kwargs: {thinking: false}` parameter, with an output limit of 8,192 tokens. All 2,380 previous reference answers are unchanged.
+
+    Seven Pro reference answers completed naturally and 29 stopped at the 500-integer collection limit. Three Flash answers completed naturally and 33 stopped at the same limit. Each challenge selects its first valid answer. All five failed attempts and the earlier default-thinking collection history remain with the raw evidence.
+
+    Independent evaluation uses the existing fixed challenges: two groups of three new answers per model, with the same official route and disabled thinking. Reading stops at the requested integer count under the existing evaluation policy. Evaluation answers are stored separately and do not enter bank construction, training, or calibration. After retraining, correct predictions on the same 128 previous complete groups changed from 115 to 114. Evaluation covers 132 of 134 groups and 396 of 402 answers, with 118 of 132 complete groups correct. The two existing collection gaps belong to `kimi-k2.8-preview`.
+
+    All four new evaluation groups ranked the correct model first. Sampling evidence and enrollment receipts are saved in `collections/openpangu-2.0-pro-huaweicloud-none-20261103/` and `collections/openpangu-2.0-flash-huaweicloud-none-20261103/`.
+  </Accordion>
   <Accordion title="2026-10-27 Add gpt-6.1-terra" id="2026-10-27-gpt-6-1-terra">
     Added 36 fixed-challenge answers for `gpt-6.1-terra`, bringing the reference bank to 64 fingerprint identities and 2,380 samples. Collection requests `openai/gpt-6.1-terra` through streaming OpenRouter Chat Completions, with `reasoning_effort=low` and the fixed `openrouter/openai` official provider route. Fallbacks are disabled.
 

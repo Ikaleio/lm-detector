@@ -1,0 +1,47 @@
+{
+  "manifest_sha256": "b3d4ac7a5ddd0ca1b2f8ef1a62d9ba38b3b9199e2cb45a1c4a8145d059f83a15",
+  "challenge_id": "query-02",
+  "attempt": 1,
+  "task": {
+    "id": "query-02",
+    "condition": "environment-01",
+    "expected_count": 233,
+    "prompt": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "openpangu-2.0-flash",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-03T11:54:31.728Z",
+  "trace": "trace/query-02/0001",
+  "text": "[127,89,304,211,56,178,342,99,233,145,67,298,190,312,78,256,103,321,45,167,289,333,112,244,278,134,201,50,189,302,76,222,345,101,267,154,334,88,219,309,65,198,311,123,255,245,177,300,90,212,332,144,266,77,188,310,111,234,355,166,288,100,221,343,133,255,176,301,89,211,333,145,267,342,78,190,304,56,178,99,233,127,345,101,222,312,67,298,190,302,76,219,309,65,198,311,123,255,245,177,300,90,212,332,144,266,77,188,310,111,234,355,166,288,100,221,343,133,255,176,301,89,211,333,145,267,342,78,190,304,56,178,99,233,127,345,101,222,312,67,298,190,302,76,219,309,65,198,311,123,255,245,177,300,90,212,332,144,266,77,188,310,111,234,355,166,288,100,221,343,133,255,176,301,89,211,333,145,267,342]",
+  "text_sha256": "48de8a5576af5ee0b219dfe0e9d5e5237927ed8e223c869d39f1997e26c99105",
+  "parsed_count": 180,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "openpangu-2.0-flash",
+  "response_id": "9c5079efaeb5af618da50cdf2a731860",
+  "usage": {
+    "prompt_tokens": 153,
+    "total_tokens": 8818,
+    "completion_tokens": 8665,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 7973
+    }
+  },
+  "finish_reason": "stop",
+  "actual_channel": "huaweicloud",
+  "finished_at": "2026-11-03T11:56:11.068Z"
+}

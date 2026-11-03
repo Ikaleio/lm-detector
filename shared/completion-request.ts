@@ -31,7 +31,8 @@ export function completionBody(config: Pick<ApiConfig, 'model' | 'format' | 'eff
     if (config.effort && config.effort !== 'default') body.reasoning = {effort: config.effort}
   } else {
     if (system) messages.unshift({role: 'system', content: system})
-    if (config.effort && config.effort !== 'default') body.reasoning_effort = config.effort
+    if (/^openpangu-/i.test(config.model) && config.effort === 'none') body.chat_template_kwargs = {thinking: false}
+    else if (config.effort && config.effort !== 'default') body.reasoning_effort = config.effort
   }
   if (config.serviceTier && config.serviceTier !== 'default') body[serviceTierField(config.format)] = config.serviceTier
   return body
