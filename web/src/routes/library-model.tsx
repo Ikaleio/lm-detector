@@ -24,9 +24,10 @@ type SampleLoad = { status: 'loading' } | { status: 'ready'; rows: ReferenceEntr
 
 export default function LibraryModelRoute() {
   const bank = useLoadedBank()
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const { modelId = '' } = useParams()
   const model = bank.models.find(m => m.id === modelId)
+  const hideNearestModels = locale === 'zh' && ['openpangu-2.0-pro', 'openpangu-2.0-flash'].includes(modelId)
 
   return (
     <div className="fp-page-wide fp-library-model">
@@ -39,7 +40,7 @@ export default function LibraryModelRoute() {
             <p className="text-body text-muted-foreground [overflow-wrap:anywhere]">
               {model.family_name} · {t('library.samplesCount', { n: model.response_count })} · {Object.keys(model.sources).join(' / ')}
             </p>
-            {model.nearest_models?.length ? <NearestModels neighbors={model.nearest_models} /> : null}
+            {!hideNearestModels && model.nearest_models?.length ? <NearestModels neighbors={model.nearest_models} /> : null}
           </>
         ) : (
           <>
