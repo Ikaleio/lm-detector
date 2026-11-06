@@ -1,16 +1,51 @@
 ---
 title: Tokenizer probe
-description: With --tokenizer, fpd identifies the tokenizer behind the API during detection and checks it against the model you entered. The result is reference only. It does not change the ranking or delay the result.
+description: Run fpd tokenizer on its own, inspect candidates and request counts, save JSON, and replay it offline. Or add the probe to number fingerprint detection.
 icon: Binary
 ---
 
-```sh
-# Detect and run the tokenizer probe (off by default)
-npx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m deepseek-v4-pro -a cc --tokenizer
+`fpd tokenizer` brings the website's tokenizer probe to the terminal. It reads input token counts from the API and shows the tokenizer class and its agreement with the model you entered.
 
-# Read the tokenizer probe saved in a report offline, without requests
+## Standalone probing
+
+```sh
+# Probe the tokenizer and save a report
+npx lmfpd@latest tokenizer -b https://api.example.com/v1 -k sk-xxx -m deepseek-v4-pro -a cc --output tokenizer.json
+
+# Recompute offline; web exports and detection reports with a probe also work
+npx lmfpd@latest tokenizer --input tokenizer.json --json
+```
+
+From `projects/`, run `bun run fpd tokenizer [options]`. Connection settings also accept `BASE_URL`, `API_KEY`, and `MODEL`; flags take precedence. The standalone command loads the tokenizer bank and sends tokenizer probes, without number sampling or a fingerprint ranker.
+
+| Option | Standalone behavior |
+| --- | --- |
+| `-p`, `--parallel N` | Actual concurrent requests, 1–4; default 4 |
+| `--max-probes N` | Probe text limit, 4–60; default 20, plus two baseline requests |
+| `--timeout SECONDS` | Deadline for each complete request; default 90 seconds, including the entire SSE stream |
+| `--tokenizer-bank FILE` | Use a custom tokenizer bank |
+| `--output FILE` | Save a standalone tokenizer report |
+| `--json` | Write JSON to stdout for scripts |
+| `--input FILE` | Recompute saved counts without an API or credentials |
+
+Responses, Chat Completions, and Messages use the same connection options and aliases as [detection](./detect.mdx#options). SSE is the default; `-ns` requests JSON. Messages limits output to 16 tokens; other protocols set no output limit. A run usually sends about 12 requests, with a default maximum of 22. Per-request billing applies.
+
+The terminal shows live progress. Once the probe finishes, it shows the first six tokenizer candidates with their exact-match probabilities, the unlisted probability, and each request's token count and difference from the first baseline. Press `q` or `Ctrl+C` to stop; `--output` saves the counts received so far. Redirected output includes a static report, with progress on stderr. With `--json`, stdout contains a single complete JSON report.
+
+The standalone report has top-level schema `fpd-tokenizer-v1`, the fields in [Report format](#report-format), and the actual request settings in `request`. It contains no endpoint or API key. Offline replay accepts this report, a CLI detection report containing `tokenizer`, or a web export. `-m` or `MODEL` overrides the saved model name for the claim check.
+
+Standalone exit codes are `0` for a verdict with no request failure, `1` for invalid input, a failed request, or no verdict, `130` when the current run is cancelled, and `143` on SIGTERM. A model-name mismatch, related class, or unlisted tokenizer is a valid result and does not itself cause failure. Offline replay recomputes from saved counts; its exit code describes that replay.
+
+The standalone command starts probing directly and needs no `--tokenizer` flag. Number-detection flags such as `--count`, `--repeat`, `--strict`, `--bank`, and `--challenges` are rejected before requests. `--input` cannot be combined with `--max-probes`.
+
+## Probing during number fingerprint detection
+
+```sh
+npx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m deepseek-v4-pro -a cc --tokenizer
 npx lmfpd@latest --input result.json --json
 ```
+
+The following sections describe the default detection command's `--tokenizer` option and its report.
 
 A tokenizer is the rule that a model uses to cut text into tokens. Different model families use different tokenizers. Thus the input token count that an API reports in its usage (`usage`) can show the upstream tokenizer.
 

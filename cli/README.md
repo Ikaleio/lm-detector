@@ -1,6 +1,6 @@
 # FPD CLI
 
-FPD uses Ink for live detection, reference collection, and enrollment. The published package runs with Node.js 22+ or Bun 1.4.4+ and does not require a repository checkout. Detection shows candidate rankings and repeated results; collection shows setup, request progress, saved evidence, and enrollment previews. Compatible terminals display `lm.ikale.io` as a clickable link in the detection header.
+FPD uses Ink for live detection, standalone tokenizer probing, reference collection, and enrollment. The published package runs with Node.js 22+ or Bun 1.4.4+ and does not require a repository checkout. Detection shows candidate rankings and repeated results; collection shows setup, request progress, saved evidence, and enrollment previews. Compatible terminals display `lm.ikale.io` as a clickable link in the detection header.
 
 The full documentation, in English and Chinese, is at [lm.ikale.io/docs/en/cli](https://lm.ikale.io/docs/en/cli).
 
@@ -116,6 +116,20 @@ The TUI shows the latest ranking and recent round summaries. After at least one 
 Exit codes: `0` when all requested rounds produce a ranking, `1` for invalid input or any unscored round, `130` after cancellation (including a tokenizer probe stopped after the last round), and `143` after SIGTERM. A partial ranking is a successful relaxed-mode result.
 
 ## Tokenizer probe
+
+Run the probe on its own with `fpd tokenizer`. It uses the same algorithm and tokenizer bank as the website, shows candidate probabilities and per-request counts, and supports JSON output and offline replay:
+
+```sh
+# From projects/ in the source checkout
+bun run fpd tokenizer -b https://api.example.com/v1 -k sk-xxx -m deepseek-v4-pro -a cc --output tokenizer.json
+bun run fpd tokenizer --input tokenizer.json --json
+```
+
+The standalone command accepts the same connection flags and environment variables as detection. It sends tokenizer requests without number samples. `--parallel` sets the actual concurrency from 1 to 4 (default 4). `--max-probes` limits probe texts to 4–60 (default 20), plus two baselines. `--timeout` covers each entire request, including SSE, and defaults to 90 seconds. `--input` also accepts detection reports and web exports containing `tokenizer.observations`. Run `fpd tokenizer --help` for all options.
+
+The saved report uses top-level `fpd-tokenizer-v1`, includes request settings, and excludes the endpoint and credentials. Exit codes are 0 for a verdict without request failure, 1 for a failed request, invalid input, or no verdict, 130 for cancellation, and 143 for SIGTERM. A model-name mismatch is a result, not a command failure. Offline replay recomputes from saved counts and uses the replay result for its exit code. With `--output`, cancellation keeps received counts.
+
+You can also run the tokenizer probe beside number detection:
 
 ```sh
 # Detect and run the tokenizer probe

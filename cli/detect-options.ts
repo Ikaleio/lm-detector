@@ -2,6 +2,7 @@ import { parseArgs } from 'node:util'
 import { SERVICE_TIERS, type ServiceTier } from '@fingerpoint/shared/completion-request'
 import type { DetectionOptions } from '@fingerpoint/shared/detect-request'
 import { TOKENIZER_MODEL } from '@fingerpoint/shared/tokenizer-posterior'
+import { PROBE_TIMEOUT_MS } from '@fingerpoint/shared/tokenizer-probe'
 import type { ApiConfig } from '@fingerpoint/shared/types'
 
 const TIER_ALIASES: Record<string, ServiceTier> = { f: 'fast', uf: 'ultrafast', slow: 'flex', priority: 'fast', standard: 'default' }
@@ -25,7 +26,8 @@ export function positiveInteger(value: string, name: string, maximum = Number.MA
   return number
 }
 
-export function parseOptions(args: string[], env = process.env): DetectOptions | undefined {
+export function parseOptions(args: string[], env = process.env, command: 'detect' | 'tokenizer' = 'detect'): DetectOptions | undefined {
+  const standalone = command === 'tokenizer'
   const { values } = parseArgs({ args: args.map(arg => arg === '-ns' ? '--no-stream' : arg), options: {
     model: { type: 'string', short: 'm' }, apikey: { type: 'string', short: 'k' }, baseurl: { type: 'string', short: 'b' },
     api: { type: 'string', short: 'a' }, count: { type: 'string' }, parallel: { type: 'string', short: 'p' },
@@ -39,6 +41,11 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
     'max-probes': { type: 'string' }, 'tokenizer-bank': { type: 'string' },
   }, strict: true, allowPositionals: false })
   if (values.help) return undefined
+  if (standalone) {
+    const unsupported = (['count', 'repeat', 'strict', 'bank', 'challenges', 'tokenizer', 'no-update-check'] as const)
+      .filter(name => values[name] !== undefined)
+    if (unsupported.length) throw new Error(`fpd tokenizer does not use ${unsupported.map(name => `--${name}`).join(', ')}. Use fpd detect for number fingerprint detection.`)
+  }
   const apiInput = (values.api ?? 'responses').toLowerCase()
   const api = apiInput === 'cc' ? 'chatcompletion'
     : (['responses', 'chatcompletion', 'message'] as const).find(name => name.startsWith(apiInput))
@@ -48,9 +55,10 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
   const serviceTier = Object.hasOwn(TIER_ALIASES, tierInput) ? TIER_ALIASES[tierInput] : SERVICE_TIERS.find(tier => tier.startsWith(tierInput))
   if (!tierInput || !serviceTier) throw new Error('--service-tier must be flex, default, fast, or ultrafast, a prefix, or an alias: f, uf, slow, priority, standard.')
   const count = positiveInteger(values.count ?? '3', '--count', 3)
-  const parallel = Math.min(positiveInteger(values.parallel ?? '3', '--parallel', 3), count)
+  const parallel = standalone ? positiveInteger(values.parallel ?? '4', '--parallel', 4)
+    : Math.min(positiveInteger(values.parallel ?? '3', '--parallel', 3), count)
   const repeat = positiveInteger(values.repeat ?? '1', '--repeat')
-  const timeout = Number(values.timeout ?? '120')
+  const timeout = Number(values.timeout ?? (standalone ? String(PROBE_TIMEOUT_MS / 1000) : '120'))
   if (!Number.isFinite(timeout) || timeout < 0.001 || timeout > 2_147_483.647) {
     throw new Error('--timeout must be between 0.001 and 2147483.647 seconds.')
   }
@@ -64,7 +72,7 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
   if (maxProbes < TOKENIZER_MODEL.minimumProbes) throw new Error(`--max-probes must be an integer from ${TOKENIZER_MODEL.minimumProbes} to 60.`)
   // Without --tokenizer, the probe options are mistakes; with --input, no request is sent, but --tokenizer-bank still
   // recomputes a probe saved in the file.
-  const unused = (values.input ? ['tokenizer', 'max-probes'] as const : values.tokenizer ? [] : ['max-probes', 'tokenizer-bank'] as const)
+  const unused = (values.input ? ['tokenizer', 'max-probes'] as const : standalone || values.tokenizer ? [] : ['max-probes', 'tokenizer-bank'] as const)
     .filter(name => values[name] !== undefined).map(name => `--${name}`)
   if (unused.length) {
     const names = unused.join(' and '), verb = unused.length === 1 ? 'applies' : 'apply'
@@ -91,6 +99,6 @@ export function parseOptions(args: string[], env = process.env): DetectOptions |
     strict: !!values.strict, json: !!values.json,
     updateCheck: !values['no-update-check'] && !env.FPD_NO_UPDATE_CHECK && !env.NO_UPDATE_NOTIFIER,
     input: values.input, output: values.output, bank: values.bank, challenges: values.challenges,
-    tokenizer: !!values.tokenizer, maxProbes, tokenizerBank: values['tokenizer-bank'],
+    tokenizer: standalone ? !values.input : !!values.tokenizer, maxProbes, tokenizerBank: values['tokenizer-bank'],
   }
 }

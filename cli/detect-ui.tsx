@@ -3,13 +3,13 @@ import { Box, Text, render, useInput, useWindowSize } from 'ink'
 import terminalLink from 'terminal-link'
 import { anomalousSamples } from '@fingerpoint/shared/sample-distribution'
 import type { TokenizerBank } from '@fingerpoint/shared/tokenizer-bank'
-import { tokenizerVerdict, type TokenizerVerdict } from '@fingerpoint/shared/tokenizer-posterior'
 import type { Analysis } from '@fingerpoint/shared/types'
 import { acceptedSample, cleanText, type Sample } from '@fingerpoint/shared/detect-request'
 import type { DetectionState } from '@fingerpoint/shared/detect-run'
 import type { DetectOptions } from './detect-options'
 import type { UpdateNotice } from './detect-update'
 import { StarNote } from './detect-help'
+import { TokenizerResult, verdictLine } from './tokenizer-ui'
 
 const seconds = (milliseconds: number) => `${(Math.max(0, milliseconds) / 1000).toFixed(1)}s`
 /** Narrow terminals keep only the decode rate. */
@@ -27,28 +27,6 @@ const labels: Record<Sample['state'], string> = {
 const colors: Record<Sample['state'], string> = {
   queued: 'gray', waiting: 'yellow', streaming: 'cyan', complete: 'green', truncated: 'green', failed: 'red', cancelled: 'yellow',
 }
-
-function verdictLine(bank: TokenizerBank, verdict: TokenizerVerdict) {
-  const item = bank.classes.find(entry => entry.id === verdict.top.id)
-  const name = item ? `${item.series} (${item.lab_name})` : verdict.top.id
-  if (verdict.kind === 'exact') return `${name} · exact match · ${percentage(verdict.confidence)}`
-  if (verdict.kind === 'related') return `Unlisted relative of ${name} · ${percentage(verdict.confidence)}`
-  return `Unlisted tokenizer · ${percentage(verdict.confidence)} · nearest class: ${name}`
-}
-
-const claimWords = { consistent: 'match', inconsistent: 'no match', uncertain: 'unclear' } as const
-
-function claimLine(bank: TokenizerBank, verdict: TokenizerVerdict, model: string) {
-  const claim = verdict.claim
-  if (!claim) return `The tokenizer bank has no data for "${model}". FPD cannot check the tokenizer of this model.`
-  const expected = claim.expected.length
-    ? claim.expected.map(id => bank.classes.find(item => item.id === id)?.series ?? id).join(' or ')
-    : `an unpublished ${claim.vendor} tokenizer`
-  return `"${model}" uses ${expected} · ${claimWords[claim.status]} (${percentage(claim.probability)} probability)`
-}
-
-/** A relay that estimates usage locally with tiktoken also produces o200k_base or cl100k_base counts. */
-const estimatedUsageClasses = new Set(['o200k', 'cl100k'])
 
 function Ranking({ analysis, compact, safe }: { analysis: Analysis; compact: boolean; safe: (text: string) => string }) {
   const calibrated = analysis.probability_status === 'reference_calibrated'
@@ -70,37 +48,6 @@ function Ranking({ analysis, compact, safe }: { analysis: Analysis; compact: boo
       : calibrated ? 'Confidence is relative to the reference bank; it does not prove identity.'
       : 'Confidence unavailable for this detector.'}</Text>
     {!compact && <Text dimColor>{safe(analysis.evidence.label)}</Text>}
-  </Box>
-}
-
-function Tokenizer({ state, bank, options, spinner, safe }: {
-  state: DetectionState; bank: TokenizerBank; options: DetectOptions; spinner: string; safe: (text: string) => string
-}) {
-  const run = state.tokenizer
-  if (!run) return null
-  const settled = state.tokenizerSettled !== false
-  const answered = run.steps.filter(step => step.state === 'done').length
-  // While probing, the leader is recomputed from the answers so far.
-  const verdict = run.verdict ?? (!settled && run.posterior && run.posterior.answered > 0
-    ? tokenizerVerdict(bank, run.posterior, options.config.model) : null)
-  const error = run.error && run.error.code !== 'aborted' ? run.error : undefined
-  const stopped = settled && run.error?.code === 'aborted'
-  const model = state.tokenizerModel ?? options.config.model
-  return <Box flexDirection="column" marginTop={1}>
-    <Text bold color="cyan">TOKENIZER PROBE <Text dimColor> · {answered} request{answered === 1 ? '' : 's'} answered</Text></Text>
-    <Text dimColor>Reference only. The ranking and the confidence do not use it.</Text>
-    {state.tokenizerWarning && <Text color="yellow">{safe(state.tokenizerWarning)}</Text>}
-    {!settled && <Text>{spinner} {verdict ? `Current leader: ${verdictLine(bank, verdict)}` : 'Waiting for the first counts'}</Text>}
-    {settled && verdict && <>
-      <Text bold>{verdictLine(bank, verdict)}</Text>
-      {model && <Text color={verdict.claim?.status === 'inconsistent' ? 'red' : verdict.claim?.status === 'consistent' ? 'green' : 'yellow'}>{safe(claimLine(bank, verdict, model))}</Text>}
-      {verdict.kind === 'exact' && estimatedUsageClasses.has(verdict.top.id) && verdict.claim?.status !== 'consistent' && <Text color="yellow">A relay that counts usage locally with tiktoken also gives this result. The count can come from the relay and not from the model.</Text>}
-      {verdict.kind === 'exact' && verdict.claim?.status === 'consistent' && <Text dimColor>Many models share one tokenizer. A match does not identify the model.</Text>}
-    </>}
-    {settled && !verdict && <Text color="yellow">No tokenizer result{error ? `: ${safe(error.message)}` : '. No probe text got a count.'}</Text>}
-    {settled && verdict && error && <Text color="yellow">Partial result from the counts before a failed request: {safe(error.message)}</Text>}
-    {stopped && <Text color="yellow">The probe stopped after {answered} answered request{answered === 1 ? '' : 's'}.{verdict ? ' The result uses these counts.' : ''}</Text>}
-    {run.baselineDrift && <Text color="yellow">The two baseline requests gave different counts. The API adds hidden input of varying length, so the result can be wrong. Run the command again and compare.</Text>}
   </Box>
 }
 
@@ -176,7 +123,8 @@ function Dashboard({ state, options, bankSize, tokenizerBank, cancel, saved, fat
     {latest?.error && <Text color="yellow">{safe(latest.error)}</Text>}
     {anomalous.length > 0 && <Text color="yellow">Sample {anomalous.map(index => index + 1).join(', ')}: abnormal distribution. This result is unreliable. The prompt causes it, so {options.challenges ? 'replace these prompts in the --challenges file' : 'rerun to draw new prompts'}.</Text>}
     {latest?.analysis && latest.analysis.results.length > 0 && <Ranking analysis={latest.analysis} compact={compact} safe={safe} />}
-    {tokenizerBank && <Tokenizer state={state} bank={tokenizerBank} options={options} spinner={spinner} safe={safe} />}
+    {tokenizerBank && <TokenizerResult run={state.tokenizer} bank={tokenizerBank} model={state.tokenizerModel ?? options.config.model}
+      settled={state.tokenizerSettled !== false} warning={state.tokenizerWarning} spinner={spinner} safe={safe} referenceOnly />}
     {state.total > 1 && history.length > 0 && <Box flexDirection="column" marginTop={1}>
       <Text bold color="cyan">ROUNDS <Text dimColor> · {completed}/{state.total} settled · {scored} scored</Text></Text>
       {visibleHistory.map(round => <Box key={round.index}>

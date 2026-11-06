@@ -44,13 +44,14 @@ export async function loadChallenges(path?: string, count = 3): Promise<Challeng
  * Recomputes a saved probe against the current bank. `-m` or `MODEL` overrides the saved model for the claim check.
  * Observations of probes the bank no longer has are skipped; the run keeps them so that `--output` saves them again.
  */
-function savedProbe(source: Record<string, unknown> | undefined, tokenizerBank: TokenizerBank, model: string): { run: TokenizerRun; model: string; warning?: string } | undefined {
-  const saved = source?.tokenizer as { observations?: TokenizerObservation[]; model?: unknown } | undefined
+export function savedProbe(source: Record<string, unknown> | undefined, tokenizerBank: TokenizerBank, model: string): { run: TokenizerRun; model: string; warning?: string } | undefined {
+  const saved = (source?.schema === 'fpd-tokenizer-v1' ? source : source?.tokenizer) as { observations?: TokenizerObservation[]; model?: unknown } | undefined
   if (!saved) return undefined
   const observations = saved.observations
   if (!Array.isArray(observations) || !observations.every(item =>
-    item && (item.probe === null || typeof item.probe === 'string') && Number.isSafeInteger(item.tokens))) {
-    throw new Error('The tokenizer object in the input file needs an observations array. Each item needs probe (a string or null) and tokens (an integer).')
+    item && (item.probe === null || typeof item.probe === 'string') && Number.isSafeInteger(item.tokens) && item.tokens >= 0 &&
+    (item.responseModel === undefined || typeof item.responseModel === 'string'))) {
+    throw new Error('The tokenizer object in the input file needs an observations array. Each item needs probe (a string or null), tokens (a nonnegative integer), and an optional responseModel string.')
   }
   const known = new Set(tokenizerBank.probes.map(probe => probe.id))
   const usable = observations.filter(item => item.probe === null || known.has(item.probe))

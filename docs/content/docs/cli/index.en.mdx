@@ -10,6 +10,7 @@ icon: Terminal
 
 ```text
 fpd [detect] [options]        Detect a model (default command)
+fpd tokenizer [options]       Probe a tokenizer and inspect request counts
 fpd sample [options]          Collect a portable reference batch
 fpd enroll DIR [options]      Validate a batch and write it to the reference bank
 fpd retrain --data-dir DIR    Refit the ranker and confidence calibration offline
@@ -17,7 +18,7 @@ fpd retrain --data-dir DIR    Refit the ranker and confidence calibration offlin
 
 <Cards>
   <Card title="Detection" href="./detect.mdx">Random challenges, multi-round detection, saving, and offline recomputation.</Card>
-  <Card title="Tokenizer probe" href="./tokenizer.mdx">With `--tokenizer`, detection also identifies the upstream tokenizer: options, terminal interface, and report fields.</Card>
+  <Card title="Tokenizer probe" href="./tokenizer.mdx">Run `fpd tokenizer` independently or add `--tokenizer` to detection, with JSON output and offline replay.</Card>
   <Card title="Sampling and resuming" href="./sampling.mdx">For maintaining the reference bank: collect reference batches with the 36 fixed challenges.</Card>
   <Card title="Enrollment and retraining" href="./enroll.mdx">For maintaining the reference bank: validate batches, write them to the reference bank, then retrain the ranker and confidence calibration offline.</Card>
 </Cards>

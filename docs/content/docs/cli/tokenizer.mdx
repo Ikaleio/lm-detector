@@ -1,16 +1,51 @@
 ---
 title: 分词器探测
-description: 加上 --tokenizer 后，fpd 在检测的同时识别接口背后的分词器，并与所填模型核对。结果只作参考，不进入排名，也不推迟结果。
+description: 用 fpd tokenizer 独立识别接口背后的分词器，查看候选和逐条计数，保存 JSON 并离线重读；也支持随数字指纹检测一起探测。
 icon: Binary
 ---
 
-```sh
-# 检测并做分词器探测（默认不做）
-npx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m deepseek-v4-pro -a cc --tokenizer
+`fpd tokenizer` 把网页使用的分词器探测算法带到终端。它直接读取接口返回的输入 token 计数，展示分词器类别和所填模型的核对结果。
 
-# 离线读取报告里保存的分词器探测，不发送请求
+## 独立探测
+
+```sh
+# 独立探测并保存报告
+npx lmfpd@latest tokenizer -b https://api.example.com/v1 -k sk-xxx -m deepseek-v4-pro -a cc --output tokenizer.json
+
+# 离线重新计算，也可以读取网页导出或带分词器结果的检测报告
+npx lmfpd@latest tokenizer --input tokenizer.json --json
+```
+
+仓库内从 `projects/` 运行 `bun run fpd tokenizer [参数]`。连接参数沿用 `BASE_URL`、`API_KEY`、`MODEL`，命令行参数优先。独立命令加载分词器库，发送分词器探测请求，不需要数字指纹取样或排名器。
+
+| 参数 | 独立命令的行为 |
+| --- | --- |
+| `-p`、`--parallel N` | 实际并发请求数，1–4，默认 4 |
+| `--max-probes N` | 测试文本上限，4–60，默认 20；另有两次对照请求 |
+| `--timeout SECONDS` | 每个完整请求的时限，默认 90 秒；SSE 开始后仍受此时限约束 |
+| `--tokenizer-bank FILE` | 换用自定义分词器库 |
+| `--output FILE` | 保存独立分词器报告 |
+| `--json` | 向标准输出写入 JSON，供脚本读取 |
+| `--input FILE` | 用保存的计数重新计算，无需接口或凭据 |
+
+支持 Responses、Chat Completions 和 Messages，协议参数和别名与[检测命令](./detect.mdx#options)相同。默认使用 SSE，`-ns` 改为 JSON。Messages 限制输出为 16 个 token，其他协议不设置输出上限。每次通常约 12 个请求，默认最多 22 个，按次计费的接口会计入这些请求。
+
+终端显示实时进度。探测结束后显示前 6 个候选分词器的精确匹配概率和“未收录”概率，下方列出每个请求的 token 数及其相对首次对照请求的差值。按 `q` 或 `Ctrl+C` 停止时，`--output` 保存已经收到的计数。输出重定向时保留静态详情，进度写入标准错误输出；`--json` 的标准输出保持为一份完整 JSON。
+
+独立报告的顶层 `schema` 是 `fpd-tokenizer-v1`，字段见下方[报告格式](#报告格式)，还包含实际请求设置 `request`。报告不包含接口地址或 API Key。离线读取支持这份独立报告、带 `tokenizer` 对象的 CLI 检测报告，以及网页导出的报告。用 `-m` 或 `MODEL` 可以重新指定核对的模型名。
+
+独立命令的退出码为：有判定且请求正常结束时 `0`，请求失败、输入无效或没有判定时 `1`，本次运行被取消时 `130`，收到 SIGTERM 时 `143`。模型名不一致、接近已收录的类或未收录都是有效探测结果，不因判定类型返回失败。离线读取根据保存的计数重新计算判定，退出码反映本次读取结果。
+
+独立命令直接开始探测，不需要 `--tokenizer`。数字指纹专用参数，如 `--count`、`--repeat`、`--strict`、`--bank` 和 `--challenges`，会在请求前被拒绝。`--input` 不能与 `--max-probes` 一起使用。
+
+## 随数字指纹检测一起探测
+
+```sh
+npx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m deepseek-v4-pro -a cc --tokenizer
 npx lmfpd@latest --input result.json --json
 ```
+
+下面说明默认检测命令的 `--tokenizer` 选项及其报告。
 
 分词器是模型把文字切成 token 的规则。不同模型家族使用不同的分词器，所以接口在用量（`usage`）里报告的输入 token 数可以反映上游的分词器。
 

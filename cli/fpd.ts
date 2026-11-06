@@ -9,6 +9,9 @@ const [command, ...args] = process.argv.slice(2)
 if (command === 'sample' || command === 'enroll') {
   const { runCollectionCommand } = await import('./collection-command')
   await runCollectionCommand(command, args)
+} else if (command === 'tokenizer') {
+  const { runTokenizerCommand } = await import('./tokenizer-command')
+  await runTokenizerCommand(args)
 } else if (command === 'retrain') {
   const { runRetrainCommand } = await import('./retrain-command')
   try { await runRetrainCommand(args) }
