@@ -7,50 +7,7 @@ import { probeTokenizer, tokenizerReport } from '@fingerpoint/shared/tokenizer-p
 import { parseOptions } from './detect-options'
 import { readJson, savedProbe } from './detect-run'
 import { createTokenizerDisplay, type TokenizerState } from './tokenizer-ui'
-
-const help = `FPD / TOKENIZER DETECTOR
-
-Usage: fpd tokenizer -b URL -k KEY -m MODEL [options]
-       fpd tokenizer --input FILE [--json]
-
-Probe a tokenizer directly from input token counts. No number samples are sent.
-
-CONNECTION
-  -b, --baseurl URL       Base URL or complete endpoint. Env: BASE_URL.
-  -k, --apikey KEY        API key. Env: API_KEY.
-  -m, --model MODEL       Requested model and tokenizer claim. Env: MODEL.
-  -a, --api TYPE          responses (default), chatcompletion, or message.
-                         Prefixes and cc work. --base-url / --api-key work too.
-  -e, --effort LEVEL      Optional reasoning effort; omitted for Messages.
-  -t, --service-tier TIER flex, default, fast, or ultrafast; prefixes and aliases.
-  -ns, --no-stream        Request JSON instead of SSE.
-
-PROBE
-  -p, --parallel N        Concurrent probe requests: 1–4. Default: 4.
-  --max-probes N         Probe text limit: 4–60. Default: 20.
-  --timeout SECONDS     Full request deadline, including SSE. Default: 90.
-  --tokenizer-bank FILE  Use a custom tokenizer bank.
-
-OUTPUT
-  --input FILE          Recompute saved counts offline. No API calls needed.
-  --output FILE         Save a tokenizer report without API credentials.
-  --json                Write JSON to stdout instead of the terminal interface.
-  -h, --help            Show this help.
-
-Usually about 12 short requests; at most --max-probes + 2 (22 by default).
-Two baseline requests check hidden-input stability. Per-request billing applies.
-Messages limits output to 16 tokens; the other protocols set no output limit.
-Many models share a tokenizer. A match identifies the counting method.
-q / Ctrl+C stops the probe and keeps received counts in --output.
-
-Examples (connection options may come from environment variables):
-  fpd tokenizer -a cc --output tokenizer.json
-  fpd tokenizer --input tokenizer.json --json
-  fpd tokenizer --input detection.json -m gpt-5
-
-Exit codes: 0 with a verdict; 1 on a failed request or missing verdict;
-130 when cancelled; 143 on SIGTERM. A model-name mismatch is a result, not an error.
-`
+import { printHelp } from './detect-help'
 
 export async function runTokenizerCommand(args: string[]) {
   let key = process.env.API_KEY ?? ''
@@ -67,7 +24,7 @@ export async function runTokenizerCommand(args: string[]) {
       else if (argument.startsWith('-k') && argument.length > 2) key = argument.slice(2)
     }
     const options = parseOptions(args, process.env, 'tokenizer')
-    if (!options) { process.stdout.write(help); return }
+    if (!options) { await printHelp(); return }
     key = options.config.apiKey
     const url = options.input ? undefined : requestEndpoint(options.config)
     const bank = await readJson(options.tokenizerBank ?? fileURLToPath(new URL('../data/tokenizer_bank.json', import.meta.url)))
@@ -113,7 +70,7 @@ export async function runTokenizerCommand(args: string[]) {
   } catch (error) {
     const message = errorMessage(error, key)
     if (display) await display.finish(undefined, message)
-    else process.stderr.write(`Error: ${message}\nUse fpd tokenizer --help for usage.\n`)
+    else process.stderr.write(`Error: ${message}\nUse fpd --help for usage.\n`)
     process.exitCode = process.exitCode || 1
   } finally {
     process.removeListener('SIGINT', cancel)

@@ -25,7 +25,7 @@ bun run fpd --model gpt-5.6-sol --apikey sk-xxx \
   --baseurl https://openrouter.ai/api/v1 -p 3 -n 5
 ```
 
-The workspace also exposes an `fpd` executable. The help page groups options and includes examples. It adapts to narrow terminals and plain-text output.
+The workspace also exposes an `fpd` executable. `fpd --help` includes complete detection and tokenizer options and examples; `fpd tokenizer --help` shows the same page. It adapts to narrow terminals and plain-text output.
 
 You can supply credentials and connection settings through environment variables:
 
@@ -125,7 +125,7 @@ bun run fpd tokenizer -b https://api.example.com/v1 -k sk-xxx -m deepseek-v4-pro
 bun run fpd tokenizer --input tokenizer.json --json
 ```
 
-The standalone command accepts the same connection flags and environment variables as detection. It sends tokenizer requests without number samples. `--parallel` sets the actual concurrency from 1 to 4 (default 4). `--max-probes` limits probe texts to 4–60 (default 20), plus two baselines. `--timeout` covers each entire request, including SSE, and defaults to 90 seconds. `--input` also accepts detection reports and web exports containing `tokenizer.observations`. Run `fpd tokenizer --help` for all options.
+The standalone command accepts the same connection flags and environment variables as detection. It sends tokenizer requests without number samples. `--parallel` sets the actual concurrency from 1 to 4 (default 4). `--max-probes` limits probe texts to 4–60 (default 20), plus two baselines. `--timeout` covers each entire request, including SSE, and defaults to 90 seconds. `--input` also accepts detection reports and web exports containing `tokenizer.observations`. Run `fpd --help` for all options.
 
 The saved report uses top-level `fpd-tokenizer-v1`, includes request settings, and excludes the endpoint and credentials. Exit codes are 0 for a verdict without request failure, 1 for a failed request, invalid input, or no verdict, 130 for cancellation, and 143 for SIGTERM. A model-name mismatch is a result, not a command failure. Offline replay recomputes from saved counts and uses the replay result for its exit code. With `--output`, cancellation keeps received counts.
 

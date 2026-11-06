@@ -40,6 +40,8 @@ bun run fpd [command] [options]
 
 The runner downloads the package when needed. The examples below use `npx`. With Bun, replace `npx lmfpd@latest` with `bunx --bun lmfpd@latest`. Every subcommand accepts `--help`. The help page groups options and examples by category and adapts to narrow terminals and plain-text output.
 
+`fpd --help` lists the complete options, defaults, and examples for both number fingerprint detection and standalone tokenizer probing. `fpd tokenizer --help` shows the same main help. Each command's concurrency range and timeout rules are labeled separately; connection and output options are shared.
+
 ## Environment variables
 
 Connection settings can come from environment variables. Command line flags take precedence over them.
