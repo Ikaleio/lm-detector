@@ -38,6 +38,8 @@ export const fr: Messages = {
     cliGuideShort: 'Guide',
     sdkGuide: 'Docs SDK',
     sdkDescription: 'Détecter depuis des programmes TypeScript, Rust, Go et Python',
+    recentTitle: 'Nouveaux modèles',
+    recentDescription: 'Ajoutés à la bibliothèque ces {days} derniers jours',
     starRequest: 'Utile ? Mettez une Star',
     starAfterImage: 'Utile ? Mettez une Star sur GitHub pour que d’autres le découvrent.',
     restartReady: 'Nouvelles invites prêtes',

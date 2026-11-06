@@ -38,6 +38,8 @@ export const zhHant: Messages = {
     cliGuideShort: '說明',
     sdkGuide: 'SDK 文件',
     sdkDescription: '在 TypeScript、Rust、Go 和 Python 程式中檢測',
+    recentTitle: '新增模型',
+    recentDescription: '最近 {days} 天加入樣本庫',
     starRequest: '覺得有用？歡迎按個 Star',
     starAfterImage: '覺得有用？在 GitHub 按個 Star，讓更多人找到它。',
     restartReady: '已換上新的提示詞',

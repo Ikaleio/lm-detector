@@ -6,6 +6,8 @@ icon: Globe
 
 The detection website [lm.ikale.io](https://lm.ikale.io) is a pure frontend app. Challenge generation, feature extraction, and ranking all run in the browser, and the reference bank is served as static files. The website only runs detection and browses the reference bank read-only. It never writes any reply to the reference bank. Your API key is sent only when a request goes out, to the API you enter or to a forwarding proxy, as the connection mode you choose decides; see [Connection](./connection.mdx).
 
+"New models", next to the detection page title, lists up to five models added to the library in the last 7 days, by the browser's clock. Each model shows how many days ago it was added; hover to see the date. Models from OpenAI, Anthropic, DeepSeek, and Gemini come first, and both groups list the most recently added first. The list is hidden when no model was added in that period. On narrow screens it moves below the title. Click a model name to open its library page. A model's added time is the time recorded on its earliest reference batch.
+
 ## Sampling modes
 
 <Tabs items={['Manual', 'API']}>

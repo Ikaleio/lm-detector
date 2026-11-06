@@ -38,6 +38,8 @@ export const ja: Messages = {
     cliGuideShort: '説明',
     sdkGuide: 'SDK ドキュメント',
     sdkDescription: 'TypeScript・Rust・Go・Python のプログラムから検出',
+    recentTitle: '新着モデル',
+    recentDescription: '過去 {days} 日間にサンプルライブラリへ追加',
     starRequest: '役に立ちましたか？ Star をぜひ',
     starAfterImage: '役に立ったら GitHub で Star を付けて、もっと多くの人に届けてください。',
     restartReady: '新しいプロンプトに入れ替えました',

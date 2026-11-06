@@ -28,6 +28,8 @@ export interface I18n {
   number: (value: number) => string
   percent: (value: number) => string
   date: (value: string | number | Date) => string
+  /** Calendar days between the value and today in the reader's time zone, e.g. "yesterday" or "4 days ago". */
+  daysAgo: (value: string | number | Date) => string
 }
 
 const I18nContext = createContext<I18n | null>(null)
@@ -70,6 +72,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     const numberFormat = new Intl.NumberFormat(tag)
     const percentFormat = new Intl.NumberFormat(tag, { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 })
     const dateFormat = new Intl.DateTimeFormat(tag, { year: 'numeric', month: '2-digit', day: '2-digit' })
+    const relativeFormat = new Intl.RelativeTimeFormat(tag, { numeric: 'auto' })
     return {
       locale,
       setLocale,
@@ -86,6 +89,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
       date: (v) => {
         const d = new Date(v)
         return Number.isNaN(d.getTime()) ? String(v) : dateFormat.format(d)
+      },
+      daysAgo: (v) => {
+        // Rounding absorbs the hour that a daylight saving change adds or removes.
+        const days = Math.round((new Date().setHours(0, 0, 0, 0) - new Date(v).setHours(0, 0, 0, 0)) / 86_400_000)
+        return relativeFormat.format(-days, 'day')
       },
     }
   }, [locale, tag, catalog, setLocale])

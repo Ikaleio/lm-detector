@@ -19,7 +19,13 @@ if (bank.reference_sha256 !== createHash('sha256').update(referenceBytes).digest
 }
 const batches = parseReference(referenceBytes)
 const sampleCounts = new Map<string, number>()
-for (const { batch } of referenceSamples(batches)) sampleCounts.set(batch.model.id, (sampleCounts.get(batch.model.id) ?? 0) + 1)
+/** A model joins the library with its first reference batch; imported batches have no `created_at`, so their answers' timestamps stand in. */
+const addedAt = new Map<string, number>()
+for (const { batch, sample } of referenceSamples(batches)) {
+  sampleCounts.set(batch.model.id, (sampleCounts.get(batch.model.id) ?? 0) + 1)
+  const time = Date.parse(batch.created_at ?? sample.started_at ?? sample.finished_at ?? '')
+  if (time < (addedAt.get(batch.model.id) ?? Infinity)) addedAt.set(batch.model.id, time)
+}
 if (sampleCounts.size !== bank.models.length || bank.models.some((model: { id: string; response_count: number }) => sampleCounts.get(model.id) !== model.response_count)) {
   throw new Error('参考样本数与派生库不匹配，不能发布。')
 }
@@ -32,6 +38,10 @@ const publicBank = redactPrivateMetadata(bank)
 publicBank.reference_sha256 = createHash('sha256').update(references).digest('hex')
 if (!supportsSharedDetector(bank, detector)) throw new Error('派生库与检测器不匹配，不能发布。请先运行 fpd retrain。')
 nearestModels(detector).forEach((neighbors, i) => { publicBank.models[i].nearest_models = neighbors })
+for (const model of publicBank.models as BankModel[]) {
+  const time = addedAt.get(model.id)
+  if (time !== undefined) model.added_at = new Date(time).toISOString()
+}
 const chunkSize = 4 * 1024 * 1024
 /** `bytes` is the compressed size, which the browser uses to report download progress. */
 const manifest: Record<string, { parts: string[]; bytes: number }> = {}

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty'
 import { PixelShader, PixelSpinner } from '@/components/pixel-shader'
 import { Skeleton } from '@/components/ui/skeleton'
+import { ModelChip } from '@/components/model-chip'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useLoadedBank } from '@/lib/bank-context'
 import { useI18n } from '@/i18n'
@@ -63,10 +64,10 @@ function NearestModels({ neighbors }: { neighbors: NonNullable<BankModel['neares
       <ol className="flex flex-wrap gap-2">
         {neighbors.map(({ model, distance }) => (
           <li key={model} className="min-w-0">
-            <Link to={`/library/${encodeURIComponent(model)}`} className="flex h-8 min-w-0 items-center gap-2 rounded-lg border border-border px-3 text-body hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+            <ModelChip id={model}>
               <span className="truncate">{bank.models.find(m => m.id === model)?.display_name ?? model}</span>
               <span className="fp-mono shrink-0 text-meta text-muted-foreground">{distance.toFixed(2)}</span>
-            </Link>
+            </ModelChip>
           </li>
         ))}
       </ol>

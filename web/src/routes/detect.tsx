@@ -12,6 +12,7 @@ import { downloadBytes, downloadFraction, ProgressCells } from '@/components/det
 import { useDetectorDownload } from '@/lib/detector'
 import { Segmented } from '@/components/segmented'
 import { useLoadedBank } from '@/lib/bank-context'
+import { RecentModels } from '@/components/recent-models'
 import { ResultPanel } from '@/components/result-panel'
 import { SampleCard, SampleStrip, isBusyState, type Mode, type SampleUI } from '@/components/sample-card'
 import { TokenizerCard, TokenizerDetails, TokenizerStripButton } from '@/components/tokenizer-panel'
@@ -405,8 +406,10 @@ export default function DetectRoute() {
 
   return (
     <div className={cn('fp-page', 'has-actionbar')}>
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
         <h1 className="text-h1">{t('detect.title')}</h1>
+        {/* Between the title and the mode switch from 1280px; below that it takes its own line under them. */}
+        <RecentModels className="order-last basis-full xl:order-none xl:flex-1 xl:basis-0" />
         <Segmented label={t('detect.modeLabel')} value={mode} onChange={changeMode} disabled={locked} options={[{ value: 'manual', label: t('detect.modeManual') }, { value: 'api', label: t('detect.modeApi') }]} />
       </div>
 

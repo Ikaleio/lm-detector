@@ -1,7 +1,7 @@
 ---
 name: fingerpoint-design
 description: 用于 Fingerpoint Detector 的网页工具界面（多卡片工作台、数据长列表、主从浏览）、文档站长文页、浏览器导出的结果图片和链接预览图。读者是逐条核对数字、标识符和百分比的技术用户；目标是中性灰阶表面、单一蓝色强调、像素指纹装饰和无回弹弹簧动效，中英文混排，浅色与深色主题。
-version: 2026-11-02
+version: 2026-11-07
 ---
 
 ## 1. 范围与优先级
@@ -44,7 +44,8 @@ version: 2026-11-02
 
 用于一次处理多份同类输入并在同一页给出结论的页面。
 
-- [SHOULD] 使用 `fp-page`。首屏自上而下：页头（唯一的 h1，右侧为 `Segmented` 模式切换）、一行紧凑提示条 `fp-cli-promo`、可选的整行配置卡片、卡片网格 `fp-grid-samples`、操作行 `fp-detect-footer`。
+- [SHOULD] 使用 `fp-page`。首屏自上而下：页头（唯一的 h1，右侧为 `Segmented` 模式切换，两者之间可以放新增模型列表）、一行紧凑提示条 `fp-cli-promo`、可选的整行配置卡片、卡片网格 `fp-grid-samples`、操作行 `fp-detect-footer`。
+- [SHOULD] 新增模型列表 `RecentModels` 不加外框：行首为 16px primary `Sparkles` 加 `text-body` font-medium 标题，其后是一组 `ModelChip`，间隔 8px。小方块内依次为 14px `BrandIcon`（`web/src/lib/brand-logos.ts` 没有对应标识时省略）、模型名（单行省略）和 `text-meta` muted 的“几天前”，完整日期放在 `title`。1280px 起列表放在 h1 与模式切换之间、三者垂直居中；1280px 以下单独排在页头下一行，左边缘与 h1 对齐。没有条目时不显示。（来源：2026-11-07 用户要求在网页加一条小横幅展示最近加入样本库的模型，整行卡片样式显得空，选定标题右侧的小方块。）
 - [SHOULD] 提示条只占一行高度：命令片段用 `fp-cli-command`，其中的可执行名和参数为 primary 600 字重；点击命令复制全文并用 toast 反馈；行末 `fp-cli-links` 依次放 CLI 用法和 SDK 文档两个 primary 文字链接，间隔 12px。
 - [SHOULD] 卡片网格 1024px 起为三列等宽，1024px 以下为一列。
 - [SHOULD] 输入卡片 `SampleCard` 自上而下：标题行（`text-card-title` 编号标题、状态徽标、更多菜单）、参考原文（默认显示四行，可展开全文）、输入区、底部 `text-meta` 计数。
@@ -165,7 +166,7 @@ version: 2026-11-02
 - [SHOULD] 只为真实的对象或数据集合设置表面；卡片里不再嵌套卡片，详情中的列表不加边框。
 - [MUST] 页面不横向溢出：长文本先换行（标识符用 `overflow-wrap:anywhere`）或在自身区域内滚动，不隐藏整页溢出。
 - [MUST] 全局预留滚动条空间（`scrollbar-gutter: stable`），内容不随滚动条出现而横移。
-- [SHOULD] 断点只用以下四个：640px（容器内边距、顶栏双行）、768px（固定操作栏、候选行两行、列表与表格切换、触控尺寸）、1024px（三列网格、文档侧栏、主从分栏、证据两列）、1280px（文档本页目录、顶栏下载进度的方格与横线切换）。文档站 Fumadocs 的 `md` 断点设为 1024px。
+- [SHOULD] 断点只用以下四个：640px（容器内边距、顶栏双行）、768px（固定操作栏、候选行两行、列表与表格切换、触控尺寸）、1024px（三列网格、文档侧栏、主从分栏、证据两列）、1280px（文档本页目录、顶栏下载进度的方格与横线切换、检测页页头的新增模型列表位置）。文档站 Fumadocs 的 `md` 断点设为 1024px。
 
 ### 控件与状态
 
@@ -232,11 +233,12 @@ version: 2026-11-02
 | 工作台布局 | `fp-grid-samples` `fp-detect-footer` `fp-actionbar` `fp-cli-promo` `fp-cli-command` `fp-cli-links` `fp-cli-link` `fp-star-link`（`data-size="sm"`） | `web/src/index.css` | 多卡片工作台 | 已实现 |
 | 表面与数据 | `fp-card`（`data-warning`） `fp-bar` `fp-reply` `fp-mono` `fp-caret` `fp-api-summary` `fp-result-summary` `fp-result-score` `fp-result-row`（`data-unscored`） | `web/src/index.css` | 卡片、置信度条、原文、标识符、候选行 | 已实现 |
 | 控件 | `Button` `Input` `Textarea` `Field` `FieldError` `Switch` `ToggleGroup` `Segmented`（选项 `icon` `recommended`） `Tabs` `Collapsible` | `web/src/components/ui/`、`web/src/components/segmented.tsx` | 表单与操作 | 已实现 |
-| 品牌标识 | `BrandIcon` | `web/src/components/brand-icon.tsx` | `Segmented` 选项 | 已实现 |
+| 品牌标识 | `BrandIcon` | `web/src/components/brand-icon.tsx` | `Segmented` 选项、`ModelChip` | 已实现 |
+| 模型链接 | `ModelChip`（`id` `title`） | `web/src/components/model-chip.tsx` | 指向样本库详情的模型小方块：新增模型列表、最相近的指纹 | 已实现 |
 | 网站标识 | 透明插画、`fp-brand-mark` | `web/public/branding/logo.png`、`web/src/assets/branding/` | 网站图标、工具页和文档页顶栏 | 已实现 |
 | 浮层 | `Dialog` `DropdownMenu` `Tooltip` `Sonner` `toastWithStar`（`fp-star-toast`） `DisclaimerDialog` | `web/src/components/ui/`、`web/src/components/star-prompt.tsx`、`web/src/components/disclaimer-dialog.tsx` | 详情、菜单、提示、toast、首次访问须知 | 已实现 |
 | 数据反馈 | `Table` `Badge` `Empty` `Skeleton` `Alert`（`default` `warning` `destructive`） `Separator` | `web/src/components/ui/` | 表格、状态、空状态、警告 | 已实现 |
-| 工作台组件 | `SampleCard` `SampleStrip` `StateBadge` `toneClass` `ResultPanel` `ConfidenceBar` `AnimatedPercent` `ApiConfigPanel` `ProxySettings` | `web/src/components/` | 多卡片工作台 | 已实现 |
+| 工作台组件 | `SampleCard` `SampleStrip` `StateBadge` `toneClass` `ResultPanel` `ConfidenceBar` `AnimatedPercent` `ApiConfigPanel` `ProxySettings` `RecentModels` | `web/src/components/` | 多卡片工作台 | 已实现 |
 | 证据详情 | `TokenizerCard` `TokenizerStripButton` `TokenizerDetails` `ModelCheck`；`fp-custom-tokenizer-candidates` | `web/src/components/tokenizer-panel.tsx`、`web/src/components/tokenizer-claim.tsx`、`web/src/index.css` | 两列证据详情 | 已实现 |
 | 动效 | `spring` `useMotionPreset` `listStagger` `listItem` | `web/src/lib/motion.ts` | 所有动画 | 已实现 |
 | 推荐标记 | `RecommendMark`（`fp-recommend`） | `web/src/components/recommend-mark.tsx`、`web/src/index.css` | 推荐选项、推荐设置、推荐取值 | 已实现 |
@@ -314,6 +316,8 @@ version: 2026-11-02
 | 工作台里的一份输入及其参考原文 | 输入卡片 `SampleCard` |
 | 结果状态下收起的卡片行 | 摘要条 `SampleStrip` |
 | 页头下方一行的命令与入口 | 提示条 `fp-cli-promo` |
+| 页头中最近加入样本库的模型 | 新增模型列表 `RecentModels` |
+| 指向样本库详情的带边框模型链接 | 模型小方块 `ModelChip` |
 | 页面末尾的主次操作 | 操作栏 `fp-actionbar` |
 | 结论卡片与候选列表 | 结果区 `ResultPanel` |
 | 候选列表中的一行 | 候选行 `fp-result-row` |
