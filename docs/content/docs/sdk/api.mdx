@@ -75,7 +75,7 @@ TypeScript 用 camelCase（`baseUrl`），Go 用结构体字段（`BaseURL`）�
 | `base_url` | Base URL 或完整端点。只写到主机名时补上 `/v1`；带路径时保留路径，再加上所选 API 的端点 | 必填 |
 | `api_key` | API Key，只出现在请求头里；错误信息中的 Key 会被替换成 `[REDACTED]` | 必填 |
 | `model` | 请求的模型名 | 必填 |
-| `api` | `responses`、`chat_completions` 或 `messages`。Rust 用 `Api` 枚举，Go 用 `APIResponses` 等常量 | `responses` |
+| `api` | `responses`、`chat_completions` 或 `messages`；TypeScript 另支持 `gemini`（见下文）。Rust 用 `Api` 枚举，Go 用 `APIResponses` 等常量 | `responses` |
 | `effort` | 推理强度，例如 `low`、`high`；Messages 下 `none` 表示关闭思考 | 空，不发送 |
 | `service_tier` | `flex`、`default`、`fast` 或 `ultrafast`。Messages 中作为 `speed` 发送，其他 API 中作为 `service_tier` 发送 | `default`，不发送 |
 | `stream` | 用 SSE 流式响应；关闭后用普通 JSON 响应。Go 用 `NoStream` 字段关闭 | 开启 |
@@ -91,6 +91,7 @@ Go 的字段零值就是默认值，比如 `Count: 0` 表示 3 道挑战。Rust 
 ```text
 base_url, api_key, and model are required.
 api must be responses, chat_completions, or messages.
+# TypeScript: api must be responses, chat_completions, messages, or gemini.
 service_tier must be flex, default, fast, or ultrafast.
 count must be an integer from 1 to 3.
 parallel must be an integer from 1 to 3.
@@ -100,6 +101,27 @@ Base URL must be a valid HTTP or HTTPS URL.
 Base URL must use HTTP or HTTPS without credentials, a query, or a fragment.
 The endpoint in --baseurl does not match --api.
 ```
+
+## TypeScript 原生 Gemini 协议 [#gemini]
+
+TypeScript SDK 支持 `api: 'gemini'`，直接调用 Gemini Developer API。其他语言 SDK、CLI 和网站仍使用现有协议；挑战生成、数字解析和评分算法不变。
+
+```ts
+const result = await detector.detect({
+  baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
+  apiKey: process.env.GEMINI_API_KEY!,
+  model: 'gemini-2.5-flash',
+  api: 'gemini',
+}, { signal: AbortSignal.timeout(180_000) })
+```
+
+`buildRequest` 和 `requestSample` 也接受上述配置。裸域名地址默认使用 `/v1beta`，显式版本与网关路径会保留；`model` 可带 `models/` 前缀。填写完整端点时，端点必须与型号及 `stream` 一致。Base URL 不允许包含凭据、查询参数或片段。
+
+默认流式请求使用 `streamGenerateContent?alt=sse`，`stream: false` 使用 `generateContent`。密钥只通过 `x-goog-api-key` 请求头发送，不进入 URL。生成参数沿用模型默认值：`effort` 留空或设为 `default`，`serviceTier` 保持 `default`。
+
+仅对候选零的可见文本评分，忽略标记为 `thought` 的内容。`STOP` 表示正常完成；提示词拦截、拒绝和安全过滤会失败。`MAX_TOKENS` 流仅在宽松模式可截取到目标数量时接受，严格模式和非流式 JSON 均要求 `STOP`。最低数字数量、部分评分、进度回调和取消遵循原有 SDK 规则。SSE 超时仍只限制等待首个响应体字节的时间；需要整轮截止时间时传入 signal。
+
+协议参考 [Gemini 内容 API](https://ai.google.dev/api/generate-content)及[密钥文档](https://ai.google.dev/gemini-api/docs/api-key)。
 
 ## 进度 [#progress]
 

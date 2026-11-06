@@ -46,6 +46,10 @@ export function estimateTokens(text: string) {
 /** Reads output and reasoning token counts from Chat Completions, Responses or Messages usage. */
 function outputUsage(value: unknown): { output: number; reasoning?: number } | undefined {
   const usage = value && typeof value === 'object' ? value as Record<string, any> : {}
+  // Gemini candidatesTokenCount counts visible output separately from thoughtsTokenCount.
+  if (typeof usage.candidatesTokenCount === 'number' && usage.candidatesTokenCount > 0) {
+    return { output: usage.candidatesTokenCount, reasoning: 0 }
+  }
   const output = usage.completion_tokens ?? usage.output_tokens
   if (typeof output !== 'number' || output <= 0) return undefined
   const reasoning = (usage.completion_tokens_details ?? usage.output_tokens_details)?.reasoning_tokens

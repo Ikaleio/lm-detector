@@ -75,7 +75,7 @@ TypeScript uses camelCase (`baseUrl`), Go uses struct fields (`BaseURL`), and Ru
 | `base_url` | Base URL or full endpoint. A bare host gets `/v1`; a URL with a path keeps the path and adds the selected API's endpoint | Required |
 | `api_key` | API key. It appears only in request headers, and error messages show `[REDACTED]` in its place | Required |
 | `model` | Requested model name | Required |
-| `api` | `responses`, `chat_completions`, or `messages`. Rust uses the `Api` enum and Go the `APIResponses` constants | `responses` |
+| `api` | `responses`, `chat_completions`, or `messages`; TypeScript additionally supports `gemini` (see below). Rust uses the `Api` enum and Go the `APIResponses` constants | `responses` |
 | `effort` | Reasoning effort, such as `low` or `high`. With Messages, `none` turns thinking off | Empty, not sent |
 | `service_tier` | `flex`, `default`, `fast`, or `ultrafast`. Sent as `speed` with Messages and as `service_tier` with the other APIs | `default`, not sent |
 | `stream` | Use SSE streaming; turn it off for plain JSON responses. Go turns it off with the `NoStream` field | On |
@@ -91,6 +91,7 @@ An invalid configuration makes `detect` and `build_request` fail before any requ
 ```text
 base_url, api_key, and model are required.
 api must be responses, chat_completions, or messages.
+# TypeScript: api must be responses, chat_completions, messages, or gemini.
 service_tier must be flex, default, fast, or ultrafast.
 count must be an integer from 1 to 3.
 parallel must be an integer from 1 to 3.
@@ -100,6 +101,27 @@ Base URL must be a valid HTTP or HTTPS URL.
 Base URL must use HTTP or HTTPS without credentials, a query, or a fragment.
 The endpoint in --baseurl does not match --api.
 ```
+
+## Native Gemini in TypeScript [#gemini]
+
+The TypeScript SDK supports the native Gemini Developer API with `api: 'gemini'`. Other SDK languages, the CLI and the website still use their existing protocols. Challenge generation, number parsing and scoring are unchanged.
+
+```ts
+const result = await detector.detect({
+  baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
+  apiKey: process.env.GEMINI_API_KEY!,
+  model: 'gemini-2.5-flash',
+  api: 'gemini',
+}, { signal: AbortSignal.timeout(180_000) })
+```
+
+`buildRequest` and `requestSample` also accept this configuration. A bare origin defaults to `/v1beta`; explicit versions and gateway paths are preserved. `model` may have a `models/` prefix. A full endpoint must match the selected model and `stream`; credentials, queries and fragments in the Base URL are rejected.
+
+The default stream uses `streamGenerateContent?alt=sse`; `stream: false` uses `generateContent`. The key is sent in `x-goog-api-key`, never in the URL. Generation settings use provider defaults: omit `effort` or set it to `default`, and leave `serviceTier` at `default`.
+
+Only candidate zero's visible text is analyzed; parts marked `thought` are excluded. `STOP` completes a response. Prompt blocks and refusal or safety finish reasons fail. A `MAX_TOKENS` stream is accepted only when relaxed mode can cap the requested number count; strict mode and JSON responses require `STOP`. Minimum counts, partial scoring, progress callbacks and cancellation follow the existing SDK rules. The SSE timeout remains a first-body-byte deadline; use a signal for a whole-round deadline.
+
+See the [Gemini content API](https://ai.google.dev/api/generate-content) and [API key documentation](https://ai.google.dev/gemini-api/docs/api-key).
 
 ## Progress [#progress]
 

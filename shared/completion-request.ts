@@ -16,6 +16,11 @@ export const sendsSpeed = (config: Pick<ApiConfig, 'format' | 'serviceTier'>) =>
   config.format === 'anthropic' && config.serviceTier !== undefined && config.serviceTier !== 'default'
 
 export function completionBody(config: Pick<ApiConfig, 'model' | 'format' | 'effort' | 'stream' | 'serviceTier'>, prompt: string, system = '') {
+  if (config.format === 'gemini') {
+    const body: Record<string, unknown> = { contents: [{ role: 'user', parts: [{ text: prompt }] }] }
+    if (system) body.systemInstruction = { parts: [{ text: system }] }
+    return body
+  }
   const messages: {role: string; content: string}[] = [{role: 'user', content: prompt}]
   let body: Record<string, unknown> = {model: config.model, messages, max_tokens: 8192, stream: config.stream ?? true}
   if (config.format === 'anthropic') {

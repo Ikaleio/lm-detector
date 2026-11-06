@@ -1,6 +1,6 @@
 import type { ApiConfig } from './types'
 
-export type RequestFormat = 'chat_completions' | 'responses' | 'messages'
+export type RequestFormat = 'chat_completions' | 'responses' | 'messages' | 'gemini'
 export type Completion = 'complete' | 'truncated' | 'unknown'
 
 export interface BatchModel {
@@ -68,10 +68,12 @@ export interface ReferenceBatch extends BatchInfo {
 }
 
 export function apiFormat(format: RequestFormat): ApiConfig['format'] {
+  if (format === 'gemini') return 'gemini'
   return format === 'chat_completions' ? 'openai' : format === 'messages' ? 'anthropic' : 'responses'
 }
 
 export function requestFormat(format: ApiConfig['format']): RequestFormat {
+  if (format === 'gemini') return 'gemini'
   return format === 'openai' ? 'chat_completions' : format === 'anthropic' ? 'messages' : 'responses'
 }
 
@@ -100,7 +102,7 @@ export function parseReference(content: string): ReferenceBatch[] {
     if ('test_set_id' in batch) throw new Error('Evaluation batches cannot be used as reference data.')
     validateChannel(batch.source.channel)
     batchIds.add(batch.id)
-    if ((batch.source.endpoint !== null && typeof batch.source.endpoint !== 'string') || (batch.request.format !== null && !['chat_completions', 'responses', 'messages'].includes(batch.request.format))) {
+    if ((batch.source.endpoint !== null && typeof batch.source.endpoint !== 'string') || (batch.request.format !== null && !['chat_completions', 'responses', 'messages', 'gemini'].includes(batch.request.format))) {
       throw new Error(`Invalid request configuration in batch ${batch.id}.`)
     }
     const planned = new Set(batch.plan.challenge_ids)
