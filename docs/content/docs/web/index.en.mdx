@@ -32,13 +32,14 @@ Before any reply is filled in, "New prompts" in the action bar replaces all thre
 | Protocol | Chat Completions, Responses, or Messages |
 | Service tier | Flex, Default, Fast, or Ultrafast. Default sends no parameter. Messages sends `speed` with the `anthropic-beta: fast-mode-2026-02-01` header; Chat Completions and Responses send `service_tier` |
 
-Switches below the configuration, all on by default except "Tokenizer probe":
+Switches below the configuration, all on by default except "Tokenizer probe" and "Image mode":
 
 - **Streaming**: uses SSE and shows output as it is generated. When off, the page waits for the complete JSON response.
 - **Parallel requests**: sends the three samples at once, and the tokenizer probe four requests at a time. When off, requests go one by one, which takes longer.
 - **Relaxed mode**: streaming sampling stops once it receives the requested count of complete valid integers. A non-streaming reply that exceeds the requested count keeps only the first N. The interface marks both cases as "Capped". When off, the upstream reply must finish naturally and completely.
 - **Verify automatically after sampling**: computes the result automatically once all three samples succeed and no other sample is still sampling.
 - **Tokenizer probe**: off by default. When on, it sends about 12 extra short requests while sampling (at most 22) and identifies the upstream tokenizer. The result is reference information and does not change the ranking. APIs billed per request bill these requests. See [Tokenizer probe](./tokenizer.mdx).
+- **Image mode**: off by default. When on, each prompt is sent as a PNG, and the only text in the request is a generic instruction drawn at random from several languages (such as “Follow the instructions in the image.”), so none of the prompt keywords appear. The width, font size, line spacing, margins, and shades change with every image. The model must accept image input. The reference bank was sampled with text prompts, so image mode results may deviate from text mode. The tokenizer probe still sends text.
 
 Below the switches is "Connection": Auto, Direct, This site's proxy (the default), or Own Worker. It decides whether the browser calls the API directly or sends requests through a proxy; see [Connection](./connection.mdx).
 

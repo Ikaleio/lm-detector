@@ -25,6 +25,9 @@ npx lmfpd@latest -s -ns --timeout 180 --output result.json
 # Analyze a saved report again offline without calling a model
 npx lmfpd@latest --input result.json --json
 
+# Send the prompts as images
+npx lmfpd@latest -a message --image
+
 # Also run the tokenizer probe (about 12 more requests)
 npx lmfpd@latest -a cc --tokenizer
 ```
@@ -47,6 +50,7 @@ npx lmfpd@latest -a cc --tokenizer
 | `-s, --strict` | Disable automatic truncation and require 3 complete, valid answers | Off |
 | `--challenges FILE` | Reuse saved challenges in every round. The count must match `--count` | Random |
 | `--bank FILE` | Use a custom reference bank. The detector is read from `shared_detector.bin` in the same directory | Bundled bank |
+| `--image` | Image mode: send each prompt as an image, with only a generic instruction as text. The model must accept image input | Off |
 | `--tokenizer` | Run the [tokenizer probe](./tokenizer.mdx). Sends about 12 more requests. The ranking is the same with or without it | Off |
 | `--max-probes N` | Probe text limit for the tokenizer probe, 4–60. Use only with `--tokenizer` | `20` |
 | `--tokenizer-bank FILE` | Use a custom tokenizer bank. Use only with `--tokenizer` or `--input` | Bundled tokenizer bank |
@@ -56,6 +60,8 @@ npx lmfpd@latest -a cc --tokenizer
 | `--no-update-check` | Disable background update checks | On |
 
 An origin without a path, such as `https://api.example.com`, uses `/v1`. A base URL with a path preserves that path and appends the selected endpoint. Messages requests use `x-api-key` and `anthropic-version` headers. Messages sends the service tier as `speed` with the `anthropic-beta: fast-mode-2026-02-01` header; Responses and Chat Completions send it as `service_tier`. Detection requests omit the optional output token limit for Responses and Chat Completions. Messages requests keep `max_tokens: 8192`, which that API requires.
+
+`--image` draws each prompt as a grayscale PNG whose width, font size, line spacing, margins, and shades change with every image. Chat Completions sends it as `image_url` and Responses as `input_image` with `detail: "auto"`; Messages sends a base64 `image` content block. The only text after the image is a generic instruction drawn at random from several languages. The reference bank was sampled with text prompts, so image mode results may deviate from text mode. The font covers only the characters of the built-in challenges: a sample whose `--challenges` prompt has other characters fails before its request. The tokenizer probe still sends text. The `image` field in the request settings of a report records whether image mode was on. `--input` sends no requests and cannot be combined with `--image`.
 
 ## Sampling behavior
 

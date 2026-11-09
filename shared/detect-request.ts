@@ -1,5 +1,5 @@
 import { stripVTControlCharacters } from 'node:util'
-import { completionBody, sendsSpeed, SPEED_BETA } from './completion-request'
+import { completionBody, sendsSpeed, SPEED_BETA, type ImagePrompt, type PromptRenderer } from './completion-request'
 import { parseNumbers } from './fingerprint-core.js'
 import type { ApiConfig, Challenge } from './types'
 import { readBefore, throughputMeter, USAGE_GRACE_MS, type Throughput, type ThroughputMeter } from './throughput'
@@ -15,6 +15,8 @@ export interface DetectionOptions {
   /** Run the tokenizer probe beside the first round. Off by default; it never changes the ranking. */
   tokenizer: boolean
   maxProbes: number
+  /** Image mode: each challenge is sent as this picture of its prompt. The tokenizer probe still sends text. */
+  renderPrompt?: PromptRenderer
 }
 
 export function requestEndpoint(config: ApiConfig): string {
@@ -63,7 +65,7 @@ const responseText = (data: Payload) => items(data.output).filter(item => item.t
   .flatMap(item => items(item.content)).filter(part => part.type === 'output_text').map(part => string(part.text)).join('')
 
 /** The URL, headers, and body of one detection request. Throws when the base URL is invalid for the API. */
-export function buildDetectRequest(config: ApiConfig, prompt: string) {
+export function buildDetectRequest(config: ApiConfig, prompt: string | ImagePrompt) {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json', Accept: config.stream ? 'text/event-stream' : 'application/json',
   }
@@ -83,7 +85,7 @@ export function buildDetectRequest(config: ApiConfig, prompt: string) {
 }
 
 export async function requestSample(
-  options: Pick<DetectionOptions, 'config' | 'strict' | 'timeoutMs'>, challenge: Challenge, signal: AbortSignal,
+  options: Pick<DetectionOptions, 'config' | 'strict' | 'timeoutMs' | 'renderPrompt'>, challenge: Challenge, signal: AbortSignal,
   update: (sample: Sample) => void,
 ): Promise<Sample> {
   const { config } = options
@@ -176,7 +178,8 @@ export async function requestSample(
   report()
   try {
     combined.throwIfAborted()
-    const { url, headers, body } = buildDetectRequest(config, challenge.prompt)
+    const prompt = options.renderPrompt ? await options.renderPrompt(challenge.prompt) : challenge.prompt
+    const { url, headers, body } = buildDetectRequest(config, prompt)
     const init = {
       method: 'POST', headers, body: JSON.stringify(body),
       signal: combined, redirect: 'error' as const,

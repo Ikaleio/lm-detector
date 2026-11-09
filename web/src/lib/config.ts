@@ -8,6 +8,8 @@ export interface WebApiConfig extends ApiConfig {
   autoVerify: boolean
   /** Probe the tokenizer alongside sampling and show it as reference information beside the result. */
   tokenizerProbe: boolean
+  /** Send each prompt as an image of its text, so that a relay cannot route requests by prompt keywords. */
+  image: boolean
 }
 
 export interface ApiProfile extends WebApiConfig {
@@ -51,13 +53,14 @@ export const defaultConfig: WebApiConfig = {
   relaxed: true,
   autoVerify: true,
   tokenizerProbe: false,
+  image: false,
 }
 
-const configFields = ['baseUrl', 'apiKey', 'model', 'effort', 'format', 'serviceTier', 'stream', 'parallel', 'relaxed', 'autoVerify', 'tokenizerProbe'] as const
+const configFields = ['baseUrl', 'apiKey', 'model', 'effort', 'format', 'serviceTier', 'stream', 'parallel', 'relaxed', 'autoVerify', 'tokenizerProbe', 'image'] as const
 
 function snapshot(profile: ApiProfile): ProfileSnapshot {
-  const { name, baseUrl, apiKey, model, effort, format, serviceTier, stream, parallel, relaxed, autoVerify, tokenizerProbe } = profile
-  return { name, baseUrl, apiKey, model, effort, format, serviceTier, stream, parallel, relaxed, autoVerify, tokenizerProbe }
+  const { name, baseUrl, apiKey, model, effort, format, serviceTier, stream, parallel, relaxed, autoVerify, tokenizerProbe, image } = profile
+  return { name, baseUrl, apiKey, model, effort, format, serviceTier, stream, parallel, relaxed, autoVerify, tokenizerProbe, image }
 }
 
 function readSnapshot(raw: unknown): ProfileSnapshot | null {
@@ -72,7 +75,7 @@ function readSnapshot(raw: unknown): ProfileSnapshot | null {
   for (const field of ['stream', 'parallel', 'autoVerify']) {
     if (typeof value[field] !== 'boolean') return null
   }
-  for (const field of ['relaxed', 'tokenizerProbe']) {
+  for (const field of ['relaxed', 'tokenizerProbe', 'image']) {
     if (value[field] !== undefined && typeof value[field] !== 'boolean') return null
   }
   return {
@@ -88,6 +91,7 @@ function readSnapshot(raw: unknown): ProfileSnapshot | null {
     relaxed: typeof value.relaxed === 'boolean' ? value.relaxed : true,
     autoVerify: value.autoVerify as boolean,
     tokenizerProbe: typeof value.tokenizerProbe === 'boolean' ? value.tokenizerProbe : false,
+    image: typeof value.image === 'boolean' ? value.image : false,
   }
 }
 
@@ -119,7 +123,7 @@ function sanitizeProfile(raw: unknown, fallbackId: string): ApiProfile {
       profile.format = obj.format
     }
     if (isServiceTier(obj.serviceTier)) profile.serviceTier = obj.serviceTier
-    for (const field of ['stream', 'parallel', 'relaxed', 'autoVerify', 'tokenizerProbe'] as const) {
+    for (const field of ['stream', 'parallel', 'relaxed', 'autoVerify', 'tokenizerProbe', 'image'] as const) {
       if (typeof obj[field] === 'boolean') profile[field] = obj[field] as boolean
     }
   }

@@ -25,6 +25,9 @@ npx lmfpd@latest -s -ns --timeout 180 --output result.json
 # 离线重新分析已保存的报告，不请求模型
 npx lmfpd@latest --input result.json --json
 
+# 把提示词画成图片发送
+npx lmfpd@latest -a message --image
+
 # 同时做分词器探测（多发约 12 个请求）
 npx lmfpd@latest -a cc --tokenizer
 ```
@@ -47,6 +50,7 @@ npx lmfpd@latest -a cc --tokenizer
 | `-s, --strict` | 关闭自动截断，要求 3 条完整有效的回答 | 关闭 |
 | `--challenges FILE` | 每轮复用保存的挑战，数量必须等于 `--count` | 随机生成 |
 | `--bank FILE` | 使用自定义参考库；检测器读取同一目录下的 `shared_detector.bin` | 内置参考库 |
+| `--image` | 图片模式：把提示词画成图片发送，请求文字只附一句通用说明；模型需要支持图片输入 | 关闭 |
 | `--tokenizer` | 做[分词器探测](./tokenizer.mdx)，多发约 12 个请求；有没有探测，排名都相同 | 不探测 |
 | `--max-probes N` | 分词器探测的测试文本数量上限，4–60；只能与 `--tokenizer` 一起使用 | `20` |
 | `--tokenizer-bank FILE` | 使用自定义分词器库；只能与 `--tokenizer` 或 `--input` 一起使用 | 内置分词器库 |
@@ -56,6 +60,8 @@ npx lmfpd@latest -a cc --tokenizer
 | `--no-update-check` | 关闭后台更新检查 | 开启 |
 
 只写到主机名的地址（如 `https://api.example.com`）使用 `/v1`；带路径的 Base URL 保留该路径并追加所选端点。Messages 请求使用 `x-api-key` 与 `anthropic-version` 头。服务等级在 Messages 中作为 `speed` 发送，并附加 `anthropic-beta: fast-mode-2026-02-01` 头；在 Responses 与 Chat Completions 中作为 `service_tier` 发送。Responses 与 Chat Completions 的检测请求不设可选的输出上限；Messages 按该 API 的要求保留 `max_tokens: 8192`。
+
+`--image` 把每道提示词画成一张灰度 PNG，宽度、字号、行距、边距和深浅每次随机。Chat Completions 以 `image_url`、Responses 以 `input_image`（`detail: "auto"`）发送，Messages 以 base64 的 `image` 内容块发送；图片之后只附一句从多种语言的通用说明里随机抽取的话。参考库用文字提示词采集，图片模式的结果可能偏离文字模式。字体只覆盖内置挑战的字符，`--challenges` 里出现其他字符时，该样本在请求前失败。分词器探测仍发送文字。报告请求设置里的 `image` 记录是否开启；`--input` 不发送请求，不能与 `--image` 一起使用。
 
 ## 取样行为
 

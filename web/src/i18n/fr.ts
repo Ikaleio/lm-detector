@@ -278,6 +278,8 @@ export const fr: Messages = {
     parallelProbeHelp: 'Envoie les trois échantillons en même temps ; la sonde de tokeniseur envoie 4 requêtes par lot. Désactivé, les requêtes partent une à une : c’est plus long, mais la sonde utilise généralement moins de requêtes.',
     tokenizerProbe: 'Sonde de tokeniseur',
     tokenizerProbeHelp: 'Pendant l’échantillonnage, envoie une requête témoin et quelques courts textes de test pour identifier le tokeniseur amont d’après l’usage renvoyé par l’API. Environ 12 requêtes en général, {max} au maximum. Les API facturées à la requête factureront ces requêtes. Résultat indicatif : il ne modifie pas le classement et ne retarde pas le résultat de détection.',
+    image: 'Mode image',
+    imageHelp: 'Envoie chaque invite sous forme d’image, avec pour seul texte une instruction générique dans une langue tirée au hasard : le texte de la requête ne contient aucun mot-clé de l’invite. Le modèle doit accepter les images en entrée. La bibliothèque a été échantillonnée avec des invites textuelles ; les résultats du mode image peuvent s’en écarter. La sonde de tokeniseur envoie toujours du texte.',
     relaxed: 'Mode souple',
     relaxedHelp: 'Arrête le streaming dès que le nombre d’entiers visé est atteint ; tronque les entiers en trop des réponses complètes non streamées. Désactivé, la réponse doit se terminer naturellement.',
     autoVerify: 'Vérifier automatiquement après l’échantillonnage',

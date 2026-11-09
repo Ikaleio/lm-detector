@@ -1,4 +1,4 @@
-import { writeFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import type { Bank } from '@fingerpoint/shared/types'
 import { supportsSharedDetector } from '@fingerpoint/shared/shared-detector'
@@ -39,13 +39,16 @@ export async function runDetectionCommand(args: string[]) {
       if (options.updateCheck && !options.input && !options.json && process.stdout.isTTY && !process.env.CI && process.env.TERM !== 'dumb') {
         stopUpdateCheck = startUpdateCheck()
       }
-      const [bankData, detector, challenges, tokenizerData] = await Promise.all([
+      const [bankData, detector, challenges, tokenizerData, renderPrompt] = await Promise.all([
         readJson(options.bank ?? fileURLToPath(new URL('../data/unified_bank.json', import.meta.url))),
         readDetector(options.bank),
         loadChallenges(options.challenges, options.count),
         // --input reads a saved probe without requests, so it always needs the bank to recompute it.
         options.tokenizer || options.input ? readJson(options.tokenizerBank ?? fileURLToPath(new URL('../data/tokenizer_bank.json', import.meta.url))) : undefined,
+        options.image ? import('@fingerpoint/shared/prompt-image').then(async ({ PROMPT_FONT_URL, promptRenderer }) =>
+          promptRenderer(new Uint8Array(await readFile(fileURLToPath(PROMPT_FONT_URL))).buffer)) : undefined,
       ])
+      options.renderPrompt = renderPrompt
       const bank = bankData as Bank
       if (!Array.isArray(bank?.models) || !bank.models.length) throw new Error('The reference bank must contain a nonempty models array.')
       if (detector.schema !== 'shared-detector-v2') throw new Error('The detector artifact has an unsupported schema.')

@@ -56,6 +56,7 @@ Explicit flags override environment variables. Credentials do not appear in the 
 | `-t`, `--service-tier` | Service tier: `flex`, `default`, `fast`, or `ultrafast`. Any prefix works. Aliases: `slow` (flex), `f` (fast), `uf` (ultrafast), `priority` (fast), `standard` (default). `default` omits the parameter. |
 | `--challenges FILE` | Reuse a JSON array of challenges in every round. Its length must match `--count` (default: 3). |
 | `--bank FILE` | Use a custom reference bank. The detector is read from `shared_detector.bin` in the same directory. |
+| `--image` | Image mode. Off by default. Draws each prompt as a grayscale PNG with random size, spacing, and shades, and sends only a generic instruction, drawn at random from several languages, as text. The request text has none of the prompt keywords. The model must accept image input. The reference bank was sampled with text prompts, so results may deviate. The tokenizer probe still sends text. Cannot be combined with `--input`. |
 | `--tokenizer` | Run the tokenizer probe. Off by default. Sends about 12 more requests, at most `--max-probes` + 2. The ranking is the same with or without it. |
 | `--max-probes` | Probe text limit for the tokenizer probe, 4 to 60. Default: 20. The two baseline requests are extra. Use only with `--tokenizer`. |
 | `--tokenizer-bank FILE` | Use a custom tokenizer bank. Use only with `--tokenizer` or `--input`. |

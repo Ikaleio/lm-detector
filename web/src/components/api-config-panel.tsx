@@ -384,6 +384,7 @@ export function ApiConfigPanel({ open, onOpenChange, config, update, profileMana
             <SwitchRow id="api-relaxed" label={t('api.relaxed')} help={t('api.relaxedHelp')} checked={config.relaxed} onChange={relaxed => update({ relaxed })} disabled={disabled} />
             <SwitchRow id="api-auto" label={t('api.autoVerify')} checked={config.autoVerify} onChange={autoVerify => update({ autoVerify })} disabled={disabled} />
             <SwitchRow id="api-tokenizer" label={t('api.tokenizerProbe')} help={t('api.tokenizerProbeHelp', { max: TOKENIZER_MODEL.maximumProbes + 2 })} checked={config.tokenizerProbe} onChange={tokenizerProbe => update({ tokenizerProbe })} disabled={disabled} />
+            <SwitchRow id="api-image" label={t('api.image')} help={t('api.imageHelp')} checked={config.image} onChange={image => update({ image })} disabled={disabled} />
           </FieldGroup>
           <Separator />
           <FieldGroup className="grid gap-4 md:grid-cols-2">

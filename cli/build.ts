@@ -50,6 +50,8 @@ await Promise.all([
   copyFile(resolve(root, 'web/.generated/unified_bank.json'), resolve(destination, 'data/unified_bank.json')),
   copyFile(resolve(root, 'data/shared_detector.bin'), resolve(destination, 'data/shared_detector.bin')),
   copyFile(resolve(root, 'data/tokenizer_bank.json'), resolve(destination, 'data/tokenizer_bank.json')),
+  // `shared/prompt-image.ts` finds the font beside the bundle that contains it.
+  copyFile(resolve(root, 'shared/prompt-font.otf'), resolve(destination, 'bin/prompt-font.otf')),
   copyFile(resolve(root, 'cli/README.md'), resolve(destination, 'README.md')),
   copyFile(resolve(root, 'LICENSE'), resolve(destination, 'LICENSE')),
   writeFile(resolve(destination, 'package.json'), JSON.stringify({

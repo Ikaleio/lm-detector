@@ -1,4 +1,4 @@
-import { completionBody, COMPLETION_TIMEOUT_MS, sendsSpeed, SPEED_BETA } from './completion-request'
+import { completionBody, COMPLETION_TIMEOUT_MS, sendsSpeed, SPEED_BETA, type ImagePrompt, type PromptRenderer } from './completion-request'
 import { readCompletion } from './completion'
 import { parseNumbers } from './fingerprint-core.js'
 import { throughputMeter } from './throughput'
@@ -26,7 +26,7 @@ export function endpoint(config:ApiConfig){
   if(config.format==='anthropic')return base.endsWith('/messages')?base:base+(base.endsWith('/v1')?'/messages':'/v1/messages')
   return base.endsWith('/chat/completions')?base:base+(base.endsWith('/v1')?'/chat/completions':'/v1/chat/completions')
 }
-export async function complete(config:ApiConfig,prompt:string,system='',signal?:AbortSignal,onText?:(text:string)=>void,transport:CompletionTransport=directTransport,maxNumbers?:number){
+export async function complete(config:ApiConfig,prompt:string|ImagePrompt,system='',signal?:AbortSignal,onText?:(text:string)=>void,transport:CompletionTransport=directTransport,maxNumbers?:number){
   const body=completionBody(config,prompt,system)
   // Chat Completions streams report usage only on request; usage gives exact output speed.
   if(config.format==='openai'&&body.stream)body.stream_options={include_usage:true}
@@ -50,14 +50,16 @@ export async function complete(config:ApiConfig,prompt:string,system='',signal?:
   }
 }
 
-export async function testApi(config:ApiConfig,challenges:Challenge[],onProgress:(p:CollectionProgress)=>void,signal?:AbortSignal,transport:CompletionTransport=directTransport):Promise<Output[]>{
+/** `renderPrompt` turns on image mode: each challenge is sent as that picture of its prompt. */
+export async function testApi(config:ApiConfig,challenges:Challenge[],onProgress:(p:CollectionProgress)=>void,signal?:AbortSignal,transport:CompletionTransport=directTransport,renderPrompt?:PromptRenderer):Promise<Output[]>{
   const outputs:Output[]=challenges.map(c=>({text:'',expected_count:c.expected_count})),errors:string[]=[]
   const states:NonNullable<CollectionProgress['challenges']>=challenges.map(()=>({text:'',status:'等待发送',state:'pending' as SampleState}));let accepted=0,completed=0
   const report=(message:string,i:number)=>{if(!signal?.aborted)onProgress({completed,total:challenges.length,accepted,message,challengeIndex:i,challenges:states.map(s=>({...s})),outputs:outputs.map(o=>({...o}))})}
   const run=async(i:number)=>{
     signal?.throwIfAborted();states[i]={...states[i],status:'正在请求',state:'requesting'};report(`正在请求挑战 ${i+1}`,i)
     try{
-      const r=await complete(config,challenges[i].prompt,'',signal,text=>{states[i]={text,status:'正在接收输出',state:'streaming'};report(config.parallel?'三个挑战并行处理中':`挑战 ${i+1} 正在接收输出`,i)},transport,config.relaxed ? challenges[i].expected_count : undefined)
+      const prompt=renderPrompt?await renderPrompt(challenges[i].prompt):challenges[i].prompt
+      const r=await complete(config,prompt,'',signal,text=>{states[i]={text,status:'正在接收输出',state:'streaming'};report(config.parallel?'三个挑战并行处理中':`挑战 ${i+1} 正在接收输出`,i)},transport,config.relaxed ? challenges[i].expected_count : undefined)
       states[i].text=r.text;states[i].throughput=r.throughput
       if(parseNumbers(r.text).length<Math.max(80,Math.ceil(challenges[i].expected_count*.55)))throw coded('有效数字不足','insufficient_numbers')
       outputs[i]={text:r.text,expected_count:challenges[i].expected_count};accepted++;states[i]={...states[i],status:r.capped?'capped':'done',state:r.capped?'capped':'done'}

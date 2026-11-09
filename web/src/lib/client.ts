@@ -9,6 +9,8 @@ import { analyzeSharedOutputs } from '@fingerpoint/shared/shared-detector'
 import type { Analysis, ApiConfig, Bank, Challenge, CollectionProgress, Output } from '@fingerpoint/shared/types'
 import { parseReference, referenceSamples } from '@fingerpoint/shared/reference'
 import type { ReferenceBatch, ReferenceSample } from '@fingerpoint/shared/reference'
+import type { PromptRenderer } from '@fingerpoint/shared/completion-request'
+import type { WebApiConfig } from './config'
 import { directHeaders, directInit } from './route'
 import { readStaticData } from './static-data'
 import { loadDetector } from './detector'
@@ -99,8 +101,18 @@ const directTransport:CompletionTransport = (url,config,body,signal) =>
 /** A proxied route names its relay, so a later settings change cannot redirect a running job. */
 export type Route = {kind:'direct'}|{kind:'proxy';endpoint:string}
 export const transportFor = (route:Route):CompletionTransport => route.kind==='direct'?directTransport:proxyTransport(route.endpoint)
-export const testApi = (config:ApiConfig,challenges:Challenge[],onProgress:(p:CollectionProgress)=>void,route:Route,signal?:AbortSignal) =>
-  testApiShared(config,challenges,onProgress,signal,transportFor(route))
+let promptRendering:Promise<PromptRenderer>|undefined
+/** Image mode downloads its font and drawing code when it draws its first prompt. */
+const renderPrompt:PromptRenderer = async prompt => {
+  promptRendering ??= import('@fingerpoint/shared/prompt-image').then(async ({PROMPT_FONT_URL,promptRenderer})=>{
+    const response=await fetch(PROMPT_FONT_URL)
+    if(!response.ok)throw new Error('图片模式的字体加载失败，请刷新页面后重试。')
+    return promptRenderer(await response.arrayBuffer())
+  }).catch(error=>{promptRendering=undefined;throw error})
+  return (await promptRendering)(prompt)
+}
+export const testApi = (config:WebApiConfig,challenges:Challenge[],onProgress:(p:CollectionProgress)=>void,route:Route,signal?:AbortSignal) =>
+  testApiShared(config,challenges,onProgress,signal,transportFor(route),config.image?renderPrompt:undefined)
 
 let tokenizerBankLoading:Promise<TokenizerBank>|undefined
 export function loadTokenizerBank():Promise<TokenizerBank>{

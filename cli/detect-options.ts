@@ -16,6 +16,8 @@ export interface DetectOptions extends DetectionOptions {
   json: boolean
   updateCheck: boolean
   tokenizerBank?: string
+  /** Send each prompt as an image; `detect.ts` then loads `renderPrompt`. */
+  image: boolean
 }
 
 export function positiveInteger(value: string, name: string, maximum = Number.MAX_SAFE_INTEGER) {
@@ -38,11 +40,11 @@ export function parseOptions(args: string[], env = process.env, command: 'detect
     challenges: { type: 'string' }, json: { type: 'boolean' }, help: { type: 'boolean', short: 'h' },
     'base-url': { type: 'string' }, 'api-key': { type: 'string' },
     'no-update-check': { type: 'boolean' }, tokenizer: { type: 'boolean' },
-    'max-probes': { type: 'string' }, 'tokenizer-bank': { type: 'string' },
+    'max-probes': { type: 'string' }, 'tokenizer-bank': { type: 'string' }, image: { type: 'boolean' },
   }, strict: true, allowPositionals: false })
   if (values.help) return undefined
   if (standalone) {
-    const unsupported = (['count', 'repeat', 'strict', 'bank', 'challenges', 'tokenizer', 'no-update-check'] as const)
+    const unsupported = (['count', 'repeat', 'strict', 'bank', 'challenges', 'tokenizer', 'no-update-check', 'image'] as const)
       .filter(name => values[name] !== undefined)
     if (unsupported.length) throw new Error(`fpd tokenizer does not use ${unsupported.map(name => `--${name}`).join(', ')}. Use fpd detect for number fingerprint detection.`)
   }
@@ -72,7 +74,7 @@ export function parseOptions(args: string[], env = process.env, command: 'detect
   if (maxProbes < TOKENIZER_MODEL.minimumProbes) throw new Error(`--max-probes must be an integer from ${TOKENIZER_MODEL.minimumProbes} to 60.`)
   // Without --tokenizer, the probe options are mistakes; with --input, no request is sent, but --tokenizer-bank still
   // recomputes a probe saved in the file.
-  const unused = (values.input ? ['tokenizer', 'max-probes'] as const : standalone || values.tokenizer ? [] : ['max-probes', 'tokenizer-bank'] as const)
+  const unused = (values.input ? ['tokenizer', 'max-probes', 'image'] as const : standalone || values.tokenizer ? [] : ['max-probes', 'tokenizer-bank'] as const)
     .filter(name => values[name] !== undefined).map(name => `--${name}`)
   if (unused.length) {
     const names = unused.join(' and '), verb = unused.length === 1 ? 'applies' : 'apply'
@@ -100,5 +102,6 @@ export function parseOptions(args: string[], env = process.env, command: 'detect
     updateCheck: !values['no-update-check'] && !env.FPD_NO_UPDATE_CHECK && !env.NO_UPDATE_NOTIFIER,
     input: values.input, output: values.output, bank: values.bank, challenges: values.challenges,
     tokenizer: standalone ? !values.input : !!values.tokenizer, maxProbes, tokenizerBank: values['tokenizer-bank'],
+    image: !!values.image,
   }
 }
