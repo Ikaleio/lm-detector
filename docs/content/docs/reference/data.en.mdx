@@ -52,6 +52,13 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-10 Add muse-ember" id="2026-11-10-muse-ember">
+    Added 36 fixed-challenge answers for `muse-ember`, bringing the reference bank to 67 fingerprint identities and 2,488 samples. Collection requests `meta/muse-ember` through streaming OpenRouter Chat Completions, with `reasoning_effort=low` and the fixed `openrouter/meta` route. Fallbacks are disabled. All 36 answers completed naturally on the first attempt, without truncation. Returned model IDs and Meta provider metadata passed checks against the raw responses. The previous 2,452 reference answers are unchanged.
+
+    Independent evaluation uses the existing fixed challenges: two groups of three new answers, with the same route and `low` reasoning effort. All six passed on the first attempt. Evaluation answers do not enter bank construction, training, or calibration. After retraining, both new groups ranked the new label first. Correct predictions on the same 132 previous complete groups changed from 118 to 119, and top-3 coverage stayed at 129. The only prediction change is the first `deepseek-v4-flash-0731` group, which is now correct. Evaluation covers 134 of 136 groups and 402 of 408 answers, with 121 of 134 complete groups correct. The two existing collection gaps belong to `kimi-k2.8-preview`.
+
+    Sampling evidence and the enrollment receipt are saved in `collections/muse-ember-openrouter-meta-low-20261110/`.
+  </Accordion>
   <Accordion title="2026-11-03 Add openPangu-2.0-Pro and Flash" id="2026-11-03-openpangu">
     Added `openpangu-2.0-pro` and `openpangu-2.0-flash`. Both independent fixed evaluation groups for each model ranked the correct model first. The bank now contains 66 fingerprint identities and 2,452 reference answers.
 

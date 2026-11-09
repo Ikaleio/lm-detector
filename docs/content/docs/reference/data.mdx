@@ -52,6 +52,13 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-10 新增 muse-ember" id="2026-11-10-muse-ember">
+    新增 `muse-ember` 的 36 条固定挑战回答，参考库扩展到 67 个指纹身份、2,488 条样本。请求型号为 `meta/muse-ember`，使用 OpenRouter Chat Completions 流式输出、`reasoning_effort=low` 和固定 `openrouter/meta` 渠道，禁止回退。36 条回答均在首次尝试自然完成，无截断，返回型号和 Meta 供应商元数据通过原始响应校验。原有 2,452 条参考回答逐条保持原样。
+
+    独立评估沿用原固定挑战，另采两组三条回答，使用相同渠道和 `low` 推理强度，6 条均在首次尝试通过。评估回答不参与建库、训练或校准。重训后，新模型两组均排名第一。相同的 132 个旧完整组命中数为 118→119，前三候选覆盖保持 129；唯一的预测变化是 `deepseek-v4-flash-0731` 第 1 组改为正确判定。全库完成 134/136 组、402/408 条回答，完整组命中 121/134。两组既有采集缺口属于 `kimi-k2.8-preview`。
+
+    采样证据和入库收据保存在 `collections/muse-ember-openrouter-meta-low-20261110/`。
+  </Accordion>
   <Accordion title="2026-11-03 新增 openPangu-2.0-Pro 和 Flash" id="2026-11-03-openpangu">
     新增 `openpangu-2.0-pro` 和 `openpangu-2.0-flash`，两款模型各自的两组独立固定评估都将正确型号排在第一。参考库扩展到 66 个指纹身份、2,452 条样本。
 
