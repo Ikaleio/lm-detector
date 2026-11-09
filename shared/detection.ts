@@ -3,17 +3,19 @@ import { readCompletion } from './completion'
 import { parseNumbers } from './fingerprint-core.js'
 import { throughputMeter } from './throughput'
 import { isLocalApiUrl } from './api-url'
+import { geminiEndpoint } from './gemini'
 import type { ApiConfig, Challenge, CodedError, CollectionProgress, ErrorCode, Output, SampleState } from './types'
 
 export type CompletionTransport = (url:string, config:ApiConfig, body:Record<string,unknown>, signal:AbortSignal) => Promise<Response>
 export const coded=(message:string,code:ErrorCode,extra?:Partial<CodedError>):CodedError=>Object.assign(new Error(message),{code},extra)
 export const directTransport:CompletionTransport = (url,config,body,signal) => {
-  const headers:Record<string,string> = {'Content-Type':'application/json',Accept:body.stream?'text/event-stream':'application/json'}
+  const headers:Record<string,string> = {'Content-Type':'application/json',Accept:(config.format==='gemini'?config.stream!==false:body.stream)?'text/event-stream':'application/json'}
   if(config.format==='anthropic'){
     headers['x-api-key']=config.apiKey
     headers['anthropic-version']='2023-06-01'
     if(sendsSpeed(config))headers['anthropic-beta']=SPEED_BETA
-  }else headers.Authorization='Bearer '+config.apiKey
+  }else if(config.format==='gemini')headers['x-goog-api-key']=config.apiKey
+  else headers.Authorization='Bearer '+config.apiKey
   return fetch(url,{method:'POST',headers,body:JSON.stringify(body),signal,redirect:'error'})
 }
 
@@ -21,6 +23,7 @@ export function endpoint(config:ApiConfig){
   let u:URL
   try{u=new URL(config.baseUrl)}catch{throw coded('请输入有效的 Base URL','invalid_base_url')}
   if(!(u.protocol==='https:'||(u.protocol==='http:'&&isLocalApiUrl(u)))||u.username||u.password||u.search||u.hash)throw coded('Base URL 格式不正确','invalid_base_url')
+  if(config.format==='gemini')return geminiEndpoint(config)
   const base=u.href.replace(/\/$/,'')
   if(config.format==='responses')return base.endsWith('/responses')?base:base+(base.endsWith('/v1')?'/responses':'/v1/responses')
   if(config.format==='anthropic')return base.endsWith('/messages')?base:base+(base.endsWith('/v1')?'/messages':'/v1/messages')

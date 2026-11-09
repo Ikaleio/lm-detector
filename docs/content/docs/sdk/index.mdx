@@ -12,6 +12,8 @@ SDK 把检测器放进你自己的程序：给已经收集的回答评分，生�
 - **生成挑战**：和网页、命令行用同一个生成器，每道挑战随机选语言和措辞，要求 292–332 个整数。
 - **在线检测**：发一轮挑战并评分，取样规则和命令行的[检测](../cli/detect.mdx)相同，支持 Responses、Chat Completions 和 Messages。
 
+TypeScript SDK 另支持 `api: 'gemini'` 的[原生 Gemini 协议](./api.mdx#gemini)。其他语言 SDK、CLI 和网站支持的协议保持不变。
+
 SDK 不做[分词器探测](../principles/tokenizer.mdx)，也不提供多轮检测；需要多轮时，在自己的程序里循环调用。
 
 <Cards>

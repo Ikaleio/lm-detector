@@ -1,9 +1,10 @@
-import type { CodedError, ErrorCode } from './types'
+import type { ApiConfig, CodedError, ErrorCode } from './types'
+import { geminiResponse } from './gemini'
 import type { Completion } from './reference'
 import { parseNumbers } from './fingerprint-core.js'
 import { readBefore, USAGE_GRACE_MS, type ThroughputMeter } from './throughput'
 
-export type Format = 'openai' | 'responses' | 'anthropic'
+export type Format = ApiConfig['format']
 export interface CompletionResult {
   text: string
   responseModel?: string
@@ -40,6 +41,11 @@ export async function readCompletion(response: Response, format: Format, onText?
     if (typeof d.id === 'string') responseId = d.id
     if (typeof d.provider === 'string') providerReported = d.provider
     if (d.usage) usage = d.usage
+    if (format === 'gemini') {
+      if (typeof d.modelVersion === 'string') responseModel = d.modelVersion
+      if (typeof d.responseId === 'string') responseId = d.responseId
+      if (d.usageMetadata) usage = d.usageMetadata
+    }
   }
   const emit = (part: string) => {
     raw += part
@@ -69,7 +75,8 @@ export async function readCompletion(response: Response, format: Format, onText?
       let d: Record<string, unknown>
       try { d = object(await response.json()) } catch { throw coded('接口未返回 JSON 或 SSE，请检查部署是否包含 API Function', 'not_json') }
       metadata(d)
-      if (format === 'responses') { text = outputText(d); finish = string(d.status); terminal = d.status === 'completed' }
+      if (format === 'gemini') { const result = geminiResponse(d); text = result.text; finish = result.finish; terminal = Boolean(finish) }
+      else if (format === 'responses') { text = outputText(d); finish = string(d.status); terminal = d.status === 'completed' }
       else if (format === 'anthropic') { text = array(d.content).filter(x => x.type === 'text').map(x => string(x.text)).join(''); finish = string(d.stop_reason); terminal = true }
       else { const c = array(d.choices)[0] ?? {}, message = object(c.message); text = string(message.content); finish = message.refusal ? 'refusal' : string(c.finish_reason); terminal = true }
       onText?.(text); report()
@@ -86,7 +93,12 @@ export async function readCompletion(response: Response, format: Format, onText?
         const previousUsage = usage
         metadata(d); metadata(d.response)
         if (d.error || d.type === 'error') throw coded(string(object(d.error).message) || string(d.message) || '上游流式调用失败', 'upstream_stream_error')
-        if (format === 'openai') {
+        if (format === 'gemini') {
+          const result = geminiResponse(d)
+          if (result.reasoning) meter?.reasoning()
+          if (result.text) emit(result.text)
+          if (result.finish) { finish = result.finish; terminal = true }
+        } else if (format === 'openai') {
           const choices = array(d.choices), c = choices.find(c => c.index === 0) ?? choices[0] ?? {}, delta = object(c.delta)
           if (delta.reasoning_content || delta.reasoning) meter?.reasoning()
           if (delta.refusal) finish = 'refusal'

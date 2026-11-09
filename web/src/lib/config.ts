@@ -3,6 +3,8 @@ import { isServiceTier, type ServiceTier } from '@fingerpoint/shared/completion-
 import type { ApiConfig } from '@fingerpoint/shared/types'
 
 export interface WebApiConfig extends ApiConfig {
+  // The SDK's native Gemini transport is not exposed by the website yet.
+  format: Exclude<ApiConfig['format'], 'gemini'>
   serviceTier: ServiceTier
   relaxed: boolean
   autoVerify: boolean

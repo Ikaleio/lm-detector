@@ -2,7 +2,7 @@
 
 TypeScript SDK for [lmfpd](https://lm.ikale.io), the language-model fingerprint detector. It scores saved replies to
 the number challenge, generates challenges, and runs one live detection round against an OpenAI Responses, Chat
-Completions, or Anthropic Messages API. Rust, Go, and Python SDKs with the same results live beside this package.
+Completions, Anthropic Messages, or native Gemini Developer API. Rust, Go, and Python SDKs with the same results live beside this package.
 
 The results are a closed-set ranking within the reference bank. They are not identity confirmation.
 
@@ -58,7 +58,7 @@ Bun reads `HTTPS_PROXY` for every request. Node reads it only with `NODE_USE_ENV
 | `requestSample(config, challenge)` | Sends one challenge and returns the checked reply. |
 | `DEFAULT_DATA_URLS` | The default data sources. |
 
-`DetectConfig` takes `baseUrl`, `apiKey`, and `model`, plus `api` (`responses`, `chat_completions`, or `messages`),
+`DetectConfig` takes `baseUrl`, `apiKey`, and `model`, plus `api` (`responses`, `chat_completions`, `messages`, or `gemini`),
 `effort`, `serviceTier`, `stream` (default true), `strict`, `count` (default 3), `parallel` (default 3), and `timeout`
 in seconds (default 120, 0 disables).
 
@@ -76,3 +76,33 @@ const result = await detector.detect(config, {
 
 `Analysis.decision` is `scored`, `partial`, `unscorable`, or `not_model`. `results` lists the candidates by ranking
 score; `probability` is the closed-set probability of the top candidate and is null without three valid replies.
+
+## Native Gemini
+
+The TypeScript SDK also accepts `api: 'gemini'`. This protocol is not yet supported by the Rust, Go, or Python SDK,
+CLI, or website. It uses the same shared request, sampling, round scheduling and scoring pipeline as the existing protocols:
+
+```ts
+const result = await detector.detect({
+  baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
+  apiKey: process.env.GEMINI_API_KEY!,
+  model: 'gemini-2.5-flash',
+  api: 'gemini',
+}, { signal: AbortSignal.timeout(180_000) })
+```
+
+A bare origin defaults to `/v1beta`; an explicit API version or gateway prefix is preserved. Model names may use
+`models/` prefixes. A full `generateContent` or `streamGenerateContent` endpoint must match `model` and `stream`;
+Base URLs cannot contain credentials, query parameters or fragments.
+
+Streaming uses `streamGenerateContent?alt=sse`; `stream: false` uses `generateContent`. The API key is sent only in
+`x-goog-api-key`, never in the URL. Requests use `contents` with a user text part and leave generation settings at
+provider defaults. `effort` must be empty or `default`, and `serviceTier` must be `default`.
+
+Only candidate zero's visible text is scored; thought parts are ignored. `STOP` is normal completion. Safety blocks,
+refusals and unfinished responses fail, unless a relaxed stream has already reached its number cap. A `MAX_TOKENS`
+stream is accepted only if relaxed mode can cap the requested number count; strict mode and non-streaming JSON
+require `STOP`. The usual minimum-number threshold, cancellation, partial scoring and callback behavior apply.
+
+The SSE timeout still limits the first body byte only. Use `signal` to bound the whole round, as shown above.
+See Google's [content API](https://ai.google.dev/api/generate-content) and [API key documentation](https://ai.google.dev/gemini-api/docs/api-key).

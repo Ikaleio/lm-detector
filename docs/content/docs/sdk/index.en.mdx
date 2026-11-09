@@ -12,6 +12,8 @@ The SDKs put the detector inside your own programs. You can score replies you ha
 - **Challenge generation** with the generator the website and command line use. Each challenge picks its language and wording at random and asks for 292–332 integers.
 - **Live detection** of one round, with the same sampling rules as command-line [detection](../cli/detect.mdx), over Responses, Chat Completions, or Messages.
 
+The TypeScript SDK also supports [native Gemini](./api.mdx#gemini) with `api: 'gemini'`. This addition does not change the protocols supported by the other SDKs, CLI or website.
+
 The SDKs do not run the [tokenizer probe](../principles/tokenizer.mdx) and do not run several rounds; for more rounds, call them in a loop.
 
 <Cards>

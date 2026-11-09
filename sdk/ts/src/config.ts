@@ -3,7 +3,7 @@ import { requestEndpoint, type DetectionOptions } from '@fingerpoint/shared/dete
 import type { ApiConfig } from '@fingerpoint/shared/types'
 import type { DetectConfig } from './types.js'
 
-const FORMATS = { responses: 'responses', chat_completions: 'openai', messages: 'anthropic' } as const
+const FORMATS = { responses: 'responses', chat_completions: 'openai', messages: 'anthropic', gemini: 'gemini' } as const
 
 /** Validates an SDK config and fills the detection options with the SDK defaults. Throws on an invalid config. */
 export function detectOptions(input: DetectConfig): DetectionOptions {
@@ -11,7 +11,7 @@ export function detectOptions(input: DetectConfig): DetectionOptions {
   const model = String(input.model ?? '').trim()
   if (!baseUrl || !apiKey || !model) throw new Error('base_url, api_key, and model are required.')
   const api = input.api ?? 'responses'
-  if (!Object.hasOwn(FORMATS, api)) throw new Error('api must be responses, chat_completions, or messages.')
+  if (!Object.hasOwn(FORMATS, api)) throw new Error('api must be responses, chat_completions, messages, or gemini.')
   const serviceTier = input.serviceTier ?? 'default'
   if (!SERVICE_TIERS.includes(serviceTier)) throw new Error('service_tier must be flex, default, fast, or ultrafast.')
   const count = input.count ?? 3, parallel = input.parallel ?? 3, timeout = input.timeout ?? 120
