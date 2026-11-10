@@ -52,14 +52,12 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
-  <Accordion title="2026-11-11 新增 gemini-4-carbon" id="2026-11-11-gemini-4-carbon">
-    新增 `gemini-4-carbon` 的 36 条固定挑战回答，参考库扩展到 69 个指纹身份、2,560 条样本。请求型号为 `google/gemini-4-carbon`，使用流式 Chat Completions 和 `low` 推理强度，固定走 `openrouter/google-ai-studio` 渠道，关闭回退。36 条回答都自然结束。第 26 题首次返回 HTTP 429，重试成功，两次记录均保留。原有 2,524 条参考回答逐条保持原样。
+  <Accordion title="2026-11-11 切换 Gemini 4 Carbon 到 Vertex US" id="2026-11-11-gemini-4-carbon-vertex">
+    `gemini-4-carbon` 的 36 条正式参考回答切换到 `openrouter/google-vertex/us`。流式 Chat Completions 请求沿用原固定挑战和 `low` 推理强度，关闭渠道回退。36 条回答都在首次请求自然结束。AI Studio 批次已退出正式库并归档，参考库仍有 69 个指纹身份、2,560 条样本。
 
-    固定评估使用同渠道、同档位另采两组三条回答，六条都在首次请求通过。评估回答不参与建库、训练或校准。重训后，Carbon 和 Argon 在两款模型的四个评估组里都占据前两名。Carbon 自身两组分别排第一和第二，第二组的首选为 Argon。
+    固定评估从同一渠道另采两组三条回答。重训后，同一批 Vertex 回答从两组均排第二变为两组均排第一。其余 136 个旧完整组的首选全部一致，Top-1 命中 120 组，Top-3 命中 133 组。Argon 的两组首选仍是 Carbon。全库覆盖 138/140 组、414/420 条回答，完整组 Top-1 命中 122/138。
 
-    对同一批 136 个旧完整组，Top-1 命中由 123 组变为 120 组，Top-3 保持 133 组，家族命中保持 132 组。三处首选变化分别是 Argon 的两组改判 Carbon，以及 `glm-5.3-flash` 的第 1 组改判 `glm-5.3-flashx`，三组的真值都排第二。全库完成 138/140 组、414/420 条回答，完整组命中 121/138。两组既有采集缺口属于 `kimi-k2.8-preview`。
-
-    采样证据和入库收据保存在 `collections/gemini-4-carbon-openrouter-google-ai-studio-low-20261111/`。
+    Vertex US 的采样证据和入库收据保存在 `collections/gemini-4-carbon-openrouter-google-vertex-us-low-20261111/`。
   </Accordion>
   <Accordion title="2026-11-10 新增 claude-fable-5.2" id="2026-11-10-claude-fable-5-2">
     新增 `claude-fable-5.2` 的 36 条固定挑战回答，参考库扩展到 68 个指纹身份、2,524 条样本。请求型号为 `anthropic/claude-fable-5.2`，使用 OpenRouter Chat Completions 流式输出、`reasoning_effort=low` 和固定 `openrouter/anthropic` 官方供应商渠道，禁止回退。36 条回答均在首次尝试自然完成，无截断，返回型号和 Anthropic 供应商元数据通过原始响应校验。原有 2,488 条参考回答逐条保持原样。

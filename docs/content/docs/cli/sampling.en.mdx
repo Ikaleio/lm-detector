@@ -57,7 +57,7 @@ A channel identifies the concrete collection path. It is not a model family or b
 
 Subscription channels must end with `-subscription`. Known subscription products enforce this check. For another subscription route, `--subscription` requires the suffix. The flag does not produce a billing field.
 
-The response model must be in the declared alias list. Fixed OpenRouter channels check the reported provider name, ignoring case and punctuation. A mismatch is retained as a failed record and stops the current run. The raw provider value is recorded separately from the requested channel. When no provider information is returned, the actual channel is `null`; the requested value is never treated as a reported fact. These records do not independently authenticate the upstream identity.
+The response model must be in the declared alias list. Fixed OpenRouter channels check the reported provider name, ignoring case and punctuation. A mismatch is retained as a failed record and stops the current run. OpenRouter's reported name `Google` passes this check for pinned Vertex routes such as `openrouter/google-vertex/us`. The raw provider value is recorded separately from the requested channel. When no provider information is returned, the actual channel is `null`; the requested value is never treated as a reported fact. These records do not independently authenticate the upstream identity.
 
 ## Resuming and canceling
 

@@ -85,6 +85,14 @@ export function validateChannel(channel: string, subscription = false): void {
   }
 }
 
+export function matchesOpenRouterProvider(route: string, reported: string | undefined): boolean {
+  const normalize = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, '')
+  const provider = normalize(route.split('/')[0])
+  const name = normalize(reported ?? '')
+  // OpenRouter reports Google as the provider for the pinned Vertex routes.
+  return Boolean(name) && (name === provider || (provider === 'googlevertex' && name === 'google'))
+}
+
 export function* referenceSamples(batches: Iterable<ReferenceBatch>) {
   for (const batch of batches) for (const sample of batch.samples) yield { batch, sample }
 }

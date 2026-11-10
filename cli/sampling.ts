@@ -8,7 +8,7 @@ import type { CompletionResult } from '@fingerpoint/shared/completion'
 import { directTransport, endpoint } from '@fingerpoint/shared/detection'
 import type { CompletionTransport } from '@fingerpoint/shared/detection'
 import { parseNumbers } from '@fingerpoint/shared/fingerprint-core.js'
-import { apiFormat, requestFormat, validateChannel } from '@fingerpoint/shared/reference'
+import { apiFormat, matchesOpenRouterProvider, requestFormat, validateChannel } from '@fingerpoint/shared/reference'
 import type { BatchInfo, Completion, ReferenceBatch } from '@fingerpoint/shared/reference'
 import type { ApiConfig } from '@fingerpoint/shared/types'
 import suite from '../data/enrollment-suite.json'
@@ -114,7 +114,7 @@ function actualChannel(manifest: Manifest, provider: string | undefined): string
   const channel = manifest.source.channel.replace(/-subscription$/, '')
   const route = channel.startsWith('openrouter/') ? channel.slice('openrouter/'.length) : undefined
   if (route && route !== 'unknown') {
-    return route.split('/')[0].replace(/[^a-z0-9]/g, '') === reported ? manifest.source.channel : undefined
+    return matchesOpenRouterProvider(route, provider) ? manifest.source.channel : undefined
   }
   return `openrouter/${reported}${manifest.source.channel.endsWith('-subscription') ? '-subscription' : ''}`
 }
