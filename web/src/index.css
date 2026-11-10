@@ -57,14 +57,19 @@
 @media (min-width: 640px) { .fp-page, .fp-page-wide { padding-left: 1.5rem; padding-right: 1.5rem; } }
 @media (min-width: 1024px) { .fp-page, .fp-page-wide { padding-left: 2rem; padding-right: 2rem; } }
 .fp-footer { padding: 1.5rem 1rem; text-align: center; }
-.fp-cli-promo { display: flex; flex-wrap: wrap; align-items: center; gap: .375rem .75rem; padding: .5rem .75rem; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--card); font-size: .8125rem; }
-.fp-cli-promo code { white-space: nowrap; }
+.fp-cli-panel { display: flex; flex-wrap: wrap; align-items: center; gap: .375rem .75rem; padding: .5rem .75rem; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--card); font-size: .8125rem; }
 .fp-cli-command { display: inline-flex; align-items: center; gap: .4rem; padding: .2rem .4rem; border-radius: .375rem; background: color-mix(in oklab, var(--primary) 6%, var(--card)); color: var(--foreground); white-space: nowrap; }
 .fp-cli-command:hover { background: color-mix(in oklab, var(--primary) 12%, var(--card)); }
 .fp-cli-command code span { color: var(--primary); font-weight: 600; }
 .fp-cli-command > svg { color: var(--muted-foreground); }
 .fp-cli-command:hover > svg { color: var(--primary); }
-.fp-cli-links { display: inline-flex; align-items: center; gap: .75rem; margin-left: auto; }
+.fp-cli-resources { display: flex; flex: 1 0 100%; align-items: center; min-width: 0; gap: .75rem; }
+.fp-cli-links { display: inline-flex; flex-shrink: 0; align-items: center; gap: .75rem; margin-inline-start: auto; }
+@media (min-width: 640px) { .fp-cli-resources { gap: 1.5rem; } }
+@media (min-width: 1280px) {
+  .fp-cli-resources { flex-basis: auto; justify-content: flex-end; }
+  .fp-cli-links { margin-inline-start: 0; }
+}
 .fp-cli-link { display: inline-flex; align-items: center; gap: .15rem; color: var(--primary); font-weight: 500; white-space: nowrap; text-decoration: none; }
 .fp-cli-link:hover { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -99,6 +104,8 @@ html[data-page-direction]::view-transition-new(root) { animation-name: fp-page-i
 .fp-star-link:focus-visible { border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent); }
 .fp-star-link svg { fill: currentColor; }
 .fp-star-link[data-size="sm"] { gap: .25rem; height: 1.75rem; padding: 0 .625rem; font-size: .8125rem; }
+.fp-highlight-link { color: var(--link-highlight); overflow-wrap: anywhere; text-decoration: none; text-underline-offset: 2px; }
+.fp-highlight-link:hover { text-decoration-line: underline; }
 /* A toast that asks for a Star, laid out like Sonner's own toasts with a row of actions under the text. */
 .fp-star-toast { display: flex; flex-direction: column; gap: .75rem; width: var(--width); padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--popover); color: var(--popover-foreground); box-shadow: 0 4px 12px oklch(0 0 0 / 0.1); font-size: .8125rem; line-height: 1.4; }
 /* Toaster offsets in app-shell.tsx: the gutter follows the .fp-page side padding; the lift clears the fixed action bar. */

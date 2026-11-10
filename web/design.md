@@ -1,7 +1,7 @@
 ---
 name: fingerpoint-design
 description: 用于 Fingerpoint Detector 的网页工具界面（多卡片工作台、数据长列表、主从浏览）、文档站长文页、浏览器导出的结果图片和链接预览图。读者是逐条核对数字、标识符和百分比的技术用户；目标是中性灰阶表面、单一蓝色强调、像素指纹装饰和无回弹弹簧动效，中英文混排，浅色与深色主题。
-version: 2026-11-07
+version: 2026-11-11
 ---
 
 ## 1. 范围与优先级
@@ -44,9 +44,11 @@ version: 2026-11-07
 
 用于一次处理多份同类输入并在同一页给出结论的页面。
 
-- [SHOULD] 使用 `fp-page`。首屏自上而下：页头（唯一的 h1，右侧为 `Segmented` 模式切换，两者之间可以放新增模型列表）、一行紧凑提示条 `fp-cli-promo`、可选的整行配置卡片、卡片网格 `fp-grid-samples`、操作行 `fp-detect-footer`。
+- [SHOULD] 使用 `fp-page`。首屏自上而下：页头（唯一的 h1，右侧为 `Segmented` 模式切换，两者之间可以放新增模型列表）、紧凑的提示条 `fp-cli-panel`、可选的整行配置卡片、卡片网格 `fp-grid-samples`、操作行 `fp-detect-footer`。
 - [SHOULD] 新增模型列表 `RecentModels` 不加外框：行首为 16px primary `Sparkles` 加 `text-body` font-medium 标题，其后是一组 `ModelChip`，间隔 8px。小方块内依次为 14px `BrandIcon`（`web/src/lib/brand-logos.ts` 没有对应标识时省略）、模型名（单行省略）和 `text-meta` muted 的“几天前”，完整日期放在 `title`。1280px 起列表放在 h1 与模式切换之间、三者垂直居中；1280px 以下单独排在页头下一行，左边缘与 h1 对齐。没有条目时不显示。（来源：2026-11-07 用户要求在网页加一条小横幅展示最近加入样本库的模型，整行卡片样式显得空，选定标题右侧的小方块。）
-- [SHOULD] 提示条只占一行高度：命令片段用 `fp-cli-command`，其中的可执行名和参数为 primary 600 字重；点击命令复制全文并用 toast 反馈；行末 `fp-cli-links` 依次放 CLI 用法和 SDK 文档两个 primary 文字链接，间隔 12px。
+- [SHOULD] 赞助文字 `SponsorLink`（`fp-highlight-link`）使用与所在位置相同的字号和字重，颜色取 `link-highlight`。悬停加 2px 偏移的下划线，保持纯文本样式和赞助方原文。结果区放在 `text-body` 说明句右端，右缘与候选列表对齐，放不下时换到说明句下方。
+- [SHOULD] 提示条把 CLI 说明和命令排为一组，把赞助文字和文档链接排为另一组 `fp-cli-resources`。1280px 起，两组放得下时同排，第二组靠右。1280px 以下，第二组整体换行，赞助文字靠左，文档链接靠右。赞助文字放不下时在左侧换行，文档链接保持同排，两侧至少相隔 24px，640px 以下相隔 12px。
+- [SHOULD] 命令片段用 `fp-cli-command`，可执行名和参数为 primary 600 字重。点击命令复制全文并用 toast 反馈。`fp-cli-links` 依次放 CLI 用法和 SDK 文档两个 primary 文字链接，间隔 12px。
 - [SHOULD] 卡片网格 1024px 起为三列等宽，1024px 以下为一列。
 - [SHOULD] 输入卡片 `SampleCard` 自上而下：标题行（`text-card-title` 编号标题、状态徽标、更多菜单）、参考原文（默认显示四行，可展开全文）、输入区、底部 `text-meta` 计数。
 - [SHOULD] 输入区 `fp-reply` 固定 12rem 高，保留原始换行，内容超出时在区内滚动，不随内容增高，不可拖拽改变大小；空白等待区保持同一高度。流式追加文本时滚到底部，手动编辑时跟随光标。
@@ -54,7 +56,7 @@ version: 2026-11-07
 - [SHOULD] 768px 以下操作栏固定在视口底部（最小高 64px，避开 safe-area-inset-bottom），页面底部留出同样的空间；次要链接留在内容流末尾。
 - [SHOULD] 结果状态：卡片网格收为一行摘要条 `SampleStrip`；点击一项在摘要条下方展开它的详情，一次只展开一项；再次点击该项或点详情右上角的“收起”关闭。640px 以下摘要条隐藏计数，不缩小文字。
 - [MUST] 计算要等检测器下载时明确说明：计算状态行改为两行，上行依次为 `PixelSpinner`、`text-body` muted 的“正在等待检测器下载完成”、行尾 `text-meta` 已下载量；下行是整行 `ProgressCells`。主按钮文字改为“等待检测器”，后接 `percent` 格式的进度。下载完成后恢复为普通计算状态行。（来源：2026-10-11 用户要求检测器阻塞计算时明确显示，检测按钮也要显示。）
-- [SHOULD] 结果区 `ResultPanel` 自上而下：`text-section-title` 区块标题、摘要卡片、整行警告、`text-body` muted 说明、候选列表、限制说明。区块间隔 24px。
+- [SHOULD] 结果区 `ResultPanel` 自上而下：`text-section-title` 区块标题、摘要卡片、整行警告、`text-body` muted 说明（行尾为赞助文字）、候选列表、限制说明。区块间隔 24px。
 - [SHOULD] 摘要卡片分左右两栏。左栏依次为 `text-meta` 标签、`text-display` 名称（`overflow-wrap:anywhere`）、`text-body` muted 次级信息，名称旁放 `logo` 像素标识。右栏右对齐，依次为 `text-display-number` 主百分比、`text-meta` 标签和来源行，整组相对卡片垂直居中。窄屏保留两栏，名称和来源可以换行。
 - [SHOULD] 候选列表放在一张 `fp-card` 里，每行用 `fp-result-row`：24px 序号列、名称列（font-medium）、120px 次要标签列（muted，单行省略）、`ConfidenceBar`、64px 右对齐百分比列，最小行高 48px，行间 1px 分隔线。默认显示前 8 行，末行用 ghost 小按钮展开全部。
 - [SHOULD] 768px 以下候选行改为序号、名称、百分比三列，置信度条移到第二行，隐藏次要标签列。
@@ -155,6 +157,7 @@ version: 2026-11-07
 | `destructive` | 失败、错误、不一致 |
 | `muted-foreground` | 次要文字、像素装饰 |
 | `star` | 只用于 Star 入口（`fp-star-link`、`fp-repository-star`），不作状态色 |
+| `link-highlight` | 用于 `fp-highlight-link` 的文字色 |
 
 - [MUST] 置信度条只用 primary，不按候选所属的分组分配颜色。
 
@@ -166,7 +169,7 @@ version: 2026-11-07
 - [SHOULD] 只为真实的对象或数据集合设置表面；卡片里不再嵌套卡片，详情中的列表不加边框。
 - [MUST] 页面不横向溢出：长文本先换行（标识符用 `overflow-wrap:anywhere`）或在自身区域内滚动，不隐藏整页溢出。
 - [MUST] 全局预留滚动条空间（`scrollbar-gutter: stable`），内容不随滚动条出现而横移。
-- [SHOULD] 断点只用以下四个：640px（容器内边距、顶栏双行）、768px（固定操作栏、候选行两行、列表与表格切换、触控尺寸）、1024px（三列网格、文档侧栏、主从分栏、证据两列）、1280px（文档本页目录、顶栏下载进度的方格与横线切换、检测页页头的新增模型列表位置）。文档站 Fumadocs 的 `md` 断点设为 1024px。
+- [SHOULD] 断点只用以下四个：640px（容器内边距、顶栏双行）、768px（固定操作栏、候选行两行、列表与表格切换、触控尺寸）、1024px（三列网格、文档侧栏、主从分栏、证据两列）、1280px（文档本页目录、顶栏下载进度的方格与横线切换、检测页页头的新增模型列表位置、提示条的赞助文字位置）。文档站 Fumadocs 的 `md` 断点设为 1024px。
 
 ### 控件与状态
 
@@ -225,12 +228,12 @@ version: 2026-11-07
 
 | 角色 | 实现名称 | 路径 | 使用条件 | 状态 |
 |---|---|---|---|---|
-| 颜色与主题 | `background` `foreground` `card` `popover` `primary` `secondary` `muted` `muted-foreground` `accent` `border` `input` `ring` `success` `warning` `destructive` `star` | `web/src/tokens.css`、`web/src/index.css` | 所有颜色 | 已实现 |
+| 颜色与主题 | `background` `foreground` `card` `popover` `primary` `secondary` `muted` `muted-foreground` `accent` `border` `input` `ring` `success` `warning` `destructive` `star` `link-highlight` | `web/src/tokens.css`、`web/src/index.css` | 所有颜色 | 已实现 |
 | 圆角与阴影 | `--radius` `--radius-card` `--radius-badge` `--shadow-overlay` | `web/src/tokens.css` | 控件、卡片、徽标、浮层 | 已实现 |
 | 字号角色 | `text-display` `text-display-number` `text-h1` `text-section-title` `text-card-title` `text-body` `text-meta` | `web/src/tokens.css` | 所有文字 | 已实现 |
 | 应用外壳 | `fp-topbar` `fp-topbar-inner` `fp-topbar-start` `fp-topbar-actions` `fp-brand` `fp-brand-mark` `fp-brand-text` `fp-brand-title` `fp-brand-byline` `fp-nav` `fp-nav-indicator` `fp-repository-link` `fp-repository-star`；`--fp-topbar-height` | `web/src/shell.css` | 工具页和文档页顶栏 | 已实现 |
 | 页面容器 | `fp-shell` `fp-page` `fp-page-wide` `fp-footer` | `web/src/index.css` | 工具页 | 已实现 |
-| 工作台布局 | `fp-grid-samples` `fp-detect-footer` `fp-actionbar` `fp-cli-promo` `fp-cli-command` `fp-cli-links` `fp-cli-link` `fp-star-link`（`data-size="sm"`） | `web/src/index.css` | 多卡片工作台 | 已实现 |
+| 工作台布局 | `fp-grid-samples` `fp-detect-footer` `fp-actionbar` `fp-cli-panel` `fp-cli-command` `fp-cli-resources` `fp-cli-links` `fp-cli-link` `fp-star-link`（`data-size="sm"`） | `web/src/index.css` | 多卡片工作台 | 已实现 |
 | 表面与数据 | `fp-card`（`data-warning`） `fp-bar` `fp-reply` `fp-mono` `fp-caret` `fp-api-summary` `fp-result-summary` `fp-result-score` `fp-result-row`（`data-unscored`） | `web/src/index.css` | 卡片、置信度条、原文、标识符、候选行 | 已实现 |
 | 控件 | `Button` `Input` `Textarea` `Field` `FieldError` `Switch` `ToggleGroup` `Segmented`（选项 `icon` `recommended`） `Tabs` `Collapsible` | `web/src/components/ui/`、`web/src/components/segmented.tsx` | 表单与操作 | 已实现 |
 | 品牌标识 | `BrandIcon` | `web/src/components/brand-icon.tsx` | `Segmented` 选项、`ModelChip` | 已实现 |
@@ -241,6 +244,7 @@ version: 2026-11-07
 | 工作台组件 | `SampleCard` `SampleStrip` `StateBadge` `toneClass` `ResultPanel` `ConfidenceBar` `AnimatedPercent` `ApiConfigPanel` `ProxySettings` `RecentModels` | `web/src/components/` | 多卡片工作台 | 已实现 |
 | 证据详情 | `TokenizerCard` `TokenizerStripButton` `TokenizerDetails` `ModelCheck`；`fp-custom-tokenizer-candidates` | `web/src/components/tokenizer-panel.tsx`、`web/src/components/tokenizer-claim.tsx`、`web/src/index.css` | 两列证据详情 | 已实现 |
 | 动效 | `spring` `useMotionPreset` `listStagger` `listItem` | `web/src/lib/motion.ts` | 所有动画 | 已实现 |
+| 赞助文字 | `SponsorLink`（`fp-highlight-link`） | `web/src/components/sponsor-link.tsx`、`web/src/index.css` | 提示条文档链接左侧、结果区说明行尾 | 已实现 |
 | 推荐标记 | `RecommendMark`（`fp-recommend`） | `web/src/components/recommend-mark.tsx`、`web/src/index.css` | 推荐选项、推荐设置、推荐取值 | 已实现 |
 | 下载进度 | `DetectorProgress` `ProgressCells`（`value` `active` `label`） `downloadFraction` `downloadBytes`；`fp-progress-cells` `fp-detector-progress` | `web/src/components/detector-progress.tsx`、`web/src/index.css` | 顶栏检测器下载、计算等待下载 | 已实现 |
 | 像素装饰 | `PixelShader`（`effect` `cell` `image`） `PixelSpinner` `fp-pixel` | `web/src/components/pixel-shader.tsx`、`web/src/lib/pixel-effects.ts`、`web/src/lib/pixel-renderer.ts`、`web/src/shell.css` | 链接预览图、加载、等待、空状态 | 已实现 |
@@ -315,7 +319,7 @@ version: 2026-11-07
 | 一次处理多份同类输入并给出结论的页面类型 | 多卡片工作台 |
 | 工作台里的一份输入及其参考原文 | 输入卡片 `SampleCard` |
 | 结果状态下收起的卡片行 | 摘要条 `SampleStrip` |
-| 页头下方一行的命令与入口 | 提示条 `fp-cli-promo` |
+| 页头下方的命令与入口 | 提示条 `fp-cli-panel` |
 | 页头中最近加入样本库的模型 | 新增模型列表 `RecentModels` |
 | 指向样本库详情的带边框模型链接 | 模型小方块 `ModelChip` |
 | 页面末尾的主次操作 | 操作栏 `fp-actionbar` |

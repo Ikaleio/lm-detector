@@ -37,6 +37,7 @@
   --success: oklch(0.6 0.15 150);
   --warning: oklch(0.72 0.16 75);
   --star: oklch(0.56 0.12 80);
+  --link-highlight: oklch(0.52 0.17 310);
   --border: oklch(0.9 0 0);
   --input: oklch(0.9 0 0);
   --ring: oklch(0.55 0.17 255);
@@ -76,6 +77,7 @@
   --success: oklch(0.72 0.15 150);
   --warning: oklch(0.8 0.15 75);
   --star: oklch(0.84 0.12 88);
+  --link-highlight: oklch(0.76 0.13 310);
   --border: oklch(0.27 0 0);
   --input: oklch(0.27 0 0);
   --ring: oklch(0.72 0.15 255);

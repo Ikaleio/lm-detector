@@ -14,6 +14,7 @@ import { Segmented } from '@/components/segmented'
 import { useLoadedBank } from '@/lib/bank-context'
 import { RecentModels } from '@/components/recent-models'
 import { ResultPanel } from '@/components/result-panel'
+import { SponsorLink } from '@/components/sponsor-link'
 import { SampleCard, SampleStrip, isBusyState, type Mode, type SampleUI } from '@/components/sample-card'
 import { TokenizerCard, TokenizerDetails, TokenizerStripButton } from '@/components/tokenizer-panel'
 import { useI18n } from '@/i18n'
@@ -413,29 +414,34 @@ export default function DetectRoute() {
         <Segmented label={t('detect.modeLabel')} value={mode} onChange={changeMode} disabled={locked} options={[{ value: 'manual', label: t('detect.modeManual') }, { value: 'api', label: t('detect.modeApi') }]} />
       </div>
 
-      <aside className="fp-cli-promo relative isolate overflow-hidden" aria-label={t('detect.cliTitle')}>
+      <aside className="fp-cli-panel relative isolate overflow-hidden" aria-label={t('detect.cliTitle')}>
         <PixelShader effect="rain" className="absolute inset-0 -z-10 text-muted-foreground/30 [mask-image:linear-gradient(90deg,transparent_25%,#000_70%)]" />
-        <div className="flex min-w-0 items-center gap-2">
-          <Terminal className="size-4 shrink-0 text-primary" aria-hidden="true" />
-          <strong className="shrink-0 font-medium">{t('detect.cliTitle')}</strong>
-          <span className="text-muted-foreground">{t('detect.cliDescription')}</span>
+        <div className="flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1.5 sm:gap-x-3">
+          <div className="flex min-w-0 items-center gap-2">
+            <Terminal className="size-4 shrink-0 text-primary" aria-hidden="true" />
+            <strong className="shrink-0 font-medium">{t('detect.cliTitle')}</strong>
+            <span className="text-muted-foreground">{t('detect.cliDescription')}</span>
+          </div>
+          <button type="button" className="fp-cli-command" onClick={copyCliCommand} aria-label={t('detect.cliCopy', { command: cliCommand })} title={t('detect.cliCopy', { command: cliCommand })}>
+            <code className="fp-mono text-meta"><span>bunx</span> lmfpd@latest <span>--help</span></code>
+            <Copy className="size-3.5 shrink-0" aria-hidden="true" />
+          </button>
         </div>
-        <button type="button" className="fp-cli-command" onClick={copyCliCommand} aria-label={t('detect.cliCopy', { command: cliCommand })} title={t('detect.cliCopy', { command: cliCommand })}>
-          <code className="fp-mono text-meta"><span>bunx</span> lmfpd@latest <span>--help</span></code>
-          <Copy className="size-3.5 shrink-0" aria-hidden="true" />
-        </button>
-        <span className="fp-cli-links">
-          <a href={docsHref(i18n.locale, 'cli/detect')} target="_blank" rel="noopener noreferrer" className="fp-cli-link">
-            <span className="sm:hidden">{t('detect.cliGuideShort')}</span>
-            <span className="hidden sm:inline">{t('detect.cliGuide')}</span>
-            <ArrowUpRight className="size-3.5" aria-hidden="true" />
-          </a>
-          <a href={docsHref(i18n.locale, 'sdk')} target="_blank" rel="noopener noreferrer" className="fp-cli-link" title={t('detect.sdkDescription')}>
-            <span className="sm:hidden">SDK</span>
-            <span className="hidden sm:inline">{t('detect.sdkGuide')}</span>
-            <ArrowUpRight className="size-3.5" aria-hidden="true" />
-          </a>
-        </span>
+        <div className="fp-cli-resources">
+          <SponsorLink slot="promo" />
+          <span className="fp-cli-links">
+            <a href={docsHref(i18n.locale, 'cli/detect')} target="_blank" rel="noopener noreferrer" className="fp-cli-link">
+              <span className="sm:hidden">{t('detect.cliGuideShort')}</span>
+              <span className="hidden sm:inline">{t('detect.cliGuide')}</span>
+              <ArrowUpRight className="size-3.5" aria-hidden="true" />
+            </a>
+            <a href={docsHref(i18n.locale, 'sdk')} target="_blank" rel="noopener noreferrer" className="fp-cli-link" title={t('detect.sdkDescription')}>
+              <span className="sm:hidden">SDK</span>
+              <span className="hidden sm:inline">{t('detect.sdkGuide')}</span>
+              <ArrowUpRight className="size-3.5" aria-hidden="true" />
+            </a>
+          </span>
+        </div>
       </aside>
 
       <AnimatePresence initial={false}>
