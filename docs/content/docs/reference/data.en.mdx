@@ -52,6 +52,15 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-11 Add gemini-4-carbon" id="2026-11-11-gemini-4-carbon">
+    Added 36 fixed-challenge answers for `gemini-4-carbon`, bringing the reference bank to 69 fingerprint identities and 2,560 samples. The requests used `google/gemini-4-carbon` with streaming Chat Completions, `low` reasoning effort, and the pinned `openrouter/google-ai-studio` route with fallbacks disabled. All 36 answers completed naturally. Challenge 26 returned HTTP 429 on the first attempt and passed on retry. Both attempts are retained. The previous 2,524 reference answers are unchanged.
+
+    The fixed evaluation collected two groups of three independent answers with the same route and reasoning effort. All six passed on the first attempt. These answers are excluded from bank construction, training, and calibration. After retraining, Carbon and Argon occupied the top two ranks in all four groups for the two models. Carbon ranked first in its first group and second behind Argon in its second group.
+
+    On the same 136 prior complete groups, top-1 hits changed from 123 to 120, while top-3 and family hits held at 133 and 132. The three changes put Carbon ahead of Argon on both Argon groups and `glm-5.3-flashx` ahead of `glm-5.3-flash` on the latter model's first group. The expected model ranked second in each case. Evaluation covered 138 of 140 groups and 414 of 420 answers, with 121 of 138 complete groups correct. The two existing collection gaps belong to `kimi-k2.8-preview`.
+
+    Sampling evidence and the enrollment receipt are saved in `collections/gemini-4-carbon-openrouter-google-ai-studio-low-20261111/`.
+  </Accordion>
   <Accordion title="2026-11-10 Add claude-fable-5.2" id="2026-11-10-claude-fable-5-2">
     Added 36 fixed-challenge answers for `claude-fable-5.2`, bringing the reference bank to 68 fingerprint identities and 2,524 samples. Collection requests `anthropic/claude-fable-5.2` through streaming OpenRouter Chat Completions, with `reasoning_effort=low` and the fixed `openrouter/anthropic` official provider route. Fallbacks are disabled. All 36 answers completed naturally on the first attempt, without truncation. Returned model IDs and Anthropic provider metadata passed checks against the raw responses. The previous 2,488 reference answers are unchanged.
 
