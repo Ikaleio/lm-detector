@@ -212,7 +212,8 @@ export function AppShell({ detect }: { detect: ReactNode }) {
         </p>
       </footer>
       <Toaster position="bottom-right" offset={toastOffset} mobileOffset={toastMobileOffset} />
-      <DisclaimerDialog />
+      {/* Embedded previews such as Umami heatmaps need an unobstructed page. */}
+      {window.self === window.top && <DisclaimerDialog />}
     </div>
   )
 }
