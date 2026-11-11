@@ -8,6 +8,8 @@ icon: Pipette
 
 ## 开始采样
 
+本仓库采集 Google 模型时默认固定 Google Vertex，优先使用 `--channel openrouter/google-vertex/us`，并关闭渠道回退。参考采样与独立固定评估沿用同一 Vertex 路由；明确指定其他渠道时，以指定渠道为准。
+
 交互终端运行 `fpd sample` 会打开设置向导：询问缺少的参数，发送请求前展示确认页，并实时显示进度。API Key 隐藏输入，不写入文件。已有参数或环境变量不会重复询问。
 
 也可以显式指定全部参数，这时不需要终端；`--json` 只向 stdout 输出最终报告：

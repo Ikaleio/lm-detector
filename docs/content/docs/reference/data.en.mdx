@@ -52,6 +52,13 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-11 Switch Gemini 4 Argon to Vertex US" id="2026-11-11-gemini-4-argon-vertex">
+    The 36 official `gemini-4-argon` reference answers now use `openrouter/google-vertex/us`, the same Vertex US route as Carbon. Reference collection and two independent fixed evaluation groups of three answers ran on `ika-jp-1`, preserving the fixed challenges, streaming Chat Completions, and `low` reasoning effort, with fallbacks disabled. All 42 answers passed on their first attempt. Of the reference answers, 33 completed naturally and three stopped at the fixed 500-integer limit with truncation markers preserved.
+
+    After replacement and retraining, Vertex Argon scored 2/2 fixed evaluation groups and Vertex Carbon scored 2/2. On the same 136 other complete groups, Top-1 hits were 122 → 123 and Top-3 hits were 133 → 133. Evaluation covers 138/140 groups and 414/420 answers, with 125/138 complete groups correct.
+
+    The AI Studio Argon batch has left the official bank; its original collection and previous evaluation records are archived locally. The other 2,524 reference answers are unchanged. The bank retains 69 fingerprint identities and 2,560 samples. Future Google model collection defaults to pinned Google Vertex, with reference collection and independent evaluation using the same route. New evidence and the enrollment receipt are saved in `collections/gemini-4-argon-openrouter-google-vertex-us-low-20261111/`.
+  </Accordion>
   <Accordion title="2026-11-11 Switch Gemini 4 Carbon to Vertex US" id="2026-11-11-gemini-4-carbon-vertex">
     The 36 official reference answers for `gemini-4-carbon` now come from `openrouter/google-vertex/us`. Streaming Chat Completions requests used the same fixed challenges and `low` reasoning effort, with route fallback disabled. All 36 answers completed naturally on the first attempt. The AI Studio batch was withdrawn and archived. The reference bank contains 69 fingerprint identities and 2,560 samples.
 
@@ -128,13 +135,6 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
     This enrollment adds two independent fixed evaluation groups of three answers with the same provider and `low` effort. Evaluation answers do not enter bank construction, training, or calibration.
 
     All 36 reference answers and six independent evaluation answers completed naturally on their first attempt. The bank contains 60 identities and 2,236 samples. Both new groups ranked the new label first after retraining. Correct predictions on the previous 118 complete groups fell from 107 to 105. The first old `deepseek-v4.1-flash` group and the second `gpt-5.4` group changed to `1017`. Evaluation covers 120 of 122 groups and 360 of 366 answers, with 107 of 120 complete groups correct.
-  </Accordion>
-  <Accordion title="2026-10-14 Add gemini-4-argon" id="2026-10-14-gemini-4-argon">
-    Added 36 fixed-challenge answers for `gemini-4-argon`. The reference bank now contains 59 fingerprint identities and 2,200 samples. Collection requests `google/gemini-4-argon` through streaming OpenRouter Chat Completions, with `reasoning_effort=low` and the fixed `openrouter/google-ai-studio` route. Fallbacks are disabled. All 36 answers passed validation on the first attempt. Of these, 33 completed naturally. `query-10`, `query-25`, and `query-36` stopped at 500 integers and retain their truncation markers.
-
-    Returned model IDs and Google AI Studio provider metadata passed checks against the raw responses. Sampling evidence and the enrollment receipt are saved in `collections/gemini-4-argon-openrouter-google-ai-studio-low-20261014/`. This enrollment also adds two independent fixed evaluation groups of three answers, with the same provider and `low` reasoning effort. Evaluation answers do not enter bank construction, training, or calibration.
-
-    After retraining, both new evaluation groups ranked `gemini-4-argon` first. Predictions on the previous 116 complete groups did not change: 105 were correct before and after enrollment. Evaluation covers 118 of 120 planned groups and 354 of 360 answers, with 107 of 118 complete groups correct. The two missing groups belong to `kimi-k2.8-preview`.
   </Accordion>
   <Accordion title="2026-10-13 Add muse-wonder" id="2026-10-13-muse-wonder">
     Added 36 fixed-challenge answers for `muse-wonder`. The reference bank now contains 58 fingerprint identities and 2,164 samples. Collection requests `meta/muse-wonder` through streaming OpenRouter Chat Completions, with `reasoning_effort=low` and the fixed `openrouter/meta` route. Fallbacks are disabled. All 36 answers completed naturally on the first attempt, without truncation. Returned model IDs and Meta provider metadata passed checks against the raw responses.

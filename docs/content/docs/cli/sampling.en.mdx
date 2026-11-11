@@ -8,6 +8,8 @@ Maintaining reference data takes three steps: `fpd sample` collects samples, [`f
 
 ## Start sampling
 
+Google model collection in this repository defaults to a pinned Google Vertex route, preferably `--channel openrouter/google-vertex/us`, with provider fallbacks disabled. Reference collection and independent fixed evaluation use the same Vertex route. An explicitly requested channel takes precedence.
+
 In an interactive terminal, `fpd sample` opens a setup wizard. It asks for missing settings, shows a confirmation page before sending requests, and displays live progress. The API key is masked during input and is not written to files. The wizard does not ask again for settings that flags or environment variables already supply.
 
 You can also specify every option explicitly. No terminal is needed then. `--json` writes only the final report to stdout:

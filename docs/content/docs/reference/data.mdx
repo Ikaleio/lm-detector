@@ -52,6 +52,13 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-11 切换 Gemini 4 Argon 到 Vertex US" id="2026-11-11-gemini-4-argon-vertex">
+    `gemini-4-argon` 的 36 条正式参考回答切换到 `openrouter/google-vertex/us`，与 Carbon 统一使用 Vertex US。参考采样和两组三条独立固定评估均在 `ika-jp-1` 执行，沿用原固定挑战、流式 Chat Completions 和 `low` 推理强度，关闭渠道回退。42 条回答全部首次采集通过；参考回答中 33 条自然完成，3 条在固定的 500 个整数上限结束并保留截断标记。
+
+    替换并重训后，Vertex Argon 的固定评估命中 2/2 组，Vertex Carbon 命中 2/2 组。相同的其余 136 个旧完整组 Top-1 命中 122 → 123，Top-3 命中 133 → 133。全库覆盖 138/140 组、414/420 条回答，完整组 Top-1 命中 125/138。
+
+    AI Studio Argon 旧批次已退出正式库，原始采样和旧评估记录归档本地留存。其余 2,524 条参考回答保持原样，参考库仍有 69 个指纹身份、2,560 条样本。后续 Google 模型采样默认固定 Google Vertex，参考采样和独立评估沿用同一路由。新批次证据和入库收据保存在 `collections/gemini-4-argon-openrouter-google-vertex-us-low-20261111/`。
+  </Accordion>
   <Accordion title="2026-11-11 切换 Gemini 4 Carbon 到 Vertex US" id="2026-11-11-gemini-4-carbon-vertex">
     `gemini-4-carbon` 的 36 条正式参考回答切换到 `openrouter/google-vertex/us`。流式 Chat Completions 请求沿用原固定挑战和 `low` 推理强度，关闭渠道回退。36 条回答都在首次请求自然结束。AI Studio 批次已退出正式库并归档，参考库仍有 69 个指纹身份、2,560 条样本。
 
@@ -128,13 +135,6 @@ data
     本次入库补充两组三条独立固定评估回答，沿用固定挑战、相同渠道和 `low` 档位。评估回答不参与建库、训练或校准。
 
     36 条参考回答和 6 条独立评估回答全部在首次尝试自然完成。参考库共有 60 个身份、2,236 条样本。重训后，新模型两组均排名第一。旧的 118 个完整组从 107 组正确降至 105 组：旧版 `deepseek-v4.1-flash` 第 1 组和 `gpt-5.4` 第 2 组均改判为 `1017`。评估覆盖 120/122 组、360/366 条回答，完整组命中 107/120。
-  </Accordion>
-  <Accordion title="2026-10-14 新增 gemini-4-argon" id="2026-10-14-gemini-4-argon">
-    新增 `gemini-4-argon` 的 36 条固定挑战回答，正式库扩展到 59 个指纹身份、2,200 条样本。请求型号为 `google/gemini-4-argon`，使用 OpenRouter Chat Completions 流式输出、`reasoning_effort=low` 和固定 `openrouter/google-ai-studio` 渠道，禁止回退。36 条回答均在首次尝试通过校验。33 条自然完成，`query-10`、`query-25` 和 `query-36` 在 500 个整数处截断，并保留截断标记。
-
-    返回型号和 Google AI Studio 供应商元数据通过原始响应校验。采样证据和入库收据保存在 `collections/gemini-4-argon-openrouter-google-ai-studio-low-20261014/`。本次入库同步补充两组三条独立固定评估回答，使用相同渠道和 `low` 推理强度。评估回答不参与建库、训练或校准。
-
-    重训后，新增两组评估均识别为 `gemini-4-argon`。原有 116 个完整组的预测不变，入库前后均命中 105 组。全库完成 118/120 组、354/360 条有效回答，完整组命中 107/118。缺少的两组属于 `kimi-k2.8-preview`。
   </Accordion>
   <Accordion title="2026-10-13 新增 muse-wonder" id="2026-10-13-muse-wonder">
     新增 `muse-wonder` 的 36 条固定挑战回答，正式库扩展到 58 个指纹身份、2,164 条样本。请求型号为 `meta/muse-wonder`，使用 OpenRouter Chat Completions 流式输出、`reasoning_effort=low` 和固定 `openrouter/meta` 渠道，禁止回退。36 条回答均在首次尝试自然完成，无截断，返回型号和 Meta 供应商元数据通过原始响应校验。
