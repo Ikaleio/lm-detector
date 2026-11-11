@@ -1,7 +1,8 @@
 /* design.md「字体与颜色」：颜色 token、字号角色与品牌字体。检测网站和文档站（docs/）共用本文件，改动会同时作用于两处。 */
 @font-face {
   font-family: "Twemoji Country Flags";
-  src: url("./assets/fonts/twemoji-country-flags.woff2") format("woff2");
+  src: url("https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1.10/dist/TwemojiCountryFlags.woff2") format("woff2"),
+    url("./assets/fonts/twemoji-country-flags.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
