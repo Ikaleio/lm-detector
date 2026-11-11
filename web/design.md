@@ -130,7 +130,7 @@ version: 2026-11-11
 
 ### 字体与颜色
 
-- [SHOULD] 界面文字用 `--font-sans`（Geist Variable 加 CJK 系统回退）；列表、表格和结论中作为条目名称的标识符也用 `--font-sans`。`fp-mono` 只用于输入框里的地址、标识符和密钥，命令片段，名称下方的次级原始标识符（`text-meta` muted），以及证据详情中逐位比较的数值。
+- [SHOULD] 界面文字用 `--font-sans`（Twemoji Country Flags 接管国旗字符，Geist Variable 加 CJK 系统回退）；列表、表格和结论中作为条目名称的标识符也用 `--font-sans`。`fp-mono` 只用于输入框里的地址、标识符和密钥，命令片段，名称下方的次级原始标识符（`text-meta` muted），以及证据详情中逐位比较的数值。
 - [MUST] 品牌标题用 `--font-brand-title`（Noto Serif SC Variable），署名用 `--font-brand-byline`（Noto Sans SC Variable）。
 - [SHOULD] 字号只用以下角色。例外：按钮的 `sm`/`xs` 尺寸自带字号；代码片段与提示条用 13px。
 
@@ -305,6 +305,7 @@ version: 2026-11-11
 - [MUST] 颜色 token、字号角色和品牌字体只在 `web/src/tokens.css` 定义；顶栏外壳类和像素装饰宿主 `.fp-pixel` 只在 `web/src/shell.css` 定义。检测站由 `web/src/index.css` 在 `@import "tailwindcss"` 之后导入两者；文档站由 `docs/app/app.css` 直接导入两者，再由 Fumadocs 的 `shadcn.css` 把颜色映射为 `fd-*`。修改 token 或外壳类时同时检查两处和预览图。
 - [SHOULD] 预览图由 `docs/app/lib/og-response.ts` 把 `web/src/tokens.css` 和 Fumadocs 的 `shadcn.css` 原文交给 Takumi；`docs/app/lib/og.server.ts` 用 tokens.css 中的族名注册 Geist Variable、Noto Sans SC Variable 和 Noto Serif SC Variable 的 Latin 子集，没有指定字体的文字按 Geist、Noto Sans SC 回退（Takumi 不读系统字体）。
 - [SHOULD] 字体加载：Geist 来自 `@fontsource-variable/geist`；品牌字体在 `web/src/tokens.css` 用 `@font-face` 引用 `@fontsource-variable/noto-serif-sc` 与 `@fontsource-variable/noto-sans-sc` 的 Latin WOFF2，随站点构建加载。
+- [SHOULD] 国旗字体使用 `web/src/assets/fonts/twemoji-country-flags.woff2`，通过 `unicode-range` 限定地区指示符和地区旗帜序列，按需随站点加载。五种语言的 `--font-sans` 都优先放入 Twemoji Country Flags。
 - [MUST] 主题由 next-themes 在 `html` 上切换 `dark` 类；`web/index.html` 在页面加载前读取偏好，避免闪烁。偏好保存在 `fp-theme`，文档站通过 Fumadocs RootProvider 的 `storageKey` 使用同一个键，两站的主题选择互相同步。存储不可用时按系统外观显示；原生控件和滚动条使用当前主题的 color-scheme。
 - [SHOULD] 组件来自 shadcn 的 base-nova（Base UI），位于 `web/src/components/ui/`；动画使用 framer-motion；图标使用 lucide-react。不切换到另一套组件系统。
 - [SHOULD] 文档站的 MDX 组件映射在 `docs/app/components/mdx.tsx`。Markdown 表格使用 Fumadocs 的滚动外层，表头与短列由 `docs/app/lib/remark-label-columns.ts` 标记为不换行；由数据生成的表格使用同一个外层，表头同样不换行。文档顶栏通过相对路径导入 `web/src/components/pixel-shader.tsx`，只在浏览器中懒加载。

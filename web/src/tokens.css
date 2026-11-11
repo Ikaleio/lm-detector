@@ -1,5 +1,14 @@
 /* design.md「字体与颜色」：颜色 token、字号角色与品牌字体。检测网站和文档站（docs/）共用本文件，改动会同时作用于两处。 */
 @font-face {
+  font-family: "Twemoji Country Flags";
+  src: url("./assets/fonts/twemoji-country-flags.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067, U+E006C, U+E006E, U+E0073-E0074, U+E0077, U+E007F;
+}
+
+@font-face {
   font-family: "Noto Serif SC Variable";
   src: url("@fontsource-variable/noto-serif-sc/files/noto-serif-sc-latin-wght-normal.woff2") format("woff2");
   font-style: normal;
@@ -45,17 +54,17 @@
   --radius-card: 0.75rem;
   --radius-badge: 0.375rem;
   --shadow-overlay: 0 8px 24px oklch(0 0 0 / 0.12);
-  --font-sans: "Geist Variable", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
+  --font-sans: "Twemoji Country Flags", "Geist Variable", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --font-brand-title: "Noto Serif SC Variable", "Source Han Serif SC", "Songti SC", serif;
   --font-brand-byline: "Noto Sans SC Variable", "Source Han Sans SC", sans-serif;
 }
 /* Han characters take regional glyph forms: Japanese and Traditional Chinese pages prefer matching system fonts. */
 :root:lang(ja) {
-  --font-sans: "Geist Variable", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo, "Noto Sans CJK JP", system-ui, sans-serif;
+  --font-sans: "Twemoji Country Flags", "Geist Variable", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", Meiryo, "Noto Sans CJK JP", system-ui, sans-serif;
 }
 :root:lang(zh-TW) {
-  --font-sans: "Geist Variable", "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK TC", system-ui, sans-serif;
+  --font-sans: "Twemoji Country Flags", "Geist Variable", "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK TC", system-ui, sans-serif;
 }
 .dark {
   color-scheme: dark;
