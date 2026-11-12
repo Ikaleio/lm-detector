@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "db1f6a0b80e4d96cc8d4d3acb8c7524fdf9a1ef881740af2d27607dab34e346a",
+  "challenge_id": "query-13",
+  "attempt": 1,
+  "task": {
+    "id": "query-13",
+    "condition": "environment-05",
+    "expected_count": 297,
+    "prompt": "For each of 297 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "google/gemini-4-hydrogen",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For each of 297 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "low",
+      "provider": {
+        "only": [
+          "google-vertex/global"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-12T18:44:27.421Z",
+  "trace": "trace/query-13/0001",
+  "text": "42, 189, 7, 312, 95, 254, 118, 341, 63, 205, 14, 287, 173, 55, 330, 88, 219, 134, 299, 31, 246, 102, 351, 79, 165, 23, 274, 148, 308, 67, 192, 4, 261, 115, 322, 83, 235, 159, 46, 291, 128, 347, 51, 212, 98, 279, 141, 19, 315, 74, 228, 162, 338, 39, 184, 266, 109, 294, 60, 153, 304, 12, 241, 86, 197, 325, 49, 215, 137, 283, 71, 355, 112, 258, 27, 178, 319, 92, 203, 145, 269, 35, 333, 121, 231, 64, 187, 301, 16, 249, 105, 344, 58, 217, 151, 289, 81, 169, 311, 44, 238, 131, 297, 9, 194, 328, 76, 252, 119, 349, 53, 208, 164, 276, 33, 181, 317, 96, 224, 143, 285, 21, 336, 107, 263, 69, 199, 306, 41, 244, 125, 352, 84, 211, 156, 293, 17, 175, 321, 62, 233, 114, 271, 48, 190, 340, 91, 256, 139, 303, 29, 214, 167, 281, 73, 183, 331, 56, 247, 104, 314, 15, 226, 149, 295, 87, 171, 346, 38, 260, 123, 309, 65, 201, 158, 273, 25, 196, 327, 99, 239, 132, 288, 52, 179, 353, 78, 218, 146, 300, 11, 255, 117, 334, 68, 186, 267, 43, 229, 154, 318, 82, 243, 108, 292, 34, 174, 342, 61, 209, 136, 278, 19, 191, 324, 94, 251, 127, 307, 47, 221, 161, 284, 75, 182, 339, 28, 264, 111, 298, 59, 204, 144, 316, 89, 237, 168, 350, 13, 272, 129, 302, 45, 216, 152, 286, 70, 193, 329, 101, 248, 138, 290, 36, 177, 345, 85, 223, 116, 313, 54, 206, 163, 277, 22, 188, 332, 97, 259, 142, 305, 66, 232, 120, 282, 40, 195, 348, 77, 213, 150, 268, 18, 180, 323, 93, 245, 133, 296, 57, 225, 166, 310, 80, 253, 106, 337",
+  "text_sha256": "9fb003162af3cc4ca957ad08b5cb16723d9d08be41b73d85b0e445595682aa14",
+  "parsed_count": 297,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "google/gemini-4-hydrogen",
+  "response_id": "gen-1794509067-SAlaJl0ihxd23gbxOS8q",
+  "usage": {
+    "prompt_tokens": 177,
+    "completion_tokens": 3307,
+    "total_tokens": 3484,
+    "cost": 0.025068,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.025068,
+      "upstream_inference_prompt_cost": 0.0002655,
+      "upstream_inference_completions_cost": 0.0248025
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1907,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Google",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/google-vertex/global",
+  "finished_at": "2026-11-12T18:44:52.287Z"
+}

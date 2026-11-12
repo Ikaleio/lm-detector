@@ -52,6 +52,13 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-13 Add Gemini 4 Hydrogen" id="2026-11-13-gemini-4-hydrogen-vertex">
+    The reference bank adds 36 fixed-challenge answers for `gemini-4-hydrogen` from OpenRouter's Google Vertex Global route. It contains 70 fingerprint identities and 2,596 answers.
+
+    Reference collection and two independent fixed evaluation groups of three answers used streaming Chat Completions with `low` reasoning effort, pinned to `google-vertex/global` with provider fallback disabled. Of the 36 reference answers, 35 completed naturally and one reached the 500-integer collection limit.
+
+    After retraining, both independent fixed evaluation groups ranked Hydrogen first. Across the same 138 previous complete groups, top-1 hits went from 125 to 126, and top-3 hits went from 135 to 135. Evaluation covers 140 of 142 groups and 420 of 426 answers.
+  </Accordion>
   <Accordion title="2026-11-11 Switch Gemini 4 Argon to Vertex US" id="2026-11-11-gemini-4-argon-vertex">
     The 36 official `gemini-4-argon` reference answers now use `openrouter/google-vertex/us`, the same Vertex US route as Carbon. Reference collection and two independent fixed evaluation groups of three answers ran on `ika-jp-1`, preserving the fixed challenges, streaming Chat Completions, and `low` reasoning effort, with fallbacks disabled. All 42 answers passed on their first attempt. Of the reference answers, 33 completed naturally and three stopped at the fixed 500-integer limit with truncation markers preserved.
 

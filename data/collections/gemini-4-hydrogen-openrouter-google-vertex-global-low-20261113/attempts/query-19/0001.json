@@ -1,0 +1,71 @@
+{
+  "manifest_sha256": "db1f6a0b80e4d96cc8d4d3acb8c7524fdf9a1ef881740af2d27607dab34e346a",
+  "challenge_id": "query-19",
+  "attempt": 1,
+  "task": {
+    "id": "query-19",
+    "condition": "environment-07",
+    "expected_count": 293,
+    "prompt": "这是一次无语义数值选择。请为 293 个位置分别凭第一反应选择一个 1 到 355（含端点）的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+    "system": "You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained. The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed.",
+    "body": {
+      "model": "google/gemini-4-hydrogen",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained. The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed."
+        },
+        {
+          "role": "user",
+          "content": "这是一次无语义数值选择。请为 293 个位置分别凭第一反应选择一个 1 到 355（含端点）的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。"
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "low",
+      "provider": {
+        "only": [
+          "google-vertex/global"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-12T18:44:51.934Z",
+  "trace": "trace/query-19/0001",
+  "text": "42, 189, 7, 312, 256, 94, 173, 341, 28, 115, 204, 63, 350, 148, 89, 271, 19, 326, 134, 290, 55, 162, 238, 11, 305, 77, 196, 333, 48, 215, 129, 284, 3, 247, 102, 318, 66, 177, 263, 39, 151, 348, 82, 229, 14, 295, 118, 201, 339, 57, 183, 26, 274, 140, 311, 95, 222, 68, 354, 109, 245, 31, 168, 288, 74, 192, 321, 45, 259, 137, 12, 302, 86, 219, 155, 344, 61, 277, 104, 198, 330, 23, 175, 251, 91, 146, 315, 52, 283, 121, 207, 37, 349, 164, 79, 234, 18, 299, 112, 266, 4, 186, 324, 98, 211, 143, 308, 69, 241, 127, 352, 33, 195, 279, 84, 159, 292, 46, 225, 107, 336, 15, 171, 254, 62, 319, 132, 209, 75, 286, 149, 342, 29, 231, 116, 268, 53, 181, 304, 92, 217, 8, 328, 166, 249, 71, 194, 351, 41, 273, 124, 297, 59, 188, 314, 101, 236, 22, 261, 153, 338, 87, 203, 139, 281, 35, 179, 309, 64, 244, 111, 346, 17, 227, 160, 291, 78, 199, 323, 49, 257, 131, 301, 96, 213, 145, 332, 25, 276, 119, 184, 355, 67, 239, 106, 285, 43, 169, 317, 81, 221, 13, 294, 157, 340, 56, 264, 126, 191, 307, 73, 248, 38, 174, 329, 103, 216, 142, 278, 51, 345, 88, 197, 253, 19, 313, 135, 233, 65, 289, 114, 353, 30, 182, 269, 93, 161, 322, 47, 206, 128, 296, 76, 243, 150, 335, 21, 218, 105, 275, 58, 187, 316, 138, 258, 9, 347, 117, 230, 83, 293, 44, 172, 325, 99, 212, 154, 282, 34, 193, 337, 70, 246, 123, 306, 60, 224, 165, 287, 16, 200, 343, 85, 262, 130, 310, 50, 178, 237, 108, 272, 36, 158",
+  "text_sha256": "6301d5292f2a1bf4c9484b5b4f9e26c32d4846bc93023009d9828906ad382208",
+  "parsed_count": 293,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "google/gemini-4-hydrogen",
+  "response_id": "gen-1794509091-zi9p7cztdV73u8Pdtozy",
+  "usage": {
+    "prompt_tokens": 315,
+    "completion_tokens": 3482,
+    "total_tokens": 3797,
+    "cost": 0.0265875,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0265875,
+      "upstream_inference_prompt_cost": 0.0004725,
+      "upstream_inference_completions_cost": 0.026115
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2105,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Google",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/google-vertex/global",
+  "finished_at": "2026-11-12T18:45:18.415Z"
+}

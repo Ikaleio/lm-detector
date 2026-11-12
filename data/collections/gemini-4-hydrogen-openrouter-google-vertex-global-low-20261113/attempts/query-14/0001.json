@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "db1f6a0b80e4d96cc8d4d3acb8c7524fdf9a1ef881740af2d27607dab34e346a",
+  "challenge_id": "query-14",
+  "attempt": 1,
+  "task": {
+    "id": "query-14",
+    "condition": "environment-05",
+    "expected_count": 315,
+    "prompt": "Provide exactly 315 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "google/gemini-4-hydrogen",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Provide exactly 315 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "low",
+      "provider": {
+        "only": [
+          "google-vertex/global"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-12T18:44:30.064Z",
+  "trace": "trace/query-14/0001",
+  "text": "42 189 7 312 254 98 16 205 341 63 127 290 55 174 328 11 236 84 152 303 19 278 115 350 47 193 261 72 138 224 9 319 166 285 34 211 145 333 68 249 102 179 5 297 121 268 89 157 344 27 203 132 315 76 242 118 309 51 184 291 14 259 93 337 61 172 280 39 216 149 322 82 198 264 107 348 23 161 295 70 231 125 311 45 187 273 100 339 18 209 141 306 58 246 113 329 79 195 267 31 168 288 129 353 65 219 154 301 49 181 252 95 334 12 238 104 275 176 320 41 190 263 87 346 29 214 135 299 60 163 283 110 317 74 240 147 331 21 207 123 293 53 185 256 91 342 36 227 169 308 80 199 271 105 325 15 244 139 314 67 178 286 44 212 151 336 96 192 260 32 221 116 304 57 170 279 130 349 25 201 143 296 77 233 108 321 50 182 265 85 338 17 218 159 310 69 196 281 120 345 38 229 136 298 62 175 250 99 327 28 206 148 316 73 247 112 332 46 188 274 90 340 20 215 164 302 54 191 258 101 324 35 225 133 292 66 177 269 114 347 24 204 155 313 81 239 122 330 48 186 276 94 335 13 210 144 294 71 245 109 318 56 171 262 88 343 30 222 160 305 64 194 282 119 351 40 228 137 297 59 173 253 97 326 26 208 150 317 75 248 111 333 43 183 272 92 341 22 213 165 300 52 197 255 103 323 37 226 134 289 68 180 270 117 354",
+  "text_sha256": "11ab54650bd884db6453f1b9f00d5b51495e8dc693eb88d4334f87f0c0d04321",
+  "parsed_count": 315,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "google/gemini-4-hydrogen",
+  "response_id": "gen-1794509070-nTXItOnATku9WbWxT40Q",
+  "usage": {
+    "prompt_tokens": 177,
+    "completion_tokens": 2976,
+    "total_tokens": 3153,
+    "cost": 0.0225855,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0225855,
+      "upstream_inference_prompt_cost": 0.0002655,
+      "upstream_inference_completions_cost": 0.02232
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1805,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Google",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/google-vertex/global",
+  "finished_at": "2026-11-12T18:44:51.930Z"
+}

@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "db1f6a0b80e4d96cc8d4d3acb8c7524fdf9a1ef881740af2d27607dab34e346a",
+  "challenge_id": "query-03",
+  "attempt": 1,
+  "task": {
+    "id": "query-03",
+    "condition": "environment-01",
+    "expected_count": 247,
+    "prompt": "Fill exactly 247 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "google/gemini-4-hydrogen",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Fill exactly 247 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "low",
+      "provider": {
+        "only": [
+          "google-vertex/global"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-12T18:43:50.705Z",
+  "trace": "trace/query-03/0001",
+  "text": "[194,42,318,87,255,13,289,160,74,341,205,58,129,302,11,246,95,177,333,64,281,148,39,219,82,350,114,267,5,190,71,312,135,228,49,294,163,27,251,108,326,84,172,239,16,275,141,60,309,198,45,262,119,344,91,214,33,185,299,77,154,231,12,315,103,270,52,189,338,126,207,68,284,145,21,353,98,242,167,44,319,112,258,79,193,305,36,224,151,288,63,179,330,105,249,18,296,138,86,211,347,55,169,273,122,236,9,301,182,72,265,143,31,322,94,203,157,280,47,335,116,229,81,196,310,24,253,132,66,291,175,349,101,217,40,278,149,89,314,187,53,244,128,329,75,209,15,268,161,304,97,221,37,285,140,199,61,342,118,256,83,174,317,29,234,153,292,69,184,336,107,260,48,212,136,307,7,247,165,279,92,324,124,201,56,297,146,352,78,238,171,34,271,111,311,65,191,259,22,158,332,99,226,139,46,287,178,316,85,241,14,295,164,70,345,121,215,51,269,188,303,93,233,147,28,321,106,252,62,195,283,131,41,339,173,208,80,264,115,354,59,222,156,300,17,245,109]",
+  "text_sha256": "ae19a113329800577189b6892b125aff6d07ba0ca673a0d1112534c03d4c0813",
+  "parsed_count": 247,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "google/gemini-4-hydrogen",
+  "response_id": "gen-1794509030-RzcC0JxttjBy0slL3OcV",
+  "usage": {
+    "prompt_tokens": 172,
+    "completion_tokens": 2572,
+    "total_tokens": 2744,
+    "cost": 0.019548,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.019548,
+      "upstream_inference_prompt_cost": 0.000258,
+      "upstream_inference_completions_cost": 0.01929
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 1655,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Google",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/google-vertex/global",
+  "finished_at": "2026-11-12T18:44:12.393Z"
+}

@@ -52,6 +52,13 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-13 新增 Gemini 4 Hydrogen" id="2026-11-13-gemini-4-hydrogen-vertex">
+    `gemini-4-hydrogen` 新增 36 条固定挑战参考回答，来源为 OpenRouter 的 Google Vertex Global。参考库共有 70 个指纹身份、2,596 条样本。
+
+    参考采样和两组各三条独立固定评估都使用流式 Chat Completions 和 `low` 推理强度，固定 `google-vertex/global` 并关闭渠道回退。36 条参考回答中有 35 条自然结束，1 条达到 500 个整数的采样上限。
+
+    重训后，两组独立固定评估都把 Hydrogen 排在第一。相同的 138 个旧完整组中，Top-1 命中为 125 → 126，Top-3 命中为 135 → 135。评估覆盖 140/142 组、420/426 条回答。
+  </Accordion>
   <Accordion title="2026-11-11 切换 Gemini 4 Argon 到 Vertex US" id="2026-11-11-gemini-4-argon-vertex">
     `gemini-4-argon` 的 36 条正式参考回答切换到 `openrouter/google-vertex/us`，与 Carbon 统一使用 Vertex US。参考采样和两组三条独立固定评估均在 `ika-jp-1` 执行，沿用原固定挑战、流式 Chat Completions 和 `low` 推理强度，关闭渠道回退。42 条回答全部首次采集通过；参考回答中 33 条自然完成，3 条在固定的 500 个整数上限结束并保留截断标记。
 
