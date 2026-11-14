@@ -1,0 +1,45 @@
+{
+  "manifest_sha256": "3db5052b8399c653711d4a1c7d828a5586248814c634de1d2821914d8acf3ca7",
+  "challenge_id": "query-16",
+  "attempt": 1,
+  "task": {
+    "id": "query-16",
+    "condition": "environment-06",
+    "expected_count": 301,
+    "prompt": "For each of 301 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "ernie-5.5-flash-preview",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For each of 301 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "high"
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-14T04:30:08.096Z",
+  "trace": "trace/query-16/0001",
+  "text": "[47,213,8,156,92,301,34,178,65,249,122,5,287,141,73,330,19,194,108,261,56,229,87,12,315,163,44,276,99,188,23,342,117,68,205,351,91,134,260,17,298,76,149,31,222,103,355,59,187,128,241,14,173,84,309,66,195,42,271,116,353,27,148,233,89,181,6,314,124,257,71,202,39,166,295,113,54,238,96,329,18,145,268,82,211,57,174,303,121,36,249,137,74,226,11,191,88,344,152,60,285,43,118,207,69,331,26,159,94,243,132,7,278,165,51,216,83,349,109,172,38,253,125,196,62,311,147,21,234,98,179,46,289,114,205,355,71,158,29,267,133,84,221,9,176,302,55,193,128,240,67,314,152,41,187,105,273,24,231,96,149,58,326,112,3,198,82,264,137,45,217,91,340,76,164,19,288,123,207,53,171,244,33,296,108,185,62,229,94,351,116,48,203,87,268,141,6,322,159,75,234,99,181,44,297,126,68,213,152,11,279,93,166,37,248,114,355,71,190,128,57,302,145,83,226,22,174,261,106,49,318,134,78,205,63,289,152,34,217,96,171,245,88,129,41,296,113,67,183,252,14,208,95,337,122,59,176,234,103,48,285,161,77,199,32,313,148,86,225,111,54,192,349,129,68,241,17,306,143,92,178,63,257,108,331,45,195,82,269,134,21,216,158,74,303,119,51,187,96,243,167]",
+  "text_sha256": "0cb28fb8ea21a8cb83c7666f7261034638041e7b9f73f2be515e9c1bb588b595",
+  "parsed_count": 301,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "ernie-5.5-flash-preview",
+  "response_id": "as-kxf3dh40gn",
+  "usage": {
+    "prompt_tokens": 161,
+    "completion_tokens": 3322,
+    "total_tokens": 3483,
+    "completion_tokens_details": {
+      "reasoning_tokens": 2718
+    }
+  },
+  "finish_reason": "stop",
+  "actual_channel": "qianfan-subscription",
+  "finished_at": "2026-11-14T04:30:19.529Z"
+}

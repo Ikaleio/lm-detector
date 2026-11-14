@@ -53,6 +53,7 @@ A channel identifies the concrete collection path. It is not a model family or b
 
 - `codex-subscription`: reads the local Codex login and pins the Responses streaming endpoint. No API key or address is needed.
 - `kimi-code-subscription`: the Kimi Code channel. Supply its endpoint configuration and key explicitly.
+- `qianfan-subscription`: the Baidu Qianfan Token Plan Person subscription. Supply the key explicitly, and pass the full endpoint as `--baseurl` (for example `https://qianfan.baidubce.com/v2/tokenplan/personal/chat/completions`).
 - `openrouter/anthropic`, `openrouter/xiaomi/fp8`: fixed OpenRouter providers. Requests use `provider.only` and disable fallback.
 - `openrouter`: allows automatic routing. The actual provider is recorded in each sample.
 - Other gateways use an explicit custom channel ID and keep the actual endpoint.

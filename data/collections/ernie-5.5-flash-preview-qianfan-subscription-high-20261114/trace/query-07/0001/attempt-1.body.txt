@@ -1,0 +1,14 @@
+data: {"id":"as-pz973hjguu","object":"chat.completion.chunk","created":1794630587,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"role":"assistant","reasoning_content":"The"},"flag":0}]}
+
+data: {"id":"as-pz973hjguu","object":"chat.completion.chunk","created":1794630587,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":" user wants me to generate 227 integers, each between 1 and 355 inclusive, as a JSON array. I need to make these feel like first-instinct choices, avoiding obvious patterns. Let me just produce them directly without any tools.\n\nLet me generate 227 numbers as I go."},"flag":0}]}
+
+data: {"id":"as-pz973hjguu","object":"chat.completion.chunk","created":1794630587,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":"[148, 22, 301, 89, 176, 254, 5, 331, 117, 63, 240, 195, 8, 287, 52, 319, 141, 76, 263, 34, 209, 128, 351, 91, 167, 43, 284, 12, 225, 158, 97, 306, 71, 189, 26, 248, 113, 335, 60, 182, 4, 271, 134, 219, 88, 45, 297, 155, 109, 232, 67, 341, 19, 176, 128, 289, 53, 214, 82, 361, 240, 101, 15, 278, 163, 344, 72, 195, 38, 259, 124, 307, 90, 47, 221, 168, 6, 293, 137, 252, 79, 330, 116, 54, 203, 187, 29"},"flag":0}]}
+
+data: {"id":"as-pz973hjguu","object":"chat.completion.chunk","created":1794630587,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 268, 143, 96, 315, 61, 234, 11, 172, 285, 48, 209, 133, 351, 84, 156, 23, 274, 118, 340, 66, 197, 41, 262, 149, 8, 228, 95, 311, 57, 183, 32, 246, 121, 299, 74, 164, 17, 283, 138, 216, 89, 355, 102, 45, 191, 27, 258, 143, 313, 68, 179, 7, 235, 155, 92, 324, 51, 208, 131, 3, 276, 167, 344, 83, 199, 39, 253, 114, 289, 62, 175, 22, 307, 148, 71, 226, 105, 338, 55, 187"},"flag":0}]}
+
+data: {"id":"as-pz973hjguu","object":"chat.completion.chunk","created":1794630587,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 12, 264, 139, 297, 88, 353, 116, 43, 202, 159, 79, 271, 34, 244, 123, 318, 97, 58, 231, 166, 9, 285, 141, 352, 76, 194, 31, 257, 108, 322, 64, 181, 25, 268, 152, 5, 239, 119, 301, 86, 173, 47, 213, 134, 348, 93, 205, 18, 279, 162, 72, 249, 111, 336, 54, 190, 28, 265, 145, 100, 312, 69, 178, 13, 294, 157, 88, 227]"},"flag":0}]}
+
+data: {"id":"as-pz973hjguu","object":"chat.completion.chunk","created":1794630587,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":""},"finish_reason":"stop","flag":0}],"usage":{"prompt_tokens":232,"completion_tokens":767,"total_tokens":999,"completion_tokens_details":{"reasoning_tokens":61}}}
+
+data: [DONE]
+

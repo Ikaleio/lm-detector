@@ -1,0 +1,195 @@
+{
+  "schema": "fingerpoint-enrollment-v2",
+  "run_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e",
+  "manifest_sha256": "3db5052b8399c653711d4a1c7d828a5586248814c634de1d2821914d8acf3ca7",
+  "added": 36,
+  "skipped": 0,
+  "total": 2632,
+  "created_at": "2026-11-14T04:35:37.980Z",
+  "previous_reference_sha256": "d9736030e1153a95dd01b14af2c4ded49b0c02df0017edfb85f9099b4dbad1b1",
+  "reference_sha256": "3aa45b8902e0363417edf9517350385db7abe87cc15cb7dd58c03cf880200edb",
+  "previous_bank_sha256": "dff79cd5d1d381b5d470f4b8dd7ddb58e1ae96b1ac09b6c8b43106aa0a880ad5",
+  "bank_sha256": "ebbfab5608bf858d5358f10a1c7c1b0cab375569f8191d311a80543f6a1dacd7",
+  "selected_attempts": [
+    {
+      "challenge_id": "query-01",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-01"
+    },
+    {
+      "challenge_id": "query-02",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-02"
+    },
+    {
+      "challenge_id": "query-03",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-03"
+    },
+    {
+      "challenge_id": "query-04",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-04"
+    },
+    {
+      "challenge_id": "query-05",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-05"
+    },
+    {
+      "challenge_id": "query-06",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-06"
+    },
+    {
+      "challenge_id": "query-07",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-07"
+    },
+    {
+      "challenge_id": "query-08",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-08"
+    },
+    {
+      "challenge_id": "query-09",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-09"
+    },
+    {
+      "challenge_id": "query-10",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-10"
+    },
+    {
+      "challenge_id": "query-11",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-11"
+    },
+    {
+      "challenge_id": "query-12",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-12"
+    },
+    {
+      "challenge_id": "query-13",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-13"
+    },
+    {
+      "challenge_id": "query-14",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-14"
+    },
+    {
+      "challenge_id": "query-15",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-15"
+    },
+    {
+      "challenge_id": "query-16",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-16"
+    },
+    {
+      "challenge_id": "query-17",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-17"
+    },
+    {
+      "challenge_id": "query-18",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-18"
+    },
+    {
+      "challenge_id": "query-19",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-19"
+    },
+    {
+      "challenge_id": "query-20",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-20"
+    },
+    {
+      "challenge_id": "query-21",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-21"
+    },
+    {
+      "challenge_id": "query-22",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-22"
+    },
+    {
+      "challenge_id": "query-23",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-23"
+    },
+    {
+      "challenge_id": "query-24",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-24"
+    },
+    {
+      "challenge_id": "query-25",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-25"
+    },
+    {
+      "challenge_id": "query-26",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-26"
+    },
+    {
+      "challenge_id": "query-27",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-27"
+    },
+    {
+      "challenge_id": "query-28",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-28"
+    },
+    {
+      "challenge_id": "query-29",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-29"
+    },
+    {
+      "challenge_id": "query-30",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-30"
+    },
+    {
+      "challenge_id": "query-31",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-31"
+    },
+    {
+      "challenge_id": "query-32",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-32"
+    },
+    {
+      "challenge_id": "query-33",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-33"
+    },
+    {
+      "challenge_id": "query-34",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-34"
+    },
+    {
+      "challenge_id": "query-35",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-35"
+    },
+    {
+      "challenge_id": "query-36",
+      "attempt": 1,
+      "row_id": "34a3f75a-6b34-4968-aa95-01b2c8a2f52e:query-36"
+    }
+  ]
+}

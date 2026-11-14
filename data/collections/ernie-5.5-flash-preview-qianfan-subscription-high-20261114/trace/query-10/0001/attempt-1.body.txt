@@ -1,0 +1,16 @@
+data: {"id":"as-e7zd1ch7vr","object":"chat.completion.chunk","created":1794630591,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"role":"assistant","reasoning_content":"294"},"flag":0}]}
+
+data: {"id":"as-e7zd1ch7vr","object":"chat.completion.chunk","created":1794630591,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":" 个位置上各取一个 1 到 355 之间的整数，凭第一反应随机选取。"},"flag":0}]}
+
+data: {"id":"as-e7zd1ch7vr","object":"chat.completion.chunk","created":1794630591,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":"287, 14, 203, 96, 341, 58, 172, 9, 265, 130, 88, 311, 47, 219, 183, 72, 6, 298, 155, 234, 101, 379, 63, 192, 25, 147, 276, 84, 331, 118, 39, 208, 165, 92, 7, 251, 134, 179, 318, 55, 227, 111, 346, 68, 194, 23, 159, 283, 76, 142, 301, 49, 216, 189, 33, 127, 262, 95, 174, 11, 239, 106, 327, 61, 198, 44, 151, 270, 83, 205, 137, 19, 292"},"flag":0}]}
+
+data: {"id":"as-e7zd1ch7vr","object":"chat.completion.chunk","created":1794630591,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 116, 353, 71, 168, 3, 244, 129, 186, 52, 315, 97, 221, 158, 78, 33, 187, 120, 266, 89, 43, 231, 164, 104, 349, 67, 193, 27, 148, 279, 85, 212, 136, 8, 257, 113, 178, 62, 295, 90, 226, 149, 41, 204, 175, 99, 320, 54, 138, 30, 268, 107, 191, 74, 336, 121, 16, 249, 156, 87, 211, 132, 46, 285, 103, 169, 22, 241, 118, 364, 79, 197, 128, 5, 263, 144, 309, 57, 181, 95, 234"},"flag":0}]}
+
+data: {"id":"as-e7zd1ch7vr","object":"chat.completion.chunk","created":1794630591,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 66, 153, 28, 298, 112, 175, 84, 347, 37, 129, 206, 71, 160, 94, 275, 48, 218, 139, 12, 253, 167, 102, 323, 59, 185, 126, 3, 272, 88, 214, 155, 41, 301, 117, 194, 76, 341, 63, 148, 230, 99, 177, 52, 266, 134, 18, 288, 109, 165, 82, 239, 124, 45, 313, 191, 68, 157, 26, 279, 143, 96, 352, 61, 184, 131, 7, 258, 113, 175, 39, 297, 86, 219, 150, 73, 205, 33, 166, 107, 331"},"flag":0}]}
+
+data: {"id":"as-e7zd1ch7vr","object":"chat.completion.chunk","created":1794630591,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 54, 128, 21, 274, 145, 92, 187, 16, 243, 118, 308, 65, 198, 141, 4, 269, 152, 85, 225, 111, 47, 293, 173, 60, 135, 28, 261, 98, 181, 74, 344, 55, 167, 132, 9, 248, 123, 190, 43, 302, 81, 214, 156, 36, 277, 105, 149, 69, 236, 129, 19, 318, 94, 178, 51, 264, 137"},"flag":0}]}
+
+data: {"id":"as-e7zd1ch7vr","object":"chat.completion.chunk","created":1794630591,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":""},"finish_reason":"stop","flag":0}],"usage":{"prompt_tokens":170,"completion_tokens":893,"total_tokens":1063,"completion_tokens_details":{"reasoning_tokens":24}}}
+
+data: [DONE]
+

@@ -1,0 +1,34 @@
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"role":"assistant","reasoning_content":"The"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":" user wants 326 integers, each between 1 and 355, generated directly without tools, avoiding regularized patterns. I need to output them separated by commas, no explanation.\n\nLet me just produce them off the cuff. I need exactly 326 numbers. Let me write them in rows to help me keep track — maybe rows of 10, and count carefully. 326 = 32 rows of 10 + 6.\n\nLet me generate varied numbers.\n\nRow 1: 217, 84, 342, 15, 129, 276, 51, 398→ no, max 355. 51, 398 invalid. Let's use 198.\n\nI'll carefully generate.\n\n1: 217, 84, 342, 15, 129"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":", 276, 51, 198, 6, 333\n2: 92, 271, 44, 310, 157, 3, 248, 119, 66, 355\n3: 181, 27, 234, 95, 348, 62, 11, 203, 140, 79\n4: 296, 38, 165, 7, 251, 108, 322, 74, 189, 46\n5: 13, 337, 88, 210, 55, 174, 301, 22, 137, 268\n6: 94, 5, 229, 316, 71"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":", 148, 187, 34, 260, 101\n7: 353, 19, 126, 242, 57, 305, 83, 169, 30, 214\n8: 348, 61, 97, 283, 40, 152, 226, 9, 311, 175\n9: 118, 265, 72, 331, 24, 193, 143, 86, 297, 52\n10: 231, 16, 104, 279, 68, 345, 191, 37, 158, 123\n11: 288, 45, 202, 76, 319"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":", 133, 8, 251, 164, 99\n12: 274, 32, 117, 341, 59, 186, 213, 21, 145, 308\n13: 67, 179, 235, 90, 312, 47, 154, 3, 227, 128\n14: 295, 54, 111, 348, 73, 196, 26, 261, 139, 84\n15: 317, 42, 165, 95, 238, 11, 282, 156, 69, 204\n16: 331, 28, 122, 253, 87"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":", 349, 63, 177, 14, 296\n17: 105, 219, 36, 344, 78, 161, 249, 92, 307, 51\n18: 134, 6, 273, 188, 45, 322, 116, 231, 69, 354\n19: 97, 152, 24, 267, 183, 312, 58, 209, 141, 79\n20: 336, 33, 124, 295, 66, 178, 8, 243, 197, 112\n21: 289, 47, 155, 71, 326"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":", 19, 234, 103, 168, 342\n22: 85, 211, 39, 147, 302, 62, 193, 27, 258, 121\n23: 349, 54, 176, 91, 229, 13, 314, 138, 67, 205\n24: 162, 42, 287, 106, 331, 75, 194, 30, 251, 118\n25: 343, 88, 157, 21, 236, 129, 304, 64, 181, 47\n26: 96, 273, 35, 148, 219"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":", 82, 352, 117, 59, 198\n27: 264, 43, 131, 315, 76, 185, 9, 227, 142, 291\n28: 68, 354, 123, 39, 246, 157, 302, 84, 173, 26\n29: 211, 95, 337, 52, 128, 279, 16, 191, 244, 109\n30: 328, 61, 174, 33, 257, 88, 145, 306, 71, 199\n31: 132, 45, 283, 107, 232"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":", 74, 351, 158, 23, 267\n32: 91, 316, 56, 184, 12, 249, 137, 302, 65, 195\n33 (6): 278, 41, 163, 99, 224, 344\n\nTotal = 32*10 + 6 ="},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":" 326. Good.\n\nOutput directly without explanation."},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":"217, 84, 342, 15, 129, 276, 51, 198, 6, 333, 92, 271, 44, 310, 157, 3, 248, 119, 66, 355, 181, 27, 234, 95, 348, 62, 11, 203, 140, 79, 296, 38, 165, 7, 251, 108, 322, 74, 189, 46, 13, 337, 88, 210, 55, 174, 301, 22, 137, 268, 94, 5, 229, 316, 71, 148, 187, 34, 260, 101, 353, 19, 126, 242, 57, 305, 83, 169, 30, 214, 348, 61, 97, 283, 40, 152, 226"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 9, 311, 175, 118, 265, 72, 331, 24, 193, 143, 86, 297, 52, 231, 16, 104, 279, 68, 345, 191, 37, 158, 123, 288, 45, 202, 76, 319, 133, 8, 251, 164, 99, 274, 32, 117, 341, 59, 186, 213, 21, 145, 308, 67, 179, 235, 90, 312, 47, 154, 3, 227, 128, 295, 54, 111, 348, 73, 196, 26, 261, 139, 84, 317, 42, 165, 95, 238, 11, 282, 156, 69, 204, 331, 28, 122, 253, 87, 349, 63"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 177, 14, 296, 105, 219, 36, 344, 78, 161, 249, 92, 307, 51, 134, 6, 273, 188, 45, 322, 116, 231, 69, 354, 97, 152, 24, 267, 183, 312, 58, 209, 141, 79, 336, 33, 124, 295, 66, 178, 8, 243, 197, 112, 289, 47, 155, 71, 326, 19, 234, 103, 168, 342, 85, 211, 39, 147, 302, 62, 193, 27, 258, 121, 349, 54, 176, 91, 229, 13, 314, 138, 67, 205, 162, 42, 287, 106, 331, 75, 194"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 30, 251, 118, 343, 88, 157, 21, 236, 129, 304, 64, 181, 47, 96, 273, 35, 148, 219, 82, 352, 117, 59, 198, 264, 43, 131, 315, 76, 185, 9, 227, 142, 291, 68, 354, 123, 39, 246, 157, 302, 84, 173, 26, 211, 95, 337, 52, 128, 279, 16, 191, 244, 109, 328, 61, 174, 33, 257, 88, 145, 306, 71, 199, 132, 45, 283, 107, 232, 74, 351, 158, 23, 267, 91, 316, 56, 184, 12, 249, 137"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 302, 65, 195, 278, 41, 163, 99, 224, 344"},"flag":0}]}
+
+data: {"id":"as-znfavs5bq3","object":"chat.completion.chunk","created":1794630622,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":""},"finish_reason":"stop","flag":0}],"usage":{"prompt_tokens":289,"completion_tokens":2189,"total_tokens":2478,"completion_tokens_details":{"reasoning_tokens":1212}}}
+
+data: [DONE]
+

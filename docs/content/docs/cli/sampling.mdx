@@ -53,6 +53,7 @@ fpd sample \
 
 - `codex-subscription`：读取本机 Codex 登录，固定 Responses 流式端点；不需要提供 API Key 或地址。
 - `kimi-code-subscription`：Kimi Code 渠道，显式提供其接口配置和密钥。
+- `qianfan-subscription`：百度千帆 Token Plan Person 订阅，显式提供密钥；`--baseurl` 要传完整端点（如 `https://qianfan.baidubce.com/v2/tokenplan/personal/chat/completions`）。
 - `openrouter/anthropic`、`openrouter/xiaomi/fp8`：OpenRouter 固定供应商；实际请求使用 `provider.only` 并关闭回退。
 - `openrouter`：允许自动路由，实际供应商记录在每条样本中。
 - 其他网关使用明确的自定义渠道 ID，并保留实际 endpoint。

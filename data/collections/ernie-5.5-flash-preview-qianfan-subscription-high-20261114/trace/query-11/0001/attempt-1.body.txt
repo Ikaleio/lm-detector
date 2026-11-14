@@ -1,0 +1,20 @@
+data: {"id":"as-kwint84hzw","object":"chat.completion.chunk","created":1794630594,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"role":"assistant","reasoning_content":"The"},"flag":0}]}
+
+data: {"id":"as-kwint84hzw","object":"chat.completion.chunk","created":1794630594,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":" user wants me to generate 311 integers in the closed interval [1, 355], chosen \"randomly\" without any tools, without patterns, one at a time by first instinct. Let me just produce a sequence of 311 numbers separated by commas.\n\nLet me just write out numbers off the top of my head, varying them, avoiding obvious patterns. I'll aim for 311 numbers between"},"flag":0}]}
+
+data: {"id":"as-kwint84hzw","object":"chat.completion.chunk","created":1794630594,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":null,"reasoning_content":" 1 and 355.\n\nLet me generate them."},"flag":0}]}
+
+data: {"id":"as-kwint84hzw","object":"chat.completion.chunk","created":1794630594,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":"237, 14, 302, 88, 159, 41, 276, 193, 65, 320, 7, 128, 249, 94, 331, 52, 176, 289, 23, 141, 208, 76, 344, 111, 35, 267, 189, 98, 312, 47, 153, 5, 228, 134, 271, 83, 316, 62, 197, 26, 149, 355, 71, 214, 109, 38, 283, 164, 91, 240"},"flag":0}]}
+
+data: {"id":"as-kwint84hzw","object":"chat.completion.chunk","created":1794630594,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 17, 331, 126, 58, 293, 205, 79, 147, 33, 262, 118, 349, 84, 171, 46, 297, 132, 9, 219, 156, 88, 274, 61, 191, 29, 143, 306, 74, 235, 113, 52, 328, 168, 96, 287, 21, 152, 68, 244, 137, 3, 279, 194, 85, 316, 44, 173, 107, 258, 131, 77, 341, 59, 186, 24, 149, 302, 92, 224, 158, 36, 267, 121, 348, 81, 195, 63, 288, 116, 42, 231, 154, 7, 275, 189, 99, 333, 55, 167, 28"},"flag":0}]}
+
+data: {"id":"as-kwint84hzw","object":"chat.completion.chunk","created":1794630594,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 213, 138, 84, 297, 71, 182, 19, 246, 129, 353, 96, 174, 48, 261, 143, 66, 308, 112, 37, 229, 151, 90, 284, 57, 198, 13, 240, 165, 79, 322, 104, 45, 271, 133, 88, 216, 61, 179, 31, 293, 148, 5, 254, 191, 118, 337, 73, 162, 26, 227, 141, 94, 305, 52, 184, 11, 249, 136, 68, 288, 123, 39, 264, 157, 83, 201, 46, 178, 21, 331, 149, 97, 276, 64, 213, 34, 245, 171, 8, 298"},"flag":0}]}
+
+data: {"id":"as-kwint84hzw","object":"chat.completion.chunk","created":1794630594,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 132, 87, 259, 155, 42, 327, 108, 76, 194, 29, 236, 161, 91, 313, 57, 183, 16, 268, 144, 103, 351, 70, 127, 48, 222, 189, 35, 285, 115, 82, 253, 174, 6, 297, 139, 66, 318, 101, 44, 231, 158, 89, 274, 53, 196, 23, 341, 146, 78, 263, 131, 40, 209, 172, 95, 328, 61, 188, 14, 246, 152, 84, 301, 117, 37, 279, 163, 71, 225, 142, 9, 291, 134, 88, 258, 176, 49, 344, 106, 67"},"flag":0}]}
+
+data: {"id":"as-kwint84hzw","object":"chat.completion.chunk","created":1794630594,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":", 217, 193, 27, 312, 149, 92, 267, 55, 181, 19, 299, 128, 74, 253, 165, 33, 286, 141, 108, 234, 61, 195, 46, 331, 152, 85, 271, 118, 4, 297, 177, 69, 243, 133, 90, 318, 54, 186, 22, 262, 149, 79, 307, 111, 41, 228, 167, 96, 285, 58, 199, 13, 344, 138, 72, 251, 160, 31, 293, 124, 87, 266, 45, 182, 8, 315, 151, 66, 239, 173, 102, 331, 57, 194, 26, 278, 143, 84, 259, 119, 38, 306, 165, 92, 227, 149"},"flag":0}]}
+
+data: {"id":"as-kwint84hzw","object":"chat.completion.chunk","created":1794630594,"model":"ernie-5.5-flash-preview","choices":[{"index":0,"delta":{"content":""},"finish_reason":"stop","flag":0}],"usage":{"prompt_tokens":171,"completion_tokens":1220,"total_tokens":1391,"completion_tokens_details":{"reasoning_tokens":93}}}
+
+data: [DONE]
+

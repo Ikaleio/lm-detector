@@ -52,6 +52,19 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-14 Add ernie-5.5-flash-preview" id="2026-11-14-ernie-5-5-flash-preview">
+    The reference bank adds 36 fixed-challenge answers for `ernie-5.5-flash-preview` from Baidu Qianfan Token Plan Person through the subscription channel `qianfan-subscription`. The requested model is `ernie-5.5-flash-preview` with streaming Chat Completions and `reasoning_effort=high`. All 36 answers passed on the first attempt: 35 completed naturally and one reached the 500-integer collection limit and is kept as truncated. The bank contains 71 fingerprint identities and 2,632 answers.
+
+    The usable path of this subscription endpoint is `https://qianfan.baidubce.com/v2/tokenplan/personal/chat/completions`, so `--baseurl` needs the full endpoint; the server only accepts models inside the subscription and returns 403 for any other model. The returned `model` field matches the request, but these records are not independent evidence of the upstream identity.
+
+    Before enrollment, the previous detector scored this batch offline: 11 of 12 groups ranked `claude-opus-4.8` or `claude-opus-5` first (up to 0.99), so these numbers sit structurally close to the Claude Opus cluster; the label only states the model this channel claims. After retraining, all 12 groups of the same batch rank `ernie-5.5-flash-preview` first, which is an in-training self-check rather than a generalization result; the first choice of the same 743 previous reference groups is unchanged. Three answers to different challenges collected before enrollment stayed out of the bank and now rank first (0.97) in a single out-of-sample check.
+
+    After enrollment, two groups of three independent fixed evaluation answers were collected on the fixed challenges of `environment-03` and `environment-04`, with the same channel and `high` reasoning effort as the reference collection. The three answers of `environment-03` completed naturally; in `environment-04`, the first attempt at query-12 reached the 500-integer collection limit and is kept as truncated, so that slot was retried once and the retry completed naturally; both attempts are retained. After retraining, both groups rank `ernie-5.5-flash-preview` first (0.990 and 0.988), with `claude-opus-4.8` second at only 0.006 and 0.011. The previous detector ranked the same answers as `claude-opus-4.8` (0.65 and 0.96) before enrollment. The evaluation answers are stored separately and never enter building, training, or calibration.
+
+    The bank-wide fixed-evaluation comparison has not run yet: the full research repository's baseline and `research/evaluation/holdout/` do not include these answers, so the official top-1/top-3 change and coverage are missing; append them here once imported. Only a reference-sample self-check is available: the first choice of the same 743 previous reference groups is unchanged.
+
+    Collection evidence and the enrollment receipt are stored in `collections/ernie-5.5-flash-preview-qianfan-subscription-high-20261114/`.
+  </Accordion>
   <Accordion title="2026-11-13 Add Gemini 4 Hydrogen" id="2026-11-13-gemini-4-hydrogen-vertex">
     The reference bank adds 36 fixed-challenge answers for `gemini-4-hydrogen` from OpenRouter's Google Vertex Global route. It contains 70 fingerprint identities and 2,596 answers.
 

@@ -1,0 +1,45 @@
+{
+  "manifest_sha256": "3db5052b8399c653711d4a1c7d828a5586248814c634de1d2821914d8acf3ca7",
+  "challenge_id": "query-04",
+  "attempt": 1,
+  "task": {
+    "id": "query-04",
+    "condition": "environment-02",
+    "expected_count": 223,
+    "prompt": "Give exactly 223 separate first-response integer choices in 1..355. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "ernie-5.5-flash-preview",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Give exactly 223 separate first-response integer choices in 1..355. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "high"
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-14T04:29:37.021Z",
+  "trace": "trace/query-04/0001",
+  "text": "[47,312,8,199,154,88,271,33,226,119,305,61,142,9,254,177,90,338,24,205,133,76,289,15,350,108,51,193,267,42,311,5,168,234,97,60,322,143,28,211,84,297,19,176,249,112,355,37,129,263,71,304,156,13,218,95,340,48,187,6,231,164,82,279,27,116,348,53,201,138,9,293,66,174,320,41,105,256,18,149,287,73,192,34,328,121,58,244,11,169,302,87,215,46,135,275,22,158,331,69,103,248,16,181,314,55,126,297,39,92,263,7,145,220,84,309,31,178,251,114,64,336,23,197,130,285,49,162,10,234,301,78,209,44,118,268,14,153,327,91,236,57,189,3,322,106,271,38,144,199,82,314,27,165,293,61,124,348,19,207,96,251,43,178,8,135,289,70,223,152,331,12,187,54,268,101,340,29,159,214,77,244,36,129,305,18,192,68,261,143,9,316,85,173,47,229,24,138,297,112,352,63,204,31,156,283,90,17,248,119,74,327,41,188,6,235,102,165,291,53,218,14,143]",
+  "text_sha256": "bc946061d993fe3210425f6bb4aabb33c64b6db77ccdad0a2c9cde2afa150c0f",
+  "parsed_count": 223,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "ernie-5.5-flash-preview",
+  "response_id": "as-tsxqa0zhur",
+  "usage": {
+    "prompt_tokens": 151,
+    "completion_tokens": 3051,
+    "total_tokens": 3202,
+    "completion_tokens_details": {
+      "reasoning_tokens": 2603
+    }
+  },
+  "finish_reason": "stop",
+  "actual_channel": "qianfan-subscription",
+  "finished_at": "2026-11-14T04:29:48.060Z"
+}

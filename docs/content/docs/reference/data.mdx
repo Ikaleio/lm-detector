@@ -52,6 +52,19 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-14 新增 ernie-5.5-flash-preview" id="2026-11-14-ernie-5-5-flash-preview">
+    `ernie-5.5-flash-preview` 新增 36 条固定挑战参考回答，来源为百度千帆 Token Plan Person 的订阅渠道 `qianfan-subscription`。请求型号为 `ernie-5.5-flash-preview`，使用流式 Chat Completions 和 `reasoning_effort=high`；36 条回答全部在首次尝试通过，其中 35 条自然结束，1 条达到 500 个整数的采样上限并按截断采用。参考库共有 71 个指纹身份、2,632 条样本。
+
+    该订阅端点的可调用路径是 `https://qianfan.baidubce.com/v2/tokenplan/personal/chat/completions`，需要把完整端点交给 `--baseurl`；服务端只放行该订阅内的型号，其他型号返回 403。返回的 `model` 字段与请求一致，但这些记录不构成上游身份的独立认证。
+
+    入库前用旧检测器离线回测这批回答：12 组中 11 组的首选是 `claude-opus-4.8` 或 `claude-opus-5`（最高 0.99），说明这组数字在结构上接近 Claude Opus 簇；标签只表示渠道声称的型号。重训后同一批 12 组全部首选 `ernie-5.5-flash-preview`，这是训练内自检，不代表泛化；相同的 743 个旧参考组首选全部不变。入库前另采的 3 条不同挑战回答没有进入参考库，重训后在嵌套检测中被排到第一（0.97），作为一次样本外核对。
+
+    入库后补采两组三条独立固定评估回答，沿用固定挑战的 `environment-03` 与 `environment-04`，渠道和 `high` 推理强度与参考采样一致。`environment-03` 的三条回答自然结束；`environment-04` 的 query-12 首次尝试达到 500 个整数的采样上限，按截断记录后在该槽位重试一次，重试回答自然结束，两次尝试都保留。重训后两组都把 `ernie-5.5-flash-preview` 排在第一（0.990 和 0.988），第二名 `claude-opus-4.8` 只有 0.006 和 0.011；同一批回答在入库前的旧检测器下都被判为 `claude-opus-4.8`（0.65 和 0.96）。评估回答单独保存，不参与建库、训练或校准。
+
+    全库的固定评估对比还没有跑：完整研究仓库的基线和 `research/evaluation/holdout/` 仍未导入这批评估回答，因此缺少官方口径的旧组前后 Top-1/Top-3 和覆盖率，补齐后应在本条追加。这里只能给出参考样本自检：相同的 743 个旧参考组首选全部不变。
+
+    采样证据和入库收据保存在 `collections/ernie-5.5-flash-preview-qianfan-subscription-high-20261114/`。
+  </Accordion>
   <Accordion title="2026-11-13 新增 Gemini 4 Hydrogen" id="2026-11-13-gemini-4-hydrogen-vertex">
     `gemini-4-hydrogen` 新增 36 条固定挑战参考回答，来源为 OpenRouter 的 Google Vertex Global。参考库共有 70 个指纹身份、2,596 条样本。
 
