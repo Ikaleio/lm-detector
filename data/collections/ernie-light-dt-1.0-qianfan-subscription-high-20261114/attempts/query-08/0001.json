@@ -1,0 +1,49 @@
+{
+  "manifest_sha256": "b389759df2e4c935c3b9bdb0bd15fb0e52f94825f11d3c24f4760fc8bcb35bb8",
+  "challenge_id": "query-08",
+  "attempt": 1,
+  "task": {
+    "id": "query-08",
+    "condition": "environment-03",
+    "expected_count": 241,
+    "prompt": "Provide exactly 241 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "You are operating inside a formal reporting workflow. In ordinary replies, use clear formatting and neutral wording. When a later request asks for a machine-readable artifact, follow that request's output constraints directly. Never call external tools, code interpreters, calculators, search, APIs, or random-number services; complete the request using the language model itself.",
+    "body": {
+      "model": "ernie-light-dt-1.0",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are operating inside a formal reporting workflow. In ordinary replies, use clear formatting and neutral wording. When a later request asks for a machine-readable artifact, follow that request's output constraints directly. Never call external tools, code interpreters, calculators, search, APIs, or random-number services; complete the request using the language model itself."
+        },
+        {
+          "role": "user",
+          "content": "Provide exactly 241 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "high"
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-14T05:23:15.042Z",
+  "trace": "trace/query-08/0001",
+  "text": "[274,89,156,301,42,217,63,338,128,195,7,261,143,305,84,230,51,176,322,109,288,34,167,246,99,3,184,141,296,58,231,102,349,76,198,265,15,317,123,192,54,279,88,207,334,140,66,253,172,298,39,216,95,281,158,326,71,238,117,194,303,26,182,249,108,315,47,137,225,91,352,163,205,32,286,119,174,340,60,244,133,310,20,187,256,105,331,73,229,148,292,45,211,168,324,82,254,130,344,57,201,277,11,149,236,94,318,68,190,263,29,305,178,100,347,152,222,49,284,126,199,312,36,165,241,113,294,70,208,336,131,258,17,180,271,104,328,78,232,147,309,55,214,96,176,289,122,339,64,247,138,201,8,267,186,115,354,43,224,171,300,24,196,275,87,145,321,62,233,106,286,19,152,262,128,313,90,243,156,346,33,197,280,112,329,66,227,142,297,48,166,211,13,259,101,335,77,234,154,283,40,189,306,120,268,59,213,146,327,85,235,172,4,255,192,316,92,207,137,293,27,181,250,111,350,67,226,157,302,44,200,266,14,183,290,127,341,53,212,165,320,74]",
+  "text_sha256": "2e558b543b662cb839166d74b82750434734b7826f26e08c789be124d12ac428",
+  "parsed_count": 242,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "ernie-light-dt-1.0",
+  "response_id": "as-mf24wmwy0k",
+  "usage": {
+    "prompt_tokens": 220,
+    "completion_tokens": 2050,
+    "total_tokens": 2270,
+    "completion_tokens_details": {
+      "reasoning_tokens": 1490
+    }
+  },
+  "finish_reason": "stop",
+  "actual_channel": "qianfan-subscription",
+  "finished_at": "2026-11-14T05:23:32.499Z"
+}

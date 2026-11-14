@@ -52,6 +52,17 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-14 Add the three reasoning tiers of ernie-light-dt-1.0" id="2026-11-14-ernie-light-dt-1-0-tiers">
+    `ernie-light-dt-1.0` gains three batches with thinking disabled, `low` and `high` reasoning effort, each holding 36 fixed-challenge answers from the same Qianfan subscription channel `qianfan-subscription`. All three share the label `ernie-light-dt-1.0`, which enrolls as one identity the way the `none` and default batches of `openpangu-2.0-flash` do. The bank contains 72 fingerprint identities and 2,740 answers.
+
+    Disabling thinking takes `thinking: {type: "disabled"}`: on this subscription both `reasoning_effort: "none"` and `enable_thinking: false` still produce `reasoning_content`. Following the `openpangu-*` precedent, the CLI now sends that field for `ernie-light-dt-*` when `--api cc --effort none` is used.
+
+    Truncation differs sharply by tier: 24 of the 36 answers reached the 500-integer collection limit with thinking disabled, 20 at `low`, and 11 at `high`. All are kept and adopted as truncated; the batch retries (4 in the `low` batch, 1 in `high`) stay under `attempts/`. Most `high` answers match the expected integer count exactly, while the model keeps writing much longer with thinking off.
+
+    Before enrollment the detector at HEAD scored six groups of three independent fixed evaluation answers (two per tier, `environment-03` and `environment-04`) and ranked `glm-5.3` first in all six (0.98–1.00). After retraining all six rank `ernie-light-dt-1.0` first (0.87–0.99) and `glm-5.3` second at 0.01–0.13: the number distribution of this model sits closer to the GLM-5.3 cluster than to the Claude Opus cluster of the previous ernie batch. The evaluation answers are stored separately and never enter building, training, or calibration; `low` query-08 and `high` query-11 reached the 500-integer limit and are adopted as truncated, and the retried `low` query-08 stopped at 500 again, so both attempts are retained.
+
+    The first choice of the same 755 previous reference groups is unchanged between HEAD and the current detector (a reference-sample self-check). The bank-wide fixed evaluation still has to be produced by `evaluate:holdout` in the full research repository. Collection evidence and enrollment receipts for the three batches are stored in `collections/ernie-light-dt-1.0-qianfan-subscription-{none,low,high}-20261114/`.
+  </Accordion>
   <Accordion title="2026-11-14 Add ernie-5.5-flash-preview" id="2026-11-14-ernie-5-5-flash-preview">
     The reference bank adds 36 fixed-challenge answers for `ernie-5.5-flash-preview` from Baidu Qianfan Token Plan Person through the subscription channel `qianfan-subscription`. The requested model is `ernie-5.5-flash-preview` with streaming Chat Completions and `reasoning_effort=high`. All 36 answers passed on the first attempt: 35 completed naturally and one reached the 500-integer collection limit and is kept as truncated. The bank contains 71 fingerprint identities and 2,632 answers.
 

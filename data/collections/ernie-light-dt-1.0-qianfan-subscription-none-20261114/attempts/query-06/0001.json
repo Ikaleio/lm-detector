@@ -1,0 +1,44 @@
+{
+  "manifest_sha256": "18e39d9edb68188fd27adfafef6d666561198b58bd2fa308cfff9d96e13deea0",
+  "challenge_id": "query-06",
+  "attempt": 1,
+  "task": {
+    "id": "query-06",
+    "condition": "environment-02",
+    "expected_count": 251,
+    "prompt": "Return exactly 251 integers bounded by 1 and 355, deciding each next value separately rather than following a rule. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "ernie-light-dt-1.0",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Return exactly 251 integers bounded by 1 and 355, deciding each next value separately rather than following a rule. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "thinking": {
+        "type": "disabled"
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-14T05:15:28.135Z",
+  "trace": "trace/query-06/0001",
+  "text": "[17,243,128,89,301,45,192,276,58,314,7,261,103,234,71,158,290,36,122,205,348,84,169,252,13,297,140,66,223,310,49,181,95,267,28,132,208,341,77,155,239,18,286,110,198,53,322,144,79,263,32,217,101,289,61,176,248,42,308,126,93,255,22,183,137,295,70,211,55,330,148,87,269,39,158,236,116,305,47,273,132,196,68,318,101,245,83,177,29,259,144,222,64,337,119,190,74,281,35,163,208,52,299,126,234,90,312,60,247,111,284,44,173,96,325,58,201,133,270,41,306,155,229,76,168,293,33,137,254,108,316,62,184,99,277,49,241,128,210,87,345,116,266,73,297,152,193,65,328,104,238,80,175,38,289,121,256,94,313,67,224,145,291,56,182,133,309,88,199,43,274,150,319,72,246,110,335,61,203,97,282,34,157,228,78,301,124,266,92,342,59,189,142,322,69,253,115,296,48,171,105,310,82,231,129,286,50,216,140,338,85,249,118,294,63,206,151,317,77,262,102,303,45,178,213,90,329,55,195,127,280,41,162,239,70,314,146,225,86,332,112,258,96,300,66,207,143,324,79,186,130,291,57,271,123,346,74,229,109,315,52,198,160,283,83,244,135,306,68,215,154,333,47,265,117,298,62,202,139,320,75,233,100,287,51,184,141,341,64,259,113,310,89,226,131,293,54,197,148,327,72,218,106,284,42,170,136,303,80,240,159,334,65,213,127,295,58,205,144,316,76,276,98,340,61,192,122,288,53,227,153,321,87,234,119,300,44,179,138,326,71,249,156,307,90,263,128,342,67,211,134,292,49]",
+  "text_sha256": "b5190a291b198290be79efd0f4f8186be4cb11436c835742fe24b7ad137faa24",
+  "parsed_count": 353,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "ernie-light-dt-1.0",
+  "response_id": "as-vjaqqq3ju2",
+  "usage": {
+    "prompt_tokens": 150,
+    "completion_tokens": 810,
+    "total_tokens": 960
+  },
+  "finish_reason": "stop",
+  "actual_channel": "qianfan-subscription",
+  "finished_at": "2026-11-14T05:15:38.722Z"
+}

@@ -31,7 +31,9 @@ fpd sample \
 
 模型 ID、允许的返回模型 ID 和渠道需要替换为实际值。`--response-model` 可以重复指定多个别名。连接信息也可以来自 `API_KEY`、`MODEL`、`BASE_URL`。
 
-对于华为云 MaaS 的 `openpangu-*` 型号，`--api cc --effort none` 会发送官方的 `chat_template_kwargs: {thinking: false}`，关闭深度思考。`--effort default` 沿用上游默认模式。实际参数保存在批次请求和原始证据中。
+对于华为云 MaaS 的 `openpangu-*` 型号，`--api cc --effort none` 会发送官方的 `chat_template_kwargs: {thinking: false}`，关闭深度思考。
+
+千帆订阅上的 `ernie-light-dt-*` 型号同理：`--api cc --effort none` 发送 `thinking: {type: "disabled"}`，因为该订阅对 `reasoning_effort: none` 和 `enable_thinking: false` 仍会返回推理内容。`--effort default` 沿用上游默认模式。实际参数保存在批次请求和原始证据中。
 
 | 常用参数 | 说明 |
 | --- | --- |

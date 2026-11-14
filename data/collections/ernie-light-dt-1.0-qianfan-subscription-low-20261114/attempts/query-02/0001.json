@@ -1,0 +1,45 @@
+{
+  "manifest_sha256": "86c7fe140c93fc94bffd10b2a5988fab58d0aad6d8f37e62dbec51716014489b",
+  "challenge_id": "query-02",
+  "attempt": 1,
+  "task": {
+    "id": "query-02",
+    "condition": "environment-01",
+    "expected_count": 233,
+    "prompt": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "ernie-light-dt-1.0",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "low"
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-14T05:18:02.055Z",
+  "trace": "trace/query-02/0001",
+  "text": "[187, 42, 296, 15, 233, 88, 341, 127, 9, 264, 173, 56, 312, 205, 71, 148, 330, 24, 99, 276, 183, 8, 225, 137, 310, 63, 194, 109, 351, 29, 160, 240, 115, 82, 217, 48, 285, 172, 5, 256, 131, 344, 96, 201, 67, 289, 152, 39, 248, 117, 303, 21, 175, 92, 327, 142, 58, 262, 11, 198, 231, 77, 316, 105, 271, 36, 154, 219, 86, 298, 124, 335, 47, 165, 232, 12, 283, 101, 208, 73, 349, 144, 30, 259, 119, 306, 55, 190, 227, 17, 270, 133, 322, 91, 243, 62, 179, 210, 7, 293, 158, 346, 113, 41, 253, 128, 300, 84, 196, 169, 35, 287, 140, 318, 66, 223, 103, 260, 26, 186, 149, 339, 95, 214, 50, 281, 122, 309, 79, 245, 170, 16, 265, 108, 333, 43, 202, 88, 274, 135, 314, 59, 181, 236, 13, 291, 116, 350, 75, 229, 146, 98, 308, 33, 167, 251, 111, 326, 68, 192, 218, 6, 278, 150, 342, 90, 205, 46, 296, 130, 320, 72, 188, 240, 27, 255, 104, 348, 85, 213, 38, 284, 118, 304, 61, 176, 226, 19, 269, 139, 331, 94, 246, 57, 294, 161, 352, 110, 234, 23, 282, 126, 315, 78, 199, 249, 31, 272, 153, 345, 100, 216, 65, 290, 141, 323, 89, 258, 120, 302, 54, 184, 230, 14, 267, 134, 337, 93, 211, 44, 280, 123, 311, 76, 203, 242, 34, 275, 145, 354, 105, 228, 52, 297, 164, 329, 87, 220, 25, 263, 112, 340, 69, 195, 237, 18, 286, 151, 336, 96, 250, 49, 292, 162, 324, 82, 209, 244, 28, 268, 138, 353, 101, 224, 60, 299, 180, 343, 80, 241, 20, 277, 155, 317, 70, 191, 232, 32, 266, 132, 350, 99, 223, 51, 295, 177, 334, 83, 206, 247, 22, 288, 148, 341, 106, 219, 64, 285, 165, 321, 74, 189, 238, 10, 264, 129, 338, 97, 212, 45, 283, 156, 347, 81, 200, 235]",
+  "text_sha256": "c6612b2b7ee802905daa990e9f4a19ab241c9e6567f99c88caf4036a77abb4fa",
+  "parsed_count": 326,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "ernie-light-dt-1.0",
+  "response_id": "as-429cka8tme",
+  "usage": {
+    "prompt_tokens": 150,
+    "completion_tokens": 1098,
+    "total_tokens": 1248,
+    "completion_tokens_details": {
+      "reasoning_tokens": 19
+    }
+  },
+  "finish_reason": "stop",
+  "actual_channel": "qianfan-subscription",
+  "finished_at": "2026-11-14T05:18:12.938Z"
+}

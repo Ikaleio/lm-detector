@@ -1,0 +1,45 @@
+{
+  "manifest_sha256": "b389759df2e4c935c3b9bdb0bd15fb0e52f94825f11d3c24f4760fc8bcb35bb8",
+  "challenge_id": "query-01",
+  "attempt": 1,
+  "task": {
+    "id": "query-01",
+    "condition": "environment-01",
+    "expected_count": 218,
+    "prompt": "For each of 218 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "ernie-light-dt-1.0",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For each of 218 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "high"
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-14T05:22:36.462Z",
+  "trace": "trace/query-01/0001",
+  "text": "[47,291,83,158,12,234,306,71,189,52,275,39,143,320,96,8,217,168,284,55,133,247,19,301,88,176,62,259,114,341,27,195,70,309,145,231,5,268,101,178,338,44,156,223,91,287,38,149,310,76,202,59,265,15,128,244,335,84,172,297,106,51,239,184,66,318,29,137,271,94,212,153,78,326,41,281,119,205,57,164,293,34,226,110,253,17,188,74,312,130,249,92,175,28,347,63,216,99,257,141,329,10,193,80,278,121,46,234,303,68,157,264,33,181,105,290,54,139,227,77,316,12,199,87,251,167,42,299,113,236,71,148,321,25,186,108,274,60,241,155,330,89,203,36,283,125,50,211,97,170,324,22,145,261,79,300,118,194,66,287,43,232,104,315,56,179,240,31,208,127,344,82,269,140,20,295,111,224,64,183,307,37,159,276,93,348,123,200,72,245,16,305,135,260,48,189,322,95,172,289,109,229,58,313,144,84,255,33,197,271,121,296,69,210,152,336,44,117]",
+  "text_sha256": "98bcde9cb3d37e3fbbd11157aa112d7676b721da0261f4dbe14abf1a7dac0747",
+  "parsed_count": 218,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "ernie-light-dt-1.0",
+  "response_id": "as-306za4ue0h",
+  "usage": {
+    "prompt_tokens": 149,
+    "completion_tokens": 1434,
+    "total_tokens": 1583,
+    "completion_tokens_details": {
+      "reasoning_tokens": 934
+    }
+  },
+  "finish_reason": "stop",
+  "actual_channel": "qianfan-subscription",
+  "finished_at": "2026-11-14T05:22:48.581Z"
+}

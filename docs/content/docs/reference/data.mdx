@@ -52,6 +52,17 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-14 新增 ernie-light-dt-1.0 的三档推理" id="2026-11-14-ernie-light-dt-1-0-tiers">
+    `ernie-light-dt-1.0` 新增三个批次，分别关闭思考、`low` 和 `high` 推理强度，每批 36 条固定挑战回答，来自同一千帆订阅渠道 `qianfan-subscription`。三批共用标签 `ernie-light-dt-1.0`，与 `openpangu-2.0-flash` 的 `none`/默认批次一样按一个身份入库。参考库共有 72 个指纹身份、2,740 条样本。
+
+    关闭思考需要 `thinking: {type: "disabled"}`：在该订阅上 `reasoning_effort: "none"` 和 `enable_thinking: false` 都仍会产生 `reasoning_content`。CLI 已照 `openpangu-*` 的先例补了这条模型专用规则，`--api cc --effort none` 对 `ernie-light-dt-*` 发送上述字段。
+
+    三档的截断差异明显：不思考档 36 条中有 24 条达到 500 个整数的采样上限，`low` 档 20 条，`high` 档 11 条，都按截断记录并正常采用；批次重试记录（`low` 档 4 次、`high` 档 1 次）保留在 `attempts/`。`high` 档多数回答恰好等于期望整数个数，关闭思考后模型更常一直往下写。
+
+    入库前用 HEAD 版检测器离线回测每档两组（`environment-03`/`04`）共六组三条独立评估回答，六组都把 `glm-5.3` 排在第一（0.98–1.00）。重训后六组全部首选 `ernie-light-dt-1.0`（0.87–0.99），次选 `glm-5.3` 降到 0.01–0.13：这个型号的数字分布更接近 GLM-5.3 簇，而不是上一批 ernie 的 Claude Opus 簇。评估回答单独保存，不参与建库、训练或校准；`low` 档的 query-08 与 `high` 档的 query-11 在评估中达到 500 上限并按截断采用，`low` 档 query-08 重试一次仍在 500 处结束，两次都保留。
+
+    相同的 755 个旧参考组在 HEAD 与当前检测器下的首选全部不变（参考样本自检）。全库固定评估对比仍需在完整研究仓库用 `evaluate:holdout` 生成。三个批次的采样证据和入库收据保存在 `collections/ernie-light-dt-1.0-qianfan-subscription-{none,low,high}-20261114/`。
+  </Accordion>
   <Accordion title="2026-11-14 新增 ernie-5.5-flash-preview" id="2026-11-14-ernie-5-5-flash-preview">
     `ernie-5.5-flash-preview` 新增 36 条固定挑战参考回答，来源为百度千帆 Token Plan Person 的订阅渠道 `qianfan-subscription`。请求型号为 `ernie-5.5-flash-preview`，使用流式 Chat Completions 和 `reasoning_effort=high`；36 条回答全部在首次尝试通过，其中 35 条自然结束，1 条达到 500 个整数的采样上限并按截断采用。参考库共有 71 个指纹身份、2,632 条样本。
 

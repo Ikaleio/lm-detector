@@ -1,0 +1,44 @@
+{
+  "manifest_sha256": "18e39d9edb68188fd27adfafef6d666561198b58bd2fa308cfff9d96e13deea0",
+  "challenge_id": "query-13",
+  "attempt": 1,
+  "task": {
+    "id": "query-13",
+    "condition": "environment-05",
+    "expected_count": 297,
+    "prompt": "For each of 297 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "ernie-light-dt-1.0",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For each of 297 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "thinking": {
+        "type": "disabled"
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-14T05:15:57.564Z",
+  "trace": "trace/query-13/0001",
+  "text": "173, 8, 291, 47, 334, 122, 65, 250, 19, 306, 91, 158, 3, 217, 76, 341, 129, 42, 283, 15, 199, 96, 271, 38, 310, 145, 60, 228, 12, 185, 320, 87, 243, 55, 174, 29, 257, 104, 335, 68, 218, 133, 280, 21, 347, 160, 93, 240, 47, 305, 114, 195, 71, 263, 35, 328, 145, 82, 208, 17, 291, 126, 50, 236, 98, 314, 39, 179, 62, 256, 108, 333, 24, 220, 151, 77, 297, 44, 186, 119, 268, 14, 342, 90, 232, 58, 201, 33, 311, 137, 74, 249, 19, 288, 162, 66, 215, 101, 301, 48, 178, 85, 261, 31, 330, 140, 95, 247, 12, 196, 72, 283, 43, 316, 124, 60, 225, 27, 349, 106, 165, 51, 279, 88, 214, 37, 300, 148, 79, 256, 22, 190, 116, 264, 54, 321, 135, 69, 235, 16, 295, 110, 173, 63, 242, 40, 307, 153, 92, 229, 28, 338, 121, 81, 253, 45, 285, 131, 70, 206, 11, 319, 97, 267, 34, 173, 141, 78, 210, 25, 303, 113, 166, 59, 245, 41, 326, 129, 89, 231, 18, 287, 152, 64, 218, 30, 344, 118, 84, 260, 36, 293, 143, 76, 222, 13, 309, 155, 94, 238, 26, 332, 127, 67, 205, 42, 296, 149, 83, 251, 20, 315, 109, 168, 56, 277, 38, 340, 123, 80, 213, 32, 294, 144, 75, 224, 23, 336, 117, 86, 259, 39, 286, 138, 61, 208, 15, 318, 105, 163, 57, 274, 46, 331, 128, 99, 241, 21, 302, 139, 73, 211, 35, 337, 111, 154, 58, 266, 29, 320, 146, 90, 230, 17, 289, 159, 62, 203, 43, 308, 120, 77, 254, 24, 333, 130, 68, 207, 28, 304, 142, 74, 226, 16, 290, 107, 156, 60, 278, 37, 343, 132, 82, 219, 27, 298, 150, 72, 239, 31, 317, 112, 160, 53, 273, 44, 329, 125, 96, 233, 22, 301, 136, 66, 212, 34, 325, 102, 161, 52, 280, 40, 334, 134, 100, 237, 23, 292, 115, 65, 223, 33, 324, 147, 78, 255, 25, 305, 101, 157, 63, 275, 41, 339, 126, 97, 240, 30, 299, 113, 164, 59, 272, 36, 341, 119, 87, 216, 26, 286, 148, 71, 246, 32, 312, 106, 158, 55, 281, 38, 335, 121, 92, 234, 24, 295, 114, 165, 61, 276, 42, 338, 103, 85, 227, 34, 313, 151, 70, 209, 28, 288, 145, 64, 217, 31, 323, 100, 167, 57, 284",
+  "text_sha256": "24f6b0c4181bb52282eddf22f626ca623430cb6e44bc8e1fac16e52956e6cb31",
+  "parsed_count": 401,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "ernie-light-dt-1.0",
+  "response_id": "as-nkuexp6gpy",
+  "usage": {
+    "prompt_tokens": 156,
+    "completion_tokens": 1298,
+    "total_tokens": 1454
+  },
+  "finish_reason": "stop",
+  "actual_channel": "qianfan-subscription",
+  "finished_at": "2026-11-14T05:16:09.777Z"
+}

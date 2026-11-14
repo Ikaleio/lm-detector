@@ -1,0 +1,38 @@
+{
+  "manifest_sha256": "18e39d9edb68188fd27adfafef6d666561198b58bd2fa308cfff9d96e13deea0",
+  "challenge_id": "query-15",
+  "attempt": 1,
+  "task": {
+    "id": "query-15",
+    "condition": "environment-05",
+    "expected_count": 331,
+    "prompt": "Fill exactly 331 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "ernie-light-dt-1.0",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Fill exactly 331 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "thinking": {
+        "type": "disabled"
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-14T05:16:04.051Z",
+  "trace": "trace/query-15/0001",
+  "text": "17, 293, 45, 178, 332, 8, 264, 121, 350, 76, 209, 132, 24, 311, 90, 188, 257, 43, 345, 160, 12, 288, 205, 97, 330, 71, 246, 154, 319, 38, 274, 116, 200, 59, 342, 183, 103, 267, 30, 148, 226, 315, 81, 252, 11, 174, 301, 64, 239, 138, 328, 53, 191, 276, 105, 322, 22, 159, 298, 88, 214, 347, 125, 254, 41, 306, 171, 93, 233, 62, 310, 144, 281, 19, 353, 109, 196, 72, 263, 47, 317, 130, 241, 85, 296, 34, 152, 225, 306, 118, 272, 55, 338, 166, 90, 219, 299, 100, 284, 66, 331, 145, 209, 26, 348, 178, 111, 260, 78, 324, 156, 287, 40, 335, 203, 94, 275, 51, 313, 137, 249, 82, 303, 120, 194, 68, 351, 164, 231, 96, 291, 57, 340, 175, 286, 33, 216, 107, 326, 146, 258, 61, 316, 184, 98, 271, 44, 329, 150, 293, 75, 247, 127, 310, 91, 354, 169, 223, 65, 282, 104, 334, 189, 253, 84, 318, 140, 300, 58, 337, 205, 128, 273, 46, 312, 172, 251, 79, 325, 153, 288, 101, 343, 182, 227, 69, 305, 113, 297, 49, 352, 195, 268, 87, 330, 167, 240, 63, 320, 148, 285, 36, 349, 186, 221, 108, 294, 70, 327, 158, 279, 52, 336, 199, 245, 85, 315, 131, 292, 60, 341, 176, 264, 42, 323, 155, 290, 100, 355, 173, 236, 67, 309, 142, 277, 95, 339, 181, 229, 74, 314, 119, 262, 48, 344, 190, 250, 80, 308, 136, 283, 56, 348, 168, 232, 92, 321, 147, 270, 50, 332, 180, 244, 83, 307, 133, 289, 62, 350, 170, 218, 99, 333, 151, 266, 54, 338, 185, 224, 89, 302, 126, 271, 77, 345, 165, 238, 64, 311, 139, 295, 73, 347, 179, 230, 86, 322, 141, 280, 61, 342, 197, 234, 71, 316, 143, 281, 59, 351, 187, 226, 78, 313, 129, 269, 66, 340, 161, 243, 87, 306, 123, 284, 63, 346, 183, 235, 90, 319, 135, 278, 65, 343, 162, 239, 82, 308, 124, 291, 67, 337, 175, 256, 93, 324, 152, 275, 68, 339, 168, 231, 94, 325, 145, 286, 69, 341, 190, 242, 91, 318, 132, 272, 72, 344, 177, 254, 76, 323, 149, 287, 74, 335, 163, 220, 95, 326, 128, 274, 79, 336, 171, 229, 88, 328, 152, 265, 77, 349, 184, 224, 96, 317, 134, 283, 70, 352, 169, 253, 75, 320, 144, 279, 64, 345, 174, 226, 92, 314, 130, 288, 71, 338, 186, 241, 89, 321, 147, 280, 66, 334, 176, 258, 84, 329, 153, 277, 67, 346, 172, 223, 98, 312, 125, 285, 68, 340, 178, 251, 85, 327, 154, 276, 69, 347, 180, 240, 86, 315, 131, 289, 72, 342, 185, 247, 87, 322, 136, 282, 70, 348, 173, 233, 94, 311, 137, 292, 73, 341, 179, 248, 82, 319, 143, 284, 71, 343, 170, 229, 95, 316, 138, 290, 74, 344, 187, 246, 88, 320, 126, 286, 65, 336, 164, 255, 93, 325, 148, 273, 79",
+  "text_sha256": "f9e1e283b39309077cfea8c77368354ce608f855164258c2842a0bb4c5b3e3b2",
+  "parsed_count": 500,
+  "completion": "truncated",
+  "http_status": 200,
+  "response_model": "ernie-light-dt-1.0",
+  "response_id": "as-drfmxj0dr3",
+  "actual_channel": "qianfan-subscription",
+  "finished_at": "2026-11-14T05:16:19.403Z"
+}

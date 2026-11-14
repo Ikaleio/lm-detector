@@ -1,0 +1,45 @@
+{
+  "manifest_sha256": "b389759df2e4c935c3b9bdb0bd15fb0e52f94825f11d3c24f4760fc8bcb35bb8",
+  "challenge_id": "query-15",
+  "attempt": 1,
+  "task": {
+    "id": "query-15",
+    "condition": "environment-05",
+    "expected_count": 331,
+    "prompt": "Fill exactly 331 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "ernie-light-dt-1.0",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Fill exactly 331 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "high"
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-14T05:24:06.482Z",
+  "trace": "trace/query-15/0001",
+  "text": "287, 43, 312, 96, 205, 331, 14, 259, 120, 346, 75, 190, 271, 8, 236, 154, 307, 62, 283, 199, 324, 109, 37, 268, 141, 353, 85, 226, 17, 298, 168, 52, 315, 239, 101, 276, 190, 337, 68, 213, 130, 349, 24, 181, 294, 57, 247, 116, 322, 79, 263, 145, 306, 90, 218, 35, 199, 278, 160, 333, 108, 229, 14, 291, 71, 342, 186, 123, 305, 45, 257, 172, 318, 99, 234, 148, 287, 60, 211, 355, 132, 270, 38, 244, 156, 329, 83, 196, 276, 111, 340, 22, 168, 297, 54, 222, 139, 314, 92, 251, 178, 64, 309, 235, 116, 286, 48, 201, 352, 153, 266, 87, 317, 189, 31, 240, 128, 295, 74, 336, 103, 214, 55, 279, 142, 345, 77, 182, 253, 19, 301, 126, 246, 95, 349, 61, 209, 328, 137, 270, 42, 191, 312, 82, 258, 149, 334, 105, 223, 66, 288, 171, 33, 231, 118, 302, 51, 245, 159, 321, 89, 269, 140, 350, 73, 203, 310, 44, 176, 292, 112, 335, 58, 216, 133, 281, 98, 348, 70, 227, 154, 303, 26, 180, 254, 120, 316, 86, 239, 197, 331, 47, 262, 144, 293, 35, 208, 106, 319, 168, 232, 93, 274, 16, 306, 125, 347, 64, 219, 151, 284, 39, 167, 313, 100, 252, 185, 298, 60, 326, 121, 205, 49, 273, 136, 339, 79, 226, 158, 305, 23, 189, 296, 108, 241, 146, 320, 88, 263, 172, 337, 56, 211, 131, 289, 45, 194, 315, 72, 257, 138, 344, 99, 224, 167, 310, 30, 271, 184, 348, 110, 248, 67, 292, 155, 322, 84, 199, 264, 37, 307, 128, 217, 54, 335, 143, 277, 102, 233, 350, 181, 69, 299, 113, 258, 145, 318, 91, 206, 329, 46, 174, 285, 21, 244, 157, 312, 76, 228, 341, 123, 297, 51, 213, 148, 330, 95, 267, 186, 303, 36, 202, 279, 116, 236, 165, 314, 62, 250, 175, 296, 104, 325, 58, 221, 132, 286, 41, 197, 308, 334",
+  "text_sha256": "d1c9496d5bbf4dd80cfe1553a00e34881b6c80d8aff2169e5a443ca0c65813fc",
+  "parsed_count": 331,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "ernie-light-dt-1.0",
+  "response_id": "as-3aqkh2nfnb",
+  "usage": {
+    "prompt_tokens": 156,
+    "completion_tokens": 4784,
+    "total_tokens": 4940,
+    "completion_tokens_details": {
+      "reasoning_tokens": 3670
+    }
+  },
+  "finish_reason": "stop",
+  "actual_channel": "qianfan-subscription",
+  "finished_at": "2026-11-14T05:24:51.448Z"
+}

@@ -1,0 +1,45 @@
+{
+  "manifest_sha256": "86c7fe140c93fc94bffd10b2a5988fab58d0aad6d8f37e62dbec51716014489b",
+  "challenge_id": "query-29",
+  "attempt": 1,
+  "task": {
+    "id": "query-29",
+    "condition": "environment-10",
+    "expected_count": 308,
+    "prompt": "The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed. You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained.\n\nFinal task:\n请完成无语义整数选择任务：逐项给出 308 个闭区间 [1, 355] 内的整数，每次只决定当前一项。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+    "system": "",
+    "body": {
+      "model": "ernie-light-dt-1.0",
+      "messages": [
+        {
+          "role": "user",
+          "content": "The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed. You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained.\n\nFinal task:\n请完成无语义整数选择任务：逐项给出 308 个闭区间 [1, 355] 内的整数，每次只决定当前一项。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。"
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "low"
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-14T05:21:33.376Z",
+  "trace": "trace/query-29/0001",
+  "text": "327, 89, 154, 12, 268, 201, 45, 310, 176, 96,\n341, 23, 259, 118, 75, 330, 190, 58, 287, 143,\n16, 246, 102, 335, 67, 219, 8, 293, 132, 181,\n254, 39, 305, 170, 84, 237, 121, 350, 28, 199,\n62, 315, 147, 5, 276, 93, 188, 342, 109, 230,\n51, 263, 137, 322, 77, 206, 34, 299, 164, 116,\n241, 19, 318, 156, 90, 274, 128, 47, 337, 211,\n70, 285, 104, 233, 160, 30, 349, 186, 113, 271,\n43, 306, 141, 82, 218, 7, 291, 175, 253, 96,\n352, 15, 227, 168, 57, 314, 99, 202, 266, 122,\n340, 86, 179, 245, 11, 297, 153, 64, 331, 209,\n28, 139, 255, 92, 316, 187, 48, 279, 146, 214,\n37, 302, 117, 269, 195, 74, 333, 129, 251, 55,\n313, 184, 101, 280, 163, 42, 348, 205, 88, 223,\n151, 295, 61, 242, 108, 326, 79, 194, 238, 128,\n265, 34, 175, 214, 301, 119, 257, 83, 320, 162,\n20, 288, 136, 240, 60, 344, 107, 226, 173, 296,\n49, 311, 185, 94, 262, 123, 329, 71, 208, 144,\n308, 26, 231, 158, 80, 319, 197, 52, 284, 111,\n338, 17, 253, 130, 203, 67, 342, 155, 224, 89,\n291, 104, 267, 37, 335, 149, 216, 58, 300, 181,\n43, 327, 115, 245, 199, 76, 310, 165, 236, 31,\n350, 140, 282, 100, 221, 66, 303, 178, 259, 41,\n316, 92, 194, 275, 127, 347, 203, 86, 232, 153,\n61, 286, 133, 248, 19, 334, 170, 95, 259, 118,\n312, 30, 227, 184, 271, 105, 353, 63, 217, 148,\n27, 298, 207, 72, 339, 123, 254, 159, 308, 50,\n324, 12, 189, 260, 111, 346, 82, 213, 145, 305,\n22, 293, 168, 238, 95, 331, 124, 263, 40, 350,\n314, 74, 201, 279, 157, 33, 345, 188, 229, 108,\n295, 51, 326, 140, 233, 88, 349, 162",
+  "text_sha256": "aefa5946a4171953be9d890e15826c8c1e271c008c11694c68761a3538c96f9b",
+  "parsed_count": 308,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "ernie-light-dt-1.0",
+  "response_id": "as-4b936ezg05",
+  "usage": {
+    "prompt_tokens": 294,
+    "completion_tokens": 4554,
+    "total_tokens": 4848,
+    "completion_tokens_details": {
+      "reasoning_tokens": 3561
+    }
+  },
+  "finish_reason": "stop",
+  "actual_channel": "qianfan-subscription",
+  "finished_at": "2026-11-14T05:22:17.561Z"
+}

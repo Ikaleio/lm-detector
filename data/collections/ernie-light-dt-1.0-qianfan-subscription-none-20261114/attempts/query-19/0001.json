@@ -1,0 +1,42 @@
+{
+  "manifest_sha256": "18e39d9edb68188fd27adfafef6d666561198b58bd2fa308cfff9d96e13deea0",
+  "challenge_id": "query-19",
+  "attempt": 1,
+  "task": {
+    "id": "query-19",
+    "condition": "environment-07",
+    "expected_count": 293,
+    "prompt": "这是一次无语义数值选择。请为 293 个位置分别凭第一反应选择一个 1 到 355（含端点）的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+    "system": "You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained. The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed.",
+    "body": {
+      "model": "ernie-light-dt-1.0",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained. The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed."
+        },
+        {
+          "role": "user",
+          "content": "这是一次无语义数值选择。请为 293 个位置分别凭第一反应选择一个 1 到 355（含端点）的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。"
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "thinking": {
+        "type": "disabled"
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-14T05:16:24.350Z",
+  "trace": "trace/query-19/0001",
+  "text": "12, 287, 45, 332, 108, 19, 264, 301, 77, 156, 5, 238, 199, 314, 89, 41, 175, 269, 122, 350, 63, 17, 296, 143, 210, 84, 327, 50, 189, 251, 131, 6, 244, 319, 95, 168, 28, 226, 351, 110, 72, 305, 186, 39, 278, 152, 218, 9, 341, 127, 199, 58, 291, 164, 22, 333, 101, 247, 80, 312, 137, 46, 270, 194, 115, 324, 33, 256, 183, 69, 309, 148, 216, 88, 347, 54, 233, 171, 27, 118, 298, 141, 76, 203, 355, 97, 259, 130, 15, 224, 306, 179, 62, 286, 105, 340, 51, 191, 267, 124, 208, 71, 336, 163, 40, 232, 300, 87, 274, 152, 116, 349, 65, 229, 104, 294, 143, 20, 315, 186, 92, 246, 160, 35, 283, 209, 74, 328, 128, 47, 262, 197, 110, 345, 79, 241, 168, 29, 311, 136, 55, 227, 178, 303, 99, 260, 150, 12, 320, 189, 82, 279, 213, 67, 342, 121, 195, 43, 254, 172, 30, 297, 108, 239, 90, 331, 156, 18, 270, 207, 100, 344, 133, 61, 281, 166, 37, 226, 310, 145, 96, 248, 176, 24, 338, 113, 289, 200, 53, 265, 139, 217, 86, 307, 123, 48, 199, 258, 163, 34, 293, 182, 71, 315, 149, 21, 240, 188, 102, 341, 126, 59, 275, 205, 77, 326, 132, 44, 251, 170, 28, 300, 119, 64, 223, 158, 334, 93, 277, 142, 16, 309, 184, 105, 245, 210, 50, 348, 129, 192, 38, 261, 154, 81, 295, 220, 66, 335, 147, 231, 91, 284, 175, 23, 317, 112, 56, 243, 201, 78, 329, 160, 41, 266, 186, 98, 352, 137, 253, 72, 290, 214, 31, 332, 123, 49, 271, 194, 85, 340, 151, 212, 60, 287, 173, 26, 304, 118, 39, 246, 165, 94, 322, 140, 57, 268, 203, 75, 353, 128, 237, 52, 291, 181, 111, 319, 155, 20, 274, 206, 96, 337, 143, 250, 70, 286, 167, 42, 310, 132, 87, 242, 189, 63, 328, 122, 36, 265, 199, 108, 343, 146, 229, 83, 279, 158, 25, 306, 117, 54, 259, 176, 92, 330, 136, 47, 244, 191, 68, 294, 213, 104, 336, 150, 40, 272, 185, 88, 323, 124, 58, 257, 169, 33, 298, 116, 79, 346, 139, 227, 65, 285, 204, 100, 318, 144, 55, 249, 180, 90, 331, 161, 44, 264, 197, 109, 351, 133, 236, 62, 280, 172, 38, 305, 126, 82, 247, 190, 71, 324, 152, 32, 262, 183, 95, 339, 125, 243, 67, 293, 170, 105, 314, 146, 228, 80, 288, 166, 51, 299, 192, 91, 342, 134, 235, 69, 281, 177, 106, 321, 148, 56, 253, 195, 84, 327, 127, 37, 270, 186, 99, 344, 138, 234, 64, 276, 168, 43, 308, 130, 86, 251, 181, 76, 326, 121, 48, 263, 193, 103, 340, 145, 232, 73, 284, 160, 34, 313, 142, 246, 61, 292, 187, 98, 338, 131, 240, 66, 277, 174, 107, 320, 153, 59, 255, 196, 89, 335, 129, 245, 78, 289, 167, 49, 300, 182, 102, 349, 135, 233",
+  "text_sha256": "45a8e764af576f6be9b3ee212d81c81e938a6d61e8a2aa70cfc13351bf40297c",
+  "parsed_count": 500,
+  "completion": "truncated",
+  "http_status": 200,
+  "response_model": "ernie-light-dt-1.0",
+  "response_id": "as-xyqsiv1aaj",
+  "actual_channel": "qianfan-subscription",
+  "finished_at": "2026-11-14T05:16:41.443Z"
+}

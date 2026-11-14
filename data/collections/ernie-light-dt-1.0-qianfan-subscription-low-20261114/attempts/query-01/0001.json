@@ -1,0 +1,45 @@
+{
+  "manifest_sha256": "86c7fe140c93fc94bffd10b2a5988fab58d0aad6d8f37e62dbec51716014489b",
+  "challenge_id": "query-01",
+  "attempt": 1,
+  "task": {
+    "id": "query-01",
+    "condition": "environment-01",
+    "expected_count": 218,
+    "prompt": "For each of 218 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "ernie-light-dt-1.0",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For each of 218 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "low"
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-14T05:18:02.055Z",
+  "trace": "trace/query-01/0001",
+  "text": "[17, 264, 92, 348, 5, 201, 76, 310, 133, 48, 289, 156, 211, 34, 305, 97, 178, 260, 12, 141, 226, 71, 330, 188, 43, 99, 274, 119, 352, 61, 205, 23, 158, 287, 84, 166, 312, 37, 240, 108, 295, 130, 55, 321, 193, 8, 247, 172, 116, 338, 27, 88, 253, 145, 336, 67, 210, 16, 298, 183, 104, 268, 41, 320, 152, 77, 344, 111, 19, 236, 169, 293, 58, 316, 137, 244, 90, 350, 124, 6, 279, 186, 51, 307, 162, 229, 96, 285, 39, 200, 73, 333, 118, 258, 146, 84, 302, 31, 174, 209, 47, 291, 128, 355, 66, 216, 10, 149, 282, 103, 326, 55, 233, 185, 79, 311, 22, 263, 139, 300, 92, 245, 14, 329, 167, 88, 254, 116, 347, 63, 192, 271, 36, 305, 154, 214, 7, 297, 121, 180, 260, 45, 334, 101, 249, 170, 28, 316, 133, 203, 72, 342, 159, 95, 276, 11, 224, 148, 308, 59, 290, 177, 40, 325, 110, 231, 86, 353, 165, 53, 269, 125, 3, 294, 141, 207, 69, 339, 184, 30, 262, 98, 322, 155, 21, 288, 113, 340, 76, 199, 42, 273, 130, 351, 64, 217, 106, 284, 150, 33, 306, 181, 246, 85, 327, 160, 50, 299, 123, 235, 74, 345, 187, 26, 255, 112, 313, 143, 202, 62, 286, 175, 100, 335, 49, 243, 168, 315, 9, 261, 129, 350, 82, 227, 105, 296, 183, 35, 318, 138, 251, 70, 343, 190, 46, 272, 117, 303, 65, 220, 144, 281, 89, 346, 158, 24, 264, 126, 310, 57, 292, 172, 319, 93, 237, 151, 283, 77, 331, 195, 13, 259, 134, 309, 54, 324, 180, 101, 277, 20, 341, 163, 241, 96, 301, 119, 354, 67, 228, 147, 285, 38, 323, 178, 253, 83, 337, 191, 29, 266, 109, 304, 71, 213, 156, 287, 52, 336, 173, 226, 94, 349, 135, 275, 18, 307, 160, 232, 68, 328, 204, 32, 267, 122, 293, 87, 332, 148, 278, 44, 348, 185, 215, 78, 298, 128, 334, 166, 25, 263, 140, 302, 56, 317, 186, 242, 80, 344, 127, 274, 15, 295, 176, 223, 102, 355, 145, 289, 60, 312, 194, 230, 91, 338, 157, 261, 43, 321, 179, 238, 99, 340, 114, 280, 63, 300, 162, 248, 86, 326, 189, 265, 50, 342, 124, 297, 104, 316, 171, 239, 73]",
+  "text_sha256": "e0a734579d1b6b2b6be37a203227281cefd25d9096d3ecfec49e50aff7da56ff",
+  "parsed_count": 391,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "ernie-light-dt-1.0",
+  "response_id": "as-vizeyzt3m9",
+  "usage": {
+    "prompt_tokens": 149,
+    "completion_tokens": 1327,
+    "total_tokens": 1476,
+    "completion_tokens_details": {
+      "reasoning_tokens": 23
+    }
+  },
+  "finish_reason": "stop",
+  "actual_channel": "qianfan-subscription",
+  "finished_at": "2026-11-14T05:18:14.281Z"
+}
