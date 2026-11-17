@@ -52,6 +52,13 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-18 Add GPT-6.2 Sol and Astra" id="2026-11-18-gpt-6-2-openrouter">
+    The reference bank adds 36 fixed-challenge answers each for `gpt-6.2-sol` and `gpt-6.2-astra`, bringing it to 72 fingerprint identities and 2,668 samples. OpenRouter's routing metadata identifies OpenAI as the provider and reports the versions as `openai/gpt-6.2-sol-20261117` and `openai/gpt-6.2-astra-20261117`.
+
+    Reference collection and independent evaluation used streaming Responses with `low` reasoning effort, pinned to OpenAI with provider fallback disabled. Each model has two independent evaluation groups of three answers. Reference requests, raw responses, and enrollment receipts are in the corresponding `-openrouter-openai-low-20261118` directories under `collections/`.
+
+    After retraining, both independent evaluation groups for each model ranked its corresponding model first. Replaying the same 140 complete groups from the previous release produced 128 top-1 hits before and 126 after. The current evaluation covers 144 of 146 groups and 432 of 438 answers.
+  </Accordion>
   <Accordion title="2026-11-13 Add Gemini 4 Hydrogen" id="2026-11-13-gemini-4-hydrogen-vertex">
     The reference bank adds 36 fixed-challenge answers for `gemini-4-hydrogen` from OpenRouter's Google Vertex Global route. It contains 70 fingerprint identities and 2,596 answers.
 

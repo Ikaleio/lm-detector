@@ -52,6 +52,13 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-18 新增 GPT-6.2 Sol 和 Astra" id="2026-11-18-gpt-6-2-openrouter">
+    `gpt-6.2-sol` 和 `gpt-6.2-astra` 各新增 36 条固定挑战参考回答，参考库扩展到 72 个指纹身份、2,668 条样本。OpenRouter 的路由元数据确认两批回答都由 OpenAI 提供，版本分别为 `openai/gpt-6.2-sol-20261117` 和 `openai/gpt-6.2-astra-20261117`。
+
+    两款模型的参考采样和独立固定评估都用流式 Responses、`low` 推理强度和固定的 OpenAI 路由，关闭供应商回退。每款模型各有两组独立评估，每组三条回答。参考请求、原始响应和入库收据保存在 `collections/` 下对应的 `-openrouter-openai-low-20261118` 目录。
+
+    重训后，Sol 和 Astra 各自的两组独立评估都把对应型号排在第一。对上一版发布库的 140 个完整组原样回放，Top-1 命中从 128 组变为 126 组。当前评估覆盖 144/146 组、432/438 条回答。
+  </Accordion>
   <Accordion title="2026-11-13 新增 Gemini 4 Hydrogen" id="2026-11-13-gemini-4-hydrogen-vertex">
     `gemini-4-hydrogen` 新增 36 条固定挑战参考回答，来源为 OpenRouter 的 Google Vertex Global。参考库共有 70 个指纹身份、2,596 条样本。
 

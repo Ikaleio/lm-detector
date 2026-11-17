@@ -1,0 +1,65 @@
+{
+  "manifest_sha256": "2b5aee8af7680b0329a237eda43e0977fa4bb7817bfd31bd7cbed319784c7e42",
+  "challenge_id": "query-14",
+  "attempt": 1,
+  "task": {
+    "id": "query-14",
+    "condition": "environment-05",
+    "expected_count": 315,
+    "prompt": "Provide exactly 315 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "openai/gpt-6.2-astra",
+      "input": [
+        {
+          "role": "user",
+          "content": "Provide exactly 315 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_output_tokens": 8192,
+      "stream": true,
+      "store": false,
+      "reasoning": {
+        "effort": "low"
+      },
+      "provider": {
+        "only": [
+          "openai"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-17T18:12:30.572Z",
+  "trace": "trace/query-14/0001",
+  "text": "217, 48, 309, 136, 82, 271, 193, 24, 345, 158, 67, 229, 114, 286, 39,\n92, 324, 181, 53, 247, 206, 12, 169, 301, 127, 76, 338, 214, 99, 265,\n143, 35, 198, 287, 164, 7, 233, 118, 350, 61, 179, 252, 104, 316, 88,\n274, 151, 46, 223, 131, 297, 18, 84, 242, 175, 330, 59, 203, 112, 28,\n166, 319, 73, 259, 141, 94, 355, 188, 32, 225, 68, 294, 123, 210, 157,\n41, 283, 215, 107, 336, 171, 56, 239, 16, 194, 265, 134, 79, 311, 150,\n231, 103, 4, 177, 290, 64, 144, 348, 220, 37, 162, 255, 96, 201, 119,\n305, 85, 250, 172, 49, 328, 138, 22, 209, 184, 71, 277, 154, 100, 237,\n58, 116, 340, 227, 13, 268, 189, 80, 312, 145, 197, 34, 261, 167, 91,\n211, 352, 69, 125, 299, 20, 178, 244, 102, 156, 279, 51, 218, 149, 83,\n317, 139, 235, 43, 186, 110, 304, 62, 270, 8, 153, 226, 95, 331, 174,\n122, 281, 54, 200, 347, 132, 75, 254, 29, 165, 307, 113, 222, 90, 192,\n38, 258, 147, 315, 74, 205, 121, 333, 47, 183, 266, 105, 17, 240, 160,\n293, 87, 212, 135, 342, 65, 199, 31, 276, 152, 108, 230, 57, 321, 176,\n146, 25, 248, 190, 93, 303, 129, 219, 44, 353, 170, 77, 262, 115, 208,\n298, 137, 11, 185, 234, 60, 327, 148, 86, 273, 202, 36, 159, 306, 101,\n70, 243, 180, 320, 124, 52, 289, 196, 9, 251, 133, 341, 78, 213, 163,\n224, 89, 310, 42, 173, 257, 111, 27, 329, 195, 140, 66, 282, 155, 238,\n50, 302, 182, 97, 264, 14, 191, 344, 128, 246, 72, 216, 161, 33, 285,\n117, 269, 81, 207, 349, 45, 187, 253, 120, 19, 295, 168, 63, 221, 142,\n326, 98, 232, 55, 278, 130, 6, 204, 313, 106, 249, 40, 291, 183, 68",
+  "text_sha256": "4004c6dfe682638378214b534eb463387304f91bac0fdc369aa7e7f004cb9f8c",
+  "parsed_count": 315,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "openai/gpt-6.2-astra",
+  "response_id": "gen-1794939150-EY5TgZ9dBdJQfh7kLlP8",
+  "usage": {
+    "input_tokens": 146,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 927,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 1073,
+    "cost": 0.038248,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 0.038248,
+      "upstream_inference_input_cost": 0.001168,
+      "upstream_inference_output_cost": 0.03708
+    }
+  },
+  "provider_reported": "OpenAI",
+  "finish_reason": "completed",
+  "actual_channel": "openrouter/openai",
+  "finished_at": "2026-11-17T18:12:46.845Z"
+}

@@ -39,6 +39,11 @@ export async function readCompletion(response: Response, format: Format, onText?
     if (typeof d.model === 'string') responseModel = d.model
     if (typeof d.id === 'string') responseId = d.id
     if (typeof d.provider === 'string') providerReported = d.provider
+    else if (format === 'responses' && !providerReported) {
+      const endpoints = object(object(d.openrouter_metadata).endpoints)
+      const selected = array(endpoints.available).find(endpoint => endpoint.selected === true)
+      if (typeof selected?.provider === 'string') providerReported = selected.provider
+    }
     if (d.usage) usage = d.usage
   }
   const emit = (part: string) => {

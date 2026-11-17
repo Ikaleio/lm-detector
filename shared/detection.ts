@@ -14,6 +14,9 @@ export const directTransport:CompletionTransport = (url,config,body,signal) => {
     headers['anthropic-version']='2023-06-01'
     if(sendsSpeed(config))headers['anthropic-beta']=SPEED_BETA
   }else headers.Authorization='Bearer '+config.apiKey
+  if (config.format === 'responses' && url === 'https://openrouter.ai/api/v1/responses') {
+    headers['X-OpenRouter-Metadata'] = 'enabled'
+  }
   return fetch(url,{method:'POST',headers,body:JSON.stringify(body),signal,redirect:'error'})
 }
 
