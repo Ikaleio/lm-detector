@@ -25,7 +25,7 @@ data
 | `tokenizer_bank.json` | 分词器库：分词器探测用的测试文本、每一类分词器的计数和型号映射 |
 | `collections/` | 采样请求、尝试和来源核验记录 |
 
-`collections/` 不参与评分，也不复制到网站的公开数据。改名、退库或迁移格式前的参考行不再另存副本，需要时从 git 历史找回。批次与样本的字段见[采样与续采](../cli/sampling.mdx#batch-format)。
+`collections/` 不参与评分，也不复制到网站的公开数据。历史发布的参考行可以从 Git 历史找回。同名闭源模型出现可复现的指纹变化时，正式库采用最近验证的参考批次，旧参考和同期独立评估保存在本地研究归档，用于历史回放。批次与样本的字段见[采样与续采](../cli/sampling.mdx#batch-format)。
 
 ## 维护规则
 
@@ -52,6 +52,13 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-18 Opus 4.7 和 4.8 切换到 Anthropic" id="2026-11-18-opus-anthropic">
+    `claude-opus-4.7` 和 `claude-opus-4.8` 各采用 36 条新参考。采样通过 OpenRouter 固定 Anthropic 上游，关闭供应商回退，沿用原来的 36 道题和系统提示。72 个回包都确认了 Anthropic 和对应型号，并自然结束。两个型号继续沿用原有标签。
+
+    8 月的 72 条 oaipro 参考和 9 月的 12 条独立评估回答进入研究归档。每个型号另外用相同的 6 道固定评估题独立采样，使用流式 Messages 和默认推理设置。参考库共有 72 个指纹身份、2,668 条参考回答。
+
+    新版检测器把两款 Opus 的 4 组新评估都排到对应型号第一，也识别出 issue #39 的 4 组附件。在更新后的同一份评估集上，完整组首选命中从 128/144 升到 131/144。
+  </Accordion>
   <Accordion title="2026-11-18 新增 GPT-6.2 Sol 和 Astra" id="2026-11-18-gpt-6-2-openrouter">
     `gpt-6.2-sol` 和 `gpt-6.2-astra` 各新增 36 条固定挑战参考回答，参考库扩展到 72 个指纹身份、2,668 条样本。OpenRouter 的路由元数据确认两批回答都由 OpenAI 提供，版本分别为 `openai/gpt-6.2-sol-20261117` 和 `openai/gpt-6.2-astra-20261117`。
 

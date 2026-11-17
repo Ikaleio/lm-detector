@@ -25,7 +25,7 @@ data
 | `tokenizer_bank.json` | Tokenizer bank: probe texts, per-class counts, and model mappings for the tokenizer probe |
 | `collections/` | Sampling requests, attempts, and provenance checks |
 
-`collections/` is not used for scoring and is not copied into the public data of the website. Reference rows from before a rename, retirement, or format migration are not kept as separate copies. Retrieve them from the git history when needed. For the fields of batches and samples, see [Sampling and resuming](../cli/sampling.mdx#batch-format).
+`collections/` is not used for scoring and is not copied into the public data of the website. Earlier releases remain available in Git history. When a closed model shows a reproducible fingerprint change under the same name, the active bank uses the latest verified reference batch. The local research archive keeps the earlier references and their independent evaluation answers for historical replay. For the fields of batches and samples, see [Sampling and resuming](../cli/sampling.mdx#batch-format).
 
 ## Maintenance rules
 
@@ -52,6 +52,13 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-18 Switch Opus 4.7 and 4.8 to Anthropic" id="2026-11-18-opus-anthropic">
+    `claude-opus-4.7` and `claude-opus-4.8` each have 36 new reference answers. OpenRouter routed the original 36 challenges and system prompts to Anthropic with provider fallback disabled. All 72 responses reported Anthropic and the requested model and ended naturally. Both model labels stay the same.
+
+    The research archive holds the 72 August oaipro references and the 12 independent September evaluation answers. Each model also answered the same six fixed evaluation prompts in separate streaming Messages requests with default reasoning settings. The bank contains 72 fingerprint identities and 2,668 reference answers.
+
+    All four new Opus evaluation groups ranked the requested model first. The four sets of answers attached to issue #39 also ranked their reported models first. On the refreshed evaluation set, top-1 hits rose from 128 to 131 across the same 144 complete groups.
+  </Accordion>
   <Accordion title="2026-11-18 Add GPT-6.2 Sol and Astra" id="2026-11-18-gpt-6-2-openrouter">
     The reference bank adds 36 fixed-challenge answers each for `gpt-6.2-sol` and `gpt-6.2-astra`, bringing it to 72 fingerprint identities and 2,668 samples. OpenRouter's routing metadata identifies OpenAI as the provider and reports the versions as `openai/gpt-6.2-sol-20261117` and `openai/gpt-6.2-astra-20261117`.
 
