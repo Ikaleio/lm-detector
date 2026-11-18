@@ -8,7 +8,7 @@ icon: ListOrdered
 
 Before ranking, the detector checks how consecutive numbers change. Language-model replies in the reference bank usually jump between distant values: lag-1 autocorrelation is clearly negative, and steps of 20 or less are rare. Program-generated random numbers, sorted numbers and shuffled replies usually lack both features.
 
-For each valid answer, the detector calculates lag-1 autocorrelation and the share of consecutive differences with an absolute value of 20 or less. It takes the median of each over the valid answers. Only when autocorrelation exceeds −0.23 **and** the small-step share exceeds 0.05 does it return "Not like a language model reply", without ranking or confidence. If only one limit is exceeded, ranking continues: a model reply can have weak autocorrelation but few small steps. The two limits come from the 99.5% quantiles over the reference bank's three-answer groups, grouped by environment.
+For each valid answer, the detector measures lag-1 autocorrelation and the share of adjacent pairs that differ by at most 20. Some model replies avoid similar values over several positions, so the detector also counts all pairs one, two or three positions apart and measures the share that differ by at most 20. Each pair counts once. The detector takes the median of each measure across valid answers. It withholds the ranking only if all three medians exceed their limits: −0.23, 5% and 7%, respectively. The first two limits come from the 99.5% quantiles over the reference bank’s three-answer groups.
 
 This check filters sequence shapes. It cannot prove where the numbers came from, and passing it does not confirm that a language model generated the reply.
 

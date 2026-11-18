@@ -8,6 +8,7 @@ const POSITIONAL_WEIGHTS: [f64; 4] = [0.6, 0.15, 0.125, 0.125];
 /// 99.5% quantiles over reference three-answer groups; see `SEQUENCE_LIMITS` in `shared/shared-detector.ts`.
 const AUTOCORRELATION_LIMIT: f64 = -0.23;
 const SMALL_STEP_SHARE_LIMIT: f64 = 0.05;
+const NEARBY_PAIR_SHARE_LIMIT: f64 = 0.07;
 const NEIGHBOURS: usize = 7;
 
 pub(crate) struct Preprocessing {
@@ -218,8 +219,20 @@ pub(crate) fn calibrate(ranking: &[f64], tau: f64) -> Vec<f64> {
     weights.iter().map(|value| value / total).collect()
 }
 
-/// Reference replies have negative lag-1 autocorrelation and few steps of 20 or less. Reject only when both
-/// signals exceed their limits.
+fn nearby_pair_share(numbers: &[u32]) -> f64 {
+    let mut close = 0usize;
+    let mut pairs = 0usize;
+    for lag in 1..=3 {
+        for i in lag..numbers.len() {
+            if numbers[i].abs_diff(numbers[i - lag]) <= 20 {
+                close += 1;
+            }
+            pairs += 1;
+        }
+    }
+    close as f64 / pairs as f64
+}
+
 pub(crate) fn sequence_shape(numbers: &[Vec<u32>]) -> Sequence {
     let (autocorrelations, small_steps): (Vec<f64>, Vec<f64>) = numbers
         .iter()
@@ -242,6 +255,8 @@ pub(crate) fn sequence_shape(numbers: &[Vec<u32>]) -> Sequence {
     Sequence {
         autocorrelation,
         small_step_share,
-        model_like: autocorrelation <= AUTOCORRELATION_LIMIT || small_step_share <= SMALL_STEP_SHARE_LIMIT,
+        model_like: autocorrelation <= AUTOCORRELATION_LIMIT
+            || small_step_share <= SMALL_STEP_SHARE_LIMIT
+            || median(&numbers.iter().map(|n| nearby_pair_share(n)).collect::<Vec<_>>()) <= NEARBY_PAIR_SHARE_LIMIT,
     }
 }

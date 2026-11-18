@@ -16,10 +16,10 @@ INVALID_OUTPUTS = ("Each input round must contain one to three outputs with text
                    "expected_count.")
 _MAX_SAFE_INTEGER = 2 ** 53 - 1
 
-# Reference replies tend to have negative lag-1 autocorrelation and few steps of 20 or less. The limits are the
-# 99.5% quantiles over reference three-answer groups; a reply is rejected only when both signals exceed them.
+# Keep the sequence gate in sync with shared/shared-detector.ts.
 _AUTOCORRELATION_LIMIT = -0.23
 _SMALL_STEP_LIMIT = 0.05
+_NEARBY_PAIR_LIMIT = 0.07
 
 
 class Scorer:
@@ -149,6 +149,12 @@ def _evidence(label: str, reason: str, method: str) -> dict[str, Any]:
     return {"insufficient": True, "label": label, "reason": reason, "threshold": None, "method": method}
 
 
+def _nearby_pair_share(reply: Sequence[int]) -> float:
+    n = np.asarray(reply)
+    close = sum(np.count_nonzero(np.abs(n[lag:] - n[:-lag]) <= 20) for lag in (1, 2, 3))
+    return float(close) / sum(len(n) - lag for lag in (1, 2, 3))
+
+
 def _sequence_shape(replies: Sequence[Sequence[int]]) -> dict[str, Any]:
     autocorrelations, small_steps = [], []
     for reply in replies:
@@ -159,4 +165,5 @@ def _sequence_shape(replies: Sequence[Sequence[int]]) -> dict[str, Any]:
         small_steps.append(np.mean(np.abs(np.diff(n)) <= 20))
     autocorrelation, small_step_share = float(np.median(autocorrelations)), float(np.median(small_steps))
     return {"autocorrelation": autocorrelation, "small_step_share": small_step_share,
-            "model_like": autocorrelation <= _AUTOCORRELATION_LIMIT or small_step_share <= _SMALL_STEP_LIMIT}
+            "model_like": autocorrelation <= _AUTOCORRELATION_LIMIT or small_step_share <= _SMALL_STEP_LIMIT
+            or float(np.median([_nearby_pair_share(reply) for reply in replies])) <= _NEARBY_PAIR_LIMIT}

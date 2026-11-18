@@ -109,6 +109,15 @@ for (const line of (await readFile('data/unified_reference.jsonl', 'utf8')).spli
   firsts.push(batch.samples.slice(0, 3).map(({ text, expected_count }: Output) => ({ text: redactPrivateMetadata(text), expected_count })))
 }
 const sorted = Array.from({ length: 300 }, (_, i) => i + 1).join(', ')
+// First 80 integers of the second public reply in issue #40. Both lag-1 limits are exceeded.
+const issue40 = `286 137 62 70 351 249 31 127 305 251
+143 106 12 329 216 109 82 137 290 53
+188 201 339 154 291 313 76 18 224 122
+89 17 57 119 263 329 175 222 41 346
+54 259 288 176 191 135 338 150 6 228
+297 61 283 320 212 11 102 327 28 204
+192 235 253 40 99 262 114 314 355 172
+130 140 8 204 270 49 124 188 144 34`
 const inputs: { name: string; strict: boolean; outputs: Output[] }[] = [
   ...firsts.map((outputs, i) => ({ name: names[i], strict: false, outputs })),
   { name: 'partial-two', strict: false, outputs: firsts[0].slice(0, 2) },
@@ -116,6 +125,7 @@ const inputs: { name: string; strict: boolean; outputs: Output[] }[] = [
   { name: 'truncated', strict: false, outputs: firsts[0].map(output => ({ ...output, expected_count: 100 })) },
   { name: 'strict-two', strict: true, outputs: firsts[0].slice(0, 2) },
   { name: 'unscorable-short', strict: false, outputs: Array(3).fill({ text: '1, 2, 3', expected_count: 300 }) },
+  { name: 'partial-issue-40', strict: false, outputs: [{ text: issue40, expected_count: 80 }] },
   { name: 'not-model-sorted', strict: false, outputs: Array(3).fill({ text: sorted, expected_count: 300 }) },
 ]
 const detector = await loadDetector({ source: 'data' })

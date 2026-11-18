@@ -102,12 +102,20 @@ export function rankSharedNumbers(numbers:Matrix,artifact:SharedDetector):Vector
   return ranking
 }
 
-/**
- * Reference replies tend to have negative lag-1 autocorrelation and few steps of 20 or less.
- * The limits come from the 99.5% quantiles over reference three-answer groups. Reject only when
- * both signals exceed their limits: a model reply can have weak autocorrelation but few small steps.
- */
-const SEQUENCE_LIMITS={autocorrelation:-.23,small_step_share:.05}
+// The adjacent-pair limits are the 99.5% quantiles over reference three-answer groups.
+// Some models avoid nearby values across several positions despite weak lag-1 signals (#40).
+const SEQUENCE_LIMITS={autocorrelation:-.23,small_step_share:.05,nearby_pair_share:.07}
+
+function nearbyPairShare(numbers:Vector):number {
+  let close=0, pairs=0
+  for(let lag=1;lag<=3;lag++) {
+    for(let i=lag;i<numbers.length;i++) {
+      if(Math.abs(numbers[i]-numbers[i-lag])<=20)close++
+      pairs++
+    }
+  }
+  return close/pairs
+}
 
 function sequenceShape(numbers:Matrix) {
   const shapes=numbers.map(n=>{
@@ -117,7 +125,8 @@ function sequenceShape(numbers:Matrix) {
   })
   const autocorrelation=median(shapes.map(s=>s.autocorrelation)),small_step_share=median(shapes.map(s=>s.small_step_share))
   return {autocorrelation,small_step_share,
-    model_like:autocorrelation<=SEQUENCE_LIMITS.autocorrelation || small_step_share<=SEQUENCE_LIMITS.small_step_share}
+    model_like:autocorrelation<=SEQUENCE_LIMITS.autocorrelation || small_step_share<=SEQUENCE_LIMITS.small_step_share ||
+      median(numbers.map(nearbyPairShare))<=SEQUENCE_LIMITS.nearby_pair_share}
 }
 
 export function analyzeSharedOutputs(outputs:Output[],bank:Bank,artifact:SharedDetector,options:{allowPartial?:boolean}={}):Analysis {

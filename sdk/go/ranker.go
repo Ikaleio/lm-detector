@@ -241,14 +241,28 @@ func (d *detector) calibrate(ranking []float64) []float64 {
 	return logits
 }
 
-// sequenceLimits are the 99.5% quantiles over reference three-answer groups. A reply is rejected only when both
-// signals exceed their limits.
-var sequenceLimits = struct{ autocorrelation, smallStepShare float64 }{-.23, .05}
+// Keep the sequence gate in sync with shared/shared-detector.ts.
+var sequenceLimits = struct{ autocorrelation, smallStepShare, nearbyPairShare float64 }{-.23, .05, .07}
+
+func nearbyPairShare(numbers []int) float64 {
+	close, pairs := 0, 0
+	for lag := 1; lag <= 3; lag++ {
+		for i := lag; i < len(numbers); i++ {
+			if abs(numbers[i]-numbers[i-lag]) <= 20 {
+				close++
+			}
+			pairs++
+		}
+	}
+	return float64(close) / float64(pairs)
+}
 
 func sequenceShape(numbers [][]int) *Sequence {
 	autocorrelations := make([]float64, len(numbers))
 	smallSteps := make([]float64, len(numbers))
+	nearbyPairs := make([]float64, len(numbers))
 	for k, n := range numbers {
+		nearbyPairs[k] = nearbyPairShare(n)
 		values := make([]float64, len(n))
 		for i, v := range n {
 			values[i] = float64(v)
@@ -275,5 +289,5 @@ func sequenceShape(numbers [][]int) *Sequence {
 	}
 	a, s := median(autocorrelations), median(smallSteps)
 	return &Sequence{Autocorrelation: a, SmallStepShare: s,
-		ModelLike: a <= sequenceLimits.autocorrelation || s <= sequenceLimits.smallStepShare}
+		ModelLike: a <= sequenceLimits.autocorrelation || s <= sequenceLimits.smallStepShare || median(nearbyPairs) <= sequenceLimits.nearbyPairShare}
 }
