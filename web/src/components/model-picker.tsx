@@ -1,12 +1,13 @@
 import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from 'react'
 import { ChevronDown, Loader2 } from 'lucide-react'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { resolveReasoningEfforts, type ListedModel } from '@fingerpoint/shared/model-list'
+import { modelListFailure, resolveReasoningEfforts, type ListedModel } from '@fingerpoint/shared/model-list'
 import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { useI18n } from '@/i18n'
-import { describeError } from '@/lib/errors'
+import { describeError, rawMessage } from '@/lib/errors'
 import { fetchModelsForConfig } from '@/lib/model-list-client'
 import { useConnectionRoute } from '@/lib/use-connection-route'
 import type { ApiProfile, WebApiConfig } from '@/lib/config'
@@ -31,6 +32,8 @@ export function ModelPicker({ config, update, disabled, models, onModelsChange }
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [failure, setFailure] = useState<unknown>(null)
+  const [detailsOpen, setDetailsOpen] = useState(false)
   const [highlight, setHighlight] = useState(0)
   const abortRef = useRef<AbortController | null>(null)
   const busy = disabled || loading || checking
@@ -71,6 +74,8 @@ export function ModelPicker({ config, update, disabled, models, onModelsChange }
     abortRef.current?.abort()
     onModelsChange(null)
     setError(null)
+    setFailure(null)
+    setDetailsOpen(false)
     setOpen(false)
     setLoading(false)
   }, [config.id, config.baseUrl, config.format, onModelsChange])
@@ -113,6 +118,7 @@ export function ModelPicker({ config, update, disabled, models, onModelsChange }
     const baseUrl = config.baseUrl.trim()
     if (!baseUrl) {
       setError(t('api.modelsNeedBaseUrl'))
+      setFailure(null)
       onModelsChange(null)
       return
     }
@@ -121,6 +127,7 @@ export function ModelPicker({ config, update, disabled, models, onModelsChange }
     abortRef.current = abort
     setLoading(true)
     setError(null)
+    setFailure(null)
     try {
       const route = await resolve(config)
       const list = await fetchModelsForConfig(
@@ -141,6 +148,7 @@ export function ModelPicker({ config, update, disabled, models, onModelsChange }
       if (abort.signal.aborted) return
       onModelsChange(null)
       setOpen(false)
+      setFailure(cause)
       setError(describeError(i18n, cause))
     } finally {
       if (abortRef.current === abort) setLoading(false)
@@ -268,9 +276,41 @@ export function ModelPicker({ config, update, disabled, models, onModelsChange }
           {status}
         </p>
       )}
-      {error && <FieldError id={errorId}>{error}</FieldError>}
+      {error && (
+        <div className="flex flex-col gap-1">
+          <FieldError id={errorId}>{error}</FieldError>
+          {failure != null && (
+            <Button type="button" variant="link" className="h-auto min-h-11 w-fit px-0 py-1 text-sm" onClick={() => setDetailsOpen(true)}>
+              {t('detect.viewError')}
+            </Button>
+          )}
+        </div>
+      )}
+      <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{t('detect.errorDetails')}</DialogTitle>
+            <DialogDescription className="sr-only">{t('detect.errorDetails')}</DialogDescription>
+          </DialogHeader>
+          <pre tabIndex={0} className="fp-mono rr-mask max-h-64 overflow-auto whitespace-pre-wrap rounded-lg bg-muted p-3 text-meta [overflow-wrap:anywhere]">{failure != null ? modelListDetailText(failure) : ''}</pre>
+        </DialogContent>
+      </Dialog>
     </Field>
   )
+}
+
+
+function modelListDetailText(error: unknown): string {
+  const info = modelListFailure(error)
+  const lines: string[] = []
+  if (info.status !== undefined) lines.push(`HTTP ${info.status}`)
+  if (info.url) lines.push(info.url)
+  const body = info.body?.trim() || rawMessage(error)
+  if (body) {
+    if (lines.length) lines.push('')
+    lines.push(body)
+  }
+  return lines.join('\n')
 }
 
 export function EffortSuggestions({

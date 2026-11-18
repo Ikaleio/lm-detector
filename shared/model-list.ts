@@ -99,7 +99,7 @@ export async function fetchModelList(
   try {
     for (let i = 0; i < MAX_PAGES && models.length < MAX_MODELS; i++) {
       const response = await transport(url, config, combined, page)
-      const { models: batch, next } = await readModelListResponse(response)
+      const { models: batch, next } = await readModelListResponse(response, modelsPageUrl(url, page))
       for (const model of batch) {
         if (seen.has(model.id)) continue
         seen.add(model.id)
@@ -116,6 +116,12 @@ export async function fetchModelList(
     if (error instanceof Error) {
       const codedError = error as CodedError
       codedError.message = codedError.message.replaceAll(config.apiKey, '[REDACTED]')
+      const details = isObject(codedError.completionDetails) ? codedError.completionDetails : {}
+      if (!details.url) codedError.completionDetails = { ...details, url }
+      if (typeof details.body === 'string' && config.apiKey) {
+        details.body = details.body.replaceAll(config.apiKey, '[REDACTED]')
+        codedError.completionDetails = { ...details, url: details.url ?? url }
+      }
       throw codedError
     }
     throw coded('调用失败', 'network')
@@ -178,13 +184,13 @@ export function fallbackReasoningEfforts(id: string): string[] {
   return []
 }
 
-async function readModelListResponse(response: Response): Promise<{ models: ListedModel[]; next?: ModelListPage }> {
+async function readModelListResponse(response: Response, requestUrl: string): Promise<{ models: ListedModel[]; next?: ModelListPage }> {
   let body: unknown
   try { body = await response.json() } catch {
     if (!response.ok) {
-      throw httpFailure(response.status, `HTTP ${response.status}`, response.status === 404 ? undefined : 'proxy_unavailable')
+      throw httpFailure(response.status, `HTTP ${response.status}`, response.status === 404 ? undefined : 'proxy_unavailable', requestUrl)
     }
-    throw coded('接口返回的不是 JSON 或流式数据', 'not_json')
+    throw coded('接口返回的不是 JSON 或流式数据', 'not_json', { completionDetails: { url: requestUrl } })
   }
   if (!response.ok) {
     const record = isObject(body) ? body : {}
@@ -193,7 +199,7 @@ async function readModelListResponse(response: Response): Promise<{ models: List
     const code = error.code === 'upstream_not_api' ? 'upstream_not_api'
       : isOldProxyModelsRejection(response.status, message) ? 'proxy_models_unsupported'
         : 'http'
-    throw httpFailure(response.status, `HTTP ${response.status}：${message}`, code)
+    throw httpFailure(response.status, `HTTP ${response.status}：${message}`, code, requestUrl, bodyExcerpt(body))
   }
   const parsed = parseModelList(body)
   if (isEmptyPayload(body) && !parsed.models.length) {
@@ -206,8 +212,30 @@ function isOldProxyModelsRejection(status: number, message: string): boolean {
   return status === 400 && /must contain a model|API protocol is not supported|API request must contain/i.test(message)
 }
 
-function httpFailure(status: number, message: string, code: ErrorCode = 'http'): CodedError {
-  return coded(message, code, { httpStatus: status })
+function httpFailure(status: number, message: string, code: ErrorCode = 'http', url?: string, body?: string): CodedError {
+  return coded(message, code, { httpStatus: status, completionDetails: { url, body } })
+}
+
+const BODY_EXCERPT = 4_000
+
+function bodyExcerpt(value: unknown): string {
+  const text = typeof value === 'string' ? value : JSON.stringify(value, null, 2)
+  if (!text) return ''
+  return text.length > BODY_EXCERPT ? `${text.slice(0, BODY_EXCERPT)}…` : text
+}
+
+/** Structured fields for the model-list error dialog: status, requested URL, and a response excerpt. */
+export function modelListFailure(error: unknown): { url?: string; status?: number; body?: string } {
+  const codedError = error as CodedError
+  const details = isObject(codedError.completionDetails) ? codedError.completionDetails : {}
+  const body = typeof details.body === 'string' && details.body.trim() ? details.body
+    : codedError.message && codedError.message !== 'Error' ? codedError.message
+      : undefined
+  return {
+    url: stringValue(details.url) || undefined,
+    status: typeof codedError.httpStatus === 'number' ? codedError.httpStatus : undefined,
+    body,
+  }
 }
 
 function modelItems(payload: unknown): unknown[] {
