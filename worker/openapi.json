@@ -31,7 +31,7 @@
         "operationId": "relayRequest",
         "tags": ["proxy"],
         "summary": "Relay an API request",
-        "description": "Sends `body` to the upstream endpoint `url` with the caller's key and streams the JSON or SSE response back unchanged, including the upstream status. For `anthropic`, the key goes upstream as `x-api-key` with `anthropic-version: 2023-06-01`, plus `anthropic-beta: fast-mode-2026-02-01` when `body` contains `speed`; otherwise as `Authorization`. Redirects are not followed and cookies are not forwarded. The upstream request times out after 250 seconds, and cancelling the call cancels it.",
+        "description": "Sends `body` to the upstream endpoint `url` with the caller's key and streams the JSON or SSE response back unchanged, including the upstream status. Set `method` to `GET` and point `url` at a `/models` endpoint to list models instead of a completion; `after_id` is an optional pagination cursor. For `anthropic`, the key goes upstream as `x-api-key` with `anthropic-version: 2023-06-01`, plus `anthropic-beta: fast-mode-2026-02-01` when `body` contains `speed`; otherwise as `Authorization`. Redirects are not followed and cookies are not forwarded. The upstream request times out after 250 seconds, and cancelling the call cancels it.",
         "security": [{ "upstreamKey": [] }],
         "requestBody": {
           "required": true,
@@ -45,7 +45,7 @@
               "text/event-stream": { "schema": { "type": "string", "description": "The upstream SSE stream." } }
             }
           },
-          "400": { "$ref": "#/components/responses/Error", "description": "The body is not a JSON object, the protocol is unsupported, the model is missing, or the upstream URL is not a public HTTPS endpoint of the protocol." },
+          "400": { "$ref": "#/components/responses/Error", "description": "The body is not a JSON object, the protocol is unsupported, the model is missing on a completion request, or the upstream URL is not a public HTTPS endpoint of the protocol (or a `/models` endpoint when `method` is `GET`)." },
           "401": { "$ref": "#/components/responses/Error", "description": "The `Authorization: Bearer` header is missing." },
           "403": { "$ref": "#/components/responses/Forbidden" },
           "413": { "$ref": "#/components/responses/Error", "description": "The request body exceeds 128 KiB." },
@@ -80,15 +80,17 @@
     "schemas": {
       "RelayRequest": {
         "type": "object",
-        "required": ["url", "format", "body"],
+        "required": ["url", "format"],
         "properties": {
           "url": {
             "type": "string",
             "format": "uri",
-            "description": "The complete upstream endpoint: HTTPS on port 443, a public host name, no credentials, query or fragment, ending in `/chat/completions`, `/responses` or `/messages` for the chosen format.",
-            "examples": ["https://api.example.com/v1/chat/completions"]
+            "description": "The complete upstream endpoint: HTTPS on port 443, a public host name, no credentials, query or fragment, ending in `/chat/completions`, `/responses` or `/messages` for a completion, or `/models` when `method` is `GET`.",
+            "examples": ["https://api.example.com/v1/chat/completions", "https://api.example.com/v1/models"]
           },
           "format": { "type": "string", "enum": ["openai", "responses", "anthropic"], "description": "Chat Completions, Responses or Messages." },
+          "method": { "type": "string", "enum": ["GET", "POST"], "description": "GET lists models at an upstream `/models` endpoint. POST (the default) relays a completion request and requires `body`." },
+          "after_id": { "type": "string", "description": "Optional pagination cursor for `method: GET`. The proxy adds it as the `after_id` query parameter." },
           "body": {
             "type": "object",
             "required": ["model"],
@@ -106,7 +108,8 @@
         "required": ["service", "formats"],
         "properties": {
           "service": { "type": "string", "const": "fingerpoint-api-proxy" },
-          "formats": { "type": "array", "items": { "type": "string", "enum": ["openai", "responses", "anthropic"] } }
+          "formats": { "type": "array", "items": { "type": "string", "enum": ["openai", "responses", "anthropic"] } },
+          "list_models": { "type": "boolean", "description": "Present and true when the proxy can relay GET /models." }
         }
       },
       "Error": {

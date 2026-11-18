@@ -5,8 +5,9 @@
  * `api/proxy.ts` and the Vite dev server import `proxyRequest`, so every deployment runs the same code.
  *
  * Request: POST with `Authorization: Bearer <upstream key>` and a JSON body `{ url, format, body }`, where `url` is the
- * complete upstream endpoint and `format` is `openai`, `responses` or `anthropic`. JSON and SSE responses stream back
- * unchanged. The proxy follows no redirects, forwards no cookies and stores no keys.
+ * complete upstream endpoint and `format` is `openai`, `responses` or `anthropic`. Set `method` to `GET` and point `url`
+ * at a `/models` endpoint to list models instead of sending a completion; `after_id` is an optional pagination cursor.
+ * JSON and SSE responses stream back unchanged. The proxy follows no redirects, forwards no cookies and stores no keys.
  *
  * Cross-origin callers must be listed in `ALLOWED_ORIGINS` (comma-separated origins, or `*`). Same-origin calls, as
  * from a Pages deployment of the web app, need no configuration.
@@ -98,16 +99,22 @@ async function readPayload(request) {
   return payload
 }
 
-/** @param {unknown} value @param {Format} format */
-function upstreamUrl(value, format) {
+/** @param {unknown} value */
+function modelsCursor(value) {
+  return typeof value === 'string' && /^[\w.:/-]{1,256}$/.test(value) ? value : ''
+}
+
+/** @param {unknown} value @param {Format} format @param {'completion' | 'models'} [kind] */
+function upstreamUrl(value, format, kind = 'completion') {
   /** @type {URL} */
   let url
   try {
     if (typeof value !== 'string') throw new Error('not a string')
     url = new URL(value)
   } catch { throw rejection(400, 'The upstream URL is invalid.') }
+  const suffix = kind === 'models' ? '/models' : ENDPOINT_SUFFIXES[format]
   if (url.protocol !== 'https:' || url.port || url.username || url.password || url.search || url.hash
-    || !url.pathname.endsWith(ENDPOINT_SUFFIXES[format])) {
+    || !url.pathname.endsWith(suffix)) {
     throw rejection(400, 'Use an HTTPS API endpoint on port 443 without credentials, query parameters or fragments.')
   }
   if (!/^[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}$/.test(url.hostname)
@@ -136,7 +143,7 @@ export async function proxyRequest(request, options = {}) {
   }
   if (origin === null) return failure(403, 'This origin is not allowed to use the proxy.', 'same')
   if (request.method === 'GET') {
-    return Response.json({ service: 'fingerpoint-api-proxy', formats: Object.keys(ENDPOINT_SUFFIXES) }, { headers: { 'Cache-Control': 'no-store', ...corsHeaders(origin) } })
+    return Response.json({ service: 'fingerpoint-api-proxy', formats: Object.keys(ENDPOINT_SUFFIXES), list_models: true }, { headers: { 'Cache-Control': 'no-store', ...corsHeaders(origin) } })
   }
   if (request.method !== 'POST') return failure(405, 'Use POST for API requests.', origin)
   // Fetch metadata catches cross-site calls from browsers that omit Origin; allowed cross-origin callers are expected.
@@ -155,19 +162,37 @@ export async function proxyRequest(request, options = {}) {
     if (format !== 'openai' && format !== 'responses' && format !== 'anthropic') {
       throw rejection(400, 'The API protocol is not supported.')
     }
-    if (!isObject(body) || typeof body.model !== 'string' || !body.model.trim()
-      || (body.stream !== undefined && typeof body.stream !== 'boolean')) {
-      throw rejection(400, 'The API request must contain a model and valid streaming option.')
+    const listModels = payload.method === 'GET'
+    /** @type {URL} */
+    let url
+    /** @type {Headers} */
+    let headers
+    if (listModels) {
+      url = upstreamUrl(payload.url, format, 'models')
+      const afterId = modelsCursor(payload.after_id)
+      if (afterId) url.searchParams.set('after_id', afterId)
+      headers = new Headers({ Accept: 'application/json' })
+      if (format === 'anthropic') {
+        headers.set('x-api-key', authorization.slice(7))
+        headers.set('anthropic-version', '2023-06-01')
+      } else headers.set('Authorization', authorization)
+    } else {
+      if (!isObject(body) || typeof body.model !== 'string' || !body.model.trim()
+        || (body.stream !== undefined && typeof body.stream !== 'boolean')) {
+        throw rejection(400, 'The API request must contain a model and valid streaming option.')
+      }
+      url = upstreamUrl(payload.url, format)
+      headers = new Headers({ 'Content-Type': 'application/json', Accept: body.stream ? 'text/event-stream' : 'application/json' })
+      if (format === 'anthropic') {
+        headers.set('x-api-key', authorization.slice(7))
+        headers.set('anthropic-version', '2023-06-01')
+        if (body.speed !== undefined) headers.set('anthropic-beta', SPEED_BETA)
+      } else headers.set('Authorization', authorization)
     }
-    const url = upstreamUrl(payload.url, format)
-    const headers = new Headers({ 'Content-Type': 'application/json', Accept: body.stream ? 'text/event-stream' : 'application/json' })
-    if (format === 'anthropic') {
-      headers.set('x-api-key', authorization.slice(7))
-      headers.set('anthropic-version', '2023-06-01')
-      if (body.speed !== undefined) headers.set('anthropic-beta', SPEED_BETA)
-    } else headers.set('Authorization', authorization)
 
-    const upstream = await fetch(url, { method: 'POST', headers, body: JSON.stringify(body), signal, redirect: 'manual' })
+    const upstream = await fetch(url, listModels
+      ? { method: 'GET', headers, signal, redirect: 'manual' }
+      : { method: 'POST', headers, body: JSON.stringify(body), signal, redirect: 'manual' })
     if (upstream.status >= 300 && upstream.status < 400) {
       await upstream.body?.cancel()
       return failure(502, 'The upstream returned a redirect. Use its final API address.', origin)

@@ -26,9 +26,9 @@ Before any reply is filled in, "New prompts" in the action bar replaces all thre
 | Field | Description |
 | --- | --- |
 | Base URL | Base URL or complete endpoint. An address that ends in a protocol endpoint (such as `/chat/completions`) is used as it is, an address that ends in `/v1` gets the endpoint added, and any other address gets `/v1` and the endpoint added; for an API whose base path is not `/v1`, enter the complete endpoint |
-| Model | The model name in the request |
+| Model | The model name in the request. You can type it, or choose Fetch model list to call `GET /models` with the current Base URL and API key, using the selected [Connection](./connection.mdx) setting (OpenAI-compatible APIs; the Messages protocol sends `x-api-key` and `anthropic-version`). Addresses with or without `/v1`, and complete endpoints, are accepted. Results appear in a filterable list; you can still type a name. Failures (for example 401, an empty list, or a browser CORS block on a direct call) are shown under the field |
 | API key | Hidden by default. You can toggle it visible |
-| Reasoning effort | Can be left blank, or set to any `reasoning_effort` value that the upstream supports |
+| Reasoning effort | Can be left blank, or set to any `reasoning_effort` value that the upstream supports. If the API returns fields such as `supported_parameters`, `reasoning`, or `supported_reasoning_efforts`, those values are offered as clickable options; otherwise a built-in table maps the model name to common values (for example minimal/low/medium/high for GPT-5 and the o-series, Claude thinking models, or Gemini thinking). The table is for reference only |
 | Protocol | Chat Completions, Responses, or Messages |
 | Service tier | Flex, Default, Fast, or Ultrafast. Default sends no parameter. Messages sends `speed` with the `anthropic-beta: fast-mode-2026-02-01` header; Chat Completions and Responses send `service_tier` |
 

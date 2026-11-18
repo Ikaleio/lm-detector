@@ -77,10 +77,11 @@ function Help() {
       <Text dimColor>Both commands share the connection and output options below.</Text>
       <Text dimColor>Detection defaults: Responses · SSE · relaxed · count 3 · parallel 3 · one round</Text>
       <Text dimColor>Tokenizer defaults: Responses · SSE · parallel 4 · {TOKENIZER_MODEL.maximumProbes} probes + 2 baselines · {PROBE_TIMEOUT_MS / 1000}s per request</Text>
+      <Text>fpd models -b URL -k KEY [options] · list models from GET /models</Text>
       <Text>fpd sample [options] · collect a portable reference batch</Text>
       <Text>fpd enroll RUN [options] · validate and enroll a batch</Text>
       <Text>fpd retrain --data-dir DIR · fit ranker and confidence offline</Text>
-      <Text dimColor>sample, enroll, and retrain have their own --help. tokenizer --help shows this page.</Text>
+      <Text dimColor>models, sample, enroll, and retrain have their own --help. tokenizer --help shows this page.</Text>
     </Box>
     {sections.map(section => <Box key={section.title} flexDirection="column" marginTop={1}>
       <Text bold color="cyan">{section.title}</Text>
