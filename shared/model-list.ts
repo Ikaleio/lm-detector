@@ -110,6 +110,7 @@ export async function fetchModelList(
         if (models.length >= MAX_MODELS) break
       }
       if (!next) break
+      if (page && next.afterId === page.afterId && (next.param ?? 'after_id') === (page.param ?? 'after_id')) break
       page = next
     }
   } catch (error) {

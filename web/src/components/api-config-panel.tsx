@@ -66,7 +66,13 @@ export function ApiConfigPanel({ open, onOpenChange, config, update, profileMana
   const { t } = useI18n()
   const { reduced, snappy } = useMotionPreset()
   const [showKey, setShowKey] = useState(false)
+  const catalogKey = `${config.id}\0${config.baseUrl}\0${config.format}\0${config.apiKey}`
   const [listedModels, setListedModels] = useState<ListedModel[] | null>(null)
+  const [listedFor, setListedFor] = useState(catalogKey)
+  if (listedFor !== catalogKey) {
+    setListedFor(catalogKey)
+    setListedModels(null)
+  }
   const profileNameRef = useRef<HTMLInputElement>(null)
   const profileFileRef = useRef<HTMLInputElement>(null)
   const baseUrl = config.baseUrl.trim() || t('api.baseUrlMissing')

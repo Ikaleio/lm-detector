@@ -72,13 +72,12 @@ export function ModelPicker({ config, update, disabled, models, onModelsChange }
 
   useEffect(() => {
     abortRef.current?.abort()
-    onModelsChange(null)
     setError(null)
     setFailure(null)
     setDetailsOpen(false)
     setOpen(false)
     setLoading(false)
-  }, [config.id, config.baseUrl, config.format, config.apiKey, onModelsChange])
+  }, [config.id, config.baseUrl, config.format, config.apiKey])
 
   function selectModel(model: ListedModel) {
     update({ model: model.id })
