@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "016f955ab9d9c5f28f6d1abea849e3e2f764a07f4ec3eddf3f67c32bd140a947",
+  "challenge_id": "query-02",
+  "attempt": 1,
+  "task": {
+    "id": "query-02",
+    "condition": "environment-01",
+    "expected_count": 233,
+    "prompt": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "google/gemini-4-neon",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "low",
+      "provider": {
+        "only": [
+          "google-vertex/global"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-19T04:45:20.181Z",
+  "trace": "trace/query-02/0001",
+  "text": "[47,219,8,312,164,93,285,19,341,128,256,74,189,3,305,142,61,238,329,88,175,294,41,113,352,67,204,15,271,99,336,52,183,247,12,299,134,79,215,318,64,192,27,348,151,263,85,108,229,39,301,167,5,242,119,333,72,288,146,21,198,314,58,276,131,44,355,96,207,162,283,33,124,345,81,219,157,291,16,250,103,322,69,185,234,49,308,140,267,7,212,179,339,91,258,126,36,295,153,62,319,84,241,11,194,273,137,55,349,168,225,43,302,115,289,77,181,260,24,331,148,95,209,354,60,278,122,31,316,173,244,87,159,297,14,232,106,342,51,196,269,133,38,325,75,218,149,286,2,187,311,66,253,118,347,92,201,46,274,165,29,338,129,227,83,304,155,18,261,101,327,54,190,248,139,71,292,22,351,112,236,171,40,315,89,279,144,63,214,334,9,199,265,121,344,78,223,35,309,160,281,57,135,249,17,320,98,205,177,293,48,332,116,254,68,184,306,26,239,141,350,82,211,127,284,53,193,317,104,262,37,169,298]",
+  "text_sha256": "037879cecf22bfe772df64cff2ebf3d7deaa76a9bf40bb09546669bf50014332",
+  "parsed_count": 233,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "google/gemini-4-neon",
+  "response_id": "gen-1795063520-dyX4fNnIvw6JXuOSTfmY",
+  "usage": {
+    "prompt_tokens": 172,
+    "completion_tokens": 3597,
+    "total_tokens": 3769,
+    "cost": 0.054471,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.054471,
+      "upstream_inference_prompt_cost": 0.000516,
+      "upstream_inference_completions_cost": 0.053955
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 2739,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Google",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/google-vertex/global",
+  "finished_at": "2026-11-19T04:45:51.486Z"
+}

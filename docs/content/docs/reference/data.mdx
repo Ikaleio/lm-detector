@@ -52,6 +52,13 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-19 新增 Gemini 4 Neon" id="2026-11-19-gemini-4-neon-vertex">
+    `gemini-4-neon` 新增 36 条固定挑战参考回答，来源为 OpenRouter 的 Google Vertex Global。参考库共有 73 个指纹身份、2,704 条样本。
+
+    参考采样和两组各三条独立固定评估使用流式 Chat Completions 和 `low` 推理强度，固定 `google-vertex/global` 并关闭渠道回退。36 条参考回答全部自然结束。原始响应和入库收据保存在 `data/collections/gemini-4-neon-openrouter-google-vertex-global-low-20261119/`。
+
+    重训后，两组独立固定评估都把 Neon 排在第一。相同的 144 个旧完整组中，Top-1 命中为 131 → 130，Top-3 命中为 141 → 141。全库评估覆盖 146/148 组、438/444 条回答。
+  </Accordion>
   <Accordion title="2026-11-18 Opus 4.7 和 4.8 切换到 Anthropic" id="2026-11-18-opus-anthropic">
     `claude-opus-4.7` 和 `claude-opus-4.8` 各采用 36 条新参考。采样通过 OpenRouter 固定 Anthropic 上游，关闭供应商回退，沿用原来的 36 道题和系统提示。72 个回包都确认了 Anthropic 和对应型号，并自然结束。两个型号继续沿用原有标签。
 

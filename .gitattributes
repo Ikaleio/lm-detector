@@ -4,3 +4,4 @@
 # Preserve byte hashes and terminating SSE frames in direct sampling traces.
 data/collections/*-openai-direct-20260930/trace/** -text whitespace=-blank-at-eof
 data/collections/claude-opus-4.[78]-openrouter-anthropic-20261118/trace/**/attempt-*.body.txt -text whitespace=-blank-at-eof
+data/collections/gemini-4-neon-openrouter-google-vertex-global-low-20261119/trace/**/attempt-*.body.txt -text whitespace=-blank-at-eof

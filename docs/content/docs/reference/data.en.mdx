@@ -52,6 +52,13 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-19 Add Gemini 4 Neon" id="2026-11-19-gemini-4-neon-vertex">
+    The reference bank adds 36 fixed-challenge answers for `gemini-4-neon` from OpenRouter's Google Vertex Global route. It contains 73 fingerprint identities and 2,704 answers.
+
+    Reference collection and two independent fixed evaluation groups of three answers used streaming Chat Completions with `low` reasoning effort, pinned to `google-vertex/global` with provider fallback disabled. All 36 reference answers completed naturally. The raw responses and enrollment receipt are stored in `data/collections/gemini-4-neon-openrouter-google-vertex-global-low-20261119/`.
+
+    Both independent fixed evaluation groups ranked Neon first. Across the same 144 previous complete groups, top-1 hits went from 131 to 130, and top-3 hits went from 141 to 141. Evaluation covers 146 of 148 groups and 438 of 444 answers.
+  </Accordion>
   <Accordion title="2026-11-18 Switch Opus 4.7 and 4.8 to Anthropic" id="2026-11-18-opus-anthropic">
     `claude-opus-4.7` and `claude-opus-4.8` each have 36 new reference answers. OpenRouter routed the original 36 challenges and system prompts to Anthropic with provider fallback disabled. All 72 responses reported Anthropic and the requested model and ended naturally. Both model labels stay the same.
 
