@@ -8,7 +8,7 @@ import {
   type ModelsTransport,
 } from '@fingerpoint/shared/model-list'
 import type { Route } from '@/lib/client'
-import { directHeaders, directInit } from '@/lib/route'
+import { connectionSetting, directHeaders, directInit, SITE_PROXY } from '@/lib/route'
 
 function placeholderKey(apiKey: string): string {
   return apiKey.trim() || 'sk-none'
@@ -84,6 +84,16 @@ export async function fetchModelsForConfig(
     return await fetchModelList(config, transportFor(route), signal)
   } catch (error) {
     const code = (error as { code?: string }).code
+    // Auto probes the completion endpoint, so it can pick a direct route even when GET /models is blocked by CORS.
+    if (route.kind === 'direct' && code === 'direct_network' && connectionSetting().mode === 'auto') {
+      try {
+        return await fetchModelList(config, proxyModelsTransport(SITE_PROXY), signal)
+      } catch (proxyError) {
+        const proxyCode = (proxyError as { code?: string }).code
+        if (proxyCode === 'proxy_unavailable' || proxyCode === 'network' || proxyCode === 'direct_network') throw error
+        throw proxyError
+      }
+    }
     if (route.kind !== 'proxy' || code !== 'proxy_models_unsupported') throw error
     try {
       return await fetchModelList(config, directModelsTransport, signal)

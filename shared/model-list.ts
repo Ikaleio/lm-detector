@@ -11,8 +11,10 @@ const GENERIC_EFFORTS = ['minimal', 'low', 'medium', 'high'] as const
 const OPENAI_FULL_EFFORTS = ['none', 'minimal', 'low', 'medium', 'high', 'xhigh'] as const
 const CLASSIC_O_SERIES = ['low', 'medium', 'high'] as const
 const LOW_HIGH = ['low', 'high'] as const
+// Parameters that accept effort values (reasoning_effort, reasoning.effort, or output_config.effort).
+// include_reasoning, thinking, and thinking_budget are not effort enums and must not unlock those suggestions.
 const REASONING_PARAMETERS = new Set([
-  'reasoning', 'reasoning_effort', 'include_reasoning', 'thinking', 'thinking_budget', 'effort',
+  'reasoning', 'reasoning_effort', 'effort',
 ])
 
 export type EffortSource = 'api' | 'fallback' | 'none'
