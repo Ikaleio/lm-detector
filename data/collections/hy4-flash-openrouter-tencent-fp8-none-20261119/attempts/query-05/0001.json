@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "79160749da53442effd0fbf75dda7fbc07fcfdf685a2f3969312741948eefd1c",
+  "challenge_id": "query-05",
+  "attempt": 1,
+  "task": {
+    "id": "query-05",
+    "condition": "environment-02",
+    "expected_count": 239,
+    "prompt": "Using only this model's own immediate choices, provide exactly 239 whole numbers from 1 through 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "tencent/hy4-flash",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Using only this model's own immediate choices, provide exactly 239 whole numbers from 1 through 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "tencent/fp8"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-19T05:20:39.143Z",
+  "trace": "trace/query-05/0001",
+  "text": "[237,54,318,12,289,76,143,201,33,350,108,19,264,91,172,227,45,311,7,186,130,249,63,335,97,158,24,278,141,82,209,38,303,116,5,225,69,192,154,268,51,137,317,29,204,88,246,112,175,341,16,233,73,299,126,187,42,258,94,149,215,61,330,103,168,21,281,118,196,57,311,34,242,79,160,224,47,286,132,9,177,251,66,344,121,199,53,272,85,145,230,36,306,101,189,14,263,70,164,218,40,294,109,173,239,62,327,96,151,207,27,276,115,178,44,252,81,135,308,17,212,77,162,297,49,221,124,194,31,266,99,157,203,58,323,90,169,235,22,284,128,181,65,254,106,139,316,11,208,74,159,243,43,301,113,171,228,52,339,87,146,213,26,271,110,184,37,259,95,155,231,60,309,122,166,220,46,277,100,140,198,20,257,84,150,241,39,305,114,182,234,55,291,125,174,211,68,328,93,161,236,18,269,102,167,217,48,296,120,180,226,35,282,107,153,202,64,343,89,148,219,41,255,117,176,238,59,319,98,156,214,28,274,111,185,50,260,86,144,229,32,293,123,170,216,67,313,92,163,222,25,270,105,147,210,56,331,80,152,205,30,283,119,183,240,71,335,108]",
+  "text_sha256": "c8474d9419839bd17582f5016401037474bc920933ad93b500193a624e16c0fd",
+  "parsed_count": 268,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "tencent/hy4-flash",
+  "response_id": "gen-1795065639-I9n8QUbvOb92hdVaPeFg",
+  "usage": {
+    "prompt_tokens": 158,
+    "completion_tokens": 538,
+    "total_tokens": 696,
+    "cost": 0.000081119,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000081119,
+      "upstream_inference_prompt_cost": 0.00000553,
+      "upstream_inference_completions_cost": 0.000075589
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Tencent",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/tencent/fp8",
+  "finished_at": "2026-11-19T05:20:44.893Z"
+}

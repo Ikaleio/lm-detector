@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "d180829e6de3cd227db898f35d50f5cd9935be1ddbeb2e2910bdbdd13dc13ce8",
+  "challenge_id": "query-18",
+  "attempt": 1,
+  "task": {
+    "id": "query-18",
+    "condition": "environment-06",
+    "expected_count": 327,
+    "prompt": "Fill exactly 327 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "tencent/hy4",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Fill exactly 327 positions with integers from the closed interval [1, 355], making a separate immediate choice for every position. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "tencent/fp4"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-19T05:21:29.582Z",
+  "trace": "trace/query-18/0001",
+  "text": "[187, 42, 311, 96, 254, 13, 348, 171, 77, 229, 305, 118, 6, 263, 139, 331, 58, 201, 89, 344, 25, 156, 282, 109, 47, 319, 184, 68, 237, 4, 146, 294, 121, 351, 33, 217, 99, 275, 62, 162, 307, 84, 241, 15, 189, 336, 52, 128, 269, 73, 198, 354, 38, 211, 113, 287, 7, 175, 248, 91, 322, 44, 141, 260, 103, 300, 27, 194, 166, 341, 66, 222, 55, 279, 129, 10, 231, 178, 315, 81, 36, 154, 296, 117, 250, 2, 207, 138, 333, 70, 183, 49, 266, 108, 349, 22, 160, 243, 95, 285, 131, 59, 214, 338, 11, 172, 101, 309, 75, 224, 40, 191, 352, 124, 64, 257, 145, 20, 290, 86, 235, 168, 326, 53, 111, 274, 31, 204, 92, 317, 151, 8, 246, 134, 298, 61, 185, 355, 24, 216, 78, 271, 115, 342, 46, 158, 195, 88, 306, 126, 34, 239, 181, 1, 253, 105, 325, 67, 143, 209, 97, 288, 39, 164, 312, 51, 228, 120, 347, 17, 199, 72, 265, 136, 30, 220, 174, 334, 82, 43, 291, 110, 238, 56, 149, 303, 94, 202, 14, 262, 176, 340, 28, 114, 244, 79, 193, 322, 60, 153, 280, 102, 37, 218, 132, 350, 5, 169, 87, 256, 142, 310, 48, 230, 74, 197, 335, 19, 119, 273, 163, 45, 294, 83, 212, 9, 147, 301, 65, 188, 124, 329, 35, 223, 100, 249, 157, 16, 267, 112, 345, 71, 206, 90, 182, 313, 23, 140, 276, 57, 233, 167, 3, 205, 127, 318, 76, 242, 106, 29, 190, 337, 50, 152, 284, 98, 221, 12, 261, 135, 304, 69, 179, 41, 210, 144, 327, 21, 116, 255, 85, 196, 352, 63, 148, 292, 107, 32, 226, 173, 316, 54, 137, 278, 93, 247, 18, 155, 300, 80, 208, 125, 346, 26, 186, 104, 270, 150, 339, 58, 215, 77, 240, 130, 297, 165]",
+  "text_sha256": "5d23aee256adb8fe6f1bc964fdd037b7a4cbe1dc1ab8920c8142c341cf3a7416",
+  "parsed_count": 316,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "tencent/hy4",
+  "response_id": "gen-1795065689-UX4wmZRhWzCeTvya02TG",
+  "usage": {
+    "prompt_tokens": 161,
+    "completion_tokens": 949,
+    "total_tokens": 1110,
+    "cost": 0.0012538615,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0012538615,
+      "upstream_inference_prompt_cost": 0.000067137,
+      "upstream_inference_completions_cost": 0.0011867245
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Tencent",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/tencent/fp4",
+  "finished_at": "2026-11-19T05:21:39.750Z"
+}

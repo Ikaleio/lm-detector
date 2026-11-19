@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "d180829e6de3cd227db898f35d50f5cd9935be1ddbeb2e2910bdbdd13dc13ce8",
+  "challenge_id": "query-28",
+  "attempt": 1,
+  "task": {
+    "id": "query-28",
+    "condition": "environment-10",
+    "expected_count": 292,
+    "prompt": "You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained. The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed.\n\nFinal task:\n这是一次无语义数值选择。请为 292 个位置分别凭第一反应选择一个 1 到 355（含端点）的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+    "system": "",
+    "body": {
+      "model": "tencent/hy4",
+      "messages": [
+        {
+          "role": "user",
+          "content": "You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained. The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed.\n\nFinal task:\n这是一次无语义数值选择。请为 292 个位置分别凭第一反应选择一个 1 到 355（含端点）的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。"
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "tencent/fp4"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-19T05:22:12.638Z",
+  "trace": "trace/query-28/0001",
+  "text": "187, 42, 316, 93, 251, 8, 344, 129, 276, 61, 198, 355, 17, 233, 104, 309, 72, 168, 287, 36, 219, 141, 332, 55, 264, 96, 11, 301, 178, 245, 67, 137, 354, 83, 206, 29, 322, 152, 271, 48, 190, 114, 339, 75, 226, 3, 158, 294, 101, 38, 248, 183, 312, 59, 133, 349, 86, 210, 25, 166, 281, 117, 44, 306, 196, 68, 239, 145, 327, 13, 174, 257, 91, 203, 52, 341, 108, 223, 6, 185, 289, 132, 38, 266, 77, 163, 351, 21, 230, 119, 315, 64, 194, 147, 283, 33, 216, 98, 337, 57, 171, 242, 81, 125, 300, 15, 207, 154, 269, 46, 190, 103, 325, 71, 238, 136, 347, 24, 181, 278, 112, 59, 213, 88, 331, 49, 159, 292, 9, 254, 140, 201, 66, 310, 95, 176, 28, 342, 121, 228, 74, 164, 297, 39, 247, 108, 319, 53, 192, 149, 273, 82, 35, 221, 130, 353, 62, 189, 260, 18, 144, 305, 79, 236, 115, 336, 45, 169, 284, 97, 215, 7, 318, 139, 250, 31, 202, 161, 288, 69, 127, 346, 22, 179, 267, 105, 50, 324, 153, 235, 87, 4, 197, 142, 303, 58, 211, 124, 329, 73, 184, 256, 41, 165, 299, 110, 26, 340, 191, 151, 275, 12, 232, 84, 313, 56, 172, 243, 118, 37, 209, 157, 291, 65, 135, 350, 20, 224, 100, 263, 47, 186, 146, 308, 76, 169, 280, 34, 218, 111, 333, 89, 195, 5, 258, 131, 205, 60, 320, 175, 94, 241, 16, 156, 296, 107, 43, 227, 138, 348, 70, 182, 270, 30, 214, 122, 304, 51, 244, 90, 167, 334, 1, 200, 126, 285, 63, 231, 148, 317, 19, 253, 80, 162, 290, 40, 220, 123, 326, 106, 27, 188, 143, 277, 54, 208, 92, 343, 116, 249, 32, 177, 265, 78, 128, 298, 2, 240, 155, 311, 85, 193, 23, 268, 134, 338, 14, 255, 170, 109, 321, 225, 10",
+  "text_sha256": "8e6649174bf4e7cf01eadf3e6eafe4ce6ad9b0dc0020fa90bebb2c2f8c3c5fc5",
+  "parsed_count": 323,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "tencent/hy4",
+  "response_id": "gen-1795065732-FWIkqhMZdiai6eBLaRh7",
+  "usage": {
+    "prompt_tokens": 293,
+    "completion_tokens": 968,
+    "total_tokens": 1261,
+    "cost": 0.001332665,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.001332665,
+      "upstream_inference_prompt_cost": 0.000122181,
+      "upstream_inference_completions_cost": 0.001210484
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Tencent",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/tencent/fp4",
+  "finished_at": "2026-11-19T05:22:23.080Z"
+}

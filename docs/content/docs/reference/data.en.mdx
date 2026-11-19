@@ -52,6 +52,15 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-19 Add Hy4 and Hy4 Flash" id="2026-11-19-hy4">
+    The reference bank adds 36 fixed-challenge answers each for `hy4` and `hy4-flash` in the Hunyuan family. It contains 75 fingerprint identities and 2,776 answers.
+
+    Reference collection and two independent fixed evaluation groups per model used streaming Chat Completions with reasoning disabled. OpenRouter requests were pinned to `tencent/fp4` for Hy4 and `tencent/fp8` for Hy4 Flash, with provider fallback disabled. Responses reported Tencent and the expected model IDs.
+
+    Hy4 produced 34 naturally completed reference answers and 2 that reached the fixed 500-integer limit. Hy4 Flash produced 16 naturally completed reference answers and 20 that reached the limit. The collection batches retain their truncation markers and raw responses.
+
+    Both independent fixed evaluation groups for each model ranked its reference label first. Across the same 146 previous complete groups, top-1 hits went from 132 to 132, and top-3 hits went from 143 to 143. Evaluation covers 150 of 152 groups and 450 of 456 answers.
+  </Accordion>
   <Accordion title="2026-11-19 Add Gemini 4 Neon" id="2026-11-19-gemini-4-neon-vertex">
     The reference bank adds 36 fixed-challenge answers for `gemini-4-neon` from OpenRouter's Google Vertex Global route. It contains 73 fingerprint identities and 2,704 answers.
 

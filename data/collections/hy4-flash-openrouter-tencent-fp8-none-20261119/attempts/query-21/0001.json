@@ -1,0 +1,47 @@
+{
+  "manifest_sha256": "79160749da53442effd0fbf75dda7fbc07fcfdf685a2f3969312741948eefd1c",
+  "challenge_id": "query-21",
+  "attempt": 1,
+  "task": {
+    "id": "query-21",
+    "condition": "environment-07",
+    "expected_count": 326,
+    "prompt": "进行一轮快速逐项取值：分别给出 326 个取值范围为 1 至 355 的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+    "system": "Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed. You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained. The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context.",
+    "body": {
+      "model": "tencent/hy4-flash",
+      "messages": [
+        {
+          "role": "system",
+          "content": "Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed. You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained. The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context."
+        },
+        {
+          "role": "user",
+          "content": "进行一轮快速逐项取值：分别给出 326 个取值范围为 1 至 355 的整数。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。"
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "tencent/fp8"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-19T05:21:31.470Z",
+  "trace": "trace/query-21/0001",
+  "text": "247, 83, 319, 56, 188, 12, 274, 141, 29, 203, 97, 331, 64, 152, 8, 225, 118, 342, 41, 176, 260, 73, 309, 134, 21, 197, 88, 351, 59, 215, 107, 286, 150, 34, 242, 122, 305, 17, 169, 278, 91, 328, 48, 139, 231, 6, 194, 113, 75, 257, 160, 26, 342, 101, 218, 53, 297, 132, 44, 252, 180, 11, 289, 79, 207, 125, 316, 38, 146, 266, 23, 193, 87, 324, 61, 172, 240, 15, 303, 109, 220, 50, 135, 281, 69, 211, 155, 31, 249, 96, 335, 77, 144, 198, 27, 268, 117, 349, 58, 186, 9, 229, 103, 314, 45, 161, 276, 84, 206, 133, 327, 35, 191, 121, 259, 71, 307, 174, 20, 243, 108, 291, 66, 213, 128, 338, 43, 167, 235, 14, 301, 94, 222, 56, 148, 271, 80, 202, 129, 318, 39, 178, 262, 97, 330, 63, 154, 25, 227, 116, 300, 52, 184, 137, 323, 74, 216, 159, 33, 253, 105, 287, 68, 209, 143, 310, 40, 195, 120, 279, 18, 248, 89, 333, 60, 171, 238, 10, 294, 112, 219, 46, 136, 274, 81, 199, 131, 325, 37, 163, 265, 22, 236, 99, 309, 57, 177, 242, 12, 290, 102, 214, 47, 151, 282, 76, 205, 127, 340, 36, 168, 233, 16, 296, 106, 221, 54, 149, 277, 85, 201, 130, 311, 42, 182, 258, 70, 308, 173, 24, 250, 104, 288, 65, 210, 142, 320, 41, 196, 119, 272, 19, 244, 90, 329, 62, 157, 30, 254, 100, 283, 67, 217, 146, 313, 38, 166, 267, 13, 292, 98, 224, 51, 138, 302, 78, 192, 126, 317, 44, 170, 261, 28, 239, 111, 298, 55, 185, 140, 321, 72, 208, 158, 32, 246, 95, 336, 61, 174, 230, 7, 295, 115, 226, 49, 147, 275, 82, 200, 124, 312, 39, 181, 263, 86, 306, 162, 35, 241, 110, 293, 59, 190, 135, 319, 77, 212, 153, 34, 255, 103, 284, 73, 218, 145, 314, 43, 164, 270, 11, 297, 93, 203, 53, 132, 309, 79, 180, 237, 26, 286, 114, 228, 57, 169, 248, 100, 326, 66, 194, 138, 322, 75, 211, 156, 29, 260, 87, 337, 50, 187, 123, 303, 20, 251, 108, 280, 63, 215, 149, 331, 45, 175, 243, 118, 296, 69, 222, 154, 31, 268, 96, 340, 58, 189, 121, 257, 81, 307, 161, 27, 235, 102, 292, 71, 204, 139, 318, 46, 172, 249, 94, 335, 64, 198, 133, 276, 17, 225, 107, 300, 52, 183, 128, 314, 40, 166, 264, 23, 293, 91, 207, 143, 325, 37, 178, 254, 74, 308, 159, 33, 247, 105, 285, 68, 213, 151, 310, 42, 196, 125, 273, 14, 239, 99, 302, 60, 170, 231, 84, 291, 116, 220, 48, 155, 278, 88, 202, 137, 327, 36, 165, 269, 12, 294, 97, 216, 57, 186, 141, 316, 80, 209, 153, 30, 256, 101, 289, 70, 210, 147, 321, 44, 179, 258, 86, 305, 160, 28, 244, 110, 287, 61, 193, 134, 313, 77, 214, 152, 35",
+  "text_sha256": "3fbe9e8403e6bf212ca5c8b864c458a52ac603c08ffc9254263b5180ad060648",
+  "parsed_count": 500,
+  "completion": "truncated",
+  "http_status": 200,
+  "response_model": "tencent/hy4-flash",
+  "response_id": "gen-1795065692-C4CgZHXczljT33N91bFy",
+  "provider_reported": "Tencent",
+  "actual_channel": "openrouter/tencent/fp8",
+  "finished_at": "2026-11-19T05:21:40.671Z"
+}

@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "79160749da53442effd0fbf75dda7fbc07fcfdf685a2f3969312741948eefd1c",
+  "challenge_id": "query-17",
+  "attempt": 1,
+  "task": {
+    "id": "query-17",
+    "condition": "environment-06",
+    "expected_count": 319,
+    "prompt": "Provide exactly 319 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "tencent/hy4-flash",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Provide exactly 319 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "tencent/fp8"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-19T05:21:16.486Z",
+  "trace": "trace/query-17/0001",
+  "text": "[247,19,308,72,141,356,89,213,4,177,265,38,120,301,64,158,236,12,94,329,181,57,274,106,22,198,340,76,145,263,31,118,207,352,83,167,249,6,135,290,48,219,101,374,60,182,315,27,154,241,88,331,43,127,204,69,258,14,173,296,52,109,226,362,91,160,284,35,138,218,75,307,23,191,343,97,150,268,41,115,202,61,253,325,8,171,282,46,130,209,94,356,16,187,271,80,144,311,29,163,247,58,338,104,196,337,70,122,279,11,179,292,54,134,214,85,305,37,153,242,66,321,20,168,260,77,188,349,104,231,45,119,297,63,176,273,33,148,220,87,316,25,199,327,51,139,235,74,287,17,156,261,92,344,49,126,228,81,302,40,161,251,9,183,275,68,142,319,36,169,239,95,309,13,205,291,56,117,264,78,195,333,30,174,286,59,133,216,90,300,42,152,245,73,324,21,190,278,62,146,312,34,178,257,82,137,230,47,296,65,160,353,26,185,268,79,129,222,100,341,44,157,255,71,203,280,15,166,310,53,121,240,86,304,39,151,232,67,314,18,180,270,93,135,317,50,142,224,77,309,32,172,266,55,110,250,84,331,28,193,283,42,164,249,76,127,298,61,186,260,97,138,320,24,200,289,69,159,237,35,211,293,81,149,274,46,113,227,57,343,102,175,301,38,125,218,88,306,52,141,235,63,192,326,11,158,269,74,108,244,31,187,277,60,132,213,85,297,43,170,252,80,336,14,206,284,49,116,262,91,148,322,27,195,271,65,122,308,37,181,256,99,314,20,147,229,70,303,48,154,246,83,329,12,177,281,58,111,238,96,345,33,162,217,68,288,41,135,234,75,318,22,194,276,53,143,311,86,168,258,36,120,307,64,189,265,79,139,225,95,340,29,166,293]",
+  "text_sha256": "a670033eac7f52db161051635e1147709a586ba7848aac259c5eb044b2edb319",
+  "parsed_count": 390,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "tencent/hy4-flash",
+  "response_id": "gen-1795065676-NRMLCvbOHxhJovjYJJIT",
+  "usage": {
+    "prompt_tokens": 160,
+    "completion_tokens": 790,
+    "total_tokens": 950,
+    "cost": 0.000116595,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000116595,
+      "upstream_inference_prompt_cost": 0.0000056,
+      "upstream_inference_completions_cost": 0.000110995
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Tencent",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/tencent/fp8",
+  "finished_at": "2026-11-19T05:21:24.134Z"
+}

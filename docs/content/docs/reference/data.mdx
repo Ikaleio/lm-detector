@@ -52,6 +52,15 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-19 新增 Hy4 和 Hy4 Flash" id="2026-11-19-hy4">
+    `hy4` 和 `hy4-flash` 各新增 36 条固定挑战参考回答，归入 Hunyuan 家族。参考库共有 75 个指纹身份、2,776 条样本。
+
+    参考采样和各两组独立固定评估都使用流式 Chat Completions，并关闭推理。OpenRouter 路由分别固定为 Hy4 的 `tencent/fp4` 和 Hy4 Flash 的 `tencent/fp8`，关闭供应商回退。回包确认了 Tencent 和对应型号。
+
+    Hy4 的 34 条参考回答自然结束，2 条达到固定的 500 整数上限。Hy4 Flash 对应为 16 条自然结束和 20 条达到上限，截断标记和原始响应保存在采样批次中。
+
+    重训后，两款模型各自的两组独立固定评估都排第一。相同的 146 个旧完整组中，Top-1 命中为 132 → 132，Top-3 命中为 143 → 143。全库评估覆盖 150/152 组、450/456 条回答。
+  </Accordion>
   <Accordion title="2026-11-19 新增 Gemini 4 Neon" id="2026-11-19-gemini-4-neon-vertex">
     `gemini-4-neon` 新增 36 条固定挑战参考回答，来源为 OpenRouter 的 Google Vertex Global。参考库共有 73 个指纹身份、2,704 条样本。
 

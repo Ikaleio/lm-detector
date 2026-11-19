@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "79160749da53442effd0fbf75dda7fbc07fcfdf685a2f3969312741948eefd1c",
+  "challenge_id": "query-16",
+  "attempt": 2,
+  "task": {
+    "id": "query-16",
+    "condition": "environment-06",
+    "expected_count": 301,
+    "prompt": "For each of 301 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "tencent/hy4-flash",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For each of 301 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "tencent/fp8"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-19T05:21:15.930Z",
+  "trace": "trace/query-16/0002",
+  "text": "[247, 93, 318, 12, 174, 286, 41, 209, 67, 341, 128, 5, 231, 154, 302, 76, 198, 23, 267, 112, 350, 88, 161, 39, 219, 294, 57, 133, 311, 18, 186, 243, 71, 327, 104, 149, 6, 278, 137, 205, 33, 169, 355, 91, 260, 48, 222, 307, 15, 193, 119, 344, 62, 176, 29, 251, 106, 330, 80, 142, 214, 44, 289, 101, 19, 237, 158, 314, 54, 183, 126, 347, 75, 228, 3, 167, 273, 39, 218, 131, 336, 61, 195, 9, 255, 148, 322, 86, 205, 46, 292, 113, 24, 179, 351, 68, 145, 301, 35, 211, 264, 98, 17, 239, 122, 333, 58, 190, 109, 281, 42, 156, 309, 73, 224, 2, 170, 312, 90, 254, 49, 138, 328, 21, 199, 115, 346, 64, 233, 151, 27, 285, 81, 161, 337, 53, 208, 11, 270, 129, 298, 70, 184, 31, 249, 96, 321, 14, 173, 228, 60, 316, 84, 140, 263, 38, 213, 107, 350, 25, 192, 132, 303, 66, 176, 341, 90, 217, 45, 278, 120, 8, 243, 160, 329, 79, 226, 51, 154, 290, 34, 187, 111, 355, 63, 258, 146, 319, 20, 200, 125, 335, 77, 231, 4, 166, 297, 56, 149, 311, 87, 238, 118, 343, 72, 182, 36, 266, 102, 16, 286, 151, 304, 69, 194, 41, 250, 103, 325, 59, 180, 28, 272, 138, 308, 83, 215, 10, 169, 349, 74, 255, 43, 223, 101, 330, 22, 196, 117, 302, 65, 235, 30, 279, 93, 158, 314, 47, 207, 130, 345, 78, 260, 13, 188, 108, 291, 50, 221, 137, 313, 37, 164, 268, 85, 203, 26, 247, 142, 324, 55, 172, 7, 256, 127, 336, 82, 239, 44, 280, 114, 32, 185, 110, 352, 67, 230, 152, 301, 40, 210, 97, 327, 61, 201, 33, 259, 143, 318, 52, 177, 121, 340, 76, 264, 35, 205, 95, 292, 1, 162, 275, 89, 242, 17, 311, 126, 195, 29, 253, 105, 332, 71, 219, 48, 287, 139, 343, 86, 248, 54, 168, 117, 322, 68, 236, 42, 306, 123, 189, 77, 269, 52, 154, 338, 92, 227, 19, 261, 144, 309, 58, 198, 114, 351, 74, 217, 46, 283, 107, 171, 334, 62, 241, 96, 320, 27, 159, 293, 80, 225, 11, 186, 135, 344, 73, 251, 36, 211, 100, 329, 64, 175, 5, 274, 131, 315, 88, 220, 49, 303, 122, 193, 31, 257, 112, 337, 81, 204, 39, 262, 98, 177, 348, 60, 233, 14, 290, 128, 341, 183, 71, 11, 226, 153, 307, 43, 195, 119, 324, 86, 270, 38, 214, 145, 355, 76]",
+  "text_sha256": "80d75be994d3663313670acb73d01af7f7f2ebd007ee23520838a8055d64a510",
+  "parsed_count": 427,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "tencent/hy4-flash",
+  "response_id": "gen-1795065676-BsZ2gvysUYyTmG5iFmMc",
+  "usage": {
+    "prompt_tokens": 161,
+    "completion_tokens": 1282,
+    "total_tokens": 1443,
+    "cost": 0.000185756,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000185756,
+      "upstream_inference_prompt_cost": 0.000005635,
+      "upstream_inference_completions_cost": 0.000180121
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Tencent",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/tencent/fp8",
+  "finished_at": "2026-11-19T05:21:23.314Z"
+}

@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "d180829e6de3cd227db898f35d50f5cd9935be1ddbeb2e2910bdbdd13dc13ce8",
+  "challenge_id": "query-02",
+  "attempt": 1,
+  "task": {
+    "id": "query-02",
+    "condition": "environment-01",
+    "expected_count": 233,
+    "prompt": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "tencent/hy4",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Provide exactly 233 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "tencent/fp4"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-19T05:20:32.257Z",
+  "trace": "trace/query-02/0001",
+  "text": "[173,42,308,91,255,17,344,126,219,68,301,149,37,281,104,196,331,83,240,12,158,269,55,317,111,203,348,76,187,29,264,135,322,60,229,97,285,145,8,211,340,119,253,49,178,310,88,236,23,166,295,71,207,139,327,102,244,35,183,276,64,351,128,215,56,300,94,168,259,19,333,112,247,81,190,289,143,5,224,316,67,201,132,272,46,338,108,238,77,155,304,121,254,31,185,291,99,210,350,74,162,268,52,197,325,86,231,14,171,313,109,242,40,280,152,65,206,342,93,226,27,164,298,116,256,58,189,320,137,48,284,175,7,218,336,101,247,70,193,266,38,153,309,124,221,84,179,294,61,205,130,274,22,347,115,235,54,188,315,142,10,260,329,90,200,45,172,303,118,241,33,157,287,79,213,338,106,249,16,182,270,63,198,124,306,95,228,41,292,167,2,263,356,0,214]",
+  "text_sha256": "6d2f7b222a23b424a07535411c8e4b4fda36618e0565d7932bfe1fd4f36bc131",
+  "parsed_count": 193,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "tencent/hy4",
+  "response_id": "gen-1795065632-Amua5Uen9nkcAntkLqy6",
+  "usage": {
+    "prompt_tokens": 160,
+    "completion_tokens": 392,
+    "total_tokens": 552,
+    "cost": 0.000556916,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000556916,
+      "upstream_inference_prompt_cost": 0.00006672,
+      "upstream_inference_completions_cost": 0.000490196
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Tencent",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/tencent/fp4",
+  "finished_at": "2026-11-19T05:20:39.405Z"
+}

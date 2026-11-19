@@ -1,0 +1,47 @@
+{
+  "manifest_sha256": "79160749da53442effd0fbf75dda7fbc07fcfdf685a2f3969312741948eefd1c",
+  "challenge_id": "query-08",
+  "attempt": 1,
+  "task": {
+    "id": "query-08",
+    "condition": "environment-03",
+    "expected_count": 241,
+    "prompt": "Provide exactly 241 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "You are operating inside a formal reporting workflow. In ordinary replies, use clear formatting and neutral wording. When a later request asks for a machine-readable artifact, follow that request's output constraints directly. Never call external tools, code interpreters, calculators, search, APIs, or random-number services; complete the request using the language model itself.",
+    "body": {
+      "model": "tencent/hy4-flash",
+      "messages": [
+        {
+          "role": "system",
+          "content": "You are operating inside a formal reporting workflow. In ordinary replies, use clear formatting and neutral wording. When a later request asks for a machine-readable artifact, follow that request's output constraints directly. Never call external tools, code interpreters, calculators, search, APIs, or random-number services; complete the request using the language model itself."
+        },
+        {
+          "role": "user",
+          "content": "Provide exactly 241 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "tencent/fp8"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-19T05:20:48.403Z",
+  "trace": "trace/query-08/0001",
+  "text": "214, 17, 308, 92, 155, 341, 26, 179, 63, 237, 4, 126, 280, 49, 313, 101, 198, 352, 71, 144, 22, 267, 119, 331, 58, 190, 9, 207, 295, 137, 38, 249, 86, 322, 113, 174, 6, 261, 78, 148, 303, 45, 196, 129, 24, 284, 67, 218, 355, 111, 163, 33, 240, 90, 153, 347, 14, 187, 59, 272, 106, 318, 42, 203, 132, 25, 291, 74, 229, 11, 166, 97, 337, 51, 211, 139, 285, 36, 246, 82, 324, 120, 179, 7, 258, 69, 194, 310, 47, 224, 156, 19, 276, 104, 344, 61, 216, 88, 144, 30, 268, 115, 328, 53, 172, 232, 40, 297, 99, 201, 125, 16, 255, 73, 317, 35, 184, 141, 287, 65, 241, 108, 351, 27, 169, 220, 57, 306, 94, 150, 3, 263, 80, 211, 48, 279, 133, 37, 198, 322, 68, 230, 121, 12, 188, 292, 54, 161, 345, 76, 245, 102, 313, 44, 207, 138, 23, 271, 89, 326, 60, 175, 252, 31, 117, 337, 85, 193, 9, 282, 146, 204, 50, 239, 111, 5, 129, 297, 18, 164, 349, 72, 226, 99, 314, 41, 181, 260, 56, 192, 127, 336, 64, 247, 103, 328, 21, 158, 275, 87, 203, 46, 291, 134, 77, 217, 32, 304, 95, 162, 240, 14, 268, 112, 353, 70, 174, 252, 39, 121, 318, 55, 185, 280, 8, 200, 143, 29, 259, 74, 331, 101, 222, 43, 309, 116, 197, 5, 266, 83, 149, 342, 36, 231, 123, 17, 288, 62, 213, 107, 344, 48, 176, 294, 91, 155, 327, 20, 169, 250, 66, 301, 124, 193, 34, 281, 79, 238, 110, 352, 59, 180, 263, 13, 205, 144, 97, 319, 52, 227, 163, 300, 75, 135, 257, 28, 195, 315, 84, 151, 22, 270, 118, 333, 61, 209, 141, 286, 38, 248, 93, 325, 67, 189, 114, 4, 243, 77, 170, 307, 45, 216, 130, 1, 106, 278, 49, 201, 137, 26, 290, 81, 228, 15, 166, 320, 58, 235, 100, 187, 340, 71, 152, 11, 261, 88, 312, 42, 218, 126, 297, 33, 178, 253, 60, 324, 95, 147, 6, 207, 119, 351, 65, 193, 131, 274, 37, 222, 104, 317, 51, 160, 283, 73, 239, 19, 305, 86, 168, 247, 54, 121, 329, 80, 182, 264, 46, 292, 109, 340, 25, 157, 275, 68, 194, 350, 39, 211, 135, 300, 57, 225, 102, 326, 43, 186, 256, 12, 149, 309, 63, 173, 281, 94, 143, 31, 242, 76, 315, 111, 204, 52, 269, 137, 3, 90, 220, 41, 287, 128, 198, 24, 254, 69, 331, 108, 161, 277, 50, 192, 323, 85, 145, 16, 234, 97, 303, 61, 176, 251, 35, 216, 118, 338, 78, 203, 139, 268, 27, 183, 310, 56, 229, 126, 345, 74, 158, 285, 44, 195, 320, 104, 240, 117, 328, 29, 170, 260, 82, 317, 48, 212, 150, 298, 66, 241, 121, 351, 38, 188, 273, 95, 132, 256, 7, 204, 110, 289, 53, 225, 100, 336, 79, 171, 303, 45, 218, 140, 264, 32",
+  "text_sha256": "03872d7856020220e1393987a9ae3624dad8632e87e6c6906b81287887514e7b",
+  "parsed_count": 500,
+  "completion": "truncated",
+  "http_status": 200,
+  "response_model": "tencent/hy4-flash",
+  "response_id": "gen-1795065648-TnwRQLhPIby8gT1EuM3q",
+  "provider_reported": "Tencent",
+  "actual_channel": "openrouter/tencent/fp8",
+  "finished_at": "2026-11-19T05:20:59.043Z"
+}

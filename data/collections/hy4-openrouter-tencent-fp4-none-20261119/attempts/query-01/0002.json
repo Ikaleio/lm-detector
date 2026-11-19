@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "d180829e6de3cd227db898f35d50f5cd9935be1ddbeb2e2910bdbdd13dc13ce8",
+  "challenge_id": "query-01",
+  "attempt": 2,
+  "task": {
+    "id": "query-01",
+    "condition": "environment-01",
+    "expected_count": 218,
+    "prompt": "For each of 218 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "tencent/hy4",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For each of 218 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "tencent/fp4"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-19T05:20:37.113Z",
+  "trace": "trace/query-01/0002",
+  "text": "[187,42,311,96,254,7,168,329,73,215,140,286,19,103,267,58,199,341,124,231,15,178,302,87,249,36,161,275,112,318,64,205,137,292,28,184,347,91,223,50,171,309,76,260,8,145,281,39,196,332,118,239,24,155,297,68,210,131,268,3,190,315,84,244,47,166,288,109,257,13,201,336,61,226,99,174,305,33,152,278,71,217,126,263,21,183,322,55,193,142,284,10,236,89,251,38,207,344,116,270,5,159,301,78,228,46,164,294,121,248,30,176,325,66,213,134,277,17,198,338,93,242,53,169,308,81,220,105,258,12,147,290,43,189,316,74,234,35,180,327,60,203,128,265,26,156,299,95,246,1,172,313,70,225,110,253,16,186,340,83,238,48,163,289,119,261,6,151,283,40,195,333,114,240,23,157,296,67,209,130,269,4,191,314,85,245,49,167,287,108,256,14,202,335,62,227,100,175,304,34,153,279,72,218,125,264,22,182,321,56,194,141,285,9,235,90,252,37,208,343,115,271,2,160,300,77,229,45,165,293,122,247,29,177,326,65,214,133,276,18,197,337,94,241,54,170,307,82,219,106,259,11,148,291,44,188,317,75,233,32,179,328,59,204,127,266,25,154,298,92,243,52,173,312,69,224,111,255,20,185,339,86,237,41,162,295,120,250,27,150,282,79,230,107,272,31,181,323,57,192,143,280,97,232,129,274,51,206,345,117,216,98,349,138,349,80,211,135,346,63,158,310,101,216,350,146,355,216,273,104,350,216,346]",
+  "text_sha256": "f4b9b4205cb8d4aed60ece69da16cc481b3363b104e46d26b3bb896de07862bb",
+  "parsed_count": 333,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "tencent/hy4",
+  "response_id": "gen-1795065637-H3EJlN7TA2hUNeVq7zZj",
+  "usage": {
+    "prompt_tokens": 161,
+    "completion_tokens": 668,
+    "total_tokens": 829,
+    "cost": 0.000877127,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 64,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000877127,
+      "upstream_inference_prompt_cost": 0.000041793,
+      "upstream_inference_completions_cost": 0.000835334
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Tencent",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/tencent/fp4",
+  "finished_at": "2026-11-19T05:20:47.342Z"
+}

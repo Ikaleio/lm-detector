@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "d180829e6de3cd227db898f35d50f5cd9935be1ddbeb2e2910bdbdd13dc13ce8",
+  "challenge_id": "query-04",
+  "attempt": 2,
+  "task": {
+    "id": "query-04",
+    "condition": "environment-02",
+    "expected_count": 223,
+    "prompt": "Give exactly 223 separate first-response integer choices in 1..355. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation.",
+    "system": "",
+    "body": {
+      "model": "tencent/hy4",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Give exactly 223 separate first-response integer choices in 1..355. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Return one compact JSON array containing the complete sequence and no explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "tencent/fp4"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-19T05:20:42.477Z",
+  "trace": "trace/query-04/0002",
+  "text": "[187,42,311,96,258,13,174,329,67,201,349,28,145,272,89,233,17,304,118,251,61,198,337,76,219,353,31,162,285,104,241,9,127,268,55,193,317,83,226,147,297,38,179,331,71,211,22,156,289,94,246,48,183,342,112,263,6,139,277,79,215,354,26,166,301,57,203,121,252,36,190,323,68,229,87,238,15,158,291,103,249,45,196,314,73,222,2,132,281,91,234,52,185,347,19,168,307,64,207,110,265,39,176,336,81,217,29,151,295,97,243,12,143,286,59,209,349,24,170,319,75,224,106,255,34,189,327,62,213,1,154,299,85,236,43,182,344,116,260,7,137,275,69,230,92,247,21,161,309,54,205,125,270,33,192,325,78,220,10,148,293,100,245,50,195,315,66,227,3,130,283,88,239,46,186,340,20,164,303,60,208,119,257,35,177,332,72,216,27,153,288,95,242,8,141,279,56,200,350,18,169,306,63,212,108,262,41,180,338,84,225,30,157,296,99,248,11,135,284,58,202,123,269,37,191,321,70,218,4,129,280,90,235,53,188,346,16,167,310,65,206,113,266,40,178,335,82,221,25,150,294,98,244,14,142,287,47,194,328,74,228,5,131,282,93,240,51,184,345,23,171,318,77,214,107,256,32,181,333,86,223,44,175,300,102,250,49,197,316,80,231]",
+  "text_sha256": "5078b7aa70eae5c96adb37b5fc17a0b2e25e4cc9ee869d5fac8610f519f0ae0b",
+  "parsed_count": 291,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "tencent/hy4",
+  "response_id": "gen-1795065642-MY26fAWRIT6ex6ac32oD",
+  "usage": {
+    "prompt_tokens": 150,
+    "completion_tokens": 584,
+    "total_tokens": 734,
+    "cost": 0.000767498,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 64,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.000767498,
+      "upstream_inference_prompt_cost": 0.000037206,
+      "upstream_inference_completions_cost": 0.000730292
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "provider_reported": "Tencent",
+  "finish_reason": "stop",
+  "actual_channel": "openrouter/tencent/fp4",
+  "finished_at": "2026-11-19T05:20:51.910Z"
+}

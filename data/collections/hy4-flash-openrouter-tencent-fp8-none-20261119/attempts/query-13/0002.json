@@ -1,0 +1,43 @@
+{
+  "manifest_sha256": "79160749da53442effd0fbf75dda7fbc07fcfdf685a2f3969312741948eefd1c",
+  "challenge_id": "query-13",
+  "attempt": 2,
+  "task": {
+    "id": "query-13",
+    "condition": "environment-05",
+    "expected_count": 297,
+    "prompt": "For each of 297 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "tencent/hy4-flash",
+      "messages": [
+        {
+          "role": "user",
+          "content": "For each of 297 positions, make one separate first-instinct choice of an integer from 1 to 355 inclusive. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_tokens": 8192,
+      "stream": true,
+      "reasoning_effort": "none",
+      "provider": {
+        "only": [
+          "tencent/fp8"
+        ],
+        "allow_fallbacks": false
+      }
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-19T05:21:02.906Z",
+  "trace": "trace/query-13/0002",
+  "text": "327, 84, 211, 19, 276, 142, 305, 67, 233, 91, 178, 12, 249, 104, 341, 57, 196, 288, 38, 164, 319, 73, 225, 131, 6, 268, 187, 42, 310, 118, 254, 79, 207, 153, 28, 336, 95, 240, 161, 49, 292, 111, 199, 63, 347, 23, 174, 281, 137, 5, 217, 88, 259, 146, 34, 302, 121, 191, 71, 228, 163, 44, 315, 102, 273, 186, 51, 238, 129, 10, 285, 166, 81, 212, 140, 30, 326, 97, 251, 179, 60, 296, 116, 204, 39, 268, 150, 8, 220, 108, 344, 76, 242, 126, 17, 337, 193, 55, 283, 132, 21, 266, 94, 231, 157, 46, 309, 122, 201, 69, 248, 161, 35, 301, 114, 271, 189, 62, 325, 86, 236, 144, 26, 291, 107, 176, 50, 218, 138, 2, 260, 167, 83, 313, 100, 254, 182, 58, 299, 119, 209, 74, 277, 148, 31, 330, 93, 245, 171, 43, 304, 127, 195, 66, 322, 90, 234, 154, 37, 287, 110, 202, 64, 339, 20, 174, 280, 141, 11, 261, 168, 80, 316, 106, 223, 156, 40, 293, 124, 190, 68, 249, 135, 4, 269, 172, 52, 308, 117, 206, 77, 327, 145, 27, 286, 101, 213, 182, 47, 335, 85, 243, 162, 33, 303, 113, 274, 188, 61, 295, 109, 197, 72, 231, 154, 29, 321, 92, 252, 177, 54, 297, 120, 215, 78, 270, 149, 36, 329, 99, 239, 169, 45, 311, 125, 194, 59, 324, 89, 226, 155, 41, 294, 103, 208, 65, 338, 22, 173, 282, 139, 9, 262, 165, 82, 314, 105, 250, 180, 53, 298, 115, 210, 70, 272, 147, 32, 328, 96, 246, 170, 44, 306, 123, 200, 67, 320, 87, 237, 152, 25, 290, 112, 183, 56, 284, 134, 13, 267, 175, 48, 307, 118, 205, 75, 331, 143, 24, 288, 98, 253, 181, 49, 300, 121, 214, 73, 279, 151, 30, 334, 91, 244, 160, 42, 312, 128, 192, 62, 323, 88, 229, 158, 38, 289, 111, 203, 63, 340, 18, 176, 278, 136, 7, 263, 169, 79, 317, 108, 219, 153, 35, 292, 126, 198, 69, 247, 133, 3, 257, 173, 57, 310, 102, 216, 143, 27, 290, 100, 230, 159, 43, 300, 120, 207, 74, 271, 150, 31, 333, 95, 241, 166, 46, 305, 129, 193, 60, 325, 86, 235, 154, 39, 287, 110, 201, 67, 339, 21, 178, 275, 140, 14, 264, 170, 81, 318, 104, 222, 155, 37, 294, 123, 204, 71, 277, 146, 29, 330, 97, 248, 174, 50, 302, 116, 211, 76, 273, 148, 33, 326, 94, 245, 172, 47, 309, 125, 196, 65, 321, 90, 228, 157, 41, 291, 109, 202, 68, 336, 19, 175, 280, 138, 15, 265, 171, 84, 319, 107, 224, 152, 36, 295, 122, 199, 66, 249, 134, 1, 258, 176, 54, 308, 119, 213, 77, 270, 149, 32, 332, 98, 242, 167, 45, 313, 130, 191, 61, 324, 87, 233, 153, 40, 288, 112, 206, 70, 274, 145, 28, 331, 93, 246, 168, 48, 301, 124, 197, 64, 337",
+  "text_sha256": "74671d880b09e42d4b78cd46e6a82cb435cbe9942fb77a993e94e2352a59844a",
+  "parsed_count": 500,
+  "completion": "truncated",
+  "http_status": 200,
+  "response_model": "tencent/hy4-flash",
+  "response_id": "gen-1795065663-U7rk0AWE4C2ka0obKVgp",
+  "provider_reported": "Tencent",
+  "actual_channel": "openrouter/tencent/fp8",
+  "finished_at": "2026-11-19T05:21:12.883Z"
+}
