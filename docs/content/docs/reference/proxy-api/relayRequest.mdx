@@ -15,8 +15,9 @@ _openapi:
           streams the JSON or SSE response back unchanged, including the
           upstream status. Set `method` to `GET` and point `url` at a `/models`
           endpoint to list models instead of a completion; `after_id` is an
-          optional pagination cursor. For `anthropic`, the key goes upstream as
-          `x-api-key` with `anthropic-version: 2023-06-01`, plus
+          optional pagination cursor; `after_param` may be `after_id` (the
+          default) or `starting_after`. For `anthropic`, the key goes upstream
+          as `x-api-key` with `anthropic-version: 2023-06-01`, plus
           `anthropic-beta: fast-mode-2026-02-01` when `body` contains `speed`;
           otherwise as `Authorization`. Redirects are not followed and cookies
           are not forwarded. The upstream request times out after 250 seconds,

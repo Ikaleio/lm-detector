@@ -52,14 +52,17 @@ export function modelsEndpoint(baseUrl: string): string {
     throw coded('Base URL 格式不正确', 'invalid_base_url')
   }
   let base = url.href.replace(/\/$/, '')
+  let stripped = false
   for (const suffix of COMPLETION_SUFFIXES) {
     if (base.endsWith(suffix)) {
       base = base.slice(0, -suffix.length)
+      stripped = true
       break
     }
   }
   if (base.endsWith('/models')) return base
-  return base.endsWith('/v1') ? `${base}/models` : `${base}/v1/models`
+  if (stripped || base.endsWith('/v1')) return `${base}/models`
+  return `${base}/v1/models`
 }
 
 /** Appends a pagination cursor without otherwise changing a models URL that has no query string. */

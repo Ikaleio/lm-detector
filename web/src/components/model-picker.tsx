@@ -78,7 +78,7 @@ export function ModelPicker({ config, update, disabled, models, onModelsChange }
     setDetailsOpen(false)
     setOpen(false)
     setLoading(false)
-  }, [config.id, config.baseUrl, config.format, onModelsChange])
+  }, [config.id, config.baseUrl, config.format, config.apiKey, onModelsChange])
 
   function selectModel(model: ListedModel) {
     update({ model: model.id })

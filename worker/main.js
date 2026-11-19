@@ -6,7 +6,8 @@
  *
  * Request: POST with `Authorization: Bearer <upstream key>` and a JSON body `{ url, format, body }`, where `url` is the
  * complete upstream endpoint and `format` is `openai`, `responses` or `anthropic`. Set `method` to `GET` and point `url`
- * at a `/models` endpoint to list models instead of sending a completion; `after_id` is an optional pagination cursor.
+ * at a `/models` endpoint to list models instead of sending a completion; `after_id` is an optional pagination cursor,
+ * and `after_param` may be `after_id` (the default) or `starting_after`.
  * JSON and SSE responses stream back unchanged. The proxy follows no redirects, forwards no cookies and stores no keys.
  *
  * Cross-origin callers must be listed in `ALLOWED_ORIGINS` (comma-separated origins, or `*`). Same-origin calls, as
@@ -26,6 +27,7 @@ const SPEED_BETA = 'fast-mode-2026-02-01'
 const MAX_BODY_BYTES = 128 * 1024
 const ENDPOINT_SUFFIXES = { openai: '/chat/completions', responses: '/responses', anthropic: '/messages' }
 const PREFLIGHT_MAX_AGE = '7200'
+const MODELS_CURSOR_PARAMS = new Set(['after_id', 'starting_after'])
 
 /** @typedef {keyof typeof ENDPOINT_SUFFIXES} Format */
 /** @typedef {{ allowedOrigins?: readonly string[] }} ProxyOptions */
@@ -101,7 +103,12 @@ async function readPayload(request) {
 
 /** @param {unknown} value */
 function modelsCursor(value) {
-  return typeof value === 'string' && /^[\w.:/-]{1,256}$/.test(value) ? value : ''
+  return typeof value === 'string' && /^[\w.:/+\-=%]{1,256}$/.test(value) ? value : ''
+}
+
+/** @param {unknown} value */
+function modelsCursorParam(value) {
+  return typeof value === 'string' && MODELS_CURSOR_PARAMS.has(value) ? value : 'after_id'
 }
 
 /** @param {unknown} value @param {Format} format @param {'completion' | 'models'} [kind] */
@@ -170,7 +177,7 @@ export async function proxyRequest(request, options = {}) {
     if (listModels) {
       url = upstreamUrl(payload.url, format, 'models')
       const afterId = modelsCursor(payload.after_id)
-      if (afterId) url.searchParams.set('after_id', afterId)
+      if (afterId) url.searchParams.set(modelsCursorParam(payload.after_param), afterId)
       headers = new Headers({ Accept: 'application/json' })
       if (format === 'anthropic') {
         headers.set('x-api-key', authorization.slice(7))

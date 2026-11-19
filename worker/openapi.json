@@ -31,7 +31,7 @@
         "operationId": "relayRequest",
         "tags": ["proxy"],
         "summary": "Relay an API request",
-        "description": "Sends `body` to the upstream endpoint `url` with the caller's key and streams the JSON or SSE response back unchanged, including the upstream status. Set `method` to `GET` and point `url` at a `/models` endpoint to list models instead of a completion; `after_id` is an optional pagination cursor. For `anthropic`, the key goes upstream as `x-api-key` with `anthropic-version: 2023-06-01`, plus `anthropic-beta: fast-mode-2026-02-01` when `body` contains `speed`; otherwise as `Authorization`. Redirects are not followed and cookies are not forwarded. The upstream request times out after 250 seconds, and cancelling the call cancels it.",
+        "description": "Sends `body` to the upstream endpoint `url` with the caller's key and streams the JSON or SSE response back unchanged, including the upstream status. Set `method` to `GET` and point `url` at a `/models` endpoint to list models instead of a completion; `after_id` is an optional pagination cursor; `after_param` may be `after_id` (the default) or `starting_after`. For `anthropic`, the key goes upstream as `x-api-key` with `anthropic-version: 2023-06-01`, plus `anthropic-beta: fast-mode-2026-02-01` when `body` contains `speed`; otherwise as `Authorization`. Redirects are not followed and cookies are not forwarded. The upstream request times out after 250 seconds, and cancelling the call cancels it.",
         "security": [{ "upstreamKey": [] }],
         "requestBody": {
           "required": true,
@@ -90,7 +90,8 @@
           },
           "format": { "type": "string", "enum": ["openai", "responses", "anthropic"], "description": "Chat Completions, Responses or Messages." },
           "method": { "type": "string", "enum": ["GET", "POST"], "description": "GET lists models at an upstream `/models` endpoint. POST (the default) relays a completion request and requires `body`." },
-          "after_id": { "type": "string", "description": "Optional pagination cursor for `method: GET`. The proxy adds it as the `after_id` query parameter." },
+          "after_id": { "type": "string", "description": "Optional pagination cursor for `method: GET`. The proxy adds it as a query parameter named `after_id`, or `starting_after` when `after_param` is set to that name." },
+          "after_param": { "type": "string", "enum": ["after_id", "starting_after"], "description": "Query parameter name for `after_id` when `method` is `GET`. Defaults to `after_id`." },
           "body": {
             "type": "object",
             "required": ["model"],

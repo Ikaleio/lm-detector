@@ -57,7 +57,7 @@ function proxyModelsTransport(endpoint: string): ModelsTransport {
         url,
         format: config.format,
         method: 'GET',
-        ...(page?.afterId ? { after_id: page.afterId } : {}),
+        ...(page?.afterId ? { after_id: page.afterId, ...(page.param ? { after_param: page.param } : {}) } : {}),
       }),
       signal,
       redirect: 'error',
