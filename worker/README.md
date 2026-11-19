@@ -24,7 +24,7 @@ This fits anyone who already has a checkout of this repository, or who wants to 
 
 ## After deploying
 
-Open the Worker address in a browser. A working Worker answers `{"service":"fingerpoint-api-proxy","formats":["openai","responses","anthropic"]}`. Choose Connection → Own Worker in the web app, enter the address, and select Check proxy. Sampling and the tokenizer probe then go through that Worker.
+Open the Worker address in a browser. A working Worker answers `{"service":"fingerpoint-api-proxy","formats":["openai","responses","anthropic"],"list_models":true}`. Choose Connection → Own Worker in the web app, enter the address, and select Check proxy. Sampling, the tokenizer probe, and fetching the model list then go through that Worker.
 
 ## Configuration
 
@@ -55,7 +55,7 @@ The Worker forwards no cookies and stores no keys, and cancelling a request in t
 
 ## Request format
 
-Clients other than the web app can call the Worker too. `GET` returns the health check shown above, `OPTIONS` answers the browser's CORS preflight (204 for an allowed origin, 403 otherwise), and `POST` forwards an API request. A `POST` carries `Authorization: Bearer <API key>` and the JSON body `{ "url", "format", "body" }`, where `url` is the complete API endpoint. JSON and streamed (SSE) responses come back unchanged. When the API answers with a success status but sends something else, usually a web page because the address has a wrong path, the Worker returns 502 with `"code": "upstream_not_api"` in its error object. For Messages requests, the Worker sends the key as `x-api-key` with `anthropic-version: 2023-06-01`, and adds `anthropic-beta: fast-mode-2026-02-01` when `body` contains `speed`. The full schema is in the [proxy API reference](https://lm.ikale.io/docs/en/reference/proxy-api).
+Clients other than the web app can call the Worker too. `GET` returns the health check shown above, `OPTIONS` answers the browser's CORS preflight (204 for an allowed origin, 403 otherwise), and `POST` forwards an API request. A `POST` carries `Authorization: Bearer <API key>` and the JSON body `{ "url", "format", "body" }`, where `url` is the complete API endpoint. To list models, send the same `POST` with `"method": "GET"` and a `url` that ends in `/models`; `after_id` is an optional pagination cursor that the Worker adds as a query parameter, named `after_id` by default or `starting_after` when `after_param` is set to that name. JSON and streamed (SSE) responses come back unchanged. When the API answers with a success status but sends something else, usually a web page because the address has a wrong path, the Worker returns 502 with `"code": "upstream_not_api"` in its error object. For Messages requests, the Worker sends the key as `x-api-key` with `anthropic-version: 2023-06-01`, and adds `anthropic-beta: fast-mode-2026-02-01` when `body` contains `speed`. The full schema is in the [proxy API reference](https://lm.ikale.io/docs/en/reference/proxy-api).
 
 | Protocol | `format` | `url` ends in | Command line `-a` |
 | --- | --- | --- | --- |

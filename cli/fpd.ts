@@ -9,6 +9,13 @@ const [command, ...args] = process.argv.slice(2)
 if (command === 'sample' || command === 'enroll') {
   const { runCollectionCommand } = await import('./collection-command')
   await runCollectionCommand(command, args)
+} else if (command === 'models') {
+  const { runModelsCommand } = await import('./models-command')
+  try { await runModelsCommand(args) }
+  catch (error) {
+    console.error(error instanceof Error ? error.message : String(error))
+    process.exitCode = 1
+  }
 } else if (command === 'tokenizer') {
   const { runTokenizerCommand } = await import('./tokenizer-command')
   await runTokenizerCommand(args)

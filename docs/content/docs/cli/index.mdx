@@ -10,6 +10,7 @@ icon: Terminal
 
 ```text
 fpd [detect] [options]        检测（默认命令）
+fpd models [options]          用当前接口的 GET /models 列出可用模型
 fpd tokenizer [options]       独立探测分词器并查看请求计数
 fpd sample [options]          采集一个可移植的参考批次
 fpd enroll DIR [options]      校验批次并写入参考库
@@ -22,6 +23,8 @@ fpd retrain --data-dir DIR    离线重训排名器与置信度校准
   <Card title="采样与续采" href="./sampling.mdx">维护参考库用：用 36 道固定挑战采集参考批次。</Card>
   <Card title="入库与重训" href="./enroll.mdx">维护参考库用：校验批次、写入参考库，再离线重训排名器与置信度校准。</Card>
 </Cards>
+
+`fpd models -b URL -k KEY` 请求 `GET /models` 列出当前密钥下的可用模型，不需要 `-m`。Messages 协议（`-a message`）使用 `x-api-key` 和 `anthropic-version`。若接口返回了推理强度相关字段则原样显示，否则按模型名称对照常见值，并在文本输出中标为 `inferred`。`--json` 把完整列表打到 stdout。`fpd models --help` 查看参数。
 
 ## 运行方式
 

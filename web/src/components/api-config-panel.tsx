@@ -21,9 +21,11 @@ import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Segmented } from '@/components/segmented'
+import { EffortSuggestions, ModelPicker } from '@/components/model-picker'
 import { BrandIcon } from '@/components/brand-icon'
 import { useI18n } from '@/i18n'
 import type { ApiProfile, ApiProfileManager, WebApiConfig } from '@/lib/config'
+import type { ListedModel } from '@fingerpoint/shared/model-list'
 import { readProfileFile, saveProfileFile } from '@/lib/profile-file'
 import { ProxySettings } from '@/components/proxy-settings'
 import { cn } from '@/lib/utils'
@@ -36,7 +38,6 @@ const placeholders: Record<WebApiConfig['format'], string> = {
   responses: 'https://api.openai.com/v1',
   anthropic: 'https://api.anthropic.com',
 }
-const efforts = ['none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max']
 const MotionButton = motion.create(Button)
 
 function SwitchRow({ id, label, help, checked, onChange, disabled }: { id: string; label: string; help?: string; checked: boolean; onChange: (v: boolean) => void; disabled: boolean }) {
@@ -65,6 +66,13 @@ export function ApiConfigPanel({ open, onOpenChange, config, update, profileMana
   const { t } = useI18n()
   const { reduced, snappy } = useMotionPreset()
   const [showKey, setShowKey] = useState(false)
+  const catalogKey = `${config.id}\0${config.baseUrl}\0${config.format}\0${config.apiKey}`
+  const [listedModels, setListedModels] = useState<ListedModel[] | null>(null)
+  const [listedFor, setListedFor] = useState(catalogKey)
+  if (listedFor !== catalogKey) {
+    setListedFor(catalogKey)
+    setListedModels(null)
+  }
   const profileNameRef = useRef<HTMLInputElement>(null)
   const profileFileRef = useRef<HTMLInputElement>(null)
   const baseUrl = config.baseUrl.trim() || t('api.baseUrlMissing')
@@ -332,10 +340,7 @@ export function ApiConfigPanel({ open, onOpenChange, config, update, profileMana
               <FieldLabel htmlFor="api-base-url">{t('api.baseUrl')}</FieldLabel>
               <Input id="api-base-url" data-api-required className="fp-mono h-9" value={config.baseUrl} placeholder={placeholders[config.format]} autoComplete="off" spellCheck={false} onChange={e => update({ baseUrl: e.target.value })} onBlur={() => update({ baseUrl: config.baseUrl.trim() })} />
             </Field>
-            <Field>
-              <FieldLabel htmlFor="api-model">{t('api.model')}</FieldLabel>
-              <Input id="api-model" data-api-required className="fp-mono h-9" value={config.model} placeholder={t('api.modelPlaceholder')} autoComplete="off" spellCheck={false} onChange={e => update({ model: e.target.value })} onBlur={() => update({ model: config.model.trim() })} />
-            </Field>
+            <ModelPicker config={config} update={update} disabled={disabled} models={listedModels} onModelsChange={setListedModels} />
             <Field>
               <FieldLabel htmlFor="api-key">{t('api.apiKey')}</FieldLabel>
               <div className="flex gap-2">
@@ -349,12 +354,7 @@ export function ApiConfigPanel({ open, onOpenChange, config, update, profileMana
               </div>
               <FieldDescription id="api-key-help">{t('api.apiKeyHelp')}</FieldDescription>
             </Field>
-            <Field>
-              <FieldLabel htmlFor="api-effort">{t('api.effort')}</FieldLabel>
-              <Input id="api-effort" list="api-efforts" className="h-9" value={config.effort} placeholder={t('api.effortDefault')} autoComplete="off" spellCheck={false} onChange={e => update({ effort: e.target.value })} onBlur={() => update({ effort: config.effort.trim() })} aria-describedby="api-effort-help" />
-              <datalist id="api-efforts">{efforts.map(effort => <option key={effort} value={effort} />)}</datalist>
-              <FieldDescription id="api-effort-help">{t('api.effortHelp')}</FieldDescription>
-            </Field>
+            <EffortSuggestions model={config.model} models={listedModels} effort={config.effort} disabled={disabled} onChange={effort => update({ effort })} />
             <Field>
               <FieldLabel>{t('api.format')}</FieldLabel>
               <Segmented label={t('api.format')} value={config.format} disabled={disabled} onChange={format => update({ format })} options={[
