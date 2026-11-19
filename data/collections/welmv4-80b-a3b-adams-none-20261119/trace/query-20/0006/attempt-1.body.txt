@@ -1,0 +1,4 @@
+data: {"choices":[{"delta":{"content":"1, 7, 14, 22, 31, 39, 46, 53, 61, 68, 75, 83, 90, 97, 105, 112, 119, 126, 134, 141, 148, 155, 163, 170, 177, 184, 192, 199, 206, 213, 221, 228, 235, 242, 250, 257, 264, 271, 279, 286, 293, 300, 308, 355","reasoning_content":null},"finish_reason":"stop","index":0,"logprobs":null,"matched_stop":154742}],"created":1795080646,"id":"bc4bae87d0734f27b6165ddae5cd8b49","model":"welm-agent-v4.6-80a3-latest","object":"chat.completion.chunk"}
+
+data: {"choices":[],"created":1795080646,"id":"bc4bae87d0734f27b6165ddae5cd8b49","model":"welm-agent-v4.6-80a3-latest","object":"chat.completion.chunk","usage":{"completion_tokens":131,"prompt_tokens":286,"prompt_tokens_details":{"cached_tokens":256},"reasoning_tokens":0,"total_tokens":417,"tpot_ms":4.869230769230769,"ttft_ms":612}}
+

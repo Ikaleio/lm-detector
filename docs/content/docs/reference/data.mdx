@@ -52,6 +52,18 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-19 新增 WeLM v4 80B A3B Instruct" id="2026-11-19-welm-v4">
+    新增 `welm-v4-80b-a3b-instruct` 的 36 条固定挑战参考回答，归入 WeLM 家族。参考库共有 76 个指纹身份、2,812 条样本。
+
+    采样通过微信内部 Adams 网关的 OpenAI 兼容 Chat Completions 接口完成，请求型号与回包型号均为 `welm-agent-v4.6-80a3-latest`。请求以流式发送，并通过 `chat_template_kwargs.thinking=false` 关闭思考；36 条回包都确认了同一型号。采集渠道标记为 `welm-adams`，网关凭证未写入任何采样证据。
+
+    36 条参考回答均未自然结束：23 条在固定的 500 整数上限处截断，13 条回包在 `finish_reason=stop` 前停止但已给出足够整数，经人工核对后采用原始回答的前 N 个有效整数，保留全部失败尝试与原始 trace。
+
+    重训通过嵌套校准。四组各三条独立固定评估中，三组把该参考标签排在第一（概率 0.939、1.0、1.0），一组排在第二。参考批次自身的 13 轮回放全部命中。
+
+    分词器探测（`tokenizer/probe.json`）把上游判为未收录分词器，置信度 0.99999；最接近的已收录类 telechat3 的相近后验仅 0.030。
+  </Accordion>
+
   <Accordion title="2026-11-19 新增 Hy4 和 Hy4 Flash" id="2026-11-19-hy4">
     `hy4` 和 `hy4-flash` 各新增 36 条固定挑战参考回答，归入 Hunyuan 家族。参考库共有 75 个指纹身份、2,776 条样本。
 

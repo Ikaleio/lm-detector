@@ -1,0 +1,4 @@
+data: {"choices":[{"delta":{"content":"Here is a JSON array with 241 whole-number choices between 1 and 355, chosen position by position:\n\n[287, 19, 342, 105, 228, 76, 311, 155, 88, 264, 130, 351, 47, 199, 133, 302, 5, 274, 160, 219, 98, 343, 178, 56, 320, 147, 209, 12, 338, 81, 265, 194, 37, 298, 151, 83, 327, 24, 350, 173, 224, 69, 305, 141, 358]","reasoning_content":null},"finish_reason":"stop","index":0,"logprobs":null,"matched_stop":154742}],"created":1795080478,"id":"41b82e26ed3041b192e274beb89110f6","model":"welm-agent-v4.6-80a3-latest","object":"chat.completion.chunk"}
+
+data: {"choices":[],"created":1795080478,"id":"41b82e26ed3041b192e274beb89110f6","model":"welm-agent-v4.6-80a3-latest","object":"chat.completion.chunk","usage":{"completion_tokens":159,"prompt_tokens":217,"prompt_tokens_details":null,"reasoning_tokens":0,"total_tokens":376,"tpot_ms":5.6645569620253164,"ttft_ms":508}}
+

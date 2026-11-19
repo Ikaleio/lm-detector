@@ -52,6 +52,18 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-19 Add WeLM v4 80B A3B Instruct" id="2026-11-19-welm-v4">
+    The reference bank adds 36 fixed-challenge answers for `welm-v4-80b-a3b-instruct` in the WeLM family. It contains 76 fingerprint identities and 2,812 answers.
+
+    Collection used an OpenAI-compatible Chat Completions endpoint on an internal WeChat Adams gateway. Both the requested and reported model were `welm-agent-v4.6-80a3-latest`. Requests were streamed with reasoning disabled through `chat_template_kwargs.thinking=false`, and all 36 responses confirmed the same model. The channel is labeled `welm-adams`; no gateway credentials appear in the collection evidence.
+
+    None of the 36 reference answers completed naturally. Twenty-three reached the fixed 500-integer limit and were truncated; thirteen stopped before `finish_reason=stop` but already contained enough integers. For those thirteen, the first N valid integers were adopted after review, retaining every failed attempt and the original trace.
+
+    Retraining passed nested calibration. Three of four independent fixed evaluation groups of three answers ranked the new label first (probabilities 0.939, 1.0, 1.0); the fourth ranked it second. All thirteen replayed rounds from the reference batch identified it correctly.
+
+    The tokenizer probe (`tokenizer/probe.json`) identifies an unlisted tokenizer with confidence 0.99999; the closest listed class, telechat3, has a related posterior of only 0.030.
+  </Accordion>
+
   <Accordion title="2026-11-19 Add Hy4 and Hy4 Flash" id="2026-11-19-hy4">
     The reference bank adds 36 fixed-challenge answers each for `hy4` and `hy4-flash` in the Hunyuan family. It contains 75 fingerprint identities and 2,776 answers.
 

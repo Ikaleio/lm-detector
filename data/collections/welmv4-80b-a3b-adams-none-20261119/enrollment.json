@@ -1,0 +1,195 @@
+{
+  "schema": "fingerpoint-enrollment-v2",
+  "run_id": "be8c4474-6686-48f2-ac02-aa10fbb04799",
+  "manifest_sha256": "68ea2e83cedde15422ea9a8bff3ff5e0d2e0b7795fa636eff59805bf73537fee",
+  "added": 36,
+  "skipped": 0,
+  "total": 2812,
+  "created_at": "2026-11-19T09:36:51.565Z",
+  "previous_reference_sha256": "2d9f091dadb14fee92cc958c822040c928630a252a40a58de14fe70d0c2a0635",
+  "reference_sha256": "d120960167292afd52e96acc83b8611f1f118324bf5caf75f9f29a2b6f7b3e89",
+  "previous_bank_sha256": "81d96a68404e2c394731d482f0e261f02b1a9c12e3bcfb4ccb677f8f0c715048",
+  "bank_sha256": "e5e40da01f9003cc93e583a9fe0ba715d62b8a18bc255e56f5152691fea74080",
+  "selected_attempts": [
+    {
+      "challenge_id": "query-01",
+      "attempt": 6,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-01"
+    },
+    {
+      "challenge_id": "query-02",
+      "attempt": 5,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-02"
+    },
+    {
+      "challenge_id": "query-03",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-03"
+    },
+    {
+      "challenge_id": "query-04",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-04"
+    },
+    {
+      "challenge_id": "query-05",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-05"
+    },
+    {
+      "challenge_id": "query-06",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-06"
+    },
+    {
+      "challenge_id": "query-07",
+      "attempt": 5,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-07"
+    },
+    {
+      "challenge_id": "query-08",
+      "attempt": 6,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-08"
+    },
+    {
+      "challenge_id": "query-09",
+      "attempt": 6,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-09"
+    },
+    {
+      "challenge_id": "query-10",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-10"
+    },
+    {
+      "challenge_id": "query-11",
+      "attempt": 5,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-11"
+    },
+    {
+      "challenge_id": "query-12",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-12"
+    },
+    {
+      "challenge_id": "query-13",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-13"
+    },
+    {
+      "challenge_id": "query-14",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-14"
+    },
+    {
+      "challenge_id": "query-15",
+      "attempt": 6,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-15"
+    },
+    {
+      "challenge_id": "query-16",
+      "attempt": 5,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-16"
+    },
+    {
+      "challenge_id": "query-17",
+      "attempt": 6,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-17"
+    },
+    {
+      "challenge_id": "query-18",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-18"
+    },
+    {
+      "challenge_id": "query-19",
+      "attempt": 5,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-19"
+    },
+    {
+      "challenge_id": "query-20",
+      "attempt": 10,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-20"
+    },
+    {
+      "challenge_id": "query-21",
+      "attempt": 6,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-21"
+    },
+    {
+      "challenge_id": "query-22",
+      "attempt": 6,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-22"
+    },
+    {
+      "challenge_id": "query-23",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-23"
+    },
+    {
+      "challenge_id": "query-24",
+      "attempt": 6,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-24"
+    },
+    {
+      "challenge_id": "query-25",
+      "attempt": 5,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-25"
+    },
+    {
+      "challenge_id": "query-26",
+      "attempt": 5,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-26"
+    },
+    {
+      "challenge_id": "query-27",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-27"
+    },
+    {
+      "challenge_id": "query-28",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-28"
+    },
+    {
+      "challenge_id": "query-29",
+      "attempt": 5,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-29"
+    },
+    {
+      "challenge_id": "query-30",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-30"
+    },
+    {
+      "challenge_id": "query-31",
+      "attempt": 4,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-31"
+    },
+    {
+      "challenge_id": "query-32",
+      "attempt": 5,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-32"
+    },
+    {
+      "challenge_id": "query-33",
+      "attempt": 6,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-33"
+    },
+    {
+      "challenge_id": "query-34",
+      "attempt": 5,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-34"
+    },
+    {
+      "challenge_id": "query-35",
+      "attempt": 5,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-35"
+    },
+    {
+      "challenge_id": "query-36",
+      "attempt": 5,
+      "row_id": "be8c4474-6686-48f2-ac02-aa10fbb04799:query-36"
+    }
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "schema": "fpd-tokenizer-v1",
+  "created_at": "2026-11-19T09:49:49.695Z",
+  "model": "welm-agent-v4.6-80a3-latest",
+  "bank": {
+    "generated_at": "2026-09-30",
+    "classes": 62,
+    "probes": 72,
+    "archive_manifest_sha256": "54577e9701c1c9f15c1b5bc838027b568b066d9fee8f6a463bfa785ba5257f03"
+  },
+  "cancelled": false,
+  "baseline_drift": false,
+  "steps": [
+    {
+      "probe": null,
+      "state": "done",
+      "tokens": 16,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "my-prose",
+      "state": "done",
+      "tokens": 68,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "hi-prose",
+      "state": "done",
+      "tokens": 42,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "zh-mixed-num",
+      "state": "done",
+      "tokens": 34,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "ka-prose",
+      "state": "done",
+      "tokens": 48,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "pa-prose",
+      "state": "done",
+      "tokens": 91,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "th-prose",
+      "state": "done",
+      "tokens": 42,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "bo-prose",
+      "state": "done",
+      "tokens": 38,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": null,
+      "state": "done",
+      "tokens": 16,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    }
+  ],
+  "observations": [
+    {
+      "probe": "hi-prose",
+      "tokens": 42,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "my-prose",
+      "tokens": 68,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": null,
+      "tokens": 16,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "zh-mixed-num",
+      "tokens": 34,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "th-prose",
+      "tokens": 42,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "ka-prose",
+      "tokens": 48,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "bo-prose",
+      "tokens": 38,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": "pa-prose",
+      "tokens": 91,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    },
+    {
+      "probe": null,
+      "tokens": 16,
+      "responseModel": "welm-agent-v4.6-80a3-latest"
+    }
+  ],
+  "verdict": {
+    "kind": "unknown",
+    "top": {
+      "id": "telechat3",
+      "exact": 0.000008310038611814597,
+      "related": 0.03047553772357515,
+      "matched": 0,
+      "compared": 7,
+      "overhead": 16
+    },
+    "confidence": 0.9999865016852518,
+    "claim": null
+  },
+  "unknown": 0.9999865016852518,
+  "labs": [
+    {
+      "lab": "teleai",
+      "lab_name": "China Telecom TeleAI",
+      "total": 0.03048384785075655
+    },
+    {
+      "lab": "tencent",
+      "lab_name": "Tencent Hunyuan",
+      "total": 0.006808457507236019
+    },
+    {
+      "lab": "deepseek",
+      "lab_name": "DeepSeek",
+      "total": 0.0026348128954643227
+    },
+    {
+      "lab": "zhipu",
+      "lab_name": "Zhipu AI (Z.ai)",
+      "total": 0.0011743611100874629
+    },
+    {
+      "lab": "google",
+      "lab_name": "Google",
+      "total": 0.0006458068609490607
+    }
+  ],
+  "classes": [
+    {
+      "id": "telechat3",
+      "exact": 0.000008310038611814597,
+      "related": 0.03047553772357515,
+      "matched": 0,
+      "compared": 7,
+      "overhead": 16
+    },
+    {
+      "id": "hy3",
+      "exact": 0.0000010708463790657554,
+      "related": 0.004270665970517789,
+      "matched": 0,
+      "compared": 7,
+      "overhead": 16
+    },
+    {
+      "id": "deepseek-v3",
+      "exact": 6.713550199412619e-7,
+      "related": 0.002634141540444381,
+      "matched": 0,
+      "compared": 7,
+      "overhead": 16
+    },
+    {
+      "id": "hy4",
+      "exact": 0.0000015265782275410563,
+      "related": 0.002535193103422574,
+      "matched": 0,
+      "compared": 7,
+      "overhead": 16
+    },
+    {
+      "id": "glm-5",
+      "exact": 0.0000012897974275952677,
+      "related": 0.001173010764808271,
+      "matched": 0,
+      "compared": 7,
+      "overhead": 16
+    },
+    {
+      "id": "gemma2",
+      "exact": 7.478215669798286e-8,
+      "related": 0.0006451209277855147,
+      "matched": 0,
+      "compared": 7,
+      "overhead": 16
+    },
+    {
+      "id": "kimi",
+      "exact": 5.101288613669238e-7,
+      "related": 0.00042205794562896976,
+      "matched": 1,
+      "compared": 7,
+      "overhead": 16
+    },
+    {
+      "id": "ernie-4.5",
+      "exact": 3.016039368361929e-8,
+      "related": 0.00024580073263626325,
+      "matched": 0,
+      "compared": 7,
+      "overhead": 16
+    },
+    {
+      "id": "rwkv-world",
+      "exact": 3.1704366386269306e-9,
+      "related": 0.00002895017446676641,
+      "matched": 0,
+      "compared": 7,
+      "overhead": 16
+    },
+    {
+      "id": "qwen3.5",
+      "exact": 1.7022995613929148e-9,
+      "related": 0.000015201716929211344,
+      "matched": 0,
+      "compared": 7,
+      "overhead": 16
+    }
+  ],
+  "request": {
+    "api": "chatcompletion",
+    "stream": true,
+    "service_tier": "default",
+    "parallel": 4,
+    "max_probes": 20,
+    "timeout_seconds": 90
+  }
+}
