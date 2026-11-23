@@ -52,6 +52,13 @@ data
 ## 变更记录
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-23 新增 GLM-5.4" id="2026-11-23-glm-5-4">
+    `glm-5.4` 归入 GLM 家族，新增 36 条自然结束的固定挑战参考回答。参考库共有 76 个指纹身份、2,812 条回答。
+
+    参考采样与两组独立固定评估均直连智谱 Coding Plan，使用流式 Responses 和服务端默认推理设置。回包型号为 `glm-5.4`，渠道记为 `z-ai-coding-plan-subscription`。参考请求、原始响应和入库收据保存在 `data/collections/glm-5.4-z-ai-coding-plan-20261123/`。
+
+    重训后，GLM-5.4 的两组独立评估均排第一，GLM-5.3 的两组也位列各自第一。相同的 150 个旧完整组重放后，Top-1 前后各命中 136 组，Top-3 各命中 147 组。全库评估覆盖 152/154 组、456/462 条回答。
+  </Accordion>
   <Accordion title="2026-11-19 新增 Hy4 和 Hy4 Flash" id="2026-11-19-hy4">
     `hy4` 和 `hy4-flash` 各新增 36 条固定挑战参考回答，归入 Hunyuan 家族。参考库共有 75 个指纹身份、2,776 条样本。
 

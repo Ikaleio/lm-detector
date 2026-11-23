@@ -1,0 +1,195 @@
+{
+  "schema": "fingerpoint-enrollment-v2",
+  "run_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad",
+  "manifest_sha256": "5c08c4819efcdb409d1ed3788452a482bd0ab0d09ae6282deb7e28359e3da378",
+  "added": 36,
+  "skipped": 0,
+  "total": 2812,
+  "created_at": "2026-11-23T06:23:21.907Z",
+  "previous_reference_sha256": "2d9f091dadb14fee92cc958c822040c928630a252a40a58de14fe70d0c2a0635",
+  "reference_sha256": "2adbac82431b55acfe43ca2f30ac1f493e74d34dab8168fae9b07ace56217e10",
+  "previous_bank_sha256": "81d96a68404e2c394731d482f0e261f02b1a9c12e3bcfb4ccb677f8f0c715048",
+  "bank_sha256": "ed97977e7affbf693c5551de63d8670f01dd533ac7ef163aefcafa0c12518eb7",
+  "selected_attempts": [
+    {
+      "challenge_id": "query-01",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-01"
+    },
+    {
+      "challenge_id": "query-02",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-02"
+    },
+    {
+      "challenge_id": "query-03",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-03"
+    },
+    {
+      "challenge_id": "query-04",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-04"
+    },
+    {
+      "challenge_id": "query-05",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-05"
+    },
+    {
+      "challenge_id": "query-06",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-06"
+    },
+    {
+      "challenge_id": "query-07",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-07"
+    },
+    {
+      "challenge_id": "query-08",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-08"
+    },
+    {
+      "challenge_id": "query-09",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-09"
+    },
+    {
+      "challenge_id": "query-10",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-10"
+    },
+    {
+      "challenge_id": "query-11",
+      "attempt": 2,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-11"
+    },
+    {
+      "challenge_id": "query-12",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-12"
+    },
+    {
+      "challenge_id": "query-13",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-13"
+    },
+    {
+      "challenge_id": "query-14",
+      "attempt": 2,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-14"
+    },
+    {
+      "challenge_id": "query-15",
+      "attempt": 2,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-15"
+    },
+    {
+      "challenge_id": "query-16",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-16"
+    },
+    {
+      "challenge_id": "query-17",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-17"
+    },
+    {
+      "challenge_id": "query-18",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-18"
+    },
+    {
+      "challenge_id": "query-19",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-19"
+    },
+    {
+      "challenge_id": "query-20",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-20"
+    },
+    {
+      "challenge_id": "query-21",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-21"
+    },
+    {
+      "challenge_id": "query-22",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-22"
+    },
+    {
+      "challenge_id": "query-23",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-23"
+    },
+    {
+      "challenge_id": "query-24",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-24"
+    },
+    {
+      "challenge_id": "query-25",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-25"
+    },
+    {
+      "challenge_id": "query-26",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-26"
+    },
+    {
+      "challenge_id": "query-27",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-27"
+    },
+    {
+      "challenge_id": "query-28",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-28"
+    },
+    {
+      "challenge_id": "query-29",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-29"
+    },
+    {
+      "challenge_id": "query-30",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-30"
+    },
+    {
+      "challenge_id": "query-31",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-31"
+    },
+    {
+      "challenge_id": "query-32",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-32"
+    },
+    {
+      "challenge_id": "query-33",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-33"
+    },
+    {
+      "challenge_id": "query-34",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-34"
+    },
+    {
+      "challenge_id": "query-35",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-35"
+    },
+    {
+      "challenge_id": "query-36",
+      "attempt": 1,
+      "row_id": "6889a10e-98d2-4d12-a39b-3f7d0b0d06ad:query-36"
+    }
+  ]
+}

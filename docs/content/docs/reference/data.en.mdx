@@ -52,6 +52,13 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-23 Add GLM-5.4" id="2026-11-23-glm-5-4">
+    The GLM family adds 36 naturally completed fixed-challenge reference answers for `glm-5.4`. The reference bank contains 76 fingerprint identities and 2,812 answers.
+
+    Reference collection and the two independent fixed evaluation groups both used the direct Z.ai Coding Plan route with streaming Responses and the server's default reasoning settings. Responses reported `glm-5.4`, and the channel is recorded as `z-ai-coding-plan-subscription`. The reference requests, raw responses, and enrollment receipt are stored in `data/collections/glm-5.4-z-ai-coding-plan-20261123/`.
+
+    After retraining, both GLM-5.4 evaluation groups ranked GLM-5.4 first. Both GLM-5.3 groups also ranked their own model first. Replaying the same 150 previous complete groups yielded 136 top-1 hits and 147 top-3 hits in each run. Evaluation covers 152 of 154 groups and 456 of 462 answers.
+  </Accordion>
   <Accordion title="2026-11-19 Add Hy4 and Hy4 Flash" id="2026-11-19-hy4">
     The reference bank adds 36 fixed-challenge answers each for `hy4` and `hy4-flash` in the Hunyuan family. It contains 75 fingerprint identities and 2,776 answers.
 

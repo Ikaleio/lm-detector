@@ -1,0 +1,37 @@
+{
+  "manifest_sha256": "5c08c4819efcdb409d1ed3788452a482bd0ab0d09ae6282deb7e28359e3da378",
+  "challenge_id": "query-14",
+  "attempt": 1,
+  "task": {
+    "id": "query-14",
+    "condition": "environment-05",
+    "expected_count": 315,
+    "prompt": "Provide exactly 315 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "glm-5.4",
+      "input": [
+        {
+          "role": "user",
+          "content": "Provide exactly 315 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_output_tokens": 8192,
+      "stream": true,
+      "store": false
+    }
+  },
+  "status": "interrupted",
+  "started_at": "2026-11-23T06:10:08.447Z",
+  "trace": "trace/query-14/0001",
+  "text": "217, 44, 301, 128, 9, 266, 173, 85, 340, 52, 199, 311, 26, 147, 238\n73, 324, 161, 18, 287, 102, 349, 205, 61, 143, 278, 34, 191, 320, 97\n252, 11, 186, 333, 78, 224, 139, 305, 47, 168, 354, 89, 213, 29, 275\n116, 243, 3, 329, 158, 67, 294, 201, 132, 348, 55, 177, 260, 22, 109\n315, 83, 229, 146, 298, 37, 184, 343, 71, 122, 269, 14, 207, 336, 94\n163, 251, 58, 303, 127, 235, 42, 190, 318, 7, 281, 151, 76, 222, 347\n99, 263, 31, 174, 310, 138, 245, 64, 327, 196, 12, 289, 113, 352, 157\n220, 49, 276, 181, 92, 337, 25, 145, 258, 307, 69, 203, 124, 292, 5\n341, 165, 87, 232, 19, 279, 150, 316, 41, 198, 107, 264, 331, 75, 214\n135, 248, 59, 300, 172, 28, 225, 355, 96, 189, 284, 46, 118, 322, 256\n15, 209, 141, 344, 81, 271, 162, 35, 236, 296, 104, 179, 326, 62, 247\n126, 290, 53, 325, 194, 16, 249, 137, 309, 86, 226, 170, 43, 283, 353\n112, 2, 267, 187, 338, 65, 231, 149, 297, 38, 204, 121, 345, 176, 84\n254, 23, 312, 101, 228, 280, 57, 166, 333, 133, 20, 242, 193, 88, 319\n306, 45, 215, 144, 350, 93, 178, 30, 259, 125, 293, 68, 211, 328, 154\n10, 237, 185, 314, 77, 108, 273, 241, 51, 332, 160, 202, 39, 286, 119\n323, 95, 148, 223, 13, 261, 339, 66, 180, 304, 131, 246, 33, 197, 277\n106, 354, 72, 216, 169, 288, 24, 134, 311, 82, 250, 195, 330, 48, 140\n274, 17, 227, 115, 299, 63, 188, 342, 98, 155, 234, 40, 268, 210, 321\n123, 56, 285, 171, 8, 244, 317, 90, 200, 136, 348, 34, 257, 110, 221\n295, 164, 79, 340, 21, ",
+  "text_sha256": "9a7c565c64877247cc469cc21102af4cabd43f0958f85995ed3194cb0e1ca9a7",
+  "parsed_count": 305,
+  "completion": "truncated",
+  "response_model": "glm-5.4",
+  "response_id": "resp_2026112314100862af1806fb2b48ba",
+  "actual_channel": "z-ai-coding-plan-subscription",
+  "error": "Previous process was interrupted; original trace retained.",
+  "retryable": true,
+  "finished_at": "2026-11-23T06:11:29.891Z"
+}

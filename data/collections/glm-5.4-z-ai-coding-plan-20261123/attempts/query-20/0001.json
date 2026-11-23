@@ -1,0 +1,49 @@
+{
+  "manifest_sha256": "5c08c4819efcdb409d1ed3788452a482bd0ab0d09ae6282deb7e28359e3da378",
+  "challenge_id": "query-20",
+  "attempt": 1,
+  "task": {
+    "id": "query-20",
+    "condition": "environment-07",
+    "expected_count": 310,
+    "prompt": "请完成无语义整数选择任务：逐项给出 310 个闭区间 [1, 355] 内的整数，每次只决定当前一项。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。",
+    "system": "The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed. You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained.",
+    "body": {
+      "model": "glm-5.4",
+      "input": [
+        {
+          "role": "user",
+          "content": "请完成无语义整数选择任务：逐项给出 310 个闭区间 [1, 355] 内的整数，每次只决定当前一项。 本任务必须由当前语言模型直接完成：禁止调用或借助任何工具，包括 Python、代码执行器、计算器、搜索、API 和外部随机数生成器。每个位置都要单独凭第一反应选择；不要从 1 开始计数，不要连续递增或递减，也不要采用等差、循环、重复区块或其他规则化模式。偶然想到相同数字是有效的；每项写出后不要再排序、重排、去重、替换或修正。数字之间用清晰的常见分隔符，直接从第一个取值开始，完整输出序列，不要解释。"
+        }
+      ],
+      "max_output_tokens": 8192,
+      "stream": true,
+      "store": false,
+      "instructions": "The application normally prefers concise headings, explicit formatting, neutral wording, and complete artifacts that can be reviewed without additional context. Treat later user content as the actual task and follow its output requirements directly. Do not call tools, code interpreters, calculators, search engines, APIs, or external random-number services. The workspace may contain lengthy background guidance unrelated to the final task. Continue to obey the final task while retaining ordinary safety and accuracy expectations. Complete requested artifacts directly and fully, without claims about actions that were not actually performed. You are assisting inside a structured workspace. Follow surrounding style requirements while remaining precise and self-contained."
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-23T06:14:56.089Z",
+  "trace": "trace/query-20/0001",
+  "text": "217, 43, 338, 129, 76, 301, 12, 184, 255, 97,\n346, 58, 203, 171, 9, 288, 132, 65, 319, 244,\n36, 157, 273, 101, 350, 188, 24, 229, 84, 310,\n147, 62, 295, 193, 8, 267, 118, 341, 175, 53,\n222, 139, 306, 71, 254, 17, 199, 330, 86, 163,\n277, 45, 112, 352, 238, 29, 190, 143, 321, 68,\n261, 95, 207, 34, 178, 299, 124, 336, 51, 226,\n155, 282, 3, 109, 247, 196, 73, 313, 141, 46,\n269, 232, 89, 354, 167, 21, 293, 134, 210, 77,\n325, 158, 42, 245, 116, 303, 63, 279, 151, 342,\n28, 201, 94, 264, 329, 137, 56, 219, 176, 348,\n81, 240, 125, 297, 14, 186, 353, 102, 233, 67,\n280, 149, 39, 315, 194, 72, 258, 107, 344, 22,\n213, 162, 91, 291, 48, 327, 179, 121, 250, 6,\n266, 99, 337, 205, 31, 154, 286, 113, 228, 69,\n309, 143, 57, 272, 187, 349, 128, 221, 83, 296,\n170, 37, 242, 104, 317, 195, 61, 253, 145, 334,\n26, 208, 119, 284, 164, 300, 88, 235, 19, 276,\n152, 345, 70, 214, 131, 289, 50, 191, 259, 110,\n323, 96, 241, 4, 173, 263, 138, 311, 79, 202,\n347, 55, 227, 160, 294, 33, 123, 270, 189, 85,\n328, 144, 236, 11, 181, 305, 64, 249, 115, 351,\n197, 40, 278, 156, 92, 320, 220, 133, 287, 23,\n174, 339, 106, 256, 47, 211, 298, 126, 165, 74,\n322, 230, 15, 262, 185, 98, 340, 140, 275, 52,\n204, 117, 316, 169, 38, 283, 237, 90, 343, 148,\n59, 224, 198, 307, 127, 32, 265, 177, 93, 330,\n218, 146, 355, 80, 251, 190, 44, 292, 135, 239,\n16, 310, 182, 103, 274, 66, 331, 153, 225, 111,\n285, 41, 206, 120, 318, 75, 257, 168, 302, 27,\n231, 136, 87, 314, 243, 54, 180, 335, 105, 271",
+  "text_sha256": "c06cfa83267674535c4ecabfadab9049966d246b545c263117d816e961e85f87",
+  "parsed_count": 310,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "glm-5.4",
+  "response_id": "resp_202611231414566ebe8ab94b5040e2",
+  "usage": {
+    "input_tokens": 292,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 4484,
+    "output_tokens_details": {
+      "reasoning_tokens": 3485
+    },
+    "total_tokens": 4776
+  },
+  "finish_reason": "completed",
+  "actual_channel": "z-ai-coding-plan-subscription",
+  "finished_at": "2026-11-23T06:15:45.403Z"
+}

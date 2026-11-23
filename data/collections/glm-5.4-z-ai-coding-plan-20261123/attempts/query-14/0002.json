@@ -1,0 +1,48 @@
+{
+  "manifest_sha256": "5c08c4819efcdb409d1ed3788452a482bd0ab0d09ae6282deb7e28359e3da378",
+  "challenge_id": "query-14",
+  "attempt": 2,
+  "task": {
+    "id": "query-14",
+    "condition": "environment-05",
+    "expected_count": 315,
+    "prompt": "Provide exactly 315 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation.",
+    "system": "",
+    "body": {
+      "model": "glm-5.4",
+      "input": [
+        {
+          "role": "user",
+          "content": "Provide exactly 315 whole-number choices between 1 and 355 inclusive, choosing each item separately as it comes to mind. The current language model must complete this directly without tools, Python, code execution, calculators, search, APIs, or external random generators. Choose every position separately. Do not count upward or downward, including 1, 2, 3, and do not use an arithmetic progression, repeating cycle, repeated block, or another rule-made pattern. Accidental repetitions are valid. Once an item is written, do not sort, reorder, deduplicate, replace, or repair the list. Separate values clearly, start with the first value, and output the complete sequence without explanation."
+        }
+      ],
+      "max_output_tokens": 8192,
+      "stream": true,
+      "store": false
+    }
+  },
+  "status": "accepted",
+  "started_at": "2026-11-23T06:11:29.893Z",
+  "trace": "trace/query-14/0002",
+  "text": "217, 43, 301, 88, 154, 9, 262, 190, 77, 334,\n121, 6, 245, 173, 58, 299, 32, 140, 208, 91,\n350, 17, 266, 103, 229, 74, 185, 312, 48, 137,\n261, 5, 194, 330, 82, 149, 273, 23, 106, 238,\n167, 344, 61, 288, 12, 199, 113, 251, 79, 306,\n37, 222, 145, 318, 94, 3, 277, 160, 209, 52,\n326, 128, 68, 243, 191, 29, 354, 101, 176, 235,\n14, 284, 152, 97, 311, 46, 224, 139, 269, 7,\n203, 65, 341, 118, 181, 256, 34, 89, 295, 157,\n240, 21, 172, 322, 109, 60, 213, 347, 131, 78,\n264, 188, 41, 305, 16, 147, 232, 96, 279, 53,\n337, 124, 201, 8, 258, 169, 85, 314, 44, 226,\n111, 290, 27, 163, 348, 72, 197, 133, 247, 2,\n319, 57, 216, 142, 98, 271, 35, 183, 302, 126,\n62, 237, 349, 19, 156, 281, 104, 210, 75, 325,\n177, 49, 253, 120, 296, 10, 228, 161, 339, 87,\n204, 135, 315, 30, 259, 92, 186, 345, 67, 221,\n151, 285, 24, 108, 233, 352, 70, 174, 129, 268,\n4, 309, 195, 83, 242, 144, 51, 327, 214, 116,\n275, 39, 168, 333, 99, 227, 15, 192, 292, 136,\n55, 249, 307, 122, 71, 180, 343, 26, 205, 158,\n287, 93, 219, 46, 300, 138, 12, 255, 171, 332,\n66, 239, 114, 351, 31, 187, 280, 102, 162, 20,\n223, 316, 84, 146, 263, 50, 198, 7, 329, 127,\n244, 179, 38, 293, 110, 340, 76, 211, 155, 59,\n303, 22, 267, 134, 189, 45, 320, 95, 236, 164,\n13, 278, 207, 123, 353, 80, 250, 36, 175, 298,\n143, 64, 323, 220, 105, 342, 28, 193, 257, 86,\n270, 159, 11, 230, 313, 54, 182, 338, 117, 246,\n73, 200, 294, 33, 165, 328, 141, 254, 18, 212,\n289, 100, 47, 231, 170, 355, 90, 132, 265, 25,\n310, 148, 63, 215, 283",
+  "text_sha256": "89456ad01cb9ff7e2cbb2d75b2b8449d982d47c2e10380c7d95d4b5aee9ccfb8",
+  "parsed_count": 315,
+  "completion": "complete",
+  "http_status": 200,
+  "response_model": "glm-5.4",
+  "response_id": "resp_202611231411296a5e7b61a49343d4",
+  "usage": {
+    "input_tokens": 154,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 3057,
+    "output_tokens_details": {
+      "reasoning_tokens": 2051
+    },
+    "total_tokens": 3211
+  },
+  "finish_reason": "completed",
+  "actual_channel": "z-ai-coding-plan-subscription",
+  "finished_at": "2026-11-23T06:12:01.085Z"
+}
