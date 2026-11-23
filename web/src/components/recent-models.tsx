@@ -10,8 +10,8 @@ import type { BankModel } from '@fingerpoint/shared/types'
 
 const RECENT_DAYS = 7
 const LIMIT = 5
-/** OpenAI, Anthropic, DeepSeek and Gemini models go first; each group lists the newest first. */
-const PINNED_FAMILIES: Record<string, true> = { gpt: true, claude: true, deepseek: true, gemini: true }
+/** OpenAI, Anthropic, DeepSeek, Gemini and GLM models go first; each group lists the newest first. */
+const PINNED_FAMILIES: Record<string, true> = { gpt: true, claude: true, deepseek: true, gemini: true, glm: true }
 
 function recentModels(models: BankModel[], now: number) {
   const since = now - RECENT_DAYS * 24 * 60 * 60 * 1000

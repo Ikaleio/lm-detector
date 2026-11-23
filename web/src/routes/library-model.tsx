@@ -65,8 +65,10 @@ function NearestModels({ neighbors }: { neighbors: NonNullable<BankModel['neares
         {neighbors.map(({ model, distance }) => (
           <li key={model} className="min-w-0">
             <ModelChip id={model}>
-              <span className="truncate">{bank.models.find(m => m.id === model)?.display_name ?? model}</span>
-              <span className="fp-mono shrink-0 text-meta text-muted-foreground">{distance.toFixed(2)}</span>
+              <span className="flex min-w-0 items-baseline gap-2">
+                <span className="truncate">{bank.models.find(m => m.id === model)?.display_name ?? model}</span>
+                <span className="fp-mono shrink-0 text-meta text-muted-foreground">{distance.toFixed(2)}</span>
+              </span>
             </ModelChip>
           </li>
         ))}
