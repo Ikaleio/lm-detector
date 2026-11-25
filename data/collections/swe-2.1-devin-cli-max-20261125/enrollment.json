@@ -1,0 +1,106 @@
+{
+  "schema": "devin-harness-enrollment-v1",
+  "created_at": "2026-11-25T04:55:01.096Z",
+  "batch_id": "swe-2.1-devin-cli-max-20261125",
+  "model": "swe-2.1",
+  "display_name": "SWE-2.1",
+  "channel": "devin-cli-subscription",
+  "generation_model": "swe-2-1-max",
+  "reasoning_effort": "Max",
+  "reference": {
+    "added": 36,
+    "valid_integers": 10584,
+    "model_count": 77,
+    "total_answers": 2848,
+    "evidence": {
+      "SWE-2.1-reference-batch.jsonl": "e7169f0c8d90f043e5251666f5c9976b88dbef18e704fc12aa791aa2bb997bf2",
+      "SWE-2.1-native-receipts.json": "9b77009c5f84254d7284c356fe891d6d91e0876f8500d6517458b2c2d0be95b4",
+      "SWE-2.1-reference-collection.json": "b520375c8e87335ec4a57d949930830f2a7ce5cd6a86a3c85ce4a564377cd886"
+    }
+  },
+  "before": {
+    "unified_bank.json": "06397f4ed64911abab9f3b05843f5e87fc92057040aa9aa43bc6f16eb242b1aa",
+    "shared_detector.bin": "5ce8f55a6bed741c3ef2c3d9929832df949639d249834aabea168773136fd9e2",
+    "unified_reference.jsonl": "2adbac82431b55acfe43ca2f30ac1f493e74d34dab8168fae9b07ace56217e10"
+  },
+  "after": {
+    "unified_bank.json": "b3bb14374d25521ebba90b84246d474d215ee6c22dd9d4e8e73353603a4c3c5e",
+    "shared_detector.bin": "72002fd126b9be41bfab515199c07f416e66a18a9e1b529383864d42f4f8453c",
+    "unified_reference.jsonl": "eadd1d25f5232b6e4b65152b5d953d2656e4372327c2c41754486ca80f880765"
+  },
+  "training": {
+    "run": ".training/20261125T044237131Z-8f14ae9e",
+    "reference_only": true,
+    "nested_calibration_passed": true,
+    "ranker_fits": 78
+  },
+  "evaluation": {
+    "suite_id": "holdout-1eae36fa-5cae-46c5-ac47-877414c628f0",
+    "challenge_groups_sha256": "a68e5b43c54fbe3c564516fc69a65d895ef778b2fd9f33f69929716968097780",
+    "archived_inputs_sha256": "5a61da00e683518429996249c5563111e152504bc9a1edb4eba29703684141bd",
+    "coverage": {
+      "archived_planned": 106,
+      "archived_complete": 104,
+      "archived_selected_answers": 312,
+      "archived_attempts": 649,
+      "replay_groups": 102,
+      "retested_answers": 13,
+      "groups_with_retested_answer": 6,
+      "latest_documented_complete_groups": 152,
+      "latest_documented_planned_groups": 154,
+      "archived_group_coverage_only": true,
+      "oct_08_retested_slots": 13,
+      "oct_08_affected_groups": 6,
+      "nov_18_replaced_answers": 12,
+      "nov_18_affected_groups": 4,
+      "known_later_replacement_groups": 10,
+      "archived_groups_without_documented_replacements": 92,
+      "current_private_answer_hashes_verified": false
+    },
+    "archived_groups": {
+      "before": {
+        "all_archived": {
+          "groups": 102,
+          "ranked": 102,
+          "top1": 79,
+          "top3": 93
+        },
+        "excluding_known_later_retests": {
+          "groups": 92,
+          "ranked": 92,
+          "top1": 78,
+          "top3": 89
+        }
+      },
+      "after": {
+        "all_archived": {
+          "groups": 102,
+          "ranked": 102,
+          "top1": 78,
+          "top3": 93
+        },
+        "excluding_known_later_retests": {
+          "groups": 92,
+          "ranked": 92,
+          "top1": 77,
+          "top3": 89
+        }
+      }
+    },
+    "new_model": [
+      {
+        "group_id": "group-1",
+        "truth_rank": 1,
+        "prediction": "swe-2.1",
+        "outputs_used": 3
+      },
+      {
+        "group_id": "group-2",
+        "truth_rank": 1,
+        "prediction": "swe-2.1",
+        "outputs_used": 3
+      }
+    ],
+    "holdout_evidence_sha256": "ee90bce8f1751c68eed91ddaf5c64bfca1e78c63e032dee0f99b8968540615a0"
+  }
+}

@@ -52,6 +52,13 @@ Tokenizer classes are grouped by authoring lab and series. Tokenizers with ident
 ## Change log
 
 <Accordions type="multiple">
+  <Accordion title="2026-11-25 Add SWE-2.1" id="2026-11-25-swe-2-1">
+    SWE-2.1 joins the bank under `swe-2.1` with 36 fixed-challenge reference answers. The bank now contains 77 fingerprint identities and 2,848 answers. Reference sampling and independent evaluation both used the Devin CLI subscription channel `devin-cli-subscription` with `Max` reasoning effort. The sessions recorded `swe-2-1-max` as the generation model.
+
+    Six additional sessions produced two fixed evaluation groups of three independent answers each, used only for evaluation. After retraining, both the first and the second group ranked SWE-2.1 first among 77 candidates.
+
+    Replaying the same 102 groups from the October 1 archive yielded 79 top-1 hits before retraining and 78 after, with 93 top-3 hits in both runs. The first `gemini-3.7-flash` group fell from first to second. Excluding the 10 groups with later retests or replacements left 92 groups, with top-1 hits decreasing from 78 to 77 and top-3 hits holding at 89. The individual answers for the full set of 152 complete groups reported on November 23 were unavailable, so this replay covers the historical subset.
+  </Accordion>
   <Accordion title="2026-11-23 Add GLM-5.4" id="2026-11-23-glm-5-4">
     The GLM family adds 36 naturally completed fixed-challenge reference answers for `glm-5.4`. The reference bank contains 76 fingerprint identities and 2,812 answers.
 
