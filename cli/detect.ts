@@ -6,6 +6,7 @@ import { assertTokenizerBank, type TokenizerBank } from '@fingerpoint/shared/tok
 import { errorMessage, requestEndpoint } from '@fingerpoint/shared/detect-request'
 import { runDetection } from '@fingerpoint/shared/detect-run'
 import { parseOptions } from './detect-options'
+import { requestCodexCliSample } from './codex-cli'
 import { analyzeInput, loadChallenges, readDetector, readJson, serializeResult } from './detect-run'
 import { startUpdateCheck } from './detect-update'
 import type { UpdateCheck } from './detect-update'
@@ -35,7 +36,7 @@ export async function runDetectionCommand(args: string[]) {
       await printHelp()
     } else {
       key = options.config.apiKey
-      if (!options.input) requestEndpoint(options.config)
+      if (!options.input && !options.codexCli) requestEndpoint(options.config)
       if (options.updateCheck && !options.input && !options.json && process.stdout.isTTY && !process.env.CI && process.env.TERM !== 'dumb') {
         stopUpdateCheck = startUpdateCheck()
       }
@@ -63,7 +64,9 @@ export async function runDetectionCommand(args: string[]) {
       process.on('SIGTERM', terminate)
       if (!options.json) display = createDisplay(options, bank.models.length, cancel, tokenizerBank)
       const state = options.input ? await analyzeInput(options, bank, detector, tokenizerBank)
-        : await runDetection(options, bank, detector, state => display?.update(state), abort.signal, challenges, tokenizerBank)
+        : await runDetection(options, bank, detector, state => display?.update(state), abort.signal, challenges, tokenizerBank,
+          options.codexCli ? (sampleOptions, challenge, signal, update) =>
+            requestCodexCliSample(options.codexCliPath, sampleOptions, challenge, signal, update) : undefined)
       if (display) display.update(state)
       else if (state.tokenizerWarning) process.stderr.write(`Warning: ${state.tokenizerWarning}\n`)
       const serialized = serializeResult(state, options, bank, tokenizerBank)

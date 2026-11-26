@@ -7,6 +7,8 @@ const sections = [
   { title: 'CONNECTION', options: [
     ['-b, --baseurl URL', 'Base URL or complete endpoint. Env: BASE_URL.'],
     ['-m, --model MODEL', 'Model to request. Env: MODEL.'],
+    ['--codex-cli', 'Sample through independent local codex exec processes instead of an HTTP API.'],
+    ['--codex-cli-path PATH', 'Codex executable. Env: CODEX_CLI. Default: codex. Implies --codex-cli.'],
     ['-k, --apikey KEY', 'API key. Env: API_KEY. Flags override environment variables.'],
     ['-a, --api TYPE', 'responses (default), chatcompletion, or message; any prefix or cc.'],
     ['-e, --effort LEVEL', 'Omitted by default. none/minimal/low/medium/high/xhigh/max, or any provider value. Tokenizer probes omit it for Messages.'],
@@ -20,7 +22,7 @@ const sections = [
     ['-s, --strict', 'Disable automatic truncation. Require --count 3 and all three complete, valid responses.'],
     ['--challenges FILE', 'Reuse saved challenges for every round. Array length must match --count.'],
     ['--bank FILE', 'Use a custom reference bank.'],
-    ['--timeout SECONDS', 'Sample deadline: 120 by default. First byte for SSE, with no deadline after SSE starts; the entire response for JSON. An added tokenizer probe keeps its own 90-second deadline.'],
+    ['--timeout SECONDS', 'Sample deadline: 120 by default. First byte for SSE, the entire response for JSON, or the entire codex exec process. An added tokenizer probe keeps its own 90-second deadline.'],
     ['--image', 'Image mode: send each prompt as a PNG with a generic instruction, so relays cannot route by prompt keywords. Off by default. Needs image input; the reference bank was sampled with text prompts.'],
     ['--tokenizer', 'Also run the tokenizer probe beside the first round. Off by default. The ranking is unchanged. Uses --max-probes and --tokenizer-bank below.'],
     ['--no-update-check', 'Disable background update checks. Env: FPD_NO_UPDATE_CHECK=1. Applies to detection.'],
@@ -44,6 +46,7 @@ const examples = [
   ['Repeat five rounds with three concurrent samples per round', 'npx lmfpd@latest -b https://api.example.com/v1 \\\n  -k sk-xxx -m gpt-6-astra -p 3 -n 5'],
   ['Use API_KEY, MODEL, and BASE_URL from your environment', 'npx lmfpd@latest -a chatcompletion -e high'],
   ['Rank with a single API request using environment credentials', 'npx lmfpd@latest --count 1'],
+  ['Sample through the local Codex CLI without an API key', 'npx lmfpd@latest --codex-cli -m gpt-6.2-sol -e low'],
   ['Require complete responses and disable streaming', 'npx lmfpd@latest -s -ns --timeout 180 --output result.json'],
   ['Analyze a saved report without calling a model', 'npx lmfpd@latest --input result.json --json'],
   ['Send the prompts as images instead of text', 'npx lmfpd@latest -a message --image'],
@@ -70,6 +73,7 @@ function Help() {
     <Box flexDirection="column" marginTop={1}>
       <Text bold color="cyan">USAGE</Text>
       <Text>npx lmfpd@latest -b URL -k KEY -m MODEL [options]</Text>
+      <Text>npx lmfpd@latest --codex-cli -m MODEL [options]</Text>
       <Text>fpd tokenizer -b URL -k KEY -m MODEL [options]</Text>
       <Text>fpd tokenizer --input FILE [--json]</Text>
       <Text dimColor>With npm: npx lmfpd@latest [command] [options]</Text>

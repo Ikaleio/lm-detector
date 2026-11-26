@@ -1,6 +1,6 @@
 ---
 title: 检测
-description: 用随机挑战检测一个 API 渠道，连续多轮，保存报告并离线重新计算。
+description: 用随机挑战检测 API 渠道或本机 Codex CLI，连续多轮，保存报告并离线重新计算。
 icon: Crosshair
 ---
 
@@ -12,6 +12,9 @@ npx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra
 
 # 从环境变量读取连接参数；使用 Chat Completions 并设置推理强度
 npx lmfpd@latest -a cc -e high
+
+# 使用本机 Codex CLI 登录与 codex exec，不请求兼容 API
+npx lmfpd@latest --codex-cli -m gpt-6.2-sol -e low
 
 # 连续检测 5 轮
 npx lmfpd@latest -n 5
@@ -39,11 +42,13 @@ npx lmfpd@latest -a cc --tokenizer
 | `-b, --baseurl URL` | Base URL 或完整端点；未写端点路径时自动补全 | `$BASE_URL` |
 | `-k, --apikey KEY` | API Key | `$API_KEY` |
 | `-m, --model MODEL` | 请求的模型名 | `$MODEL` |
+| `--codex-cli` | 通过本机独立的 `codex exec` 进程采样，不请求兼容 API | 关闭 |
+| `--codex-cli-path PATH` | Codex 可执行文件路径，隐含 `--codex-cli` | `$CODEX_CLI` 或 `codex` |
 | `-a, --api TYPE` | `responses`、`chatcompletion`（或 `cc`）、`message`，可只写前缀 | `responses` |
 | `-e, --effort LEVEL` | 推理强度，例如 `low`、`high`，也可填供应商自定义值 | 不发送 |
 | `-t, --service-tier TIER` | 服务等级：`flex`、`default`、`fast`、`ultrafast`，可只写前缀；别名 `slow`（flex）、`f`（fast）、`uf`（ultrafast）、`priority`（fast）、`standard`（default） | `default`，不发送 |
 | `-ns, --no-stream` | 使用普通 JSON 响应代替 SSE | SSE |
-| `--timeout SECONDS` | SSE 首字节时限；JSON 模式下为完整响应时限，支持小数 | `120` |
+| `--timeout SECONDS` | SSE 首字节时限；JSON 模式下为完整响应时限；Codex CLI 模式下为整个子进程时限，支持小数 | `120` |
 | `--count N` | 每轮样本数，1–3；少于 3 条时只给出排名 | `3` |
 | `-p, --parallel N` | 每轮并发数，1–3，不超过 `--count`，不改变请求总数 | `3` |
 | `-n, --repeat N` | 顺序执行的检测轮数 | `1` |
@@ -60,6 +65,16 @@ npx lmfpd@latest -a cc --tokenizer
 | `--no-update-check` | 关闭后台更新检查 | 开启 |
 
 只写到主机名的地址（如 `https://api.example.com`）使用 `/v1`；带路径的 Base URL 保留该路径并追加所选端点。Messages 请求使用 `x-api-key` 与 `anthropic-version` 头。服务等级在 Messages 中作为 `speed` 发送，并附加 `anthropic-beta: fast-mode-2026-02-01` 头；在 Responses 与 Chat Completions 中作为 `service_tier` 发送。Responses 与 Chat Completions 的检测请求不设可选的输出上限；Messages 按该 API 的要求保留 `max_tokens: 8192`。
+
+### Codex CLI 进程采样
+
+`--codex-cli` 使用本机已登录、支持 `exec --json` 的 Codex CLI，不读取 API Key 或 Base URL。每道挑战都启动一个新的 `codex exec`，在空临时目录中使用只读沙箱，通过 stdin 原样传入提示词，并明确设置 `tools.web_search=false`。`--effort` 转换为 `model_reasoning_effort`。`--codex-cli-path` 可以指定其他可执行文件，也可用 `CODEX_CLI` 环境变量。
+
+评分使用最后一个 `agent_message`。工具调用、未知 item、CLI 错误、非零退出、缺少 `turn.completed` 或空最终回答都会让样本失败。宽松模式只能在完整回答到达后裁剪超出数量的数字，不能像 SSE 采样一样在达到数量后立即停止。`--timeout` 限制整个子进程，包括 Codex 自身的排队与连接重试。
+
+Codex 系统指令和工具环境会影响数字分布，因此结果代表 Codex CLI 环境下的模型，不能与裸 API 样本视为同一采样环境。报告设置 `request.transport` 为 `codex-cli`，样本的 `transportSessionId` 是 Codex thread ID，可用于查找 `~/.codex/sessions/` 中的原始会话。CLI 不会虚构无法观测的 `responseModel`。
+
+`--codex-cli` 不能与 API 地址、API Key、协议、服务等级、`--no-stream`、图片模式、分词器探测或 `--input` 组合；这些组合会在启动进程前报错。
 
 `--image` 把每道提示词画成一张灰度 PNG，宽度、字号、行距、边距和深浅每次随机。Chat Completions 以 `image_url`、Responses 以 `input_image`（`detail: "auto"`）发送，Messages 以 base64 的 `image` 内容块发送；图片之后只附一句从多种语言的通用说明里随机抽取的话。参考库用文字提示词采集，图片模式的结果可能偏离文字模式。字体只覆盖内置挑战的字符，`--challenges` 里出现其他字符时，该样本在请求前失败。分词器探测仍发送文字。报告请求设置里的 `image` 记录是否开启；`--input` 不发送请求，不能与 `--image` 一起使用。
 

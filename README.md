@@ -49,6 +49,9 @@ npx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra
 
 # Bun ≥ 1.4.4
 bunx --bun lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra
+
+# 本机 Codex CLI（无需 API Key）
+npx lmfpd@latest --codex-cli -m gpt-6.2-sol -e low
 ```
 
 **SDK**：在自己的程序里评分或检测，四种语言功能相同：
