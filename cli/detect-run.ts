@@ -140,7 +140,9 @@ export function serializeResult(state: DetectionState, options: DetectOptions, b
   const only = state.rounds.length === 1 ? state.rounds[0] : undefined
   const result = {
     schema: 'fpd-detection-v1', created_at: new Date(state.startedAt).toISOString(),
-    request: options.input ? undefined : { ...config, transport: options.codexCli ? 'codex-cli' : 'api', api: options.api,
+    request: options.input ? undefined : {
+      ...(options.codexCli ? { transport: 'codex-cli', model: config.model, effort: config.effort }
+        : { ...config, transport: 'api', api: options.api }),
       count: options.count, parallel: options.parallel, repeat: options.repeat,
       strict: options.strict, timeout_seconds: options.timeoutMs / 1000, image: options.image, tokenizer: options.tokenizer,
       max_probes: options.tokenizer ? options.maxProbes : undefined },

@@ -36,6 +36,9 @@ export async function runDetectionCommand(args: string[]) {
       await printHelp()
     } else {
       key = options.config.apiKey
+      if (options.codexCli && process.platform === 'win32' && !options.codexCliPath.toLowerCase().endsWith('.exe')) {
+        throw new Error('Windows requires --codex-cli-path pointing to the native codex.exe; npm .cmd shims are not supported.')
+      }
       if (!options.input && !options.codexCli) requestEndpoint(options.config)
       if (options.updateCheck && !options.input && !options.json && process.stdout.isTTY && !process.env.CI && process.env.TERM !== 'dumb') {
         stopUpdateCheck = startUpdateCheck()

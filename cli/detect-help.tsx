@@ -8,7 +8,7 @@ const sections = [
     ['-b, --baseurl URL', 'Base URL or complete endpoint. Env: BASE_URL.'],
     ['-m, --model MODEL', 'Model to request. Env: MODEL.'],
     ['--codex-cli', 'Sample through independent local codex exec processes instead of an HTTP API.'],
-    ['--codex-cli-path PATH', 'Codex executable. Env: CODEX_CLI. Default: codex. Implies --codex-cli.'],
+    ['--codex-cli-path PATH', 'Codex executable. Env: CODEX_CLI. Default: codex. Implies --codex-cli. Windows requires an explicit native codex.exe; .cmd shims are unsupported.'],
     ['-k, --apikey KEY', 'API key. Env: API_KEY. Flags override environment variables.'],
     ['-a, --api TYPE', 'responses (default), chatcompletion, or message; any prefix or cc.'],
     ['-e, --effort LEVEL', 'Omitted by default. none/minimal/low/medium/high/xhigh/max, or any provider value. Tokenizer probes omit it for Messages.'],

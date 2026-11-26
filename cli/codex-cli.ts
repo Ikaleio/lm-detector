@@ -114,9 +114,10 @@ export async function requestCodexCliSample(
       sample.text = numbers.slice(0, challenge.expected_count).join(', ')
       sample.count = challenge.expected_count
       sample.state = numbers.length > challenge.expected_count ? 'truncated' : 'complete'
-    } else if (numbers.length < minimumNumbers(challenge.expected_count)) {
-      throw new Error(`Too few valid numbers: ${numbers.length}; need at least ${minimumNumbers(challenge.expected_count)}.`)
     } else sample.state = 'complete'
+    if (sample.count < minimumNumbers(challenge.expected_count)) {
+      throw new Error(`Too few valid numbers: ${sample.count}; need at least ${minimumNumbers(challenge.expected_count)}.`)
+    }
   } catch (error) {
     sample.state = signal.aborted ? 'cancelled' : 'failed'
     sample.error = signal.aborted ? 'Cancelled.' : errorMessage(error, options.config.apiKey)

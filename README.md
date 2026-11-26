@@ -54,6 +54,8 @@ bunx --bun lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra
 npx lmfpd@latest --codex-cli -m gpt-6.2-sol -e low
 ```
 
+Windows 下 Codex CLI 模式需用 `--codex-cli-path` 显式指定原生 `codex.exe`，不支持 npm 的 `.cmd` shim。
+
 **SDK**：在自己的程序里评分或检测，四种语言功能相同：
 
 ```sh

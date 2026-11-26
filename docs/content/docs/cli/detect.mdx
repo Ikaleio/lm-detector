@@ -72,7 +72,9 @@ npx lmfpd@latest -a cc --tokenizer
 
 评分使用最后一个 `agent_message`。工具调用、未知 item、CLI 错误、非零退出、缺少 `turn.completed` 或空最终回答都会让样本失败。宽松模式只能在完整回答到达后裁剪超出数量的数字，不能像 SSE 采样一样在达到数量后立即停止。`--timeout` 限制整个子进程，包括 Codex 自身的排队与连接重试。
 
-Codex 系统指令和工具环境会影响数字分布，因此结果代表 Codex CLI 环境下的模型，不能与裸 API 样本视为同一采样环境。报告设置 `request.transport` 为 `codex-cli`，样本的 `transportSessionId` 是 Codex thread ID，可用于查找 `~/.codex/sessions/` 中的原始会话。CLI 不会虚构无法观测的 `responseModel`。
+Codex 系统指令和工具环境会影响数字分布，因此结果代表 Codex CLI 环境下的模型，不能与裸 API 样本视为同一采样环境。报告设置 `request.transport` 为 `codex-cli`，样本的 `transportSessionId` 是 Codex thread ID，可用于查找 `$CODEX_HOME/sessions/`（默认 `~/.codex/sessions/`）中的原始会话。CLI 不会虚构无法观测的 `responseModel`。
+
+Windows 下必须通过 `--codex-cli-path` 显式指向原生 `codex.exe`；不支持 npm 的 `.cmd` shim，也不支持不带扩展名的 `codex` 命令查找。
 
 `--codex-cli` 不能与 API 地址、API Key、协议、服务等级、`--no-stream`、图片模式、分词器探测或 `--input` 组合；这些组合会在启动进程前报错。
 

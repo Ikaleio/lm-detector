@@ -72,7 +72,9 @@ An origin without a path, such as `https://api.example.com`, uses `/v1`. A base 
 
 The last `agent_message` is the scored reply. Tool calls, unknown items, CLI errors, a nonzero exit, a missing `turn.completed`, or an empty final response fail the sample. Relaxed mode can trim excess integers only after the complete reply arrives. Unlike SSE sampling, it cannot stop as soon as the requested count is reached. `--timeout` covers the whole child process, including Codex's own queueing and connection retries.
 
-Codex's system instructions and tool environment affect the number distribution. A result describes the model in the Codex CLI environment and is not a controlled comparison with a bare API sample. A report sets `request.transport` to `codex-cli`. Each sample's `transportSessionId` contains the Codex thread ID, which maps to the original session under `~/.codex/sessions/`. The CLI does not invent an unobservable `responseModel`.
+Codex's system instructions and tool environment affect the number distribution. A result describes the model in the Codex CLI environment and is not a controlled comparison with a bare API sample. A report sets `request.transport` to `codex-cli`. Each sample's `transportSessionId` contains the Codex thread ID, which maps to the original session under `$CODEX_HOME/sessions/` (default `~/.codex/sessions/`). The CLI does not invent an unobservable `responseModel`.
+
+On Windows, `--codex-cli-path` must explicitly point to the native `codex.exe`. npm `.cmd` shims and bare `codex` command resolution are not supported.
 
 `--codex-cli` cannot be combined with an API address, API key, API protocol, service tier, `--no-stream`, image mode, tokenizer probing, or `--input`. These combinations fail before a process starts.
 

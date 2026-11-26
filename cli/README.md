@@ -74,7 +74,9 @@ Detection requests omit the optional output token limit for Responses and Chat C
 
 With `--codex-cli`, every challenge uses a fresh `codex exec --json` process in an empty temporary directory. The collector uses the existing Codex login, passes the prompt over stdin, disables web search, and applies `--effort` as `model_reasoning_effort`. API connection, service tier, streaming, image, and tokenizer flags are rejected in this mode.
 
-The last `agent_message` is scored. Tool calls, unknown items, errors, nonzero exits, and incomplete turns are rejected. Relaxed mode trims excess integers after completion rather than stopping a stream at the requested count. The timeout covers the whole child process, including Codex's own connection retries. Reports identify `request.transport` as `codex-cli` and save the Codex thread ID as `transportSessionId`; an unobservable `responseModel` is not inferred. These results describe the Codex environment and should not be treated as controlled bare-API samples.
+On Windows, `--codex-cli` requires an explicit path to the native `codex.exe`; npm `.cmd` shims and bare `codex` command resolution are not supported.
+
+The last `agent_message` is scored. Tool calls, unknown items, errors, nonzero exits, and incomplete turns are rejected. Relaxed mode trims excess integers after completion rather than stopping a stream at the requested count. The timeout covers the whole child process, including Codex's own connection retries. Reports identify `request.transport` as `codex-cli` and save the Codex thread ID as `transportSessionId`; an unobservable `responseModel` is not inferred. The original rollout is under `$CODEX_HOME/sessions/` (default `~/.codex/sessions/`). These results describe the Codex environment and should not be treated as controlled bare-API samples.
 
 ## Update notifications
 
