@@ -38,7 +38,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 export function meta({ loaderData }: Route.MetaArgs) {
   const image = `${siteOrigin}${loaderData.imageUrl}`
   return [
-    { title: `${loaderData.title} · Fingerpoint Detector` },
+    { title: `${loaderData.title} · Fingerprint Detector` },
     { name: 'description', content: loaderData.description },
     { property: 'og:title', content: loaderData.title },
     { property: 'og:description', content: loaderData.description },

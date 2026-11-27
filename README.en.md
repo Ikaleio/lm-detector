@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="./web/public/branding/logo.png" alt="LM Fingerpoint Detector" width="512" height="512" />
+<img src="./web/public/branding/logo.png" alt="LM Fingerprint Detector" width="512" height="512" />
 
-# LM Fingerpoint Detector
+# LM Fingerprint Detector
 
 **Identify the large language model behind an API from a few hundred first-instinct integers**
 
@@ -25,7 +25,7 @@
 
 ## Introduction
 
-An API relay or a third-party provider can claim to serve one model and actually serve another. LM Fingerpoint Detector checks this claim with a task that has no semantic content: the model writes about 300 integers from 1 to 355, each chosen by first instinct. The "random" numbers that a language model writes are not uniform. Each model has relatively stable preferences for values, ranges, and final digits. The detector compares this distribution with a reference bank and ranks the closest candidate models.
+An API relay or a third-party provider can claim to serve one model and actually serve another. LM Fingerprint Detector checks this claim with a task that has no semantic content: the model writes about 300 integers from 1 to 355, each chosen by first instinct. The "random" numbers that a language model writes are not uniform. Each model has relatively stable preferences for values, ranges, and final digits. The detector compares this distribution with a reference bank and ranks the closest candidate models.
 
 - **Three entry points**: the [website](https://lm.ikale.io) accepts pasted answers or calls an API directly. The `fpd` command line tool shows a live terminal interface and supports multiple rounds and JSON output. The [SDKs](https://lm.ikale.io/docs/en/sdk) let TypeScript, Rust, Go, and Python programs score replies or check an API channel directly, with the same results as the CLI.
 - **Three protocols**: OpenAI Responses, Chat Completions, and Anthropic Messages. SSE streaming is the default.

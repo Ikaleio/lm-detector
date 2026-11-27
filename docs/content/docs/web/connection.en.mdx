@@ -93,8 +93,8 @@ When a direct request fails at the network level, the browser cannot identify wh
 | Result | Possible cause | What to do |
 | --- | --- | --- |
 | The Worker is available | It returned `{"service":"fingerpoint-api-proxy"}` | Nothing |
-| The address responded, but this page cannot read the response | The address is not a Fingerpoint proxy, or the Worker's `ALLOWED_ORIGINS` does not include the origin of the current page | Check that the address is the Worker you deployed, then add the current page's origin to `ALLOWED_ORIGINS` |
-| The address responded, but it is not a Fingerpoint proxy | The address points to another service | Check that you entered the Worker's address |
+| The address responded, but this page cannot read the response | The address is not a Fingerprint proxy, or the Worker's `ALLOWED_ORIGINS` does not include the origin of the current page | Check that the address is the Worker you deployed, then add the current page's origin to `ALLOWED_ORIGINS` |
+| The address responded, but it is not a Fingerprint proxy | The address points to another service | Check that you entered the Worker's address |
 | The address cannot be reached | A DNS, certificate, or network problem | Check the address and your network |
 
 ## What the browser stores

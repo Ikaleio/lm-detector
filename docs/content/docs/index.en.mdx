@@ -1,12 +1,12 @@
 ---
-title: LM Fingerpoint Detector
+title: LM Fingerprint Detector
 description: Identify the LLM behind an API from a few hundred casually written integers.
 icon: ScanSearch
 ---
 
 import { FlaskConical, Globe, Package, Rocket, Terminal } from 'lucide-react'
 
-A relay or third-party API may claim to serve one model while actually routing to another. LM Fingerpoint Detector checks this with a task unrelated to meaning: it asks the model to write about 300 integers between 1 and 355 on first instinct. The "random numbers" a language model writes are not uniform, and each model has relatively stable preferences for values, ranges, and final digits. The detector compares the distribution with its reference bank and reports the closest candidate models.
+A relay or third-party API may claim to serve one model while actually routing to another. LM Fingerprint Detector checks this with a task unrelated to meaning: it asks the model to write about 300 integers between 1 and 355 on first instinct. The "random numbers" a language model writes are not uniform, and each model has relatively stable preferences for values, ranges, and final digits. The detector compares the distribution with its reference bank and reports the closest candidate models.
 
 <Cards>
   <Card icon={<Rocket />} title="Quick start" href="./quick-start.mdx">Detect on the website, or run `npx lmfpd` in a terminal.</Card>

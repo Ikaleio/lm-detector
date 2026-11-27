@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="./web/public/branding/logo.png" alt="LM Fingerpoint Detector" width="512" height="512" />
+<img src="./web/public/branding/logo.png" alt="LM Fingerprint Detector" width="512" height="512" />
 
-# LM Fingerpoint Detector
+# LM Fingerprint Detector
 
 **让模型随手写几百个整数，识别 API 背后的大语言模型**
 
@@ -25,7 +25,7 @@
 
 ## 简介
 
-中转站或第三方 API 声称提供某个模型，实际接入的可能是另一个模型。LM Fingerpoint Detector 用一个与语义无关的任务核对这一点：让模型凭第一反应写出约 300 个 1–355 之间的整数。语言模型写出的“随机数”并不均匀，每个模型偏好的数值、区间和末位数字相对稳定。检测器把这组分布与参考库比对，给出最接近的候选模型。
+中转站或第三方 API 声称提供某个模型，实际接入的可能是另一个模型。LM Fingerprint Detector 用一个与语义无关的任务核对这一点：让模型凭第一反应写出约 300 个 1–355 之间的整数。语言模型写出的“随机数”并不均匀，每个模型偏好的数值、区间和末位数字相对稳定。检测器把这组分布与参考库比对，给出最接近的候选模型。
 
 - **三种入口**：[网页](https://lm.ikale.io)支持手动粘贴和直连 API；命令行 `fpd` 提供实时终端界面、多轮检测和 JSON 输出；[SDK](https://lm.ikale.io/docs/sdk) 让 TypeScript、Rust、Go 和 Python 程序直接给回答评分或检测 API 渠道，结果与命令行一致。
 - **三种协议**：OpenAI Responses、Chat Completions 和 Anthropic Messages，默认使用 SSE 流式响应。

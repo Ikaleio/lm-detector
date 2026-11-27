@@ -17,7 +17,7 @@ type SaveFilePicker = (options: {
 
 function fileName(name: string): string {
   const safe = name.replace(/[\\/:*?"<>|]/g, '-').replace(/[.\s]+$/g, '').slice(0, 80) || 'profile'
-  return `fingerpoint-${safe}.json`
+  return `fingerprint-${safe}.json`
 }
 
 export async function readProfileFile(file: File): Promise<{ name: string; config: WebApiConfig }> {

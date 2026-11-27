@@ -1,6 +1,6 @@
-# Fingerpoint forwarding proxy
+# Fingerprint forwarding proxy
 
-Some LLM APIs refuse calls made from a web page, because of the browser's cross-origin rule (CORS). For such an API the Fingerpoint web app can send the request through a forwarding proxy, a server that passes the request on and streams the answer back. `main.js` in this directory is that proxy, written as a Cloudflare Worker, a small program that runs on Cloudflare's servers. It has no dependencies and no build step.
+Some LLM APIs refuse calls made from a web page, because of the browser's cross-origin rule (CORS). For such an API the Fingerprint web app can send the request through a forwarding proxy, a server that passes the request on and streams the answer back. `main.js` in this directory is that proxy, written as a Cloudflare Worker, a small program that runs on Cloudflare's servers. It has no dependencies and no build step.
 
 Deploy your own copy if you would rather have your API key pass through a server you control than through the proxy the site provides, or if you host the web app yourself on a site without server functions, such as GitHub Pages. You need a Cloudflare account. The Workers free plan allows 100,000 requests a day, which is plenty for personal checks, and [Cloudflare's limits page](https://developers.cloudflare.com/workers/platform/limits/) has the details. When you finish, you have a Worker address such as `https://fingerpoint-api-proxy.<subdomain>.workers.dev`, which you enter under Forwarding proxy → Own Worker in the API configuration of the web app.
 
@@ -49,7 +49,7 @@ The Worker forwards no cookies and stores no keys, and cancelling a request in t
 | HTTPS on port 443 only | Use the command line, which connects to the API directly and also accepts `http://` addresses. |
 | Public domain names only, with no IP addresses, `localhost`, `.local`, or `.internal` names | Use the command line. |
 | No credentials, query string, or fragment in the URL | Enter the key in the API Key field. If the API needs a query string, use the command line. |
-| Request bodies up to 128 KiB | Fingerpoint's own requests stay far below the limit. |
+| Request bodies up to 128 KiB | Fingerprint's own requests stay far below the limit. |
 | Redirects are not followed | Use the API's final address. |
 | Requests to the API time out after 250 seconds | Retry, or choose a faster model or a lower reasoning effort. |
 

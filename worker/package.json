@@ -1,7 +1,7 @@
 {
   "name": "fingerpoint-api-proxy",
   "private": true,
-  "description": "Transparent HTTPS relay that lets the Fingerpoint web app call LLM APIs without browser CORS.",
+  "description": "Transparent HTTPS relay that lets the Fingerprint web app call LLM APIs without browser CORS.",
   "type": "module",
   "cloudflare": {
     "bindings": {

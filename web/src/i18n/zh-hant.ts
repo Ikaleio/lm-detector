@@ -2,7 +2,7 @@ import type { Messages } from './messages'
 
 export const zhHant: Messages = {
   app: {
-    name: 'Fingerpoint Detector',
+    name: 'Fingerprint Detector',
     description: '讓模型隨手寫幾百個整數，辨識 API 背後的大型語言模型。',
     detect: '檢測',
     library: '樣本庫',
@@ -169,7 +169,7 @@ export const zhHant: Messages = {
     health: {
       ok: 'Worker 可用。',
       forbidden: '該網址有回應，但不允許本頁面讀取。請確認部署的是 worker/main.js，並把 {origin} 加入 Worker 的 ALLOWED_ORIGINS。',
-      invalid: '該網址有回應，但不是 Fingerpoint 代理。請檢查 Worker 網址。',
+      invalid: '該網址有回應，但不是 Fingerprint 代理。請檢查 Worker 網址。',
       unreachable: '無法連線到該網址。請檢查 Worker 網址和網路連線。',
     },
     deployTitle: '部署自己的 Worker',

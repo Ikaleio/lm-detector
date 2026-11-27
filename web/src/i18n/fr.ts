@@ -2,7 +2,7 @@ import type { Messages } from './messages'
 
 export const fr: Messages = {
   app: {
-    name: 'Fingerpoint Detector',
+    name: 'Fingerprint Detector',
     description: 'Identifiez le grand modèle de langage derrière une API à partir de quelques centaines d’entiers écrits au hasard.',
     detect: 'Détecter',
     library: 'Bibliothèque',
@@ -169,7 +169,7 @@ export const fr: Messages = {
     health: {
       ok: 'Le Worker est disponible.',
       forbidden: 'L’adresse répond, mais cette page ne peut pas lire la réponse. Vérifiez qu’elle exécute worker/main.js, puis ajoutez {origin} à ALLOWED_ORIGINS du Worker.',
-      invalid: 'L’adresse répond, mais ce n’est pas un proxy Fingerpoint. Vérifiez l’URL du Worker.',
+      invalid: 'L’adresse répond, mais ce n’est pas un proxy Fingerprint. Vérifiez l’URL du Worker.',
       unreachable: 'Adresse injoignable. Vérifiez l’URL du Worker et la connexion réseau.',
     },
     deployTitle: 'Déployer votre propre Worker',

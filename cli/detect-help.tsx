@@ -64,7 +64,7 @@ function Help() {
   const narrow = width < 65
   return <Box flexDirection="column" width={width} paddingX={1}>
     <Box borderStyle="round" borderColor="cyan" paddingX={1} flexDirection="column">
-      <Text><Text bold color="cyan">FPD</Text> / MODEL FINGERPOINT DETECTOR (<Text color="cyan">{terminalLink('lm.ikale.io', 'https://lm.ikale.io', { fallback: false })}</Text>)</Text>
+      <Text><Text bold color="cyan">FPD</Text> / MODEL FINGERPRINT DETECTOR (<Text color="cyan">{terminalLink('lm.ikale.io', 'https://lm.ikale.io', { fallback: false })}</Text>)</Text>
       <Text dimColor>Model fingerprint detection and standalone tokenizer probing.</Text>
     </Box>
     <Box flexDirection="column" marginTop={1}>

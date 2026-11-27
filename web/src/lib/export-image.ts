@@ -112,7 +112,7 @@ export async function exportResultImage(result: Analysis, i18n: I18n): Promise<v
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `fingerpoint-${new Date().toISOString().slice(0, 10)}.png`
+  a.download = `fingerprint-${new Date().toISOString().slice(0, 10)}.png`
   a.click()
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }

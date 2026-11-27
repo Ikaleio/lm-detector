@@ -2,7 +2,7 @@ import type { Messages } from './messages'
 
 export const ja: Messages = {
   app: {
-    name: 'Fingerpoint Detector',
+    name: 'Fingerprint Detector',
     description: 'モデルに思いつくまま数百個の整数を書かせて、API の背後にある大規模言語モデルを識別します。',
     detect: '検出',
     library: 'サンプルライブラリ',
@@ -169,7 +169,7 @@ export const ja: Messages = {
     health: {
       ok: 'Worker は利用可能です。',
       forbidden: 'この URL は応答しましたが、このページから読み取れません。worker/main.js がデプロイされていることを確認し、Worker の ALLOWED_ORIGINS に {origin} を追加してください。',
-      invalid: 'この URL は応答しましたが、Fingerpoint のプロキシではありません。Worker の URL を確認してください。',
+      invalid: 'この URL は応答しましたが、Fingerprint のプロキシではありません。Worker の URL を確認してください。',
       unreachable: 'この URL に接続できません。Worker の URL とネットワーク接続を確認してください。',
     },
     deployTitle: '自前の Worker をデプロイ',

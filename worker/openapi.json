@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Fingerpoint API proxy",
+    "title": "Fingerprint API proxy",
     "version": "1.0.0",
     "description": "A transparent HTTPS relay for LLM API requests from browsers, implemented by `worker/main.js`. The site proxy at `/api/proxy` accepts same-origin calls only; a self-deployed Worker also accepts the origins listed in `ALLOWED_ORIGINS` and answers on any path.",
     "license": { "name": "MIT", "url": "https://github.com/Ikaleio/lm-detector/blob/main/LICENSE" }
@@ -21,7 +21,7 @@
         "operationId": "checkProxy",
         "tags": ["proxy"],
         "summary": "Health check",
-        "description": "Identifies a Fingerpoint proxy. The web app calls it from Check proxy; it takes no key and sends nothing upstream.",
+        "description": "Identifies a Fingerprint proxy. The web app calls it from Check proxy; it takes no key and sends nothing upstream.",
         "responses": {
           "200": { "description": "The proxy is available.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Health" } } } },
           "403": { "$ref": "#/components/responses/Forbidden" }

@@ -73,7 +73,7 @@ export function exportAnalysis(result:Analysis,probe?:ResultTokenizer){
   const candidates=result.results.map(r=>({model:r.model,name:r.display_name,confidence:r.probability}))
   // Counts, probe ids, response model names and the claimed model leave with the result; the address and key stay behind.
   const tokenizer=probe?tokenizerReport(probe.run,probe.bank,{createdAt:probe.startedAt,model:probe.model}):undefined
-  download('fingerpoint-result.json',JSON.stringify(sanitize({candidates,tokenizer}),null,2)+'\n')
+  download('fingerprint-result.json',JSON.stringify(sanitize({candidates,tokenizer}),null,2)+'\n')
 }
 /** Chat Completions and Responses omit their optional output limits on both routes. */
 function browserBody(config:ApiConfig,body:Record<string,unknown>){

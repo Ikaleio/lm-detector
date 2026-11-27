@@ -29,7 +29,7 @@ export const zhDisclaimerCheck = {
 
 export const zh = {
   app: {
-    name: 'Fingerpoint Detector',
+    name: 'Fingerprint Detector',
     description: '让模型随手写几百个整数，识别 API 背后的大语言模型。',
     detect: '检测',
     library: '样本库',
@@ -196,7 +196,7 @@ export const zh = {
     health: {
       ok: 'Worker 可用。',
       forbidden: '该地址有响应，但不允许本页面读取。请确认它部署的是 worker/main.js，并把 {origin} 加入 Worker 的 ALLOWED_ORIGINS。',
-      invalid: '该地址有响应，但不是 Fingerpoint 代理。请检查 Worker 地址。',
+      invalid: '该地址有响应，但不是 Fingerprint 代理。请检查 Worker 地址。',
       unreachable: '无法连接该地址。请检查 Worker 地址和网络连接。',
     },
     deployTitle: '部署自己的 Worker',
@@ -425,7 +425,7 @@ export type Messages = typeof zh
 
 export const en: Messages = {
   app: {
-    name: 'Fingerpoint Detector',
+    name: 'Fingerprint Detector',
     description: 'Identify the large language model behind an API from a few hundred first-instinct integers.',
     detect: 'Detect',
     library: 'Library',
@@ -592,7 +592,7 @@ export const en: Messages = {
     health: {
       ok: 'The Worker is available.',
       forbidden: 'The address responded, but this page cannot read the response. Make sure that the address runs worker/main.js. Then add {origin} to ALLOWED_ORIGINS of the Worker.',
-      invalid: 'The address responded, but it is not a Fingerpoint proxy. Check the Worker URL.',
+      invalid: 'The address responded, but it is not a Fingerprint proxy. Check the Worker URL.',
       unreachable: 'The address cannot be reached. Check the Worker URL and the network connection.',
     },
     deployTitle: 'Deploy your own Worker',

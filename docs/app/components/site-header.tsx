@@ -89,7 +89,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         <Link to={home} className="fp-brand">
           <img src={brandLogo} alt="" width={32} height={32} className="fp-brand-mark" />
           <span className="fp-brand-text">
-            <span className="fp-brand-title">Fingerpoint Detector</span>
+            <span className="fp-brand-title">Fingerprint Detector</span>
             <span className="fp-brand-byline">{text.brandLine}</span>
           </span>
         </Link>

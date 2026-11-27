@@ -90,7 +90,7 @@ export function Brand({ byline, scale }: { byline: string; scale: number }) {
     <div tw="flex items-center" style={{ gap: 8 * scale }}>
       <PixelFingerprint size={16} cell={2 * scale} tw="text-fd-muted-foreground" />
       <div tw="flex flex-col">
-        <span tw="whitespace-nowrap" style={{ fontFamily: 'var(--font-brand-title)', fontSize: 14 * scale, lineHeight: 1.25, fontWeight: 500 }}>Fingerpoint Detector</span>
+        <span tw="whitespace-nowrap" style={{ fontFamily: 'var(--font-brand-title)', fontSize: 14 * scale, lineHeight: 1.25, fontWeight: 500 }}>Fingerprint Detector</span>
         <span tw="text-fd-foreground/70" style={{ fontFamily: 'var(--font-brand-byline)', fontSize: 12 * scale, lineHeight: `${16 * scale}px` }}>{byline}</span>
       </div>
     </div>

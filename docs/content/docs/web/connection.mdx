@@ -93,8 +93,8 @@ flowchart TD
 | 结果 | 可能的原因 | 怎么办 |
 | --- | --- | --- |
 | Worker 可用 | 收到了 `{"service":"fingerpoint-api-proxy"}` | 无需处理 |
-| 该地址有响应，但不允许本页面读取 | 填写的不是 Fingerpoint 代理，或者 Worker 的 `ALLOWED_ORIGINS` 没有包含当前页面的来源 | 先确认地址是你部署的 Worker，再把当前页面的来源加入 `ALLOWED_ORIGINS` |
-| 该地址有响应，但不是 Fingerpoint 代理 | 地址指向了别的服务 | 确认填写的是 Worker 的地址 |
+| 该地址有响应，但不允许本页面读取 | 填写的不是 Fingerprint 代理，或者 Worker 的 `ALLOWED_ORIGINS` 没有包含当前页面的来源 | 先确认地址是你部署的 Worker，再把当前页面的来源加入 `ALLOWED_ORIGINS` |
+| 该地址有响应，但不是 Fingerprint 代理 | 地址指向了别的服务 | 确认填写的是 Worker 的地址 |
 | 无法连接该地址 | DNS、证书或网络有问题 | 检查地址和网络 |
 
 ## 保存在浏览器里的内容

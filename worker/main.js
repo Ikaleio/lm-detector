@@ -1,6 +1,6 @@
 // @ts-check
 /**
- * Fingerpoint API proxy: an HTTPS forwarding proxy for LLM API requests whose endpoint does not allow browser CORS.
+ * Fingerprint API proxy: an HTTPS forwarding proxy for LLM API requests whose endpoint does not allow browser CORS.
  * This single file is a complete Cloudflare Worker (`export default { fetch }`). The shared site entry point
  * `api/proxy.ts` and the Vite dev server import `proxyRequest`, so every deployment runs the same code.
  *
