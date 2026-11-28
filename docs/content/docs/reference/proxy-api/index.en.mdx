@@ -4,7 +4,7 @@ description: The HTTP API of the forwarding proxy, with a health check, request 
 icon: Route
 ---
 
-Some LLM APIs do not allow web pages to call them directly (the browser's cross-origin restriction, CORS). With the connection mode set to Auto, This site's proxy, or Own Worker, the forwarding proxy forwards requests for the page to the upstream (the service behind the API address you enter). It has three methods, all on the path `/api/proxy`: `GET` runs a health check, `POST` forwards an API request, and `OPTIONS` answers the browser's cross-origin preflight.
+Some LLM APIs do not allow web pages to call them directly (the browser's cross-origin restriction, CORS). With the connection mode set to Auto, This site's proxy, or Own Worker, the forwarding proxy forwards requests for the page to the upstream (the service behind the API address you enter). It has three methods, all on the path `/api/proxy`: `GET` runs a health check, `POST` forwards an API request (it can also set `"method": "GET"` to relay upstream `GET /models` and list available models), and `OPTIONS` answers the browser's cross-origin preflight.
 
 This site's proxy handles only `/api/proxy`, and requests to other paths never reach it. Your own Worker ignores the path and gives the same response on any path, including the root `/`, so you can call it at its bare domain.
 

@@ -26,9 +26,9 @@ icon: Globe
 | 字段 | 说明 |
 | --- | --- |
 | 接口地址 | Base URL 或完整端点。以协议端点（如 `/chat/completions`）结尾的地址原样使用，以 `/v1` 结尾的地址补上端点，其他地址会补上 `/v1` 和端点；基础路径不是 `/v1` 的接口请填完整端点 |
-| 模型 | 请求中的模型名 |
+| 模型 | 请求中的模型名。可直接输入；也可以点“获取模型列表”，用当前接口地址和 API Key，按所选[连接方式](./connection.mdx)请求 `GET /models`（OpenAI 兼容接口；Messages 协议带 `x-api-key` 和 `anthropic-version`）。接口地址有无 `/v1`、或填的是完整端点均可。结果出现在可筛选的下拉列表中，仍可自由输入。拉取失败时（例如 401、空列表，或浏览器直连遇到跨域限制）字段下方会显示原因 |
 | API Key | 默认隐藏，可以切换显示 |
-| 推理强度 | 可留空，也可以填写上游支持的任意 `reasoning_effort` 值 |
+| 推理强度 | 可留空，也可以填写上游支持的任意 `reasoning_effort` 值。若接口返回了 `supported_parameters`、`reasoning` 或 `supported_reasoning_efforts` 等字段，会据此列出可点击填入的选项；否则按模型名称对照常见值（如 GPT-5 / o 系列的 minimal/low/medium/high、Claude 思维模型、Gemini thinking 等），仅供参考 |
 | 接口协议 | Chat Completions、Responses 或 Messages |
 | 服务等级 | Flex、默认、Fast 或 Ultrafast。默认不发送参数；Messages 发送 `speed` 并带 `anthropic-beta: fast-mode-2026-02-01` 头，Chat Completions 与 Responses 发送 `service_tier` |
 

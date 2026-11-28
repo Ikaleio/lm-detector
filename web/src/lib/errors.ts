@@ -22,6 +22,8 @@ const codeKeys: Record<ErrorCode, Parameters<I18n['t']>[0]> = {
   no_usage: 'errors.no_usage',
   proxy_missing: 'errors.proxy_missing',
   upstream_not_api: 'errors.upstream_not_api',
+  proxy_models_unsupported: 'errors.proxy_models_unsupported',
+  proxy_models_unsupported_cors: 'errors.proxy_models_unsupported_cors',
 }
 
 /** 把共享层错误映射为用户可读文案（design.md「文案与数字格式」）。原始 message 由调用方放入「查看详情」。 */
