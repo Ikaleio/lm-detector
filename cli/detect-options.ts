@@ -18,6 +18,8 @@ export interface DetectOptions extends DetectionOptions {
   tokenizerBank?: string
   /** Send each prompt as an image; `detect.ts` then loads `renderPrompt`. */
   image: boolean
+  codexCli: boolean
+  codexCliPath: string
 }
 
 export function positiveInteger(value: string, name: string, maximum = Number.MAX_SAFE_INTEGER) {
@@ -41,12 +43,20 @@ export function parseOptions(args: string[], env = process.env, command: 'detect
     'base-url': { type: 'string' }, 'api-key': { type: 'string' },
     'no-update-check': { type: 'boolean' }, tokenizer: { type: 'boolean' },
     'max-probes': { type: 'string' }, 'tokenizer-bank': { type: 'string' }, image: { type: 'boolean' },
+    'codex-cli': { type: 'boolean' }, 'codex-cli-path': { type: 'string' },
   }, strict: true, allowPositionals: false })
   if (values.help) return undefined
   if (standalone) {
-    const unsupported = (['count', 'repeat', 'strict', 'bank', 'challenges', 'tokenizer', 'no-update-check', 'image'] as const)
+    const unsupported = (['count', 'repeat', 'strict', 'bank', 'challenges', 'tokenizer', 'no-update-check', 'image', 'codex-cli', 'codex-cli-path'] as const)
       .filter(name => values[name] !== undefined)
     if (unsupported.length) throw new Error(`fpd tokenizer does not use ${unsupported.map(name => `--${name}`).join(', ')}. Use fpd detect for number fingerprint detection.`)
+  }
+  const codexCli = !!values['codex-cli'] || values['codex-cli-path'] !== undefined
+  if (codexCli && values.input) throw new Error('--codex-cli cannot be combined with --input; it uses local Codex CLI processes for live sampling.')
+  if (codexCli) {
+    const unsupported = (['api', 'apikey', 'api-key', 'baseurl', 'base-url', 'service-tier', 'no-stream', 'image', 'tokenizer', 'max-probes', 'tokenizer-bank'] as const)
+      .filter(name => values[name] !== undefined).map(name => `--${name}`)
+    if (unsupported.length) throw new Error(`--codex-cli does not use ${unsupported.join(', ')}. Pass only the model, effort, sampling, and output options.`)
   }
   const apiInput = (values.api ?? 'responses').toLowerCase()
   const api = apiInput === 'cc' ? 'chatcompletion'
@@ -89,11 +99,16 @@ export function parseOptions(args: string[], env = process.env, command: 'detect
     format: api === 'message' ? 'anthropic' : api === 'chatcompletion' ? 'openai' : 'responses',
     serviceTier, stream: !values['no-stream'], effort: values.effort ?? '',
   }
+  if (codexCli) {
+    config.apiKey = ''
+    config.baseUrl = ''
+  }
   if (!values.input) {
-    for (const [name, value, variable] of [
-      ['model', config.model, 'MODEL'], ['apikey', config.apiKey, 'API_KEY'], ['baseurl', config.baseUrl, 'BASE_URL'],
-    ]) {
-      if (!value) throw new Error(`Set --${name} or the ${variable} environment variable.`)
+    if (!config.model) throw new Error('Set --model or the MODEL environment variable.')
+    if (!codexCli) {
+      for (const [name, value, variable] of [['apikey', config.apiKey, 'API_KEY'], ['baseurl', config.baseUrl, 'BASE_URL']]) {
+        if (!value) throw new Error(`Set --${name} or the ${variable} environment variable.`)
+      }
     }
   }
   return {
@@ -102,6 +117,7 @@ export function parseOptions(args: string[], env = process.env, command: 'detect
     updateCheck: !values['no-update-check'] && !env.FPD_NO_UPDATE_CHECK && !env.NO_UPDATE_NOTIFIER,
     input: values.input, output: values.output, bank: values.bank, challenges: values.challenges,
     tokenizer: standalone ? !values.input : !!values.tokenizer, maxProbes, tokenizerBank: values['tokenizer-bank'],
-    image: !!values.image,
+    image: !!values.image, codexCli,
+    codexCliPath: (values['codex-cli-path'] ?? env.CODEX_CLI ?? 'codex').trim() || 'codex',
   }
 }

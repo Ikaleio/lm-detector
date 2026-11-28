@@ -43,6 +43,8 @@ Explicit flags override environment variables. Credentials do not appear in the 
 | Option | Behavior |
 | --- | --- |
 | `-m`, `--model` | Requested model. Reads `MODEL` if omitted. |
+| `--codex-cli` | Use independent local `codex exec` processes instead of an HTTP API. |
+| `--codex-cli-path` | Codex executable. Reads `CODEX_CLI`, defaults to `codex`, and implies `--codex-cli`. |
 | `-k`, `--apikey` | API key. Reads `API_KEY` if omitted. |
 | `-b`, `--baseurl` | HTTP or HTTPS base URL, or the complete endpoint. Reads `BASE_URL` if omitted. |
 | `-a`, `--api` | `responses` (default), `chatcompletion`, or `message`. Any prefix works (for example `resp` or `chat`); `cc` also selects `chatcompletion`. |
@@ -69,6 +71,12 @@ Explicit flags override environment variables. Credentials do not appear in the 
 `--base-url` and `--api-key` are accepted as aliases. An origin such as `https://api.example.com` uses `/v1`. A base URL with a path preserves that path and appends the selected endpoint. Messages requests use `x-api-key` and `anthropic-version` headers. Messages sends the service tier as `speed` with the `anthropic-beta: fast-mode-2026-02-01` header; Responses and Chat Completions send it as `service_tier`.
 
 Detection requests omit the optional output token limit for Responses and Chat Completions. Messages requests keep `max_tokens: 8192`, which that API requires.
+
+With `--codex-cli`, every challenge uses a fresh `codex exec --json` process in an empty temporary directory. The collector uses the existing Codex login, passes the prompt over stdin, disables web search, and applies `--effort` as `model_reasoning_effort`. API connection, service tier, streaming, image, and tokenizer flags are rejected in this mode.
+
+On Windows, `--codex-cli` requires an explicit path to the native `codex.exe`; npm `.cmd` shims and bare `codex` command resolution are not supported.
+
+The last `agent_message` is scored. Tool calls, unknown items, errors, nonzero exits, and incomplete turns are rejected. Relaxed mode trims excess integers after completion rather than stopping a stream at the requested count. The timeout covers the whole child process, including Codex's own connection retries. Reports identify `request.transport` as `codex-cli` and save the Codex thread ID as `transportSessionId`; an unobservable `responseModel` is not inferred. The original rollout is under `$CODEX_HOME/sessions/` (default `~/.codex/sessions/`). These results describe the Codex environment and should not be treated as controlled bare-API samples.
 
 ## Update notifications
 

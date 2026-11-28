@@ -91,14 +91,16 @@ function Dashboard({ state, options, bankSize, tokenizerBank, cancel, saved, fat
     <Box borderStyle="round" borderColor="cyan" paddingX={1} flexDirection="column">
       <Text><Text bold color="cyan">FPD</Text><Text dimColor> / MODEL FINGERPRINT DETECTOR (</Text><Text color="cyan">{terminalLink('lm.ikale.io', 'https://lm.ikale.io', { fallback: false })}</Text><Text dimColor>)</Text></Text>
       <Text wrap="truncate-end" bold>{options.input ? `Offline · ${safe(options.input)}` : safe(options.config.model)}</Text>
-      {!compact && !options.input && <Text dimColor wrap="truncate-middle">{safe(options.config.baseUrl)}</Text>}
-      <Text dimColor>{options.input ? 'Saved outputs' : `${options.api}${options.config.serviceTier === 'default' ? '' : ` · ${options.config.serviceTier}`} · ${options.config.stream ? 'SSE' : 'JSON'} · count ${options.count} · parallel ${options.parallel}`} · {options.strict ? 'strict' : 'relaxed'}{options.image ? ' · image' : ''} · {bankSize} models{options.tokenizer ? ' · tokenizer probe' : ''}</Text>
+      {!compact && !options.input && <Text dimColor wrap="truncate-middle">{safe(options.codexCli ? options.codexCliPath : options.config.baseUrl)}</Text>}
+      <Text dimColor>{options.input ? 'Saved outputs' : `${options.codexCli ? 'codex-cli · codex exec' : `${options.api}${options.config.serviceTier === 'default' ? '' : ` · ${options.config.serviceTier}`} · ${options.config.stream ? 'SSE' : 'JSON'}`} · count ${options.count} · parallel ${options.parallel}`} · {options.strict ? 'strict' : 'relaxed'}{options.image ? ' · image' : ''} · {bankSize} models{options.tokenizer ? ' · tokenizer probe' : ''}</Text>
     </Box>
     <Box justifyContent="space-between">
       <Text bold>{state.finishedAt ? '●' : spinner} {phase} · round {latest?.index ?? 1}/{state.total}</Text>
       <Text dimColor>{elapsed}</Text>
     </Box>
-    {!options.input && <Text dimColor>First byte {options.timeoutMs / 1000}s{options.config.stream ? ' · no deadline after SSE starts' : ' · deadline covers the full JSON response'}</Text>}
+    {!options.input && <Text dimColor>{options.codexCli
+      ? `Process ${options.timeoutMs / 1000}s · deadline covers the full codex exec process`
+      : `First byte ${options.timeoutMs / 1000}s${options.config.stream ? ' · no deadline after SSE starts' : ' · deadline covers the full JSON response'}`}</Text>}
     {latest && <Box flexDirection="column" marginTop={1}>
       {latest.samples.map((sample, index) => {
         const active = sample.state === 'waiting' || sample.state === 'streaming'

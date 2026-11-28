@@ -49,7 +49,12 @@ npx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra
 
 # Bun 1.4.4 or later
 bunx --bun lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra
+
+# Local Codex CLI, without an API key
+npx lmfpd@latest --codex-cli -m gpt-6.2-sol -e low
 ```
+
+On Windows, Codex CLI mode requires an explicit path to the native `codex.exe` through `--codex-cli-path`; npm `.cmd` shims are unsupported.
 
 **SDK**: score replies or run a detection from your own program. All four languages offer the same features:
 

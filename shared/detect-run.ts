@@ -96,12 +96,13 @@ export function newRound(index: number, challenges: Challenge[]): Round {
 export async function runRound(
   round: Round, options: DetectionOptions, bank: Bank, detector: SharedDetector, signal: AbortSignal,
   onSample: (index: number) => void,
+  request: typeof requestSample = requestSample,
 ) {
   let next = 0
   const worker = async () => {
     while (!signal.aborted && next < round.challenges.length) {
       const index = next++
-      round.samples[index] = await requestSample(options, round.challenges[index], signal, sample => {
+      round.samples[index] = await request(options, round.challenges[index], signal, sample => {
         round.samples[index] = sample
         onSample(index)
       })
@@ -123,6 +124,7 @@ export async function runRound(
 export async function runDetection(
   options: DetectionOptions, bank: Bank, detector: SharedDetector,
   onUpdate: (state: DetectionState) => void, signal: AbortSignal, fixedChallenges?: Challenge[], tokenizerBank?: TokenizerBank,
+  request: typeof requestSample = requestSample,
 ): Promise<DetectionState> {
   const state: DetectionState = { rounds: [], total: options.repeat, startedAt: Date.now(), cancelled: false }
   const report = () => onUpdate({ ...state, rounds: state.rounds.map(round => ({ ...round, samples: [...round.samples] })) })
@@ -147,7 +149,7 @@ export async function runDetection(
     const round = newRound(index + 1, fixedChallenges ?? generateChallenges(options.count))
     state.rounds.push(round)
     report()
-    await runRound(round, options, bank, detector, signal, report)
+    await runRound(round, options, bank, detector, signal, report, request)
     report()
   }
   state.cancelled = signal.aborted

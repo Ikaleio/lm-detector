@@ -1,6 +1,6 @@
 ---
 title: Detection
-description: Check an API channel with random challenges over several rounds, save the report, and recompute it offline.
+description: Check an API channel or local Codex CLI with random challenges over several rounds, save the report, and recompute it offline.
 icon: Crosshair
 ---
 
@@ -12,6 +12,9 @@ npx lmfpd@latest -b https://api.example.com/v1 -k sk-xxx -m gpt-6-astra
 
 # Read the connection settings from the environment; use Chat Completions and set the reasoning effort
 npx lmfpd@latest -a cc -e high
+
+# Use the local Codex login and codex exec instead of a compatible HTTP API
+npx lmfpd@latest --codex-cli -m gpt-6.2-sol -e low
 
 # Run 5 detection rounds
 npx lmfpd@latest -n 5
@@ -39,11 +42,13 @@ npx lmfpd@latest -a cc --tokenizer
 | `-b, --baseurl URL` | Base URL or complete endpoint. The CLI adds the endpoint path if it is missing | `$BASE_URL` |
 | `-k, --apikey KEY` | API key | `$API_KEY` |
 | `-m, --model MODEL` | Model to request | `$MODEL` |
+| `--codex-cli` | Sample through independent local `codex exec` processes instead of a compatible HTTP API | Off |
+| `--codex-cli-path PATH` | Codex executable. Implies `--codex-cli` | `$CODEX_CLI` or `codex` |
 | `-a, --api TYPE` | `responses`, `chatcompletion` (or `cc`), or `message`. Any prefix works | `responses` |
 | `-e, --effort LEVEL` | Reasoning effort, such as `low` or `high`, or a provider-specific value | Not sent |
 | `-t, --service-tier TIER` | Service tier: `flex`, `default`, `fast`, or `ultrafast`. Any prefix works. Aliases: `slow` (flex), `f` (fast), `uf` (ultrafast), `priority` (fast), `standard` (default) | `default`, not sent |
 | `-ns, --no-stream` | Use a plain JSON response instead of SSE | SSE |
-| `--timeout SECONDS` | Deadline for the first SSE byte. In JSON mode, deadline for the complete response. Fractional seconds are supported | `120` |
+| `--timeout SECONDS` | Deadline for the first SSE byte, the complete JSON response, or the entire `codex exec` process. Fractional seconds are supported | `120` |
 | `--count N` | Samples per round, 1–3. Fewer than 3 samples give a ranking only | `3` |
 | `-p, --parallel N` | Concurrent samples per round, 1–3, capped at `--count`. Does not change the total number of requests | `3` |
 | `-n, --repeat N` | Sequential detection rounds | `1` |
@@ -60,6 +65,18 @@ npx lmfpd@latest -a cc --tokenizer
 | `--no-update-check` | Disable background update checks | On |
 
 An origin without a path, such as `https://api.example.com`, uses `/v1`. A base URL with a path preserves that path and appends the selected endpoint. Messages requests use `x-api-key` and `anthropic-version` headers. Messages sends the service tier as `speed` with the `anthropic-beta: fast-mode-2026-02-01` header; Responses and Chat Completions send it as `service_tier`. Detection requests omit the optional output token limit for Responses and Chat Completions. Messages requests keep `max_tokens: 8192`, which that API requires.
+
+### Codex CLI process sampling
+
+`--codex-cli` uses an installed, logged-in Codex CLI with `exec --json` support. It reads neither an API key nor a base URL. Each challenge starts a new `codex exec` in an empty temporary directory with a read-only sandbox. The prompt arrives unchanged through stdin, and the command explicitly sets `tools.web_search=false`. `--effort` becomes `model_reasoning_effort`. Use `--codex-cli-path` or `CODEX_CLI` to select another executable.
+
+The last `agent_message` is the scored reply. Tool calls, unknown items, CLI errors, a nonzero exit, a missing `turn.completed`, or an empty final response fail the sample. Relaxed mode can trim excess integers only after the complete reply arrives. Unlike SSE sampling, it cannot stop as soon as the requested count is reached. `--timeout` covers the whole child process, including Codex's own queueing and connection retries.
+
+Codex's system instructions and tool environment affect the number distribution. A result describes the model in the Codex CLI environment and is not a controlled comparison with a bare API sample. A report sets `request.transport` to `codex-cli`. Each sample's `transportSessionId` contains the Codex thread ID, which maps to the original session under `$CODEX_HOME/sessions/` (default `~/.codex/sessions/`). The CLI does not invent an unobservable `responseModel`.
+
+On Windows, `--codex-cli-path` must explicitly point to the native `codex.exe`. npm `.cmd` shims and bare `codex` command resolution are not supported.
+
+`--codex-cli` cannot be combined with an API address, API key, API protocol, service tier, `--no-stream`, image mode, tokenizer probing, or `--input`. These combinations fail before a process starts.
 
 `--image` draws each prompt as a grayscale PNG whose width, font size, line spacing, margins, and shades change with every image. Chat Completions sends it as `image_url` and Responses as `input_image` with `detail: "auto"`; Messages sends a base64 `image` content block. The only text after the image is a generic instruction drawn at random from several languages. The reference bank was sampled with text prompts, so image mode results may deviate from text mode. The font covers only the characters of the built-in challenges: a sample whose `--challenges` prompt has other characters fails before its request. The tokenizer probe still sends text. The `image` field in the request settings of a report records whether image mode was on. `--input` sends no requests and cannot be combined with `--image`.
 

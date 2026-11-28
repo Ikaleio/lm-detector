@@ -48,6 +48,8 @@ export interface Sample {
   throughput?: Throughput
   responseModel?: string
   responseId?: string
+  /** Process transport session, such as the Codex CLI thread ID. */
+  transportSessionId?: string
   error?: string
 }
 
